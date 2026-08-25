@@ -159,7 +159,7 @@ def main() -> None:
     t_device = time.perf_counter() - t1
     t_total = time.perf_counter() - t0
 
-    metrics = reciprocity_metrics(result["power_matrix_dB"])
+    metrics = reciprocity_metrics(result["power_matrix_dB"], port_ids=result["ports"])
 
     print()
     print("=" * 54)
@@ -218,12 +218,20 @@ def main() -> None:
         "objective": result["objective"],
     }
 
-    with open(json_out, "w", encoding="utf-8") as f:
-        json.dump(_json_safe(payload), f, indent=2)
-        f.write("\n")
+    # Only rank 0 writes artifacts (all ranks still ran Meep collectives).
+    try:
+        from mpi4py import MPI
 
-    print()
-    print(f"Wrote {json_out}")
+        rank = int(MPI.COMM_WORLD.Get_rank())
+    except Exception:
+        rank = 0
+
+    if rank == 0:
+        with open(json_out, "w", encoding="utf-8") as f:
+            json.dump(_json_safe(payload), f, indent=2)
+            f.write("\n")
+        print()
+        print(f"Wrote {json_out}")
 
 
 if __name__ == "__main__":

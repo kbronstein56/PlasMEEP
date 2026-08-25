@@ -89,15 +89,16 @@ def run_study(
     }
     if proc.returncode == 0 and os.path.exists(json_out):
         with open(json_out, encoding="utf-8") as handle:
-            data = json.load(handle)
+            raw = handle.read()
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            data, _idx = json.JSONDecoder().raw_decode(raw)
         metrics = data.get("reciprocity", data.get("metrics", {}))
         entry["metrics"] = metrics
-        # also pull common keys
-        for key in ("mean_abs_dB", "max_abs_dB", "worst_pairs"):
-            if key in data:
-                entry[key] = data[key]
-        if "reciprocity_metrics" in data:
-            entry["reciprocity_metrics"] = data["reciprocity_metrics"]
+        entry["reciprocity"] = data.get("reciprocity")
+        entry["timings_s"] = data.get("timings_s")
+        entry["incident_power_by_port"] = data.get("incident_power_by_port")
     print(
         f"[{datetime.now().isoformat(timespec='seconds')}] DONE {label} "
         f"wall={wall/60:.1f} min rc={proc.returncode}",

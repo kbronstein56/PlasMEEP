@@ -632,36 +632,44 @@ def ensure_normalizations(
 # Forward model (cell 50) + reciprocity metrics (cell 40 style)
 # ---------------------------------------------------------------------------
 
-def reciprocity_metrics(power_matrix_dB) -> Dict[str, Any]:
+def reciprocity_metrics(power_matrix_dB, port_ids=None) -> Dict[str, Any]:
     """Mean/max |Pij - Pji| in dB and worst unique port pairs."""
     M = np.asarray(power_matrix_dB, dtype=float)
     n = M.shape[0]
-    if M.shape != (n, n):
-        raise ValueError("power_matrix_dB must be square")
+    if port_ids is None:
+        port_ids = list(range(n))
+    else:
+        port_ids = list(port_ids)
 
     err = np.abs(M - M.T)
     np.fill_diagonal(err, np.nan)
+    finite = err[np.isfinite(err)]
+    mean_abs = float(np.mean(finite)) if finite.size else float("nan")
+    max_abs = float(np.max(finite)) if finite.size else float("nan")
 
     pairs = []
     for i in range(n):
         for j in range(i + 1, n):
+            d = err[i, j]
             pairs.append(
                 {
-                    "i": int(i),
-                    "j": int(j),
-                    "label": f"P{i + 1}<->P{j + 1}",
-                    "abs_diff_dB": float(err[i, j]) if np.isfinite(err[i, j]) else None,
+                    "i": int(port_ids[i]),
+                    "j": int(port_ids[j]),
+                    "label": f"P{port_ids[i] + 1}<->P{port_ids[j] + 1}",
+                    "abs_diff_dB": None if not np.isfinite(d) else float(d),
+                    "T_ji_dB": float(M[i, j]) if np.isfinite(M[i, j]) else None,
+                    "T_ij_dB": float(M[j, i]) if np.isfinite(M[j, i]) else None,
                 }
             )
-
-    finite = [p for p in pairs if p["abs_diff_dB"] is not None]
-    finite_sorted = sorted(finite, key=lambda p: p["abs_diff_dB"], reverse=True)
-    vals = np.array([p["abs_diff_dB"] for p in finite], dtype=float)
-
+    pairs_sorted = sorted(
+        [p for p in pairs if p["abs_diff_dB"] is not None],
+        key=lambda p: p["abs_diff_dB"],
+        reverse=True,
+    )
     return {
-        "mean_abs_diff_dB": float(np.mean(vals)) if len(vals) else None,
-        "max_abs_diff_dB": float(np.max(vals)) if len(vals) else None,
-        "worst_pairs": finite_sorted[:5],
+        "mean_abs_diff_dB": mean_abs,
+        "max_abs_diff_dB": max_abs,
+        "worst_pairs": pairs_sorted[:5],
         "all_pairs": pairs,
         "error_matrix_dB": err,
     }

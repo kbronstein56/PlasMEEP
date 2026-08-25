@@ -1,0 +1,114 @@
+{
+  "commit": "548d3ab",
+  "meep_version": "1.30.0",
+  "parameters": {
+    "a_m": 0.028,
+    "fs_hz": 5000000000.0,
+    "fp_hz": 2000000000.0,
+    "gamma_hz": 1000000.0,
+    "b0_t": 0.05,
+    "fc_hz": 1399624493.616652,
+    "res": 64,
+    "length_a": 20.0,
+    "run_time": 100.0,
+    "note": "Defaults are a propagating Faraday point; notebook 3.85/8 GHz homogeneous plasma is evanescent."
+  },
+  "gates": {
+    "b0_abs_tol": 0.002,
+    "b0_rel_tol": 0.03,
+    "asymmetry_tol": 0.1,
+    "theory_mag_tol": 0.15,
+    "fit_rmse_frac_of_span": 0.05,
+    "fit_r2_min": 0.98
+  },
+  "theory": {
+    "+B": {
+      "eps_perp": {
+        "re": 0.8263968202104724,
+        "im": 4.062452825056282e-05
+      },
+      "eta": {
+        "re": 0.048595848302434304,
+        "im": -2.109098661670873e-05
+      },
+      "eps_plus": {
+        "re": 0.8749926685129068,
+        "im": 1.953354163385409e-05
+      },
+      "eps_minus": {
+        "re": 0.7778009719080381,
+        "im": 6.171551486727155e-05
+      },
+      "k_plus": {
+        "re": 2.7446654043109198,
+        "im": 3.063627723335357e-05
+      },
+      "k_minus": {
+        "re": 2.587744785928531,
+        "im": 0.00010266379660437891
+      },
+      "kappa_rad_per_a": 0.0784603091911944
+    },
+    "-B": {
+      "kappa_rad_per_a": -0.0784603091911944
+    },
+    "B=0": {
+      "kappa_rad_per_a": 0.0
+    }
+  },
+  "results": {
+    "B=0": {
+      "kappa_rad_per_a": 0.0,
+      "kappa_deg_per_a": 0.0,
+      "fit_intercept_rad": 0.0,
+      "fit_rmse_rad": 0.0,
+      "fit_r2": NaN,
+      "psi_span_rad": 0.0,
+      "z_fit_span_a": [
+        -7.4765625,
+        8.4765625
+      ],
+      "n_fit_points": 1022,
+      "Bz_T": 0.0
+    },
+    "+B": {
+      "kappa_rad_per_a": -0.07847925391296001,
+      "kappa_deg_per_a": -4.49653002854816,
+      "fit_intercept_rad": -0.6674478245685073,
+      "fit_rmse_rad": 9.76299164573407e-05,
+      "fit_r2": 0.999999927172418,
+      "psi_span_rad": 1.2517766127028296,
+      "z_fit_span_a": [
+        -7.4765625,
+        8.4765625
+      ],
+      "n_fit_points": 1022,
+      "Bz_T": 0.05
+    },
+    "-B": {
+      "kappa_rad_per_a": 0.07847925391296001,
+      "kappa_deg_per_a": 4.49653002854816,
+      "fit_intercept_rad": 0.6674478245685073,
+      "fit_rmse_rad": 9.76299164573407e-05,
+      "fit_r2": 0.999999927172418,
+      "psi_span_rad": 1.2517766127028296,
+      "z_fit_span_a": [
+        -7.4765625,
+        8.4765625
+      ],
+      "n_fit_points": 1022,
+      "Bz_T": -0.05
+    }
+  },
+  "diagnostics": {
+    "scale_rad_per_a": 0.07847925391296001,
+    "b0_residual": 0.0,
+    "b0_tol": 0.0023543776173888,
+    "asymmetry": 0.0,
+    "theory_mag_error": 0.00024145611916271453,
+    "reversal_ok": true,
+    "global_sign_map": "measured_opposite_theory_kappa_sign",
+    "failures": []
+  },
+  "status": "PASS"
+}

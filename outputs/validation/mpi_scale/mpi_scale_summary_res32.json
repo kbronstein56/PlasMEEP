@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "rank_env": 1,
+      "t_norm_s": 56.0318169593811,
+      "t_device_s": 122.63029503822327,
+      "flux": 5.427181136787441,
+      "res": 32,
+      "run_time": 30.0,
+      "port": 0
+    },
+    {
+      "rank_env": 2,
+      "t_norm_s": 27.48220658302307,
+      "t_device_s": 72.45872783660889,
+      "flux": 5.427181136787441,
+      "res": 32,
+      "run_time": 30.0,
+      "port": 0
+    },
+    {
+      "rank_env": 4,
+      "t_norm_s": 13.531110286712646,
+      "t_device_s": 58.28771758079529,
+      "flux": 5.427181136787441,
+      "res": 32,
+      "run_time": 30.0,
+      "port": 0
+    },
+    {
+      "rank_env": 8,
+      "t_norm_s": 7.436530590057373,
+      "t_device_s": 46.28045082092285,
+      "flux": 5.427181136787441,
+      "res": 32,
+      "run_time": 30.0,
+      "port": 0
+    }
+  ],
+  "note": "reconstructed from log after multi-rank JSON collision"
+}

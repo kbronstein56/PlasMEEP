@@ -1,0 +1,21 @@
+{
+  "rank_env": 32,
+  "t_norm_s": 9.949006080627441,
+  "t_device_s": 46.173094034194946,
+  "flux": 0.21533286893900422,
+  "res": 48,
+  "run_time": 30.0,
+  "port": 0,
+  "formulation": "te1_hz_line",
+  "physical_resolution": {
+    "a_m": 0.028,
+    "a_cm": 2.8000000000000003,
+    "meep_resolution": 48.0,
+    "grid_spacing_a": 0.020833333333333332,
+    "grid_spacing_mm": 0.5833333333333333,
+    "pixels_per_cm": 17.142857142857142,
+    "pixels_per_lattice_20mm": 34.28571428571429,
+    "pixels_per_free_space_lambda0": 133.488292987013,
+    "lambda0_mm": 77.86817090909092
+  }
+}

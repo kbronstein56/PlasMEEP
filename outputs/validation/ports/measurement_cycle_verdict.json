@@ -1,0 +1,51 @@
+{
+  "date_utc": "2026-08-26",
+  "branch": "agent/eigenmode-ports",
+  "launcher_baseline": "te1_hz_line",
+  "question": "Does receiver/measurement reformulation clear remaining B=0 axis↔diagonal reciprocity error?",
+  "answer": "NO — residual is not dominated by axis-aligned FluxRegion geometry or guide-normal sampling density.",
+  "gates": {
+    "P2P3_le_0.05_dB": "PASS (all formulations ≤ 0.0006 dB at res32/rt40)",
+    "P1P2_le_0.2_dB_improving": "FAIL",
+    "incident_within_few_percent": "PASS with te1_hz_line (axis/diag ≈ 0.97–0.98)",
+    "orientation_hierarchy_gone": "FAIL"
+  },
+  "cheap_screen_res32_rt40_P1P2_dB": {
+    "baseline_hz_line": 0.181,
+    "baseline_guide_normal": 0.2253,
+    "te1_hz_line": 0.384,
+    "te1_guide_normal": 0.3431,
+    "te1_guide_normal_dense": 0.3465,
+    "te1_dft_sdotn": 0.3234,
+    "te1_guide_normal_te1w": 0.6818
+  },
+  "rejected_broken": {
+    "te1_axis_at_source": "Flux/DFT at soft-source plane collapses axis-port power (~0); negative control only.",
+    "te1_dft_sdotn_source_plane_bug": "Initially wired to source center; fixed to monitor plane before useful screen."
+  },
+  "escalation": {
+    "measurement_candidates_to_res64_or_96": false,
+    "reason": "No candidate materially approaches the 0.2 dB gate relative to te1_hz_line; best TE1+DFT is 0.323 dB vs baseline 0.181 at same cheap setting. Dense guide-normal ≈ sparse. Guide-normal with baseline launch is worse than baseline+axis flux.",
+    "te1_hz_line_res96_floor": "run for launcher residual documentation only"
+  },
+  "physics_conclusion": {
+    "dominant_error": "PEC/grid geometry (staircased angled feeds, Yee orientation sampling of the device path) rather than measurement formulation",
+    "supporting_evidence": [
+      "Five orientation-aware measurement formulations leave axis↔diag hierarchy intact while diag↔diag stays ~0",
+      "TE1 already makes incident axis/diag within ~2–4%; residual ~1 dB at res64 is ~26% power asymmetry ≫ incident bias",
+      "baseline_guide_normal worse than baseline_hz_line on reciprocity → axis-aligned FluxRegion is not the primary defect",
+      "Non-monotonic resolution dependence (baseline P1P2: 0.18→0.45→1.64→0.10 dB at 32/48/64/96) is characteristic of staircasing beat patterns",
+      "Raw EigenModeSource on PEC horns previously failed; not retried"
+    ],
+    "recommended_next_work": "Straight reference-guide / de-embedded launcher segment or geometry-aligned feed redesign — not further FluxRegion/DFT A/B at higher resolution"
+  },
+  "production_promotion": false,
+  "untouched": [
+    "Sketchbook_PMMCirculator.ipynb",
+    "PMMCirculatorInverse.py",
+    "rho",
+    "B",
+    "plasma material",
+    "bulb geometry"
+  ]
+}

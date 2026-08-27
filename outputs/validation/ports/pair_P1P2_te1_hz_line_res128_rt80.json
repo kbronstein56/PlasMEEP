@@ -1,0 +1,111 @@
+{
+  "label": "P1P2_te1_hz_line_res128_rt80",
+  "timestamp_utc": "2026-08-27T22:17:12.095282+00:00",
+  "mpi_note": "np=32,FI_PROVIDER=tcp",
+  "settings": {
+    "res": 128,
+    "run_time": 80.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      0,
+      1
+    ],
+    "nx_ports": 23,
+    "ny_ports": 21,
+    "dpml_ports": 2.0,
+    "a": 0.028,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "te1_hz_line",
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_hz_line_res128_rt80_p01.pkl"
+  },
+  "physical_resolution": {
+    "a_m": 0.028,
+    "a_cm": 2.8000000000000003,
+    "meep_resolution": 128.0,
+    "grid_spacing_a": 0.0078125,
+    "grid_spacing_mm": 0.21875,
+    "pixels_per_cm": 45.71428571428571,
+    "pixels_per_lattice_20mm": 91.42857142857143,
+    "pixels_per_free_space_lambda0": 355.96878129870134,
+    "lambda0_mm": 77.86817090909092
+  },
+  "timings_s": {
+    "normalization": 5066.296047979005,
+    "device": 9079.220263188006,
+    "total": 14145.516340881994
+  },
+  "incident_power_by_port": {
+    "0": 33.11283193266455,
+    "1": 33.86488471481447
+  },
+  "incident_power_mismatch": {
+    "max_over_min": 1.0227118231288472,
+    "rel_spread": 0.022456805630092527,
+    "min": 33.11283193266455,
+    "max": 33.86488471481447,
+    "mean": 33.48885832373951
+  },
+  "power_matrix": [
+    [
+      0.1521290575923758,
+      0.0035580419097472112
+    ],
+    [
+      0.0025076281597167585,
+      0.07835296141966233
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      -8.177878250874148,
+      -24.487889407195595
+    ],
+    [
+      -26.007368618427563,
+      -11.059445843400947
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 1.5194792112319675,
+    "max_abs_diff_dB": 1.5194792112319675,
+    "worst_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 1.5194792112319675,
+        "T_ji_dB": -24.487889407195595,
+        "T_ij_dB": -26.007368618427563
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 1.5194792112319675,
+        "T_ji_dB": -24.487889407195595,
+        "T_ij_dB": -26.007368618427563
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        1.5194792112319675
+      ],
+      [
+        1.5194792112319675,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "objective": null
+}

@@ -31,6 +31,12 @@ def main() -> int:
     parser.add_argument("--res-list", type=str, default="32,48,64")
     parser.add_argument("--run-time", type=float, default=80.0)
     parser.add_argument("--json-out", type=str, default="")
+    parser.add_argument(
+        "--port-formulation",
+        type=str,
+        default="baseline_hz_line",
+        help="Port formulation name",
+    )
     args = parser.parse_args()
 
     resolutions = [int(x) for x in args.res_list.split(",") if x.strip()]
@@ -38,7 +44,12 @@ def main() -> int:
     for res in resolutions:
         t0 = time.time()
         cache = ensure_normalizations(
-            res, run_time=args.run_time, force=True, ports=list(range(6)), verbose=True
+            res,
+            run_time=args.run_time,
+            force=True,
+            ports=list(range(6)),
+            verbose=True,
+            formulation=args.port_formulation,
         )
         powers = {int(k): float(v) for k, v in cache["incident_power_by_port"].items()}
         axis = np.mean([powers[0], powers[3]])
@@ -46,6 +57,7 @@ def main() -> int:
         row = {
             "res": res,
             "run_time": args.run_time,
+            "formulation": args.port_formulation,
             "wall_s": time.time() - t0,
             "powers": powers,
             "axis_mean": float(axis),
@@ -56,13 +68,17 @@ def main() -> int:
         }
         rows.append(row)
         print(
-            f"res={res}: axis/diag={row['axis_over_diag']:.6f} "
+            f"res={res} [{args.port_formulation}]: axis/diag={row['axis_over_diag']:.6f} "
             f"max/min={row['max_over_min']:.6f} wall={row['wall_s']:.1f}s"
         )
 
-    out = {"rows": rows}
+    out = {"formulation": args.port_formulation, "rows": rows}
     json_out = args.json_out or os.path.join(
-        ROOT, "outputs", "validation", "reciprocity", "incident_power_vs_res.json"
+        ROOT,
+        "outputs",
+        "validation",
+        "ports",
+        f"incident_{args.port_formulation}.json",
     )
     os.makedirs(os.path.dirname(json_out), exist_ok=True)
     # rank-0 write

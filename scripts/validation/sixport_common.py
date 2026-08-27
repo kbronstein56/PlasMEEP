@@ -337,8 +337,12 @@ def rotated_wall(centerline, axis, normal, normal_offset, length, thickness):
 # Device builder (cell 34) — resolution is an argument
 # ---------------------------------------------------------------------------
 
-def build_circulator_device(rho, B, res=64):
-    """Build six-port PlasMEEP geometry; no sources/monitors/run."""
+def build_circulator_device(rho, B, res=64, wall_pec: bool = True, wall_eps: float = 1.0e6):
+    """Build six-port PlasMEEP geometry; no sources/monitors/run.
+
+    wall_pec=True uses perfect electric conductor (production/notebook path).
+    wall_pec=False uses finite epsilon metal (needed for MPB eigenmodes).
+    """
     rho = np.asarray(rho, dtype=float).flatten()
     B = np.asarray(B, dtype=float).flatten()
     if len(rho) != 91:
@@ -395,11 +399,19 @@ def build_circulator_device(rho, B, res=64):
             vertices = np.zeros((4, 3))
             vertices[:, 0] = wall[:, 0]
             vertices[:, 1] = wall[:, 1]
-            P_device.Add_Prism(
-                vertices=vertices,
-                axis=np.array([0, 0, 1]),
-                PEC=True,
-            )
+            if wall_pec:
+                P_device.Add_Prism(
+                    vertices=vertices,
+                    axis=np.array([0, 0, 1]),
+                    PEC=True,
+                )
+            else:
+                P_device.Add_Prism(
+                    vertices=vertices,
+                    axis=np.array([0, 0, 1]),
+                    eps=wall_eps,
+                    PEC=False,
+                )
 
     return pmm_device, P_device, wp_values
 
@@ -481,12 +493,32 @@ def circulator_objective(
 # Normalization (cell 52) — make_port_source for every port
 # ---------------------------------------------------------------------------
 
-def normalize_port(source_port, res=64, run_time=80, verbose=True):
+def normalize_port(
+    source_port,
+    res=64,
+    run_time=80,
+    verbose=True,
+    formulation: str = "baseline_hz_line",
+):
     """Straight-feed reference run for one port; returns (power, flux_data)."""
+    from port_formulations import (
+        EIGENMODE_WALL_EPS,
+        add_dft_sdotn_monitor,
+        add_flux_monitor,
+        extract_dft_sdotn_power,
+        extract_eigenmode_powers,
+        get_formulation,
+        make_flux_region_for_formulation,
+        port_measure_center,
+        uses_finite_metal_walls,
+    )
+
+    form = get_formulation(formulation)
+    finite_metal = uses_finite_metal_walls(form.name)
     if verbose:
         print()
         print("=" * 54)
-        print(f"NORMALIZING PORT P{source_port + 1}")
+        print(f"NORMALIZING PORT P{source_port + 1}  [{form.name}]")
         print("=" * 54)
 
     u = np.asarray(port_dirs[source_port], dtype=float)
@@ -525,33 +557,60 @@ def normalize_port(source_port, res=64, run_time=80, verbose=True):
         length=guide_length,
         thickness=wall_thickness,
     )
-    P_ref.Add_Prism(vertices=wall_A, axis=np.array([0, 0, 1]), PEC=True)
-    P_ref.Add_Prism(vertices=wall_B, axis=np.array([0, 0, 1]), PEC=True)
+    if finite_metal:
+        P_ref.Add_Prism(
+            vertices=wall_A, axis=np.array([0, 0, 1]), eps=EIGENMODE_WALL_EPS
+        )
+        P_ref.Add_Prism(
+            vertices=wall_B, axis=np.array([0, 0, 1]), eps=EIGENMODE_WALL_EPS
+        )
+    else:
+        P_ref.Add_Prism(vertices=wall_A, axis=np.array([0, 0, 1]), PEC=True)
+        P_ref.Add_Prism(vertices=wall_B, axis=np.array([0, 0, 1]), PEC=True)
 
-    P_ref.sources = make_port_source(source_port)
+    P_ref.sources = form.make_sources(source_port)
     ref_sim = P_ref.Get_Sim()
 
-    region, sign = make_flux_region(
-        port_monitor_centers[source_port], port_dirs[source_port]
-    )
-    monitor = ref_sim.add_flux(fs_a, 0, 1, region)
+    measure_xy = port_measure_center(form.name, source_port)
+
+    if form.measurement == "dft_sdotn":
+        mon_info = add_dft_sdotn_monitor(ref_sim, measure_xy, port_dirs[source_port])
+        if verbose:
+            print("Running reference (DFT S·n)...")
+        ref_sim.run(until_after_sources=run_time)
+        signed_flux = extract_dft_sdotn_power(ref_sim, mon_info)
+        # Reference run: power into the guide toward -outward (into device for
+        # device ports). For a straight reference, expect negative outward flux.
+        incident_power = abs(signed_flux)
+        incident_data = None
+    else:
+        regions, sign = make_flux_region_for_formulation(
+            form.name, measure_xy, port_dirs[source_port]
+        )
+        monitor = add_flux_monitor(ref_sim, regions)
+        if verbose:
+            print("Running reference...")
+        ref_sim.run(until_after_sources=run_time)
+        if form.measurement == "eigenmode":
+            powers = extract_eigenmode_powers(
+                ref_sim, [monitor], [source_port], [sign]
+            )
+            signed_flux = float(powers[0])
+            incident_power = abs(signed_flux)
+            incident_data = ref_sim.get_flux_data(monitor)
+        else:
+            raw_flux = mp.get_fluxes(monitor)[0]
+            signed_flux = sign * raw_flux
+            incident_power = abs(signed_flux)
+            incident_data = ref_sim.get_flux_data(monitor)
 
     if verbose:
-        print("Running reference...")
-    ref_sim.run(until_after_sources=run_time)
-
-    raw_flux = mp.get_fluxes(monitor)[0]
-    signed_flux = sign * raw_flux
-    incident_power = abs(signed_flux)
-    incident_data = ref_sim.get_flux_data(monitor)
-
-    if verbose:
-        print("signed incident flux =", signed_flux)
+        print("signed incident flux/power =", signed_flux)
         print("incident power =", incident_power)
         if signed_flux < 0:
             print("Direction check: PASS")
         else:
-            print("WARNING: expected inward incident flux.")
+            print("WARNING: expected inward incident flux/power.")
 
     return incident_power, incident_data
 
@@ -563,14 +622,15 @@ def ensure_normalizations(
     ports: Optional[Sequence[int]] = None,
     cache_path: Optional[str] = None,
     verbose=True,
+    formulation: str = "baseline_hz_line",
 ) -> Dict[str, Any]:
     """
     Return incident powers and flux-subtraction data for the requested ports.
 
-    Caches in memory by (res, run_time). Optional pickle at cache_path for
-    cross-process reuse (--skip-norm-if-cached).
+    Caches in memory by (res, run_time, formulation). Optional pickle at
+    cache_path for cross-process reuse (--skip-norm-if-cached).
     """
-    key = (int(res), float(run_time))
+    key = (int(res), float(run_time), str(formulation))
     port_list = list(range(6) if ports is None else ports)
 
     if cache_path and (not force) and os.path.isfile(cache_path):
@@ -579,6 +639,7 @@ def ensure_normalizations(
         if (
             loaded.get("res") == int(res)
             and loaded.get("run_time") == float(run_time)
+            and loaded.get("formulation", "baseline_hz_line") == str(formulation)
             and all(p in loaded["incident_power_by_port"] for p in port_list)
         ):
             _NORM_CACHE[key] = loaded
@@ -605,7 +666,11 @@ def ensure_normalizations(
         if (not force) and source_port in incident_power_by_port:
             continue
         power_i, data_i = normalize_port(
-            source_port, res=res, run_time=run_time, verbose=verbose
+            source_port,
+            res=res,
+            run_time=run_time,
+            verbose=verbose,
+            formulation=formulation,
         )
         incident_power_by_port[source_port] = power_i
         incident_flux_data_by_port[source_port] = data_i
@@ -613,6 +678,7 @@ def ensure_normalizations(
     result = {
         "res": int(res),
         "run_time": float(run_time),
+        "formulation": str(formulation),
         "incident_power_by_port": incident_power_by_port,
         "incident_flux_data_by_port": incident_flux_data_by_port,
     }
@@ -620,10 +686,18 @@ def ensure_normalizations(
 
     if cache_path:
         os.makedirs(os.path.dirname(os.path.abspath(cache_path)) or ".", exist_ok=True)
-        with open(cache_path, "wb") as f:
-            pickle.dump(result, f, protocol=pickle.HIGHEST_PROTOCOL)
-        if verbose:
-            print(f"Wrote normalizations to {cache_path}")
+        # Rank-0 only: avoid MPI pickle races.
+        try:
+            from mpi4py import MPI
+
+            rank = int(MPI.COMM_WORLD.Get_rank())
+        except Exception:
+            rank = int(os.environ.get("OMPI_COMM_WORLD_RANK", "0"))
+        if rank == 0:
+            with open(cache_path, "wb") as f:
+                pickle.dump(result, f, protocol=pickle.HIGHEST_PROTOCOL)
+            if verbose:
+                print(f"Wrote normalizations to {cache_path}")
 
     return result
 
@@ -684,13 +758,28 @@ def simulate_circulator(
     verbose=True,
     incident_cache=None,
     ports: Optional[Sequence[int]] = None,
+    formulation: str = "baseline_hz_line",
 ):
     """
     Full six-port (or port-subset) forward model.
 
     Matrix convention: row = OUTPUT, column = INPUT.
-    Uses make_port_source for every excited port (cell 52 standardization).
+    Port excitation/measurement selected by `formulation`.
     """
+    from port_formulations import (
+        EIGENMODE_WALL_EPS,
+        add_dft_sdotn_monitor,
+        add_flux_monitor,
+        extract_dft_sdotn_power,
+        extract_eigenmode_powers,
+        extract_flux_powers,
+        get_formulation,
+        make_flux_region_for_formulation,
+        port_measure_center,
+        uses_finite_metal_walls,
+    )
+
+    form = get_formulation(formulation)
     rho = np.asarray(rho, dtype=float).flatten()
     B = np.asarray(B, dtype=float).flatten()
     if len(rho) != 91:
@@ -705,14 +794,29 @@ def simulate_circulator(
 
     if incident_cache is None:
         incident_cache = ensure_normalizations(
-            res, run_time=run_time, force=False, ports=port_list, verbose=verbose
+            res,
+            run_time=run_time,
+            force=False,
+            ports=port_list,
+            verbose=verbose,
+            formulation=formulation,
+        )
+    if incident_cache.get("formulation", "baseline_hz_line") != form.name:
+        raise ValueError(
+            f"incident_cache formulation "
+            f"{incident_cache.get('formulation')!r} != {form.name!r}"
         )
     incident_power_by_port = incident_cache["incident_power_by_port"]
     incident_flux_data_by_port = incident_cache["incident_flux_data_by_port"]
     for p in port_list:
-        if p not in incident_power_by_port or p not in incident_flux_data_by_port:
+        if p not in incident_power_by_port:
             raise KeyError(
                 f"incident_cache missing port {p}; call ensure_normalizations first."
+            )
+        # DFT formulations do not provide flux-subtraction data.
+        if form.measurement != "dft_sdotn" and p not in incident_flux_data_by_port:
+            raise KeyError(
+                f"incident_cache missing flux data for port {p}."
             )
 
     if verbose:
@@ -721,10 +825,18 @@ def simulate_circulator(
         print("=" * 54)
         print("B =", B, "T")
         print("res =", res, "  run_time =", run_time)
+        print("formulation =", form.name)
         print("rho elements =", len(rho))
         print("ports =", [p + 1 for p in port_list])
 
-    _pmm_device, P_device, wp_values = build_circulator_device(rho, B, res=res)
+    finite_metal = uses_finite_metal_walls(form.name)
+    _pmm_device, P_device, wp_values = build_circulator_device(
+        rho,
+        B,
+        res=res,
+        wall_pec=not finite_metal,
+        wall_eps=EIGENMODE_WALL_EPS,
+    )
 
     power_matrix = np.full((n_ports, n_ports), np.nan)
 
@@ -735,35 +847,55 @@ def simulate_circulator(
             print(f"Input P{source_port + 1}")
             print("-" * 54)
 
-        P_device.sources = make_port_source(source_port)
+        P_device.sources = form.make_sources(source_port)
         sim_i = P_device.Get_Sim()
 
         monitors_i = []
         signs_i = []
+        dft_infos = []
         for output_port in port_list:
-            region, sign = make_flux_region(
-                port_monitor_centers[output_port],
-                port_dirs[output_port],
-            )
-            monitor = sim_i.add_flux(fs_a, 0, 1, region)
-            monitors_i.append(monitor)
-            signs_i.append(sign)
+            measure_xy = port_measure_center(form.name, output_port)
+            if form.measurement == "dft_sdotn":
+                dft_infos.append(
+                    add_dft_sdotn_monitor(
+                        sim_i, measure_xy, port_dirs[output_port]
+                    )
+                )
+                monitors_i.append(None)
+                signs_i.append(1.0)
+            else:
+                regions, sign = make_flux_region_for_formulation(
+                    form.name,
+                    measure_xy,
+                    port_dirs[output_port],
+                )
+                monitor = add_flux_monitor(sim_i, regions)
+                monitors_i.append(monitor)
+                signs_i.append(sign)
+                dft_infos.append(None)
 
         # Incident-field subtraction at SOURCE port (reflection on diagonal)
         src_local = local_index[source_port]
-        sim_i.load_minus_flux_data(
-            monitors_i[src_local],
-            incident_flux_data_by_port[source_port],
-        )
+        if form.measurement != "dft_sdotn":
+            sim_i.load_minus_flux_data(
+                monitors_i[src_local],
+                incident_flux_data_by_port[source_port],
+            )
 
         if verbose:
             print("Running Meep...")
         sim_i.run(until_after_sources=run_time)
 
-        flux_i = np.zeros(n_ports)
-        for k, output_port in enumerate(port_list):
-            raw_flux = mp.get_fluxes(monitors_i[k])[0]
-            flux_i[k] = signs_i[k] * raw_flux
+        if form.measurement == "dft_sdotn":
+            flux_i = np.array(
+                [extract_dft_sdotn_power(sim_i, info) for info in dft_infos]
+            )
+        elif form.measurement == "eigenmode":
+            flux_i = extract_eigenmode_powers(
+                sim_i, monitors_i, port_list, signs_i
+            )
+        else:
+            flux_i = extract_flux_powers(sim_i, monitors_i, signs_i)
 
         incident_i = incident_power_by_port[source_port]
         column_i = flux_i / incident_i
@@ -819,12 +951,39 @@ def simulate_circulator(
         "negative_entries": negative_entries,
         "res": int(res),
         "run_time": float(run_time),
+        "formulation": form.name,
+    }
+
+
+def physical_resolution_report(res: int) -> Dict[str, float]:
+    """Map Meep resolution to physical grid metrics (a is the Meep length unit)."""
+    a_cm = float(a) * 100.0
+    a_mm = float(a) * 1000.0
+    dx_a = 1.0 / float(res)
+    dx_mm = dx_a * a_mm
+    pixels_per_cm = float(res) / a_cm
+    lattice_mm = 20.0
+    pixels_per_lattice = lattice_mm / dx_mm
+    c_mps = 2.99792458e8
+    lambda0_mm = c_mps / fs_Hz * 1000.0
+    pixels_per_lambda0 = lambda0_mm / dx_mm
+    return {
+        "a_m": float(a),
+        "a_cm": a_cm,
+        "meep_resolution": float(res),
+        "grid_spacing_a": dx_a,
+        "grid_spacing_mm": dx_mm,
+        "pixels_per_cm": pixels_per_cm,
+        "pixels_per_lattice_20mm": pixels_per_lattice,
+        "pixels_per_free_space_lambda0": pixels_per_lambda0,
+        "lambda0_mm": lambda0_mm,
     }
 
 
 def geometry_summary() -> str:
     lines = [
-        f"a = {a} m",
+        f"a = {a} m = {a * 100:.2f} cm  (Meep length unit; NOT the 20 mm lattice pitch)",
+        f"lattice pitch = 20 mm = {0.020 / a:.6f} a-units",
         f"nx_ports = {nx_ports}, ny_ports = {ny_ports}, dpml_ports = {dpml_ports}",
         f"feed_length = {feed_length_m * 1e3:.1f} mm",
         f"clear_width = {clear_width * a * 1e3:.3f} mm",

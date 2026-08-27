@@ -23,6 +23,7 @@ from sixport_common import (
     reciprocity_metrics,
     simulate_circulator,
     geometry_summary,
+    physical_resolution_report,
     nx_ports,
     ny_ports,
     dpml_ports,
@@ -44,6 +45,22 @@ def _parse_ports(s: str | None) -> List[int] | None:
     if len(ports) != len(set(ports)):
         raise argparse.ArgumentTypeError("duplicate port indices")
     return ports
+
+
+def _incident_mismatch(incident_by_port: Dict[Any, float]) -> Dict[str, float]:
+    vals = [float(v) for v in incident_by_port.values()]
+    if not vals:
+        return {"max_over_min": float("nan"), "rel_spread": float("nan")}
+    vmin = min(vals)
+    vmax = max(vals)
+    mean = sum(vals) / len(vals)
+    return {
+        "max_over_min": (vmax / vmin) if vmin > 0 else float("inf"),
+        "rel_spread": ((vmax - vmin) / mean) if mean else float("nan"),
+        "min": vmin,
+        "max": vmax,
+        "mean": mean,
+    }
 
 
 def _json_safe(obj: Any) -> Any:
@@ -100,6 +117,12 @@ def main() -> None:
         action="store_true",
         help="Reuse pickled incident normalizations when present for this res/run-time",
     )
+    parser.add_argument(
+        "--port-formulation",
+        type=str,
+        default="baseline_hz_line",
+        help="Port formulation name (baseline_hz_line|aligned_hz_line|eigenmode)",
+    )
     args = parser.parse_args()
 
     ports = _parse_ports(args.ports if args.ports else None)
@@ -110,8 +133,10 @@ def main() -> None:
     port_tag = (
         "p" + "".join(str(p) for p in ports) if ports is not None else "pall"
     )
+    formul_tag = args.port_formulation.replace("/", "_")
     cache_path = os.path.join(
-        cache_dir, f"norm_res{args.res}_rt{args.run_time:g}_{port_tag}.pkl"
+        cache_dir,
+        f"norm_{formul_tag}_res{args.res}_rt{args.run_time:g}_{port_tag}.pkl",
     )
 
     json_out = args.json_out
@@ -126,6 +151,7 @@ def main() -> None:
     print(geometry_summary())
     print()
     print(f"label={args.label}  res={args.res}  run_time={args.run_time}")
+    print(f"formulation={args.port_formulation}")
     print(f"ports={ports if ports is not None else list(range(6))}")
     print(f"mpi_note={args.mpi_note!r}")
     print(f"norm cache={cache_path}")
@@ -139,6 +165,7 @@ def main() -> None:
         ports=ports,
         cache_path=cache_path,
         verbose=True,
+        formulation=args.port_formulation,
     )
     t_norm = time.perf_counter() - t0
 
@@ -155,6 +182,7 @@ def main() -> None:
         verbose=True,
         incident_cache=norm,
         ports=ports,
+        formulation=args.port_formulation,
     )
     t_device = time.perf_counter() - t1
     t_total = time.perf_counter() - t0
@@ -194,9 +222,11 @@ def main() -> None:
             "fs_Hz": fs_Hz,
             "fp_Hz": fp_Hz,
             "rho": "uniform_fp_8GHz",
+            "port_formulation": args.port_formulation,
             "skip_norm_if_cached": bool(args.skip_norm_if_cached),
             "norm_cache_path": cache_path,
         },
+        "physical_resolution": physical_resolution_report(args.res),
         "timings_s": {
             "normalization": t_norm,
             "device": t_device,
@@ -205,6 +235,7 @@ def main() -> None:
         "incident_power_by_port": {
             str(k): float(v) for k, v in norm["incident_power_by_port"].items()
         },
+        "incident_power_mismatch": _incident_mismatch(norm["incident_power_by_port"]),
         "power_matrix": result["power_matrix"],
         "power_matrix_dB": result["power_matrix_dB"],
         "reciprocity": {

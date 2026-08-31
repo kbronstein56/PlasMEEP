@@ -137,3 +137,48 @@ def symmetry_equivalent_ports(port_index: int) -> Tuple[int, ...]:
 def pick_reference_port(ports: Iterable[int]) -> int:
     """Choose canonical port for a symmetry class."""
     return min(ports)
+
+
+def cache_key(
+    *,
+    res: int,
+    frequency_a: float,
+    horn_walls: str = "prism",
+    grid_offset_cells: tuple[float, float] = (0.0, 0.0),
+    coord_rotation_deg: float = 0.0,
+) -> str:
+    """Filesystem-safe cache key for numerical mode artifacts."""
+    gox, goy = grid_offset_cells
+    return (
+        f"res{res}_f{frequency_a:.6f}_{horn_walls}"
+        f"_g{gox:g}_{goy:g}_rot{coord_rotation_deg:g}"
+    )
+
+
+def default_cache_path(
+    port_index: int,
+    *,
+    res: int,
+    frequency_a: float,
+    cache_dir: Path | str,
+    horn_walls: str = "prism",
+    grid_offset_cells: tuple[float, float] = (0.0, 0.0),
+    coord_rotation_deg: float = 0.0,
+) -> Path:
+    """Return path for a cached numerical mode JSON."""
+    cache_dir = Path(cache_dir)
+    key = cache_key(
+        res=res,
+        frequency_a=frequency_a,
+        horn_walls=horn_walls,
+        grid_offset_cells=grid_offset_cells,
+        coord_rotation_deg=coord_rotation_deg,
+    )
+    return cache_dir / key / f"numerical_mode_P{port_index + 1}.json"
+
+
+def load_cached_mode(path: Path | str) -> Optional[NumericalPortMode]:
+    path = Path(path)
+    if not path.is_file():
+        return None
+    return NumericalPortMode.load(path)

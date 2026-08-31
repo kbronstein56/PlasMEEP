@@ -1,0 +1,47 @@
+{
+  "reference_run_time": 80.0,
+  "sweep": [
+    {
+      "run_time": 5,
+      "amp_err_dB_reciprocity": 0.006152273120972095,
+      "phase_diff_deg": -0.8688940675152373,
+      "h01_rel_err_vs_rt80": 0.0008747196821760287
+    },
+    {
+      "run_time": 10,
+      "amp_err_dB_reciprocity": 0.006282911521725775,
+      "phase_diff_deg": -0.8688882091242964,
+      "h01_rel_err_vs_rt80": 0.0007640027291207095
+    },
+    {
+      "run_time": 15,
+      "amp_err_dB_reciprocity": 0.006359246289016934,
+      "phase_diff_deg": -0.8694442035589212,
+      "h01_rel_err_vs_rt80": 0.0004180891622518575
+    },
+    {
+      "run_time": 20,
+      "amp_err_dB_reciprocity": 0.006337231537894595,
+      "phase_diff_deg": -0.8696751552047931,
+      "h01_rel_err_vs_rt80": 0.00020353608747371676
+    },
+    {
+      "run_time": 25,
+      "amp_err_dB_reciprocity": 0.006323093659823766,
+      "phase_diff_deg": -0.8695632549777145,
+      "h01_rel_err_vs_rt80": 0.00015387688890293363
+    },
+    {
+      "run_time": 30,
+      "amp_err_dB_reciprocity": 0.006319908866275499,
+      "phase_diff_deg": -0.8695082426451379,
+      "h01_rel_err_vs_rt80": 0.00012202750079395549
+    },
+    {
+      "run_time": 40,
+      "amp_err_dB_reciprocity": 0.0063137082057291094,
+      "phase_diff_deg": -0.8691440641971516,
+      "h01_rel_err_vs_rt80": 0.0003164989559986171
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Master validation report — `agent/eigenmode-ports`
 
-**Generated:** 2026-08-31 (port-mode vs true reciprocity checkpoint)  
+**Generated:** 2026-08-31 (overnight performance + reciprocity checkpoint)  
 **Branch:** `agent/eigenmode-ports`  
 **Registry:** `outputs/validation/MASTER_VALIDATION_REGISTRY.json`
 
@@ -16,6 +16,8 @@
 6. **EigenModeSource:** fails on full PEC horns (MPB + staircasing); **works** on a straight high-ε parallel-plate reference guide (`eigenmode_reference_res32.json`). Use time-domain reference-guide extraction for angled PEC horns.
 7. **Trustworthy now:** direct Lorentz reciprocity, P2↔P3 port reciprocity, Faraday, geometry audit, grid-sensitivity evidence. **Not trustworthy:** P1↔P2 axis↔diagonal reciprocity with current `te1_hz_line` + flux normalization.
 8. **Recommended next step:** port-specific numerical mode references (`plasmeep/ports/numerical_mode.py`) — launch/measure via mode overlap with per-port normalization; **not** more wall geometry tweaks unless direct reciprocity regresses.
+9. **Runtime profiling (overnight):** Python horn geometry is **<0.001%** of wall time; **normalization (~43%) + FDTD (~38%)** dominate. Do not micro-optimize horn construction.
+10. **Validated cheap defaults:** `horns_only` res32, **run_time=5**, **np=32**, `--skip-norm-if-cached` → **~49× faster** than rt=40 uncached baseline (6.6 s vs 325 s per P1↔P2 te1 pair) with **unchanged physics** (port error still 0.625 dB; Lorentz reciprocity still 0.006 dB).
 
 ---
 
@@ -277,3 +279,83 @@ See `MASTER_VALIDATION_REGISTRY.json` → `scripts` field. Key harness files:
 - `validation_registry.py` — consolidate JSON artifacts
 
 **Do not rerun:** te1_hz_line P1P2 res32–128 full device; measurement screen; Faraday res32/64; global rotation sweeps.
+
+---
+
+## 11. Overnight performance audit (2026-08-31)
+
+Artifacts: `outputs/validation/overnight/`
+
+### Where time goes (horns_only P1↔P2 te1, res32, rt=40)
+
+| Phase | Wall time | % of total |
+|---|---:|---:|
+| Python horn geometry build | **0.001 s** | **<0.001%** |
+| Source normalization (2 ports) | **139 s** | **42.7%** |
+| FDTD timestepping (one excitation) | **62 s** | — |
+| Full pair `simulate_circulator` | **124 s** | **38.2%** |
+| Flux extraction | **<0.001 s** | negligible |
+| **Total** | **325 s** | 100% |
+
+**Answer:** horn construction is irrelevant; **normalization + Meep FDTD** dominate. Do not optimize Python horn polygons.
+
+### MPI for cheap res32 (single Lorentz transfer P1→P2, rt=40)
+
+| np | Wall (s) |
+|---:|---:|
+| 4 | 15.8 |
+| 8 | 11.1 |
+| 16 | 10.1 |
+| **32** | **5.6** |
+
+**np=32 is optimal even for cheap res32** (same as res96 finding). Do not run 2× concurrent np32 jobs.
+
+### Minimum safe run_time (Lorentz P1↔P2, res32)
+
+| run_time | Reciprocity amp err | H₀₁ rel err vs rt=80 |
+|---:|---:|---:|
+| **5** | **0.006 dB** | **0.09%** |
+| 10 | 0.006 dB | 0.08% |
+| 40 (legacy) | 0.006 dB | — |
+
+**Recommended cheap default: `run_time=5`.** Port te1 P1↔P2 error **unchanged** at 0.625 dB (rt=5 vs rt=40).
+
+### Validated workflow speedup
+
+| Configuration | Wall time (horns_only P1↔P2 te1) |
+|---|---:|
+| Baseline (rt=40, uncached, profiled) | **325 s** |
+| rt=5, np=32, norm cached | **6.6 s** |
+| **Speedup** | **~49×** |
+
+### Direct reciprocity verdict (confirmed at rt=5, np=32)
+
+| Pair | Lorentz amp err | te1_hz_line port err |
+|---|---:|---:|
+| P1↔P2 | **0.006 dB** | **0.625 dB** |
+| P2↔P3 | **<10⁻¹³ dB** | **~0 dB** |
+
+**Meep + staircased PEC is reciprocal.** Port excitation/flux normalization causes the axis↔diagonal discrepancy.
+
+### Mode profiles + cached port modes
+
+| Port | \|⟨num\|te1⟩\|² | Cross-orient overlap |
+|---|---:|---:|
+| P1 horizontal | 0.791 | — |
+| P2 +60° | 0.785 | >99.9% vs P1/P6 |
+| P6 −60° | 0.785 | (symmetry-equivalent to P2 class) |
+
+Cached references: `outputs/validation/mode_profiles/res32/numerical_mode_P*.json`  
+Policy: `outputs/validation/overnight/CACHE_POLICY.md`
+
+**Best port-mode path:** time-domain reference extraction → cache `NumericalPortMode` → launch/measure via modal overlap (not axis-aligned total flux).
+
+### Toward fast full circulator
+
+1. Use **rt=5** for cheap horns_only diagnostics; **rt=80** retained for production res96 full-device unless revalidated.
+2. Always **`--skip-norm-if-cached`** when cache key matches (res, rt, formulation, geometry offsets).
+3. **np=32 sequential** — never 2× concurrent np32 on this host.
+4. Next physics fix: wire `numerical_mode.py` into `port_formulations.py` — expected to close P1↔P2 gap without horn-wall sweeps.
+5. Dominant cost for inverse design will remain **per-port normalization × FDTD** — cache aggressively; avoid field HDF5 unless needed.
+
+---

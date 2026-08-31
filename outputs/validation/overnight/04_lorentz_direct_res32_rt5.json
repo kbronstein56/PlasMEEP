@@ -1,0 +1,28 @@
+{
+  "timestamp_utc": "2026-08-31T03:37:00+00:00",
+  "settings": {
+    "res": 32,
+    "run_time": 5.0,
+    "mpi_ranks": 32,
+    "horn_walls": "prism",
+    "device_mode": "horns_only"
+  },
+  "pairs": [
+    {
+      "port_a": 0,
+      "port_b": 1,
+      "amp_err_dB": 0.006152273120972095,
+      "phase_diff_deg": -0.8688940675152373,
+      "complex_sym_err": 0.015181448459516135
+    },
+    {
+      "port_a": 1,
+      "port_b": 2,
+      "amp_err_dB": 1.9865145810997485e-13,
+      "phase_diff_deg": -3.3077768687220577e-13,
+      "complex_sym_err": 2.3432545665969046e-14
+    }
+  ],
+  "port_te1_reciprocity_dB": 0.6253376100236228,
+  "conclusion": "Meep+PEC geometry is reciprocal; te1_hz_line+flux apparent error unchanged at rt=5"
+}

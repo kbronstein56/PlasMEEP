@@ -1,0 +1,66 @@
+{
+  "timestamp_utc": "2026-08-31T03:17:55.844722+00:00",
+  "case": {
+    "device_mode": "horns_only",
+    "res": 32,
+    "run_time": 40.0,
+    "formulation": "te1_hz_line",
+    "ports": [
+      0,
+      1
+    ]
+  },
+  "physical_resolution": {
+    "a_m": 0.028,
+    "a_cm": 2.8000000000000003,
+    "meep_resolution": 32.0,
+    "grid_spacing_a": 0.03125,
+    "grid_spacing_mm": 0.875,
+    "pixels_per_cm": 11.428571428571427,
+    "pixels_per_lattice_20mm": 22.857142857142858,
+    "pixels_per_free_space_lambda0": 88.99219532467534,
+    "lambda0_mm": 77.86817090909092
+  },
+  "reciprocity_max_abs_diff_dB": 0.6172353725213355,
+  "timings_s": {
+    "python_geometry_build_s": 0.0011343919904902577,
+    "source_normalization_s": 138.74980374303414,
+    "meep_sim_construct_s": 4.363100742921233e-05,
+    "fdtd_timestepping_s": 62.2113789129653,
+    "flux_extraction_s": 1.4237011782824993e-05,
+    "_sample_transmitted_power": 0.042582355316097074,
+    "full_pair_simulate_circulator_s": 124.27899829403032,
+    "total_wall_s": 325.24203467398183,
+    "estimated_pair_fdtd_s": 124.4227578259306,
+    "estimated_pair_total_s": 263.17381169699365
+  },
+  "breakdown": {
+    "python_geometry_build": {
+      "seconds": 0.0011343919904902577,
+      "percent": 0.00034878394228081763
+    },
+    "source_normalization": {
+      "seconds": 138.74980374303414,
+      "percent": 42.66047710656928
+    },
+    "meep_sim_construct_one_excitation": {
+      "seconds": 4.363100742921233e-05,
+      "note": "Get_Sim() for one excitation; repeated per port run"
+    },
+    "fdtd_timestepping_one_excitation": {
+      "seconds": 62.2113789129653,
+      "percent_of_single_run": 99.99992986656527
+    },
+    "flux_extraction_one_excitation": {
+      "seconds": 1.4237011782824993e-05
+    },
+    "full_pair_simulate_circulator": {
+      "seconds": 124.27899829403032,
+      "percent": 38.211235032583005
+    },
+    "total_wall": {
+      "seconds": 325.24203467398183
+    }
+  },
+  "conclusion": "Python horn geometry is a negligible fraction of wall time; normalization + FDTD dominate."
+}

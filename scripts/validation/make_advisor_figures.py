@@ -132,6 +132,11 @@ def fig_reciprocity():
         "reciprocity"
     ]["max_abs_diff_dB"]
 
+    horns_only = None
+    diag_path = ROOT / "outputs" / "validation" / "diagnostics" / "pair_horns_te1hz_P1P2_res32_rt40.json"
+    if diag_path.exists():
+        horns_only = json.loads(diag_path.read_text())["reciprocity"]["max_abs_diff_dB"]
+
     fig, ax = plt.subplots(figsize=(7.5, 4.8))
     res_b = sorted(base)
     res_t = sorted(te1)
@@ -179,6 +184,17 @@ def fig_reciprocity():
         zorder=5,
         label=f"TE1 P2↔P3 @32 ({p2p3_te1:.4f} dB)",
     )
+    if horns_only is not None:
+        ax.scatter(
+            [32],
+            [horns_only],
+            marker="x",
+            s=90,
+            color="#000000",
+            lw=2,
+            zorder=6,
+            label=f"TE1 horns_only P1↔P2 @32 ({horns_only:.2f} dB)",
+        )
     ax.set_xlabel("Resolution (pixels / a)")
     ax.set_ylabel(r"max $|P_{ij}-P_{ji}|$ (dB)")
     ax.set_title("B=0 reciprocity residual vs resolution")
@@ -260,10 +276,64 @@ def fig_incident():
     return path
 
 
+LORENTZ = ROOT / "outputs" / "validation" / "lorentz_direct"
+MODEPROF = ROOT / "outputs" / "validation" / "mode_profiles"
+
+
+def fig_direct_lorentz():
+    lorentz_path = LORENTZ / "lorentz_direct_res32.json"
+    if not lorentz_path.exists():
+        return None
+    data = json.loads(lorentz_path.read_text())
+    port_te1 = None
+    diag_path = ROOT / "outputs" / "validation" / "diagnostics" / "pair_horns_te1hz_P1P2_res32_rt40.json"
+    if diag_path.exists():
+        port_te1 = json.loads(diag_path.read_text())["reciprocity"]["max_abs_diff_dB"]
+
+    pairs = data["pairs"]
+    labels = [f"P{p['port_a']+1}↔P{p['port_b']+1}" for p in pairs]
+    lorentz_db = [abs(p["amp_err_dB"]) for p in pairs]
+
+    fig, ax = plt.subplots(figsize=(7.2, 4.5))
+    x = np.arange(len(labels))
+    width = 0.35
+    ax.bar(x - width / 2, lorentz_db, width, label="Direct Lorentz (Hz point)", color="#54A24B")
+    if port_te1 is not None:
+        ax.bar(
+            [0],
+            [port_te1],
+            width,
+            label="te1_hz_line + flux (P1↔P2 only)",
+            color="#E45756",
+        )
+    ax.set_yscale("log")
+    ax.set_ylabel("|amplitude error| (dB)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.set_title("Direct reciprocity vs port-normalized metric (horns_only, res32)")
+    ax.legend()
+    ax.grid(True, axis="y", alpha=0.3)
+    fig.text(
+        0.5,
+        -0.02,
+        "Direct test: localized Hz sources, complex Hz at monitor — no flux normalization.",
+        ha="center",
+        fontsize=9,
+    )
+    fig.tight_layout()
+    path = OUT / "fig4_direct_lorentz_vs_port.png"
+    fig.savefig(path, bbox_inches="tight")
+    plt.close(fig)
+    return path
+
+
 def main():
     _style()
     OUT.mkdir(parents=True, exist_ok=True)
     paths = [fig_faraday(), fig_reciprocity(), fig_incident()]
+    p4 = fig_direct_lorentz()
+    if p4 is not None:
+        paths.append(p4)
     caption = OUT / "FIGURE_CAPTIONS.md"
     caption.write_text(
         """# Advisor-update figure captions

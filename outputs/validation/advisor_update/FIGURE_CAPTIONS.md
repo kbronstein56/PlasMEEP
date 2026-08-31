@@ -17,10 +17,9 @@ Ratio of launched incident power for axis-aligned ports to diagonal (60°) ports
 Baseline retains a ~10–14% orientation bias at all resolutions. TE1 cos-profile launch
 brings the ratio within a few percent of unity (inside the shaded ±3% band).
 
-## Fig. 4 — Measurement formulation screen
-`fig4_measurement_formulation_screen.png`
-
-Cheap (res=32, rt=40) P1↔P2 residuals for orientation-aware receivers under TE1 (and baseline) launch.
-None of the guide-normal / DFT S·n variants reach the 0.2 dB gate or beat baseline+axis at this setting;
-dense sampling matches sparse. Supports stopping measurement escalation in favor of PEC/grid / reference-guide work.
-
+## fig4_direct_lorentz_vs_port.png
+Direct Lorentz reciprocity (localized Hz point sources, complex Hz at monitor, no flux
+normalization) on horns_only prism geometry at res32. P1↔P2 amplitude error is **0.006 dB**
+versus **0.62 dB** for the `te1_hz_line` + flux port metric on the same geometry.
+Demonstrates the discrete Meep+PEC solver remains reciprocal; port definition drives the
+apparent axis↔diagonal error.

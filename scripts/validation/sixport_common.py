@@ -111,73 +111,15 @@ def _compute_port_geometry_from_locs(locs: np.ndarray):
 
 def get_full_horn(xy_open_cen, outward_dir, feed_length_local):
     """Complete horn wall polygons + source/monitor centers (cell 27)."""
-    outward_dir = np.asarray(outward_dir, dtype=float)
-    outward_dir = outward_dir / np.linalg.norm(outward_dir)
-    horn_dir = -outward_dir
-    horn_dir_orth = np.array([horn_dir[1], -horn_dir[0]])
+    from plasmeep.ports.horn import build_horn_geometry, horn_to_legacy_dict
 
-    left_open = np.array(
-        [
-            xy_open_cen + horn_dir_orth * width_open / 2,
-            xy_open_cen + horn_dir_orth * (width_open / 2 - wall_thickness),
-            xy_open_cen
-            + horn_dir_orth * (width_base / 2 - wall_thickness)
-            - horn_dir * horn_depth,
-            xy_open_cen + horn_dir_orth * width_base / 2 - horn_dir * horn_depth,
-        ]
+    horn = build_horn_geometry(
+        xy_open_cen,
+        outward_dir,
+        a_m=a,
+        feed_length_m=feed_length_local * a,
     )
-    left_feed = np.array(
-        [
-            xy_open_cen
-            + horn_dir_orth * (width_base / 2 - wall_thickness)
-            - horn_dir * horn_depth,
-            xy_open_cen + horn_dir_orth * width_base / 2 - horn_dir * horn_depth,
-            xy_open_cen
-            + horn_dir_orth * width_base / 2
-            - horn_dir * (horn_depth + feed_length_local),
-            xy_open_cen
-            + horn_dir_orth * (width_base / 2 - wall_thickness)
-            - horn_dir * (horn_depth + feed_length_local),
-        ]
-    )
-    right_open = np.array(
-        [
-            xy_open_cen - horn_dir_orth * width_open / 2,
-            xy_open_cen - horn_dir_orth * (width_open / 2 - wall_thickness),
-            xy_open_cen
-            - horn_dir_orth * (width_base / 2 - wall_thickness)
-            - horn_dir * horn_depth,
-            xy_open_cen - horn_dir_orth * width_base / 2 - horn_dir * horn_depth,
-        ]
-    )
-    right_feed = np.array(
-        [
-            xy_open_cen
-            - horn_dir_orth * (width_base / 2 - wall_thickness)
-            - horn_dir * horn_depth,
-            xy_open_cen - horn_dir_orth * width_base / 2 - horn_dir * horn_depth,
-            xy_open_cen
-            - horn_dir_orth * width_base / 2
-            - horn_dir * (horn_depth + feed_length_local),
-            xy_open_cen
-            - horn_dir_orth * (width_base / 2 - wall_thickness)
-            - horn_dir * (horn_depth + feed_length_local),
-        ]
-    )
-
-    throat_center = xy_open_cen + outward_dir * horn_depth
-    monitor_center = throat_center + outward_dir * (0.30 * feed_length_local)
-    source_center = throat_center + outward_dir * (0.70 * feed_length_local)
-
-    return {
-        "left_flare": left_open,
-        "right_flare": right_open,
-        "left_feed": left_feed,
-        "right_feed": right_feed,
-        "throat_center": throat_center,
-        "monitor_center": monitor_center,
-        "source_center": source_center,
-    }
+    return horn_to_legacy_dict(horn)
 
 
 def _init_canonical_geometry():
@@ -253,6 +195,130 @@ ny_ports = _GEO["ny_ports"]
 port_monitor_centers = _GEO["port_monitor_centers"]
 
 
+# Active geometry context (grid registration relative to Yee mesh)
+_GEOM_CTX: Dict[str, Any] = {
+    "grid_offset_cells": (0.0, 0.0),
+    "monitor_offset_cells": (0.0, 0.0),
+    "res": None,
+    "horn_walls": "prism",
+    "coord_rotation_deg": 0.0,
+    "flare_steps": 4,
+}
+
+
+def set_geometry_context(
+    *,
+    grid_offset_cells: Optional[Tuple[float, float]] = None,
+    monitor_offset_cells: Optional[Tuple[float, float]] = None,
+    res: Optional[int] = None,
+    horn_walls: Optional[str] = None,
+    coord_rotation_deg: Optional[float] = None,
+    flare_steps: Optional[int] = None,
+) -> None:
+    """Set geometry registration / horn-wall representation context."""
+    if grid_offset_cells is not None:
+        _GEOM_CTX["grid_offset_cells"] = (
+            float(grid_offset_cells[0]),
+            float(grid_offset_cells[1]),
+        )
+    if monitor_offset_cells is not None:
+        _GEOM_CTX["monitor_offset_cells"] = (
+            float(monitor_offset_cells[0]),
+            float(monitor_offset_cells[1]),
+        )
+    if res is not None:
+        _GEOM_CTX["res"] = int(res)
+    if horn_walls is not None:
+        _GEOM_CTX["horn_walls"] = str(horn_walls)
+    if coord_rotation_deg is not None:
+        _GEOM_CTX["coord_rotation_deg"] = float(coord_rotation_deg)
+    if flare_steps is not None:
+        _GEOM_CTX["flare_steps"] = int(flare_steps)
+
+
+def get_horn_walls() -> str:
+    return str(_GEOM_CTX["horn_walls"])
+
+
+def get_coord_rotation_deg() -> float:
+    return float(_GEOM_CTX["coord_rotation_deg"])
+
+
+def get_flare_steps() -> int:
+    return int(_GEOM_CTX["flare_steps"])
+
+
+def effective_port_dir(port_index: int) -> np.ndarray:
+    """Outward port normal, including optional simulation-frame rotation."""
+    from plasmeep.ports.horn import rotate_dir2
+
+    u = np.asarray(port_dirs[port_index], dtype=float)
+    angle = np.deg2rad(get_coord_rotation_deg())
+    if abs(angle) < 1e-15:
+        return u
+    return rotate_dir2(u, angle)
+
+
+def current_res() -> int:
+    r = _GEOM_CTX.get("res")
+    if r is None:
+        raise RuntimeError("geometry res not set; call set_geometry_context(res=...)")
+    return int(r)
+
+
+def get_grid_offset_cells() -> Tuple[float, float]:
+    return tuple(_GEOM_CTX["grid_offset_cells"])
+
+
+def get_monitor_offset_cells() -> Tuple[float, float]:
+    return tuple(_GEOM_CTX["monitor_offset_cells"])
+
+
+def grid_offset_a(res: int) -> np.ndarray:
+    from plasmeep.ports.horn import offset_cells_to_a
+
+    return offset_cells_to_a(get_grid_offset_cells(), res)
+
+
+def horn_for_port(port_index: int, res: int) -> Dict[str, np.ndarray]:
+    from plasmeep.ports.horn import (
+        rotate_legacy_horn_about_origin,
+        snap_legacy_horn_to_grid,
+        translate_legacy_horn,
+    )
+
+    horn = full_horns[port_index]
+    angle = np.deg2rad(get_coord_rotation_deg())
+    if abs(angle) > 1e-15:
+        horn = rotate_legacy_horn_about_origin(horn, angle)
+    delta = grid_offset_a(res)
+    if not np.allclose(delta, 0):
+        horn = translate_legacy_horn(horn, delta)
+    if get_horn_walls() == "grid_snapped_prism":
+        horn = snap_legacy_horn_to_grid(horn, res)
+    return horn
+
+
+def horns_for_device(res: int) -> List[Dict[str, np.ndarray]]:
+    return [horn_for_port(i, res) for i in range(6)]
+
+
+def monitor_center_for_port(port_index: int, res: int) -> np.ndarray:
+    """Monitor plane center with optional monitor-only sub-cell offset."""
+    from plasmeep.ports.horn import offset_cells_to_a
+
+    center = np.asarray(horn_for_port(port_index, res)["monitor_center"], dtype=float)
+    mo = get_monitor_offset_cells()
+    if np.allclose(mo, 0):
+        return center
+    u = effective_port_dir(port_index)
+    u = u / np.linalg.norm(u)
+    tangent = np.array([-u[1], u[0]])
+    delta_a = offset_cells_to_a(mo, res)
+    # monitor_offset_cells[0] along outward, [1] along tangent
+    return center + mo[0] * u / res + mo[1] * tangent / res
+
+
 # ---------------------------------------------------------------------------
 # Geometry helpers (cells 28, 35, 36)
 # ---------------------------------------------------------------------------
@@ -300,7 +366,7 @@ def make_port_source(
     if fwidth is None:
         fwidth = source_df
 
-    center = np.asarray(full_horns[port_index]["source_center"], dtype=float)
+    center = np.asarray(horn_for_port(port_index, current_res())["source_center"], dtype=float)
     u = np.asarray(port_dirs[port_index], dtype=float)
     u = u / np.linalg.norm(u)
     tangent = np.array([-u[1], u[0]])
@@ -333,19 +399,85 @@ def rotated_wall(centerline, axis, normal, normal_offset, length, thickness):
     return vertices
 
 
+def _mount_horn_walls(
+    p_device,
+    horn: Dict[str, np.ndarray],
+    *,
+    res: int,
+    wall_pec: bool,
+    wall_eps: float,
+) -> None:
+    """Add PEC/metal horn walls using the active horn-wall representation."""
+    from plasmeep.ports.horn import legacy_horn_oriented_blocks
+
+    rep = get_horn_walls()
+    medium = (
+        mp.perfect_electric_conductor
+        if wall_pec
+        else p_device.Get_Med(wall_eps, PEC=False)
+    )
+
+    if rep == "rotated_blocks":
+        for block in legacy_horn_oriented_blocks(
+            horn, n_flare_steps=get_flare_steps()
+        ):
+            p_device.geometry.append(
+                mp.Block(
+                    mp.Vector3(block.length, block.thickness, mp.inf),
+                    center=mp.Vector3(
+                        block.center[0], block.center[1], block.center[2]
+                    ),
+                    e1=mp.Vector3(block.e1[0], block.e1[1], block.e1[2]),
+                    e2=mp.Vector3(block.e2[0], block.e2[1], block.e2[2]),
+                    material=medium,
+                )
+            )
+        return
+
+    for name in ("left_flare", "right_flare", "left_feed", "right_feed"):
+        wall = horn[name]
+        vertices = np.zeros((4, 3))
+        vertices[:, 0] = wall[:, 0]
+        vertices[:, 1] = wall[:, 1]
+        if wall_pec:
+            p_device.Add_Prism(
+                vertices=vertices,
+                axis=np.array([0, 0, 1]),
+                PEC=True,
+            )
+        else:
+            p_device.Add_Prism(
+                vertices=vertices,
+                axis=np.array([0, 0, 1]),
+                eps=wall_eps,
+                PEC=False,
+            )
+
+
 # ---------------------------------------------------------------------------
 # Device builder (cell 34) — resolution is an argument
 # ---------------------------------------------------------------------------
 
-def build_circulator_device(rho, B, res=64, wall_pec: bool = True, wall_eps: float = 1.0e6):
+def build_circulator_device(
+    rho,
+    B,
+    res=64,
+    wall_pec: bool = True,
+    wall_eps: float = 1.0e6,
+    device_mode: str = "full",
+):
     """Build six-port PlasMEEP geometry; no sources/monitors/run.
 
-    wall_pec=True uses perfect electric conductor (production/notebook path).
-    wall_pec=False uses finite epsilon metal (needed for MPB eigenmodes).
+    device_mode:
+      full       — 91-element PMM array + horns (default)
+      horns_only — PEC horns in vacuum (no plasma array / bulbs)
     """
+    if device_mode not in ("full", "horns_only"):
+        raise ValueError(f"device_mode must be 'full' or 'horns_only', got {device_mode!r}")
+
     rho = np.asarray(rho, dtype=float).flatten()
     B = np.asarray(B, dtype=float).flatten()
-    if len(rho) != 91:
+    if device_mode == "full" and len(rho) != 91:
         raise ValueError(f"Expected 91 rho values, got {len(rho)}.")
     if len(B) != 3:
         raise ValueError(f"B must contain [Bx, By, Bz], got {B}.")
@@ -358,62 +490,56 @@ def build_circulator_device(rho, B, res=64, wall_pec: bool = True, wall_eps: flo
         dpml=dpml_ports,
         B=B,
     )
-    array_center_device = np.array([nx_ports / 2, ny_ports / 2])
-    pmm_device.Rod_Array_Hexagon_train(
-        xy_cen=array_center_device,
-        side_dim=6,
-        r=r_plasma,
-        d=d_exp,
-        bulbs=False,
-        uniform=True,
-    )
-    assert len(pmm_device.train_elems) == 91
 
-    wp_values, _elem_locations = pmm_device.Scale_Rho_wp(
-        rho, w_src=fs_a, wp_max=0, gamma=gamma_a
-    )
-    assert len(wp_values) == 91
+    wp_values = []
+    if device_mode == "full":
+        array_center_device = np.array([nx_ports / 2, ny_ports / 2])
+        pmm_device.Rod_Array_Hexagon_train(
+            xy_cen=array_center_device,
+            side_dim=6,
+            r=r_plasma,
+            d=d_exp,
+            bulbs=False,
+            uniform=True,
+        )
+        assert len(pmm_device.train_elems) == 91
+
+        wp_values, _elem_locations = pmm_device.Scale_Rho_wp(
+            rho, w_src=fs_a, wp_max=0, gamma=gamma_a
+        )
+        assert len(wp_values) == 91
 
     P_device = pmm_device.Build_Sim()
-    locs_device = np.asarray(pmm_device.train_elem_locs, dtype=float)
-    for i in range(91):
-        center_meep = np.array(
-            [
-                locs_device[i, 0] - nx_ports / 2,
-                locs_device[i, 1] - ny_ports / 2,
-                0.0,
-            ]
-        )
-        P_device.Add_Bulb(
-            r_bulb=(r_bulb_inner, r_bulb_outer),
-            center=center_meep,
-            wp=wp_values[i],
-            gamma=gamma_a,
-            axis=np.array([0, 0, 1]),
-            profile=0,
+
+    if device_mode == "full":
+        locs_device = np.asarray(pmm_device.train_elem_locs, dtype=float)
+        for i in range(91):
+            center_meep = np.array(
+                [
+                    locs_device[i, 0] - nx_ports / 2,
+                    locs_device[i, 1] - ny_ports / 2,
+                    0.0,
+                ]
+            )
+            P_device.Add_Bulb(
+                r_bulb=(r_bulb_inner, r_bulb_outer),
+                center=center_meep,
+                wp=wp_values[i],
+                gamma=gamma_a,
+                axis=np.array([0, 0, 1]),
+                profile=0,
+            )
+
+    for horn in horns_for_device(res):
+        _mount_horn_walls(
+            P_device,
+            horn,
+            res=res,
+            wall_pec=wall_pec,
+            wall_eps=wall_eps,
         )
 
-    for horn in full_horns:
-        for name in ("left_flare", "right_flare", "left_feed", "right_feed"):
-            wall = horn[name]
-            vertices = np.zeros((4, 3))
-            vertices[:, 0] = wall[:, 0]
-            vertices[:, 1] = wall[:, 1]
-            if wall_pec:
-                P_device.Add_Prism(
-                    vertices=vertices,
-                    axis=np.array([0, 0, 1]),
-                    PEC=True,
-                )
-            else:
-                P_device.Add_Prism(
-                    vertices=vertices,
-                    axis=np.array([0, 0, 1]),
-                    eps=wall_eps,
-                    PEC=False,
-                )
-
-    return pmm_device, P_device, wp_values
+    return pmm_device, P_device, np.asarray(wp_values, dtype=float)
 
 
 # ---------------------------------------------------------------------------
@@ -513,6 +639,7 @@ def normalize_port(
         uses_finite_metal_walls,
     )
 
+    set_geometry_context(res=res)
     form = get_formulation(formulation)
     finite_metal = uses_finite_metal_walls(form.name)
     if verbose:
@@ -521,7 +648,7 @@ def normalize_port(
         print(f"NORMALIZING PORT P{source_port + 1}  [{form.name}]")
         print("=" * 54)
 
-    u = np.asarray(port_dirs[source_port], dtype=float)
+    u = np.asarray(effective_port_dir(source_port), dtype=float)
     u = u / np.linalg.norm(u)
     n = np.array([-u[1], u[0]])
 
@@ -536,7 +663,7 @@ def normalize_port(
     P_ref = pmm_ref.Build_Sim()
 
     reference_center = np.asarray(
-        full_horns[source_port]["source_center"], dtype=float
+        horn_for_port(source_port, res)["source_center"], dtype=float
     )
     guide_length = 2.0 * np.hypot(nx_ports, ny_ports)
     wall_center_offset = clear_width / 2 + wall_thickness / 2
@@ -574,7 +701,7 @@ def normalize_port(
     measure_xy = port_measure_center(form.name, source_port)
 
     if form.measurement == "dft_sdotn":
-        mon_info = add_dft_sdotn_monitor(ref_sim, measure_xy, port_dirs[source_port])
+        mon_info = add_dft_sdotn_monitor(ref_sim, measure_xy, effective_port_dir(source_port))
         if verbose:
             print("Running reference (DFT S·n)...")
         ref_sim.run(until_after_sources=run_time)
@@ -585,7 +712,7 @@ def normalize_port(
         incident_data = None
     else:
         regions, sign = make_flux_region_for_formulation(
-            form.name, measure_xy, port_dirs[source_port]
+            form.name, measure_xy, effective_port_dir(source_port)
         )
         monitor = add_flux_monitor(ref_sim, regions)
         if verbose:
@@ -630,7 +757,15 @@ def ensure_normalizations(
     Caches in memory by (res, run_time, formulation). Optional pickle at
     cache_path for cross-process reuse (--skip-norm-if-cached).
     """
-    key = (int(res), float(run_time), str(formulation))
+    key = (
+        int(res),
+        float(run_time),
+        str(formulation),
+        get_grid_offset_cells(),
+        get_monitor_offset_cells(),
+        get_horn_walls(),
+        get_coord_rotation_deg(),
+    )
     port_list = list(range(6) if ports is None else ports)
 
     if cache_path and (not force) and os.path.isfile(cache_path):
@@ -640,6 +775,12 @@ def ensure_normalizations(
             loaded.get("res") == int(res)
             and loaded.get("run_time") == float(run_time)
             and loaded.get("formulation", "baseline_hz_line") == str(formulation)
+            and loaded.get("grid_offset_cells", (0.0, 0.0)) == get_grid_offset_cells()
+            and loaded.get("monitor_offset_cells", (0.0, 0.0))
+            == get_monitor_offset_cells()
+            and loaded.get("horn_walls", "prism") == get_horn_walls()
+            and float(loaded.get("coord_rotation_deg", 0.0))
+            == get_coord_rotation_deg()
             and all(p in loaded["incident_power_by_port"] for p in port_list)
         ):
             _NORM_CACHE[key] = loaded
@@ -679,6 +820,10 @@ def ensure_normalizations(
         "res": int(res),
         "run_time": float(run_time),
         "formulation": str(formulation),
+        "grid_offset_cells": get_grid_offset_cells(),
+        "monitor_offset_cells": get_monitor_offset_cells(),
+        "horn_walls": get_horn_walls(),
+        "coord_rotation_deg": get_coord_rotation_deg(),
         "incident_power_by_port": incident_power_by_port,
         "incident_flux_data_by_port": incident_flux_data_by_port,
     }
@@ -759,6 +904,8 @@ def simulate_circulator(
     incident_cache=None,
     ports: Optional[Sequence[int]] = None,
     formulation: str = "baseline_hz_line",
+    device_mode: str = "full",
+    wall_pec: bool = True,
 ):
     """
     Full six-port (or port-subset) forward model.
@@ -780,9 +927,10 @@ def simulate_circulator(
     )
 
     form = get_formulation(formulation)
+    set_geometry_context(res=res)
     rho = np.asarray(rho, dtype=float).flatten()
     B = np.asarray(B, dtype=float).flatten()
-    if len(rho) != 91:
+    if device_mode == "full" and len(rho) != 91:
         raise ValueError(f"Expected 91 rho values, got {len(rho)}.")
     if len(B) != 3:
         raise ValueError("B must be [Bx, By, Bz].")
@@ -826,6 +974,7 @@ def simulate_circulator(
         print("B =", B, "T")
         print("res =", res, "  run_time =", run_time)
         print("formulation =", form.name)
+        print("device_mode =", device_mode)
         print("rho elements =", len(rho))
         print("ports =", [p + 1 for p in port_list])
 
@@ -834,8 +983,9 @@ def simulate_circulator(
         rho,
         B,
         res=res,
-        wall_pec=not finite_metal,
+        wall_pec=wall_pec and (not finite_metal),
         wall_eps=EIGENMODE_WALL_EPS,
+        device_mode=device_mode,
     )
 
     power_matrix = np.full((n_ports, n_ports), np.nan)
@@ -858,7 +1008,7 @@ def simulate_circulator(
             if form.measurement == "dft_sdotn":
                 dft_infos.append(
                     add_dft_sdotn_monitor(
-                        sim_i, measure_xy, port_dirs[output_port]
+                        sim_i, measure_xy, effective_port_dir(output_port)
                     )
                 )
                 monitors_i.append(None)
@@ -867,7 +1017,7 @@ def simulate_circulator(
                 regions, sign = make_flux_region_for_formulation(
                     form.name,
                     measure_xy,
-                    port_dirs[output_port],
+                    effective_port_dir(output_port),
                 )
                 monitor = add_flux_monitor(sim_i, regions)
                 monitors_i.append(monitor)
@@ -952,6 +1102,31 @@ def simulate_circulator(
         "res": int(res),
         "run_time": float(run_time),
         "formulation": form.name,
+        "device_mode": device_mode,
+    }
+
+
+def geometry_dimensions_table() -> Dict[str, Any]:
+    """Important lengths in both a-units and SI for audit reports."""
+    def mm(x_a: float) -> float:
+        return float(x_a * a * 1000)
+
+    return {
+        "a_m": float(a),
+        "a_cm": float(a * 100),
+        "lattice_pitch_a": float(d_exp),
+        "lattice_pitch_mm": 20.0,
+        "quartz_od_mm": mm(r_bulb_outer * 2),
+        "quartz_id_mm": mm(r_bulb_inner * 2),
+        "wall_thickness_mm": mm(wall_thickness),
+        "horn_aperture_mm": mm(width_open),
+        "horn_throat_mm": mm(width_base),
+        "horn_depth_mm": mm(horn_depth),
+        "feed_length_mm": mm(feed_length),
+        "clear_width_mm": mm(clear_width),
+        "plasma_radius_mm": mm(r_plasma),
+        "domain_nx_ny": [int(nx_ports), int(ny_ports)],
+        "domain_extent_mm": [mm(nx_ports), mm(ny_ports)],
     }
 
 

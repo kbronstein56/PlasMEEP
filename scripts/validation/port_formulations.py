@@ -42,6 +42,7 @@ FORMULATION_NAMES = (
     "baseline_hz_line",
     "aligned_hz_line",
     "te1_hz_line",
+    "te1_ez_line",
     "te1_guide_normal",
     "te1_guide_normal_te1w",
     "te1_guide_normal_dense",
@@ -152,8 +153,8 @@ def make_aligned_hz_sources(
         frequency = sc.fs_a
     if fwidth is None:
         fwidth = sc.source_df
-    center = np.asarray(sc.full_horns[port_index]["source_center"], dtype=float)
-    geom = axis_aligned_port_line(center, sc.port_dirs[port_index], span_factor=0.96)
+    center = np.asarray(sc.horn_for_port(port_index, sc.current_res())["source_center"], dtype=float)
+    geom = axis_aligned_port_line(center, sc.effective_port_dir(port_index), span_factor=0.96)
     return _hz_points_along_line(
         center, geom["line_dir"], geom["span"], n_points, frequency, fwidth
     )
@@ -170,8 +171,8 @@ def make_te1_hz_sources(
     if fwidth is None:
         fwidth = sc.source_df
 
-    center = np.asarray(sc.full_horns[port_index]["source_center"], dtype=float)
-    u = _unit(sc.port_dirs[port_index])
+    center = np.asarray(sc.horn_for_port(port_index, sc.current_res())["source_center"], dtype=float)
+    u = _unit(sc.effective_port_dir(port_index))
     tangent = np.array([-u[1], u[0]])
     source_span = 0.96 * sc.clear_width
     offsets = np.linspace(-source_span / 2, +source_span / 2, n_points)
@@ -197,6 +198,45 @@ def make_te1_hz_sources(
     return sources
 
 
+def make_te1_ez_sources(
+    port_index: int,
+    frequency: Optional[float] = None,
+    fwidth: Optional[float] = None,
+    n_points: int = 31,
+) -> List[mp.Source]:
+    """Paper/Ceviche-equivalent: Ez polarized along discharge axis (2D: mp.Ez)."""
+    if frequency is None:
+        frequency = sc.fs_a
+    if fwidth is None:
+        fwidth = sc.source_df
+
+    center = np.asarray(sc.horn_for_port(port_index, sc.current_res())["source_center"], dtype=float)
+    u = _unit(sc.effective_port_dir(port_index))
+    tangent = np.array([-u[1], u[0]])
+    source_span = 0.96 * sc.clear_width
+    offsets = np.linspace(-source_span / 2, +source_span / 2, n_points)
+    weights = np.cos(np.pi * offsets / source_span)
+    weights = np.clip(weights, 0.0, None)
+    wsum = float(np.sum(weights))
+    if wsum <= 0:
+        weights = np.ones_like(weights)
+        wsum = float(n_points)
+    weights = weights / wsum
+
+    sources: List[mp.Source] = []
+    for s, amp in zip(offsets, weights):
+        xy = center + s * tangent
+        sources.append(
+            mp.Source(
+                src=mp.GaussianSource(frequency=frequency, fwidth=fwidth),
+                component=mp.Ez,
+                center=mp.Vector3(xy[0], xy[1], 0),
+                amplitude=float(amp),
+            )
+        )
+    return sources
+
+
 def make_eigenmode_sources(
     port_index: int,
     frequency: Optional[float] = None,
@@ -207,8 +247,8 @@ def make_eigenmode_sources(
     if fwidth is None:
         fwidth = sc.source_df
 
-    center = np.asarray(sc.full_horns[port_index]["source_center"], dtype=float)
-    u = _unit(sc.port_dirs[port_index])
+    center = np.asarray(sc.horn_for_port(port_index, sc.current_res())["source_center"], dtype=float)
+    u = _unit(sc.effective_port_dir(port_index))
     inward = -u
     geom = axis_aligned_port_line(center, u, span_factor=0.90)
     size = geom["size"]
@@ -310,12 +350,12 @@ def make_guide_normal_flux_spec(
 
 def port_measure_center(formulation: str, port_index: int) -> np.ndarray:
     """Geometric center used for flux/DFT monitors."""
-    # Measuring at the soft-source plane collapses axis-port power (ill-defined
-    # flux through the amp discontinuity). Keep axis_at_source only as a known
-    # negative control; DFT S·n must use the monitor plane.
+    res = sc.current_res()
     if formulation == "te1_axis_at_source":
-        return np.asarray(sc.full_horns[port_index]["source_center"], dtype=float)
-    return np.asarray(sc.port_monitor_centers[port_index], dtype=float)
+        return np.asarray(
+            sc.horn_for_port(port_index, res)["source_center"], dtype=float
+        )
+    return sc.monitor_center_for_port(port_index, res)
 
 
 def make_flux_region_for_formulation(
@@ -527,7 +567,7 @@ def extract_flux_powers(sim, monitors, signs) -> np.ndarray:
 
 
 def eigenmode_kpoint(port_index: int) -> mp.Vector3:
-    u = _unit(sc.port_dirs[port_index])
+    u = _unit(sc.effective_port_dir(port_index))
     inward = -u
     return mp.Vector3(inward[0], inward[1], 0)
 
@@ -581,6 +621,11 @@ _REGISTRY: Dict[str, Formulation] = {
         name="te1_hz_line",
         measurement="flux",
         make_sources=make_te1_hz_sources,
+    ),
+    "te1_ez_line": Formulation(
+        name="te1_ez_line",
+        measurement="flux",
+        make_sources=make_te1_ez_sources,
     ),
     "te1_guide_normal": Formulation(
         name="te1_guide_normal",

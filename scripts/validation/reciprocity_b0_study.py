@@ -24,6 +24,9 @@ from sixport_common import (
     simulate_circulator,
     geometry_summary,
     physical_resolution_report,
+    set_geometry_context,
+    get_grid_offset_cells,
+    get_monitor_offset_cells,
     nx_ports,
     ny_ports,
     dpml_ports,
@@ -77,6 +80,13 @@ def _json_safe(obj: Any) -> Any:
     return str(obj)
 
 
+def _parse_offset_pair(s: str) -> tuple[float, float]:
+    parts = [p.strip() for p in s.split(",") if p.strip() != ""]
+    if len(parts) != 2:
+        raise argparse.ArgumentTypeError("expected 'ox,oy' fractional-cell offsets")
+    return float(parts[0]), float(parts[1])
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="B=0 six-port circulator reciprocity study (uniform rho)."
@@ -121,9 +131,66 @@ def main() -> None:
         "--port-formulation",
         type=str,
         default="baseline_hz_line",
-        help="Port formulation name (baseline_hz_line|aligned_hz_line|eigenmode)",
+        help="Port formulation name (baseline_hz_line|te1_hz_line|te1_ez_line|...)",
+    )
+    parser.add_argument(
+        "--device-mode",
+        type=str,
+        default="full",
+        choices=["full", "horns_only"],
+        help="full=91-element PMM+horns; horns_only=PEC horns in vacuum",
+    )
+    parser.add_argument(
+        "--grid-offset-cells",
+        type=str,
+        default="0,0",
+        help="Fractional Yee-cell translation of all horn geometry (ox,oy)",
+    )
+    parser.add_argument(
+        "--monitor-offset-cells",
+        type=str,
+        default="0,0",
+        help="Fractional-cell shift of monitor planes only (outward,tangent)",
+    )
+    parser.add_argument(
+        "--wall-mode",
+        type=str,
+        default="pec",
+        choices=["pec", "high_eps"],
+        help="pec=perfect conductor; high_eps=finite-eps metal (diagnostic only)",
+    )
+    parser.add_argument(
+        "--horn-walls",
+        type=str,
+        default="prism",
+        choices=["prism", "rotated_blocks", "grid_snapped_prism"],
+        help="How to rasterize PEC horn walls in Meep",
+    )
+    parser.add_argument(
+        "--coord-rotation-deg",
+        type=float,
+        default=0.0,
+        help="Rotate horns+ports about origin (deg) for grid-symmetric framing",
+    )
+    parser.add_argument(
+        "--flare-steps",
+        type=int,
+        default=4,
+        help="Flare subdivisions for rotated_blocks representation",
     )
     args = parser.parse_args()
+
+    grid_offset = _parse_offset_pair(args.grid_offset_cells)
+    monitor_offset = _parse_offset_pair(args.monitor_offset_cells)
+    set_geometry_context(
+        grid_offset_cells=grid_offset,
+        monitor_offset_cells=monitor_offset,
+        res=args.res,
+        horn_walls=args.horn_walls,
+        coord_rotation_deg=args.coord_rotation_deg,
+        flare_steps=args.flare_steps,
+    )
+    wall_pec = args.wall_mode == "pec"
 
     ports = _parse_ports(args.ports if args.ports else None)
 
@@ -134,9 +201,16 @@ def main() -> None:
         "p" + "".join(str(p) for p in ports) if ports is not None else "pall"
     )
     formul_tag = args.port_formulation.replace("/", "_")
+    dev_tag = args.device_mode.replace("/", "_")
+    gox, goy = grid_offset
+    mox, moy = monitor_offset
+    off_tag = f"g{gox:g}_{goy:g}_m{mox:g}_{moy:g}"
+    wall_tag = args.wall_mode
+    horn_tag = args.horn_walls
+    rot_tag = f"rot{args.coord_rotation_deg:g}".replace(".", "p")
     cache_path = os.path.join(
         cache_dir,
-        f"norm_{formul_tag}_res{args.res}_rt{args.run_time:g}_{port_tag}.pkl",
+        f"norm_{formul_tag}_{dev_tag}_{horn_tag}_{rot_tag}_{wall_tag}_{off_tag}_res{args.res}_rt{args.run_time:g}_{port_tag}.pkl",
     )
 
     json_out = args.json_out
@@ -152,6 +226,12 @@ def main() -> None:
     print()
     print(f"label={args.label}  res={args.res}  run_time={args.run_time}")
     print(f"formulation={args.port_formulation}")
+    print(f"device_mode={args.device_mode}")
+    print(f"grid_offset_cells={grid_offset}")
+    print(f"monitor_offset_cells={monitor_offset}")
+    print(f"wall_mode={args.wall_mode}")
+    print(f"horn_walls={args.horn_walls}")
+    print(f"coord_rotation_deg={args.coord_rotation_deg}")
     print(f"ports={ports if ports is not None else list(range(6))}")
     print(f"mpi_note={args.mpi_note!r}")
     print(f"norm cache={cache_path}")
@@ -183,6 +263,8 @@ def main() -> None:
         incident_cache=norm,
         ports=ports,
         formulation=args.port_formulation,
+        device_mode=args.device_mode,
+        wall_pec=wall_pec,
     )
     t_device = time.perf_counter() - t1
     t_total = time.perf_counter() - t0
@@ -223,6 +305,13 @@ def main() -> None:
             "fp_Hz": fp_Hz,
             "rho": "uniform_fp_8GHz",
             "port_formulation": args.port_formulation,
+            "device_mode": args.device_mode,
+            "grid_offset_cells": list(grid_offset),
+            "monitor_offset_cells": list(monitor_offset),
+            "wall_mode": args.wall_mode,
+            "horn_walls": args.horn_walls,
+            "coord_rotation_deg": args.coord_rotation_deg,
+            "flare_steps": args.flare_steps,
             "skip_norm_if_cached": bool(args.skip_norm_if_cached),
             "norm_cache_path": cache_path,
         },

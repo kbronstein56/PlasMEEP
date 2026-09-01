@@ -1,0 +1,575 @@
+{
+  "timestamp_utc": "2026-09-01T20:08:53.554150+00:00",
+  "settings": {
+    "res": 32,
+    "run_time": 5.0,
+    "device_mode": "horns_only",
+    "pairs": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "formulations": [
+      "te1_hz_line",
+      "num_mode_hz_line",
+      "te1_hz_modal",
+      "num_mode_modal"
+    ]
+  },
+  "physical_resolution": {
+    "a_m": 0.028,
+    "a_cm": 2.8000000000000003,
+    "meep_resolution": 32.0,
+    "grid_spacing_a": 0.03125,
+    "grid_spacing_mm": 0.875,
+    "pixels_per_cm": 11.428571428571427,
+    "pixels_per_lattice_20mm": 22.857142857142858,
+    "pixels_per_free_space_lambda0": 88.99219532467534,
+    "lambda0_mm": 77.86817090909092
+  },
+  "cases": [
+    {
+      "formulation": "te1_hz_line",
+      "ports": [
+        0,
+        1
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 0.6253376100236228,
+        "max_abs_diff_dB": 0.6253376100236228,
+        "worst_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.6253376100236228,
+            "T_ji_dB": -14.323653698808174,
+            "T_ij_dB": -13.698316088784551
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.6253376100236228,
+            "T_ji_dB": -14.323653698808174,
+            "T_ij_dB": -13.698316088784551
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            0.6253376100236228
+          ],
+          [
+            0.6253376100236228,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 0.6253376100236228,
+      "modal_reciprocity": null,
+      "power_matrix_dB": [
+        [
+          NaN,
+          -14.323653698808174
+        ],
+        [
+          -13.698316088784551,
+          NaN
+        ]
+      ],
+      "timings_s": {
+        "normalization": 0.00010394398123025894,
+        "simulate": 10.760169122018851,
+        "total": 10.760273066000082
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_hz_line_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p01.pkl",
+      "norm_cache_hit": true
+    },
+    {
+      "formulation": "te1_hz_line",
+      "ports": [
+        1,
+        2
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 7.638334409421077e-14,
+        "max_abs_diff_dB": 7.638334409421077e-14,
+        "worst_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 7.638334409421077e-14,
+            "T_ji_dB": -13.565469220255137,
+            "T_ij_dB": -13.56546922025506
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 7.638334409421077e-14,
+            "T_ji_dB": -13.565469220255137,
+            "T_ij_dB": -13.56546922025506
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            7.638334409421077e-14
+          ],
+          [
+            7.638334409421077e-14,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 7.638334409421077e-14,
+      "modal_reciprocity": null,
+      "power_matrix_dB": [
+        [
+          NaN,
+          -13.565469220255137
+        ],
+        [
+          -13.56546922025506,
+          NaN
+        ]
+      ],
+      "timings_s": {
+        "normalization": 4.25585915800184,
+        "simulate": 8.02784915198572,
+        "total": 12.28370830998756
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_hz_line_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p12.pkl",
+      "norm_cache_hit": true
+    },
+    {
+      "formulation": "num_mode_hz_line",
+      "ports": [
+        0,
+        1
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 0.07573317128071366,
+        "max_abs_diff_dB": 0.07573317128071366,
+        "worst_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.07573317128071366,
+            "T_ji_dB": -13.818571348345696,
+            "T_ij_dB": -13.742838177064982
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.07573317128071366,
+            "T_ji_dB": -13.818571348345696,
+            "T_ij_dB": -13.742838177064982
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            0.07573317128071366
+          ],
+          [
+            0.07573317128071366,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 0.07573317128071366,
+      "modal_reciprocity": null,
+      "power_matrix_dB": [
+        [
+          NaN,
+          -13.818571348345696
+        ],
+        [
+          -13.742838177064982,
+          NaN
+        ]
+      ],
+      "timings_s": {
+        "normalization": 0.0001607389422133565,
+        "simulate": 7.6129501380492,
+        "total": 7.6131108769914135
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_hz_line_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p01.pkl",
+      "norm_cache_hit": true
+    },
+    {
+      "formulation": "num_mode_hz_line",
+      "ports": [
+        1,
+        2
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 0.20800368105175693,
+        "max_abs_diff_dB": 0.20800368105175693,
+        "worst_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 0.20800368105175693,
+            "T_ji_dB": -13.04764382943427,
+            "T_ij_dB": -13.255647510486027
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 0.20800368105175693,
+            "T_ji_dB": -13.04764382943427,
+            "T_ij_dB": -13.255647510486027
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            0.20800368105175693
+          ],
+          [
+            0.20800368105175693,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 0.20800368105175693,
+      "modal_reciprocity": null,
+      "power_matrix_dB": [
+        [
+          NaN,
+          -13.04764382943427
+        ],
+        [
+          -13.255647510486027,
+          NaN
+        ]
+      ],
+      "timings_s": {
+        "normalization": 4.131302244029939,
+        "simulate": 7.767190236947499,
+        "total": 11.898492480977438
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_hz_line_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p12.pkl",
+      "norm_cache_hit": true
+    },
+    {
+      "formulation": "te1_hz_modal",
+      "ports": [
+        0,
+        1
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 0.48686266063197436,
+        "max_abs_diff_dB": 0.48686266063197436,
+        "worst_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.48686266063197436,
+            "T_ji_dB": 18.049117298139873,
+            "T_ij_dB": 17.5622546375079
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.48686266063197436,
+            "T_ji_dB": 18.049117298139873,
+            "T_ij_dB": 17.5622546375079
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            0.48686266063197436
+          ],
+          [
+            0.48686266063197436,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 0.48686266063197436,
+      "modal_reciprocity": {
+        "amp_ratio": 0.9763782390370579,
+        "amp_err_dB": -0.20763816910847965,
+        "phase_diff_deg": -1.1121204562635898,
+        "complex_sym_err": 0.030791139818644737,
+        "coeff_ab": {
+          "real": 3.017325718145897,
+          "imag": -6.92392468805391
+        },
+        "coeff_ba": {
+          "real": 3.227379807320805,
+          "imag": --7.03012115220820
+        }
+      },
+      "power_matrix_dB": [
+        [
+          32.064589550854414,
+          18.049117298139873
+        ],
+        [
+          17.5622546375079,
+          32.31322871151868
+        ]
+      ],
+      "timings_s": {
+        "normalization": 9.42259794101119e-05,
+        "simulate": 14.13499629998114,
+        "total": 14.13509052596055
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_hz_modal_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p01.pkl",
+      "norm_cache_hit": true
+    },
+    {
+      "formulation": "te1_hz_modal",
+      "ports": [
+        1,
+        2
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 30.988890658826442,
+        "max_abs_diff_dB": 30.988890658826442,
+        "worst_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 30.988890658826442,
+            "T_ji_dB": -12.518389417170862,
+            "T_ij_dB": 18.47050124165558
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 30.988890658826442,
+            "T_ji_dB": -12.518389417170862,
+            "T_ij_dB": 18.47050124165558
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            30.988890658826442
+          ],
+          [
+            30.988890658826442,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 30.988890658826442,
+      "modal_reciprocity": {
+        "amp_ratio": 0.9491612917186083,
+        "amp_err_dB": -0.4531996260301907,
+        "phase_diff_deg": 0.8225218151972393,
+        "complex_sym_err": 0.05410266949199153,
+        "coeff_ab": {
+          "real": 3.562324768379886,
+          "imag": -7.296944741423575
+        },
+        "coeff_ba": {
+          "real": 3.642382468217318,
+          "imag": -7.740866463843354
+        }
+      },
+      "power_matrix_dB": [
+        [
+          32.31322871151868,
+          -12.518389417170862
+        ],
+        [
+          18.47050124165558,
+          0.868589990353622
+        ]
+      ],
+      "timings_s": {
+        "normalization": 5.300229960004799,
+        "simulate": 14.465793922892772,
+        "total": 19.76602388289757
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_hz_modal_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p12.pkl",
+      "norm_cache_hit": true
+    },
+    {
+      "formulation": "num_mode_modal",
+      "ports": [
+        0,
+        1
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 0.672369439099036,
+        "max_abs_diff_dB": 0.672369439099036,
+        "worst_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.672369439099036,
+            "T_ji_dB": 36.28747745382866,
+            "T_ij_dB": 35.61510801472962
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 0,
+            "j": 1,
+            "label": "P1<->P2",
+            "abs_diff_dB": 0.672369439099036,
+            "T_ji_dB": 36.28747745382866,
+            "T_ij_dB": 35.61510801472962
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            0.672369439099036
+          ],
+          [
+            0.672369439099036,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 0.672369439099036,
+      "modal_reciprocity": {
+        "amp_ratio": 0.9569025533960663,
+        "amp_err_dB": -0.3826457309241573,
+        "phase_diff_deg": -1.1234634176705933,
+        "complex_sym_err": 0.04821185201665743,
+        "coeff_ab": {
+          "real": 60.13027635984604,
+          "imag": -5.23847974143067
+        },
+        "coeff_ba": {
+          "real": 62.93370975151277,
+          "imag": -4.241294635096051
+        }
+      },
+      "power_matrix_dB": [
+        [
+          50.099412808794824,
+          36.28747745382866
+        ],
+        [
+          35.61510801472962,
+          50.390525059468374
+        ]
+      ],
+      "timings_s": {
+        "normalization": 0.00013924890663474798,
+        "simulate": 13.480934667983092,
+        "total": 13.481073916889727
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_modal_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p01.pkl",
+      "norm_cache_hit": true
+    },
+    {
+      "formulation": "num_mode_modal",
+      "ports": [
+        1,
+        2
+      ],
+      "reciprocity": {
+        "mean_abs_diff_dB": 48.416175884079564,
+        "max_abs_diff_dB": 48.416175884079564,
+        "worst_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 48.416175884079564,
+            "T_ji_dB": -11.982560739208441,
+            "T_ij_dB": 36.43361514487112
+          }
+        ],
+        "all_pairs": [
+          {
+            "i": 1,
+            "j": 2,
+            "label": "P2<->P3",
+            "abs_diff_dB": 48.416175884079564,
+            "T_ji_dB": -11.982560739208441,
+            "T_ij_dB": 36.43361514487112
+          }
+        ],
+        "error_matrix_dB": [
+          [
+            NaN,
+            48.416175884079564
+          ],
+          [
+            48.416175884079564,
+            NaN
+          ]
+        ]
+      },
+      "max_abs_diff_dB": 48.416175884079564,
+      "modal_reciprocity": {
+        "amp_ratio": 0.9200393211096242,
+        "amp_err_dB": -0.723872223175734,
+        "phase_diff_deg": -0.5514034891440284,
+        "complex_sym_err": 0.08384385304798356,
+        "coeff_ab": {
+          "real": 63.995208875947725,
+          "imag": -4.40575191922807
+        },
+        "coeff_ba": {
+          "real": 69.59990006477821,
+          "imag": -4.119041235733576
+        }
+      },
+      "power_matrix_dB": [
+        [
+          50.390525059468374,
+          -11.982560739208441
+        ],
+        [
+          36.43361514487112,
+          1.2488733662095148
+        ]
+      ],
+      "timings_s": {
+        "normalization": 5.693733397056349,
+        "simulate": 14.71888443804346,
+        "total": 20.41261783509981
+      },
+      "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_modal_horns_only_prism_rot0_pec_g0_0_m0_0_res32_rt5_p12.pkl",
+      "norm_cache_hit": true
+    }
+  ]
+}
+ ]
+}
+
+  ]
+}
+

@@ -252,16 +252,14 @@ API docs: `outputs/validation/ports/HORN_API_PROPOSAL.md`
 
 ## 10. Single recommended next step
 
-**Implement port-specific numerical mode launch/measurement** on `horns_only` cheap tests:
+**Promote `num_mode_hz_line` (numerical launch + flux receiver)** for horns_only validation; tune full-device `run_time` before res96.
 
-1. Extract reference Hz profiles per orientation (`numerical_mode.py`; reuse ±60° symmetry where justified).
-2. Launch via numerical mode weights; receive via mode overlap (not total axis-aligned flux alone).
-3. Normalize each port to equal incident modal power.
-4. Re-test P1↔P2 reciprocity — target <0.2 dB with mode-consistent ports.
+1. Use cached `NumericalPortMode` profiles (`plasmeep/ports/mode_registry.py`) per res/geometry.
+2. Keep axis-aligned flux receiver (modal overlap receiver **not** production-ready).
+3. Re-validate full PMM at res64 with longer `run_time` (rt=20 gave 2.19 dB; horns_only passes at 0.076 dB).
+4. Modal receiver (`te1_hz_modal`, `num_mode_modal`) remains experimental.
 
-**Do not** continue global coordinate rotations or broad horn-wall searches unless direct Lorentz reciprocity regresses.
-
-EigenModeSource: viable only on simplified straight guides (`eigenmode_reference_guide.py`); use time-domain reference extraction for angled PEC horns.
+**Do not** return to horn-wall sweeps unless direct Lorentz reciprocity regresses.
 
 ---
 
@@ -276,7 +274,8 @@ See `MASTER_VALIDATION_REGISTRY.json` → `scripts` field. Key harness files:
 - `eigenmode_reference_guide.py` — straight-guide EigenModeSource viability
 - `reciprocity_b0_study.py` — pair runs → JSON
 - `run_horn_grid_study.py` — offset/resolution/candidate screening
-- `validation_registry.py` — consolidate JSON artifacts
+- `run_modal_port_ablation.py` — launch×receiver A/B study
+- `make_modal_port_figure.py` — before/after figure
 
 **Do not rerun:** te1_hz_line P1P2 res32–128 full device; measurement screen; Faraday res32/64; global rotation sweeps.
 
@@ -348,7 +347,7 @@ Artifacts: `outputs/validation/overnight/`
 Cached references: `outputs/validation/mode_profiles/res32/numerical_mode_P*.json`  
 Policy: `outputs/validation/overnight/CACHE_POLICY.md`
 
-**Best port-mode path:** time-domain reference extraction → cache `NumericalPortMode` → launch/measure via modal overlap (not axis-aligned total flux).
+**Best port-mode path (updated):** cache `NumericalPortMode` → launch via `num_mode_hz_line` → **keep flux receiver**. Modal overlap receiver degrades reciprocity on P2↔P3.
 
 ### Toward fast full circulator
 
@@ -356,6 +355,68 @@ Policy: `outputs/validation/overnight/CACHE_POLICY.md`
 2. Always **`--skip-norm-if-cached`** when cache key matches (res, rt, formulation, geometry offsets).
 3. **np=32 sequential** — never 2× concurrent np32 on this host.
 4. Next physics fix: wire `numerical_mode.py` into `port_formulations.py` — expected to close P1↔P2 gap without horn-wall sweeps.
-5. Dominant cost for inverse design will remain **per-port normalization × FDTD** — cache aggressively; avoid field HDF5 unless needed.
+5. Dominant cost for inverse design will remain **FDTD per source excitation** — cache norms + mode profiles; **rho/B changes do not invalidate port references at B=0**.
+
+---
+
+## 12. Numerical-mode port validation (2026-09-01)
+
+Artifacts: `outputs/validation/modal_ports/`, `plasmeep/ports/{numerical_launch,modal_receiver,mode_registry}.py`
+
+### A/B decomposition (horns_only, res32, rt=5, np=32)
+
+| Formulation | Launch | Receiver | P1↔P2 | P2↔P3 |
+|---|---|---:|---:|---:|
+| `te1_hz_line` | analytic TE1 | flux | **0.625 dB** | **0.000 dB** |
+| **`num_mode_hz_line`** | **numerical** | **flux** | **0.076 dB** | **0.208 dB** |
+| `te1_hz_modal` | analytic TE1 | modal overlap | 0.487 dB | 31 dB |
+| `num_mode_modal` | numerical | modal overlap | 0.672 dB | 48 dB |
+
+**Dominant error was launch, not measurement.** Numerical-mode excitation with existing flux receiver clears the P1↔P2 gate (<0.2 dB). Modal overlap receiver is **not** ready (especially P2↔P3).
+
+### Grid-offset robustness (`num_mode_hz_line`, P1↔P2)
+
+| grid offset (cells) | \|P12−P21\| |
+|---|---:|
+| (−0.5, 0) | 0.209 dB |
+| (0, 0) | **0.076 dB** |
+| (+0.5, 0) | 0.209 dB |
+
+Prior `te1_hz_line` range at res32: **0.05–0.79 dB** (~16×). Numerical launch reduces spread to **~2.7×** (0.076–0.209 dB).
+
+### Full device (res64, rt=20, P1↔P2)
+
+| Formulation | \|P12−P21\| |
+|---|---:|
+| `te1_hz_line` (prior) | ~0.38–1.03 dB |
+| `num_mode_hz_line` | **2.19 dB** |
+
+**Not satisfactory** — do not run res96. Likely needs longer `run_time` and/or horns_only-validated settings re-tuned with plasma present.
+
+### Normalization convention
+
+- Reference mode φₙ: L2-normalized discrete Hz profile from cached JSON (`mode_profile_study.py`).
+- Launch weights: `a_k = conj(φ_k) / ||φ||₂` (unit discrete power).
+- Flux receiver: unchanged axis-aligned `FluxRegion` + incident normalization from straight-guide reference run.
+- Modal receiver (experimental): `b = ⟨φ_n|H⟩` with unit-norm φ_n; `P = |b|² / P_inc`.
+
+### Cache invalidation (B=0 inverse design)
+
+| Quantity | Recompute when changing… |
+|---|---|
+| Numerical mode JSON | `res`, `fs_a`, horn geometry/offsets, `horn_walls` |
+| Source normalization pickle | `res`, `run_time`, formulation, geometry offsets |
+| **Not** required for inner loop | **91-element `rho` pattern** (linear plasma, fixed geometry, B=0) |
+
+### Production forward-eval cost estimate (np=32, cached)
+
+| Item | horns_only P1↔P2 rt=5 | full device P1↔P2 res64 rt=20 |
+|---|---:|---:|
+| Mode profiles (one-time / res) | ~50 s/port | ~90 s/port |
+| Norm cache (2 ports, first run) | ~9 s | ~included in 895 s |
+| Pair simulation (cached norms) | **~8–11 s** | **~895 s** |
+| Full 6×6 matrix (extrapolated) | ~6 × 11 s ≈ **1 min** | ~6 × 450 s ≈ **45 min** |
+
+Inner optimization loop: **only FDTD device runs** per `rho` once norms + modes cached.
 
 ---

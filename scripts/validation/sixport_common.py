@@ -631,12 +631,15 @@ def normalize_port(
         EIGENMODE_WALL_EPS,
         add_dft_sdotn_monitor,
         add_flux_monitor,
+        add_modal_overlap_monitor_for_port,
         extract_dft_sdotn_power,
         extract_eigenmode_powers,
+        extract_modal_powers,
         get_formulation,
         make_flux_region_for_formulation,
         port_measure_center,
         uses_finite_metal_walls,
+        uses_modal_measurement,
     )
 
     set_geometry_context(res=res)
@@ -706,8 +709,18 @@ def normalize_port(
             print("Running reference (DFT S·n)...")
         ref_sim.run(until_after_sources=run_time)
         signed_flux = extract_dft_sdotn_power(ref_sim, mon_info)
-        # Reference run: power into the guide toward -outward (into device for
-        # device ports). For a straight reference, expect negative outward flux.
+        incident_power = abs(signed_flux)
+        incident_data = None
+    elif form.measurement == "modal_overlap":
+        mon_info = add_modal_overlap_monitor_for_port(ref_sim, source_port)
+        if verbose:
+            print("Running reference (modal overlap)...")
+        ref_sim.run(until_after_sources=run_time)
+        from port_formulations import extract_modal_coefficients
+
+        coeff = extract_modal_coefficients(ref_sim, [mon_info])[0]
+        # Incident modal power uses |b|^2 with b = ⟨φ|H⟩ (φ unit norm).
+        signed_flux = float(np.real(coeff * np.conj(coeff)))
         incident_power = abs(signed_flux)
         incident_data = None
     else:
@@ -917,13 +930,17 @@ def simulate_circulator(
         EIGENMODE_WALL_EPS,
         add_dft_sdotn_monitor,
         add_flux_monitor,
+        add_modal_overlap_monitor_for_port,
         extract_dft_sdotn_power,
         extract_eigenmode_powers,
         extract_flux_powers,
+        extract_modal_coefficients,
+        extract_modal_powers,
         get_formulation,
         make_flux_region_for_formulation,
         port_measure_center,
         uses_finite_metal_walls,
+        uses_modal_measurement,
     )
 
     form = get_formulation(formulation)
@@ -961,8 +978,7 @@ def simulate_circulator(
             raise KeyError(
                 f"incident_cache missing port {p}; call ensure_normalizations first."
             )
-        # DFT formulations do not provide flux-subtraction data.
-        if form.measurement != "dft_sdotn" and p not in incident_flux_data_by_port:
+        if form.measurement not in ("dft_sdotn", "modal_overlap") and p not in incident_flux_data_by_port:
             raise KeyError(
                 f"incident_cache missing flux data for port {p}."
             )
@@ -989,6 +1005,7 @@ def simulate_circulator(
     )
 
     power_matrix = np.full((n_ports, n_ports), np.nan)
+    modal_coeff_matrix: Dict[tuple, complex] = {}
 
     for source_port in port_list:
         if verbose:
@@ -1003,6 +1020,7 @@ def simulate_circulator(
         monitors_i = []
         signs_i = []
         dft_infos = []
+        modal_infos = []
         for output_port in port_list:
             measure_xy = port_measure_center(form.name, output_port)
             if form.measurement == "dft_sdotn":
@@ -1013,6 +1031,14 @@ def simulate_circulator(
                 )
                 monitors_i.append(None)
                 signs_i.append(1.0)
+                modal_infos.append(None)
+            elif form.measurement == "modal_overlap":
+                modal_infos.append(
+                    add_modal_overlap_monitor_for_port(sim_i, output_port)
+                )
+                monitors_i.append(None)
+                signs_i.append(1.0)
+                dft_infos.append(None)
             else:
                 regions, sign = make_flux_region_for_formulation(
                     form.name,
@@ -1023,10 +1049,11 @@ def simulate_circulator(
                 monitors_i.append(monitor)
                 signs_i.append(sign)
                 dft_infos.append(None)
+                modal_infos.append(None)
 
         # Incident-field subtraction at SOURCE port (reflection on diagonal)
         src_local = local_index[source_port]
-        if form.measurement != "dft_sdotn":
+        if form.measurement not in ("dft_sdotn", "modal_overlap"):
             sim_i.load_minus_flux_data(
                 monitors_i[src_local],
                 incident_flux_data_by_port[source_port],
@@ -1036,10 +1063,14 @@ def simulate_circulator(
             print("Running Meep...")
         sim_i.run(until_after_sources=run_time)
 
+        modal_coeffs = None
         if form.measurement == "dft_sdotn":
             flux_i = np.array(
                 [extract_dft_sdotn_power(sim_i, info) for info in dft_infos]
             )
+        elif form.measurement == "modal_overlap":
+            modal_coeffs = extract_modal_coefficients(sim_i, modal_infos)
+            flux_i = np.array([float(np.real(c * np.conj(c))) for c in modal_coeffs])
         elif form.measurement == "eigenmode":
             flux_i = extract_eigenmode_powers(
                 sim_i, monitors_i, port_list, signs_i
@@ -1050,6 +1081,9 @@ def simulate_circulator(
         incident_i = incident_power_by_port[source_port]
         column_i = flux_i / incident_i
         power_matrix[:, src_local] = column_i
+        if modal_coeffs is not None:
+            for k, output_port in enumerate(port_list):
+                modal_coeff_matrix[(output_port, source_port)] = complex(modal_coeffs[k])
 
         if verbose:
             print(f"P{source_port + 1} column:")
@@ -1097,6 +1131,7 @@ def simulate_circulator(
         "ports": list(port_list),
         "power_matrix": power_matrix,
         "power_matrix_dB": power_matrix_dB,
+        "modal_coefficients": modal_coeff_matrix if modal_coeff_matrix else None,
         "objective": objective_result,
         "negative_entries": negative_entries,
         "res": int(res),

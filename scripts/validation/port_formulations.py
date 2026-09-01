@@ -50,6 +50,9 @@ FORMULATION_NAMES = (
     "te1_dft_sdotn",
     "baseline_guide_normal",
     "eigenmode",
+    "num_mode_hz_line",
+    "te1_hz_modal",
+    "num_mode_modal",
 )
 
 FluxSpec = Tuple[List[mp.FluxRegion], float]  # regions, outward_sign
@@ -235,6 +238,65 @@ def make_te1_ez_sources(
             )
         )
     return sources
+
+
+def uses_modal_measurement(formulation: str) -> bool:
+    return formulation in ("te1_hz_modal", "num_mode_modal")
+
+
+def make_numerical_mode_sources(
+    port_index: int,
+    frequency: Optional[float] = None,
+    fwidth: Optional[float] = None,
+) -> List[mp.Source]:
+    from plasmeep.ports.mode_registry import get_numerical_mode
+    from plasmeep.ports.numerical_launch import make_numerical_hz_sources, port_tangent
+
+    if frequency is None:
+        frequency = sc.fs_a
+    if fwidth is None:
+        fwidth = sc.source_df
+    res = sc.current_res()
+    mode = get_numerical_mode(port_index, res=res, frequency_a=frequency)
+    center = np.asarray(sc.horn_for_port(port_index, res)["source_center"], dtype=float)
+    tangent = port_tangent(sc.effective_port_dir(port_index))
+    return make_numerical_hz_sources(
+        mode,
+        center_xy=center,
+        tangent_xy=tangent,
+        frequency=frequency,
+        fwidth=fwidth,
+        target_power=1.0,
+    )
+
+
+def add_modal_overlap_monitor_for_port(
+    sim: mp.Simulation,
+    port_index: int,
+) -> Dict[str, Any]:
+    from plasmeep.ports.mode_registry import get_numerical_mode
+    from plasmeep.ports.modal_receiver import add_modal_overlap_monitor
+    from plasmeep.ports.numerical_launch import port_tangent
+
+    res = sc.current_res()
+    mode = get_numerical_mode(port_index, res=res, frequency_a=sc.fs_a)
+    center = sc.monitor_center_for_port(port_index, res)
+    tangent = port_tangent(sc.effective_port_dir(port_index))
+    return add_modal_overlap_monitor(
+        sim, center, tangent, mode, frequency=sc.fs_a
+    )
+
+
+def extract_modal_powers(sim, mon_infos: Sequence[Dict[str, Any]]) -> np.ndarray:
+    from plasmeep.ports.modal_receiver import extract_modal_power
+
+    return np.array([extract_modal_power(sim, info) for info in mon_infos])
+
+
+def extract_modal_coefficients(sim, mon_infos: Sequence[Dict[str, Any]]) -> np.ndarray:
+    from plasmeep.ports.modal_receiver import extract_modal_coefficient
+
+    return np.array([extract_modal_coefficient(sim, info) for info in mon_infos])
 
 
 def make_eigenmode_sources(
@@ -602,7 +664,7 @@ def extract_eigenmode_powers(
 @dataclass(frozen=True)
 class Formulation:
     name: str
-    measurement: str  # "flux" | "dft_sdotn" | "eigenmode"
+    measurement: str  # "flux" | "dft_sdotn" | "eigenmode" | "modal_overlap"
     make_sources: Callable[..., List[mp.Source]]
 
 
@@ -661,6 +723,21 @@ _REGISTRY: Dict[str, Formulation] = {
         name="eigenmode",
         measurement="flux",
         make_sources=make_eigenmode_sources,
+    ),
+    "num_mode_hz_line": Formulation(
+        name="num_mode_hz_line",
+        measurement="flux",
+        make_sources=make_numerical_mode_sources,
+    ),
+    "te1_hz_modal": Formulation(
+        name="te1_hz_modal",
+        measurement="modal_overlap",
+        make_sources=make_te1_hz_sources,
+    ),
+    "num_mode_modal": Formulation(
+        name="num_mode_modal",
+        measurement="modal_overlap",
+        make_sources=make_numerical_mode_sources,
     ),
 }
 

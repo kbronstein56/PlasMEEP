@@ -77,8 +77,13 @@ class NumericalPortMode:
         return weights * scale
 
     def receiver_coefficient(self, field: np.ndarray) -> complex:
-        """Mode overlap coefficient for a sampled Hz line field."""
-        return complex_overlap(self.normalized_field(), field)
+        """Mode overlap coefficient b = ⟨φ_n|H⟩ with unit-norm φ_n."""
+        field = np.asarray(field, dtype=complex).reshape(-1)
+        phi = self.normalized_field()
+        denom = float(np.sqrt(np.sum(np.abs(phi) ** 2)))
+        if denom <= 0:
+            return 0.0 + 0.0j
+        return complex(np.vdot(phi, field) / denom)
 
     def as_dict(self) -> Dict[str, Any]:
         return {

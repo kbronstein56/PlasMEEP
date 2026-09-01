@@ -15,7 +15,15 @@ from plasmeep.ports.lorentz_probe import (
   evaluate_lorentz_pair,
 )
 from plasmeep.ports.mode_profile import ModeLineProfile, overlap_metrics, te1_cos_amplitude
-from plasmeep.ports.numerical_mode import NumericalPortMode
+from plasmeep.ports.modal_receiver import (
+  add_modal_overlap_monitor,
+  extract_modal_coefficient,
+  extract_modal_power,
+  modal_coefficient_metrics,
+  sample_hz_line,
+)
+from plasmeep.ports.mode_registry import get_numerical_mode, resolve_numerical_mode
+from plasmeep.ports.numerical_launch import make_numerical_hz_sources, port_tangent
 
 __all__ = [
   "HornGeometry",
@@ -32,4 +40,12 @@ __all__ = [
   "overlap_metrics",
   "te1_cos_amplitude",
   "NumericalPortMode",
+  "get_numerical_mode",
+  "resolve_numerical_mode",
+  "make_numerical_hz_sources",
+  "port_tangent",
+  "add_modal_overlap_monitor",
+  "extract_modal_coefficient",
+  "extract_modal_power",
+  "modal_coefficient_metrics",
 ]

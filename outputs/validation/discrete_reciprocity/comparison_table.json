@@ -1,0 +1,47 @@
+[
+  {
+    "case": "compare_horns_only",
+    "geometry_material": "horns_only",
+    "point_amp_err_dB": 0.006337231537894595,
+    "discrete_amp_err_dB": 1.928654933106574e-15,
+    "point_complex_sym_err": 0.015196073225115967,
+    "discrete_complex_sym_err": 5.327594566599538e-16,
+    "mpi_ranks": 32
+  },
+  {
+    "case": "compare_quartz91",
+    "geometry_material": "quartz91",
+    "point_amp_err_dB": 0.12883034634229523,
+    "discrete_amp_err_dB": 0.0,
+    "point_complex_sym_err": 0.03282389127968901,
+    "discrete_complex_sym_err": 1.0638113972018615e-16,
+    "mpi_ranks": 32
+  },
+  {
+    "case": "compare_drude7",
+    "geometry_material": "drude7",
+    "point_amp_err_dB": 0.0737994043958703,
+    "discrete_amp_err_dB": 2.314385919727886e-14,
+    "point_complex_sym_err": 0.05253885094392776,
+    "discrete_complex_sym_err": 6.476380987527885e-15,
+    "mpi_ranks": 32
+  },
+  {
+    "case": "compare_drude91",
+    "geometry_material": "drude91",
+    "point_amp_err_dB": 0.5525545941462398,
+    "discrete_amp_err_dB": 1.2343391571881987e-13,
+    "point_complex_sym_err": 0.06401056284645752,
+    "discrete_complex_sym_err": 3.875553515878634e-14,
+    "mpi_ranks": 32
+  },
+  {
+    "case": "compare_drude91_rt20",
+    "geometry_material": "drude91",
+    "point_amp_err_dB": 1.4756534641768524,
+    "discrete_amp_err_dB": -1.0395450089445058e-12,
+    "point_complex_sym_err": 0.5719203425831939,
+    "discrete_complex_sym_err": 2.4105466440047985e-13,
+    "mpi_ranks": 32
+  }
+]

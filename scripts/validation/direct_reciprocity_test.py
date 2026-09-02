@@ -2,7 +2,7 @@
 """
 Direct Lorentz reciprocity test without port normalization.
 
-Supports material-complexity ladder cases for overnight B=0 diagnostics.
+Supports point-probe and matched discrete-overlap observables for B=0 diagnostics.
 """
 
 from __future__ import annotations
@@ -25,8 +25,12 @@ for p in (VAL, os.path.join(ROOT, "scripts")):
 
 from plasmeep.ports.lorentz_probe import (  # noqa: E402
     ProbeSites,
+    build_hz_grid_patch,
+    discrete_reciprocity_specification,
+    evaluate_discrete_reciprocity_pair,
     evaluate_lorentz_pair,
     lorentz_test_specification,
+    probe_sites_grid_audit,
 )
 from sixport_common import (  # noqa: E402
     a,
@@ -95,6 +99,86 @@ def _rank0() -> bool:
         return int(os.environ.get("OMPI_COMM_WORLD_RANK", os.environ.get("PMI_RANK", "0"))) == 0
 
 
+def _run_point_pair(
+    p_device,
+    pa: int,
+    pb: int,
+    *,
+    res: int,
+    run_time: float,
+) -> Dict[str, Any]:
+    pair = evaluate_lorentz_pair(
+        p_device,
+        _sites(pa, res),
+        _sites(pb, res),
+        res=res,
+        frequency=fs_a,
+        fwidth=source_df,
+        run_time=run_time,
+    )
+    d = pair.as_dict()
+    d["observable"] = "point"
+    d["fields_large_enough"] = d["abs_a_to_b"] > 1e-3 and d["abs_b_to_a"] > 1e-3
+    if _rank0():
+        print(f"  [point] H_{pa}->{pb} = {pair.a_to_b.hz_complex:.6g}", flush=True)
+        print(f"  [point] H_{pb}->{pa} = {pair.b_to_a.hz_complex:.6g}", flush=True)
+        print(
+            f"  [point] amp_err={pair.amp_err_dB:.4f} dB  "
+            f"phase={pair.phase_diff_deg:.2f}°  "
+            f"|dH|/mean|H|={pair.complex_sym_err:.4e}",
+            flush=True,
+        )
+    return d
+
+
+def _run_discrete_pair(
+    p_device,
+    pa: int,
+    pb: int,
+    *,
+    res: int,
+    run_time: float,
+    half_width_cells: int,
+    weight_kind: str,
+) -> Dict[str, Any]:
+    sites_a = _sites(pa, res)
+    sites_b = _sites(pb, res)
+    patch_a = build_hz_grid_patch(
+        sites_a.source_xy,
+        res=res,
+        half_width_cells=half_width_cells,
+        weight_kind=weight_kind,  # type: ignore[arg-type]
+        label=f"P{pa+1}_source",
+    )
+    patch_b = build_hz_grid_patch(
+        sites_b.source_xy,
+        res=res,
+        half_width_cells=half_width_cells,
+        weight_kind=weight_kind,  # type: ignore[arg-type]
+        label=f"P{pb+1}_source",
+    )
+    pair = evaluate_discrete_reciprocity_pair(
+        p_device,
+        patch_a,
+        patch_b,
+        frequency=fs_a,
+        fwidth=source_df,
+        run_time=run_time,
+    )
+    d = pair.as_dict()
+    d["observable"] = "discrete_overlap"
+    if _rank0():
+        print(f"  [discrete] G_{pa}->{pb} = {pair.a_to_b.response:.6g}", flush=True)
+        print(f"  [discrete] G_{pb}->{pa} = {pair.b_to_a.response:.6g}", flush=True)
+        print(
+            f"  [discrete] amp_err={pair.amp_err_dB:.4f} dB  "
+            f"phase={pair.phase_diff_deg:.2f}°  "
+            f"|dG|/mean|G|={pair.complex_sym_err:.4e}",
+            flush=True,
+        )
+    return d
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--res", type=int, default=32)
@@ -115,6 +199,15 @@ def main() -> int:
         default="auto",
         choices=["auto", "force_gyrotropic_b0"],
     )
+    parser.add_argument(
+        "--observable",
+        type=str,
+        default="both",
+        choices=["point", "discrete", "both"],
+        help="point probe, matched discrete overlap, or both",
+    )
+    parser.add_argument("--patch-half-width", type=int, default=1)
+    parser.add_argument("--patch-weights", type=str, default="uniform", choices=["uniform", "gaussian"])
     parser.add_argument("--label", type=str, default="")
     parser.add_argument("--json-out", type=str, default="")
     args = parser.parse_args()
@@ -141,6 +234,7 @@ def main() -> int:
     )
 
     probe_audit = []
+    grid_audit = []
     for port in sorted({p for pair in pairs for p in pair}):
         s = _sites(port, args.res)
         probe_audit.append(
@@ -152,41 +246,37 @@ def main() -> int:
                 "tangent": s.tangent.tolist(),
             }
         )
+        grid_audit.append(probe_sites_grid_audit(s, res=args.res))
 
     results: List[Dict[str, Any]] = []
     t0 = time.perf_counter()
     for pa, pb in pairs:
         if _rank0():
-            print(f"\n=== Lorentz pair P{pa+1}<->P{pb+1} ===", flush=True)
-        pair = evaluate_lorentz_pair(
-            p_device,
-            _sites(pa, args.res),
-            _sites(pb, args.res),
-            res=args.res,
-            frequency=fs_a,
-            fwidth=source_df,
-            run_time=args.run_time,
-        )
-        d = pair.as_dict()
-        d["fields_large_enough"] = (
-            d["abs_a_to_b"] > 1e-3 and d["abs_b_to_a"] > 1e-3
-        )
-        results.append(d)
-        if _rank0():
-            print(f"  H_{pa}->{pb} = {pair.a_to_b.hz_complex:.6g}", flush=True)
-            print(f"  H_{pb}->{pa} = {pair.b_to_a.hz_complex:.6g}", flush=True)
-            print(
-                f"  |H|={d['abs_a_to_b']:.4g},{d['abs_b_to_a']:.4g}  "
-                f"amp_err={pair.amp_err_dB:.4f} dB  "
-                f"phase={pair.phase_diff_deg:.2f}°  "
-                f"|dH|/mean|H|={pair.complex_sym_err:.4e}",
-                flush=True,
+            print(f"\n=== reciprocity pair P{pa+1}<->P{pb+1} ===", flush=True)
+        pair_result: Dict[str, Any] = {"port_a": pa, "port_b": pb}
+        if args.observable in ("point", "both"):
+            pair_result["point"] = _run_point_pair(
+                p_device, pa, pb, res=args.res, run_time=args.run_time
             )
+        if args.observable in ("discrete", "both"):
+            pair_result["discrete"] = _run_discrete_pair(
+                p_device,
+                pa,
+                pb,
+                res=args.res,
+                run_time=args.run_time,
+                half_width_cells=args.patch_half_width,
+                weight_kind=args.patch_weights,
+            )
+        results.append(pair_result)
 
     payload = {
         "label": args.label,
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "test_specification": lorentz_test_specification(),
+        "test_specification": {
+            "point": lorentz_test_specification(),
+            "discrete": discrete_reciprocity_specification(),
+        },
         "settings": {
             "res": args.res,
             "run_time": args.run_time,
@@ -196,6 +286,9 @@ def main() -> int:
             "plasma_fill": args.plasma_fill,
             "n_bulbs": args.n_bulbs,
             "susceptibility_mode": args.susceptibility_mode,
+            "observable": args.observable,
+            "patch_half_width_cells": args.patch_half_width,
+            "patch_weights": args.patch_weights,
             "a_m": a,
             "fs_a": fs_a,
             "fwidth_a": source_df,
@@ -204,6 +297,7 @@ def main() -> int:
             "wp_mean": float(np.mean(wp_values)) if len(wp_values) else 0.0,
         },
         "probe_sites": probe_audit,
+        "grid_audit": grid_audit,
         "mpi": _mpi_info(),
         "physical_resolution": physical_resolution_report(args.res),
         "timings_s": {"total": time.perf_counter() - t0},

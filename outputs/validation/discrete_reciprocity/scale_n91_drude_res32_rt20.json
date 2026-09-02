@@ -1,0 +1,458 @@
+{
+  "label": "scale_n91_drude_res32_rt20",
+  "timestamp_utc": "2026-09-02T08:35:38.437912+00:00",
+  "test_specification": {
+    "point": {
+      "observable": "complex Hz DFT at monitor point",
+      "source_type": "mp.Source with mp.GaussianSource, component=mp.Hz",
+      "source_amplitude": "1.0 (real, positive)",
+      "source_phase": "0 rad (Meep default)",
+      "receiver_component": "mp.Hz",
+      "reciprocity_relation": "For passive linear reciprocal 2D TE at B=0: H_AB should equal H_BA (same complex transfer when source/monitor roles swap). NOT H_AB = -H_BA (that would be odd symmetry).",
+      "swap_convention": "A excites at port_a source_center, measured at port_b monitor_center; then roles swap.",
+      "dft_frequency": "fs_a (single frequency, index 0)",
+      "timing": "sim.run(until_after_sources=run_time) \u2014 fixed duration after source turn-off",
+      "normalization": "none (raw complex Hz DFT coefficient)",
+      "small_field_warning": "If |H| < 1e-3, dB amplitude ratios are numerically fragile; check complex_sym_err and raw magnitudes."
+    },
+    "discrete": {
+      "observable": "weighted complex Hz DFT overlap on Yee grid DOFs",
+      "source_type": "mp.Source (GaussianSource) per patch DOF, amplitude=weight_k",
+      "receiver": "sum_k weight_k * Hz_DFT(x_k) on receiver patch DOFs",
+      "reciprocity_relation": "G_AB = G_BA for passive linear reciprocal media at B=0",
+      "grid_convention": "Hz at Yee cell centers (i+0.5)/res, (j+0.5)/res",
+      "interpolation": "none \u2014 sources and receivers use identical discrete coordinates",
+      "timing": "sim.run(until_after_sources=run_time)",
+      "normalization": "weights sum to 1 per patch"
+    }
+  },
+  "settings": {
+    "res": 32,
+    "run_time": 20.0,
+    "pairs": [
+      [
+        0,
+        1
+      ]
+    ],
+    "horn_walls": "prism",
+    "device_mode": "full",
+    "plasma_fill": "active",
+    "n_bulbs": 91,
+    "susceptibility_mode": "auto",
+    "observable": "both",
+    "patch_half_width_cells": 1,
+    "patch_weights": "uniform",
+    "a_m": 0.028,
+    "fs_a": 0.3595820946236079,
+    "fwidth_a": 0.03595820946236079,
+    "rho": "uniform_fp_8GHz",
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "wp_mean": 0.7471835732438608
+  },
+  "probe_sites": [
+    {
+      "port": 0,
+      "source_xy": [
+        8.03937644208728,
+        0.0
+      ],
+      "monitor_xy": [
+        7.182233584944424,
+        0.0
+      ],
+      "outward_dir": [
+        1.0,
+        -0.0
+      ],
+      "tangent": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "port": 1,
+      "source_xy": [
+        4.0196882210436415,
+        6.962304229433741
+      ],
+      "monitor_xy": [
+        3.591116792472213,
+        6.219996740475651
+      ],
+      "outward_dir": [
+        0.5000000000000001,
+        0.8660254037844385
+      ],
+      "tangent": [
+        -0.8660254037844386,
+        0.5000000000000002
+      ]
+    }
+  ],
+  "grid_audit": [
+    {
+      "port": 0,
+      "source": {
+        "requested_xy": [
+          8.03937644208728,
+          0.0
+        ],
+        "grid_xy": [
+          8.046875,
+          0.015625
+        ],
+        "cell_index": [
+          257,
+          0
+        ],
+        "fractional_offset_cells": [
+          -0.2399538532070551,
+          -0.5
+        ],
+        "component": "Hz (Yee cell center)"
+      },
+      "monitor": {
+        "requested_xy": [
+          7.182233584944424,
+          0.0
+        ],
+        "grid_xy": [
+          7.171875,
+          0.015625
+        ],
+        "cell_index": [
+          229,
+          0
+        ],
+        "fractional_offset_cells": [
+          0.33147471822155694,
+          -0.5
+        ],
+        "component": "Hz (Yee cell center)"
+      }
+    },
+    {
+      "port": 1,
+      "source": {
+        "requested_xy": [
+          4.0196882210436415,
+          6.962304229433741
+        ],
+        "grid_xy": [
+          4.015625,
+          6.953125
+        ],
+        "cell_index": [
+          128,
+          222
+        ],
+        "fractional_offset_cells": [
+          0.1300230733965293,
+          0.2937353418797102
+        ],
+        "component": "Hz (Yee cell center)"
+      },
+      "monitor": {
+        "requested_xy": [
+          3.591116792472213,
+          6.219996740475651
+        ],
+        "grid_xy": [
+          3.578125,
+          6.234375
+        ],
+        "cell_index": [
+          114,
+          199
+        ],
+        "fractional_offset_cells": [
+          0.4157373591108211,
+          -0.4601043047791791
+        ],
+        "component": "Hz (Yee cell center)"
+      }
+    }
+  ],
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "physical_resolution": {
+    "a_m": 0.028,
+    "a_cm": 2.8000000000000003,
+    "meep_resolution": 32.0,
+    "grid_spacing_a": 0.03125,
+    "grid_spacing_mm": 0.875,
+    "pixels_per_cm": 11.428571428571427,
+    "pixels_per_lattice_20mm": 22.857142857142858,
+    "pixels_per_free_space_lambda0": 88.99219532467534,
+    "lambda0_mm": 77.86817090909092
+  },
+  "timings_s": {
+    "total": 25.093196766916662
+  },
+  "pairs": [
+    {
+      "port_a": 0,
+      "port_b": 1,
+      "point": {
+        "port_a": 0,
+        "port_b": 1,
+        "a_to_b_hz": {
+          "real": 1.3581248269277215,
+          "imag": -0.411124594074034
+        },
+        "b_to_a_hz": {
+          "real": 1.271569350204295,
+          "imag": -0.3950739451468199
+        },
+        "abs_a_to_b": 1.4189878355257288,
+        "abs_b_to_a": 1.3315299600507853,
+        "amp_ratio": 1.0656822438089248,
+        "amp_err_dB": 0.5525545941462398,
+        "phase_diff_deg": 0.418065769326552,
+        "complex_sym_err": 0.06401056284645752,
+        "source_a_xy": [
+          8.03937644208728,
+          0.0
+        ],
+        "monitor_b_xy": [
+          3.591116792472213,
+          6.219996740475651
+        ],
+        "source_b_xy": [
+          4.0196882210436415,
+          6.962304229433741
+        ],
+        "monitor_a_xy": [
+          7.182233584944424,
+          0.0
+        ],
+        "observable": "point",
+        "fields_large_enough": true
+      },
+      "discrete": {
+        "patch_a": {
+          "label": "P1_source",
+          "requested_center": [
+            8.03937644208728,
+            0.0
+          ],
+          "half_width_cells": 1,
+          "res": 32,
+          "n_dofs": 9,
+          "coords": [
+            [
+              8.015625,
+              -0.015625
+            ],
+            [
+              8.015625,
+              0.015625
+            ],
+            [
+              8.015625,
+              0.046875
+            ],
+            [
+              8.046875,
+              -0.015625
+            ],
+            [
+              8.046875,
+              0.015625
+            ],
+            [
+              8.046875,
+              0.046875
+            ],
+            [
+              8.078125,
+              -0.015625
+            ],
+            [
+              8.078125,
+              0.015625
+            ],
+            [
+              8.078125,
+              0.046875
+            ]
+          ],
+          "weights": [
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111
+          ],
+          "cell_indices": [
+            [
+              256,
+              -1
+            ],
+            [
+              256,
+              0
+            ],
+            [
+              256,
+              1
+            ],
+            [
+              257,
+              -1
+            ],
+            [
+              257,
+              0
+            ],
+            [
+              257,
+              1
+            ],
+            [
+              258,
+              -1
+            ],
+            [
+              258,
+              0
+            ],
+            [
+              258,
+              1
+            ]
+          ]
+        },
+        "patch_b": {
+          "label": "P2_source",
+          "requested_center": [
+            4.0196882210436415,
+            6.962304229433741
+          ],
+          "half_width_cells": 1,
+          "res": 32,
+          "n_dofs": 9,
+          "coords": [
+            [
+              3.984375,
+              6.921875
+            ],
+            [
+              3.984375,
+              6.953125
+            ],
+            [
+              3.984375,
+              6.984375
+            ],
+            [
+              4.015625,
+              6.921875
+            ],
+            [
+              4.015625,
+              6.953125
+            ],
+            [
+              4.015625,
+              6.984375
+            ],
+            [
+              4.046875,
+              6.921875
+            ],
+            [
+              4.046875,
+              6.953125
+            ],
+            [
+              4.046875,
+              6.984375
+            ]
+          ],
+          "weights": [
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111,
+            0.1111111111111111
+          ],
+          "cell_indices": [
+            [
+              127,
+              221
+            ],
+            [
+              127,
+              222
+            ],
+            [
+              127,
+              223
+            ],
+            [
+              128,
+              221
+            ],
+            [
+              128,
+              222
+            ],
+            [
+              128,
+              223
+            ],
+            [
+              129,
+              221
+            ],
+            [
+              129,
+              222
+            ],
+            [
+              129,
+              223
+            ]
+          ]
+        },
+        "g_a_to_b": {
+          "real": -0.34570162969704177,
+          "imag": 1.197320876046115
+        },
+        "g_b_to_a": {
+          "real": -0.3457016296969937,
+          "imag": 1.1973208760461103
+        },
+        "abs_g_a_to_b": 1.2462290708336998,
+        "abs_g_b_to_a": 1.246229070833682,
+        "amp_ratio": 1.0000000000000142,
+        "amp_err_dB": 1.2343391571881987e-13,
+        "phase_diff_deg": 2.060999433588359e-12,
+        "complex_sym_err": 3.875553515878634e-14,
+        "fields_large_enough": true,
+        "observable": "discrete_overlap"
+      }
+    }
+  ]
+}

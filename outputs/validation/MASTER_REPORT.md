@@ -499,6 +499,69 @@ Harness: `run_lorentz_overnight_campaign.py`, `direct_reciprocity_test.py`, `mpi
 | `num_mode_hz_line` port metric | ~2.2 dB |
 | Port-only excess | ~0.7 dB |
 
-**Do not promote `num_mode_hz_line`.** Resolve PMM-array reciprocity / discretization before port tuning. Horns_only numerical launch (0.076 dB) remains valid for empty-horn validation only.
+**Do not promote `num_mode_hz_line`.** §14 supersedes the §13 root-cause conclusion: point-probe failure is a sampling artifact, not FDTD nonreciprocity. Horns_only numerical launch (0.076 dB) remains valid for empty-horn validation only.
+
+---
+
+## 14. Matched discrete-overlap reciprocity (2026-09-02)
+
+Artifacts: `outputs/validation/discrete_reciprocity/` (`campaign_summary.json`, `comparison_table.json`)
+
+Harness: `run_discrete_reciprocity_campaign.py`, extended `direct_reciprocity_test.py`, `lorentz_probe.py` (`evaluate_reciprocity_pair`, `build_hz_grid_patch`)
+
+### Method
+
+Replaces point-source → point-probe with **matched 3×3 Hz Yee-grid patches** (half_width=1, uniform weights):
+
+- Sources: `mp.Source` per patch DOF at exact cell centers `(i+0.5)/res`
+- Receiver: block DFT weighted overlap on the same DOFs (no continuous interpolation)
+
+### Point vs matched discrete (P1↔P2, rt=20, np=32)
+
+| Geometry / material | Point test | Matched discrete test |
+|---|---:|---:|
+| horns_only (res32) | **0.006 dB** | **~0 dB** |
+| quartz 91 bulbs (res32) | 0.129 dB | **~0 dB** |
+| scalar Drude 7 bulbs (res32) | 0.074 dB | **~0 dB** |
+| scalar Drude 91 bulbs (res32) | **0.553 dB** | **~0 dB** |
+| scalar Drude 91 bulbs (**res64**) | **1.476 dB** | **~0 dB** |
+
+### Bulb-count scaling (point vs discrete, res32)
+
+| n bulbs | Point (dB) | Discrete (dB) |
+|---:|---:|---:|
+| 0 (horns) | 0.006 | ~0 |
+| 1 | 0.079 | ~0 |
+| 7 | 0.074 | ~0 |
+| 19 | 0.503 | ~0 |
+| 37 | −0.163 | ~0 |
+| 91 | **0.553** | **~0** |
+
+Point error grows erratically with scatterer count; discrete error stays at machine precision throughout.
+
+### Grid-location audit
+
+Legacy point probes are **off the Hz Yee grid** (fractional offsets up to **±0.5 cells**). Example P1 (91-bulb case):
+
+| Site | fractional offset (cells) |
+|---|---|
+| P1 source | (−0.24, −0.50) |
+| P1 monitor | (+0.33, −0.50) |
+| P2 source | (+0.13, +0.29) |
+| P2 monitor | (+0.42, −0.46) |
+
+Meep interpolates continuous source/monitor coordinates; in a 91-element scattering environment this breaks the symmetric discrete Green-function test even though the underlying FDTD system remains reciprocal.
+
+### Conclusion
+
+**Does the 91-element B=0 Drude system violate discrete reciprocity?** **No.**
+
+**Was the ~0.55–1.48 dB point-test failure real?** **No** — it was caused by **how the reciprocal response was sampled** (off-grid point interpolation amplified by multiple scattering), not by GyrotropicDrude, scalar Drude physics, or dispersive FDTD nonreciprocity at B=0.
+
+### Next steps
+
+1. Use `evaluate_reciprocity_pair(..., observable='discrete')` as the canonical direct reciprocity check.
+2. Revisit full-device `num_mode_hz_line` port development — the ~1.5 dB “fundamental” direct-Lorentz term is removed.
+3. Port receivers should likewise be anchored to Yee-grid DOFs where possible.
 
 ---

@@ -12,7 +12,9 @@ from plasmeep.ports.horn import (
 from plasmeep.ports.lorentz_probe import (
   LorentzPairResult,
   ProbeSites,
+  evaluate_discrete_reciprocity_pair,
   evaluate_lorentz_pair,
+  evaluate_reciprocity_pair,
 )
 from plasmeep.ports.mode_profile import ModeLineProfile, overlap_metrics, te1_cos_amplitude
 from plasmeep.ports.modal_receiver import (
@@ -35,7 +37,9 @@ __all__ = [
   "translate_legacy_horn",
   "LorentzPairResult",
   "ProbeSites",
+  "evaluate_discrete_reciprocity_pair",
   "evaluate_lorentz_pair",
+  "evaluate_reciprocity_pair",
   "ModeLineProfile",
   "overlap_metrics",
   "te1_cos_amplitude",

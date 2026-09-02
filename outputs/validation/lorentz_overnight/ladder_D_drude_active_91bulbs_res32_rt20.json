@@ -1,0 +1,142 @@
+{
+  "label": "ladder_D_drude_active_91bulbs_res32_rt20",
+  "timestamp_utc": "2026-09-02T07:35:20.948395+00:00",
+  "test_specification": {
+    "observable": "complex Hz DFT at monitor point",
+    "source_type": "mp.Source with mp.GaussianSource, component=mp.Hz",
+    "source_amplitude": "1.0 (real, positive)",
+    "source_phase": "0 rad (Meep default)",
+    "receiver_component": "mp.Hz",
+    "reciprocity_relation": "For passive linear reciprocal 2D TE at B=0: H_AB should equal H_BA (same complex transfer when source/monitor roles swap). NOT H_AB = -H_BA (that would be odd symmetry).",
+    "swap_convention": "A excites at port_a source_center, measured at port_b monitor_center; then roles swap.",
+    "dft_frequency": "fs_a (single frequency, index 0)",
+    "timing": "sim.run(until_after_sources=run_time) \u2014 fixed duration after source turn-off",
+    "normalization": "none (raw complex Hz DFT coefficient)",
+    "small_field_warning": "If |H| < 1e-3, dB amplitude ratios are numerically fragile; check complex_sym_err and raw magnitudes."
+  },
+  "settings": {
+    "res": 32,
+    "run_time": 20.0,
+    "pairs": [
+      [
+        0,
+        1
+      ]
+    ],
+    "horn_walls": "prism",
+    "device_mode": "full",
+    "plasma_fill": "active",
+    "n_bulbs": null,
+    "susceptibility_mode": "auto",
+    "a_m": 0.028,
+    "fs_a": 0.3595820946236079,
+    "fwidth_a": 0.03595820946236079,
+    "rho": "uniform_fp_8GHz",
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "wp_mean": 0.7471835732438608
+  },
+  "probe_sites": [
+    {
+      "port": 0,
+      "source_xy": [
+        8.03937644208728,
+        0.0
+      ],
+      "monitor_xy": [
+        7.182233584944424,
+        0.0
+      ],
+      "outward_dir": [
+        1.0,
+        -0.0
+      ],
+      "tangent": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "port": 1,
+      "source_xy": [
+        4.0196882210436415,
+        6.962304229433741
+      ],
+      "monitor_xy": [
+        3.591116792472213,
+        6.219996740475651
+      ],
+      "outward_dir": [
+        0.5000000000000001,
+        0.8660254037844385
+      ],
+      "tangent": [
+        -0.8660254037844386,
+        0.5000000000000002
+      ]
+    }
+  ],
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "physical_resolution": {
+    "a_m": 0.028,
+    "a_cm": 2.8000000000000003,
+    "meep_resolution": 32.0,
+    "grid_spacing_a": 0.03125,
+    "grid_spacing_mm": 0.875,
+    "pixels_per_cm": 11.428571428571427,
+    "pixels_per_lattice_20mm": 22.857142857142858,
+    "pixels_per_free_space_lambda0": 88.99219532467534,
+    "lambda0_mm": 77.86817090909092
+  },
+  "timings_s": {
+    "total": 10.701110528083518
+  },
+  "pairs": [
+    {
+      "port_a": 0,
+      "port_b": 1,
+      "a_to_b_hz": {
+        "real": 1.3581248269277215,
+        "imag": -0.411124594074034
+      },
+      "b_to_a_hz": {
+        "real": 1.271569350204295,
+        "imag": -0.3950739451468199
+      },
+      "abs_a_to_b": 1.4189878355257288,
+      "abs_b_to_a": 1.3315299600507853,
+      "amp_ratio": 1.0656822438089248,
+      "amp_err_dB": 0.5525545941462398,
+      "phase_diff_deg": 0.418065769326552,
+      "complex_sym_err": 0.06401056284645752,
+      "source_a_xy": [
+        8.03937644208728,
+        0.0
+      ],
+      "monitor_b_xy": [
+        3.591116792472213,
+        6.219996740475651
+      ],
+      "source_b_xy": [
+        4.0196882210436415,
+        6.962304229433741
+      ],
+      "monitor_a_xy": [
+        7.182233584944424,
+        0.0
+      ],
+      "fields_large_enough": true
+    }
+  ]
+}

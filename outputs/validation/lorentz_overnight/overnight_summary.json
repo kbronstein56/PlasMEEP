@@ -1,0 +1,154 @@
+{
+  "timestamp_utc": "2026-09-02T07:47:21.335758+00:00",
+  "mpi_ranks": 32,
+  "phases": {
+    "material_ladder_res32": [
+      {
+        "label": "ladder_A_horns_only_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_A_horns_only_res32_rt20.json",
+        "amp_err_dB": 0.006337231537894595,
+        "abs_a_to_b": 0.9655925012005698,
+        "abs_b_to_a": 0.9648882611320542,
+        "mpi_ranks": 32
+      },
+      {
+        "label": "ladder_B_geometry_91bulbs_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_B_geometry_91bulbs_res32_rt20.json",
+        "amp_err_dB": 0.12883034634229523,
+        "abs_a_to_b": 1.2269543532431333,
+        "abs_b_to_a": 1.208890287905016,
+        "mpi_ranks": 32
+      },
+      {
+        "label": "ladder_C_dielectric_91bulbs_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_C_dielectric_91bulbs_res32_rt20.json",
+        "amp_err_dB": 0.08525582643172733,
+        "abs_a_to_b": 1.439747768370592,
+        "abs_b_to_a": 1.4256851392397412,
+        "mpi_ranks": 32
+      },
+      {
+        "label": "ladder_D_drude_active_1bulb_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_D_drude_active_1bulb_res32_rt20.json",
+        "amp_err_dB": 0.07873560148091391,
+        "abs_a_to_b": 1.094833286243284,
+        "abs_b_to_a": 1.0849537187560023,
+        "mpi_ranks": 32
+      },
+      {
+        "label": "ladder_D_drude_active_7bulbs_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_D_drude_active_7bulbs_res32_rt20.json",
+        "amp_err_dB": 0.0737994043958703,
+        "abs_a_to_b": 1.5233974827489125,
+        "abs_b_to_a": 1.5105088127340476,
+        "mpi_ranks": 32
+      },
+      {
+        "label": "ladder_D_drude_active_91bulbs_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_D_drude_active_91bulbs_res32_rt20.json",
+        "amp_err_dB": 0.5525545941462398,
+        "abs_a_to_b": 1.4189878355257288,
+        "abs_b_to_a": 1.3315299600507853,
+        "mpi_ranks": 32
+      },
+      {
+        "label": "ladder_E_gyrotropic_b0_1bulb_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_E_gyrotropic_b0_1bulb_res32_rt20.json",
+        "amp_err_dB": 0.07873560148091391,
+        "abs_a_to_b": 1.094833286243284,
+        "abs_b_to_a": 1.0849537187560023,
+        "mpi_ranks": 32
+      },
+      {
+        "label": "ladder_E_gyrotropic_b0_91bulbs_res32_rt20",
+        "skipped": true,
+        "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_E_gyrotropic_b0_91bulbs_res32_rt20.json",
+        "amp_err_dB": 0.5525545941462398,
+        "abs_a_to_b": 1.4189878355257288,
+        "abs_b_to_a": 1.3315299600507853,
+        "mpi_ranks": 32
+      }
+    ]
+  },
+  "comparison_table": [
+    {
+      "label": "ladder_A_horns_only_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_A_horns_only_res32_rt20.json",
+      "amp_err_dB": 0.006337231537894595,
+      "abs_a_to_b": 0.9655925012005698,
+      "abs_b_to_a": 0.9648882611320542,
+      "mpi_ranks": 32
+    },
+    {
+      "label": "ladder_B_geometry_91bulbs_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_B_geometry_91bulbs_res32_rt20.json",
+      "amp_err_dB": 0.12883034634229523,
+      "abs_a_to_b": 1.2269543532431333,
+      "abs_b_to_a": 1.208890287905016,
+      "mpi_ranks": 32
+    },
+    {
+      "label": "ladder_C_dielectric_91bulbs_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_C_dielectric_91bulbs_res32_rt20.json",
+      "amp_err_dB": 0.08525582643172733,
+      "abs_a_to_b": 1.439747768370592,
+      "abs_b_to_a": 1.4256851392397412,
+      "mpi_ranks": 32
+    },
+    {
+      "label": "ladder_D_drude_active_1bulb_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_D_drude_active_1bulb_res32_rt20.json",
+      "amp_err_dB": 0.07873560148091391,
+      "abs_a_to_b": 1.094833286243284,
+      "abs_b_to_a": 1.0849537187560023,
+      "mpi_ranks": 32
+    },
+    {
+      "label": "ladder_D_drude_active_7bulbs_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_D_drude_active_7bulbs_res32_rt20.json",
+      "amp_err_dB": 0.0737994043958703,
+      "abs_a_to_b": 1.5233974827489125,
+      "abs_b_to_a": 1.5105088127340476,
+      "mpi_ranks": 32
+    },
+    {
+      "label": "ladder_D_drude_active_91bulbs_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_D_drude_active_91bulbs_res32_rt20.json",
+      "amp_err_dB": 0.5525545941462398,
+      "abs_a_to_b": 1.4189878355257288,
+      "abs_b_to_a": 1.3315299600507853,
+      "mpi_ranks": 32
+    },
+    {
+      "label": "ladder_E_gyrotropic_b0_1bulb_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_E_gyrotropic_b0_1bulb_res32_rt20.json",
+      "amp_err_dB": 0.07873560148091391,
+      "abs_a_to_b": 1.094833286243284,
+      "abs_b_to_a": 1.0849537187560023,
+      "mpi_ranks": 32
+    },
+    {
+      "label": "ladder_E_gyrotropic_b0_91bulbs_res32_rt20",
+      "skipped": true,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/lorentz_overnight/ladder_E_gyrotropic_b0_91bulbs_res32_rt20.json",
+      "amp_err_dB": 0.5525545941462398,
+      "abs_a_to_b": 1.4189878355257288,
+      "abs_b_to_a": 1.3315299600507853,
+      "mpi_ranks": 32
+    }
+  ]
+}

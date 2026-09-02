@@ -436,6 +436,69 @@ Inner optimization loop: **only FDTD device runs** per `rho` once norms + modes 
 | Mode profiles (one-time / res, 6 ports) | ~50 s/port | ~90 s/port |
 | Norm cache (2 ports, first run) | ~9 s | ~270 s (rt=10) |
 | Pair simulation (cached norms) | **~8–11 s** | **~450–900 s** (rt-dependent) |
-| Full 6×6 matrix (extrapolated) | ~6 × 11 s ≈ **1 min** | TBD after min safe rt |
+---
+
+## 13. Overnight direct-Lorentz diagnostic (2026-09-02)
+
+Artifacts: `outputs/validation/lorentz_overnight/` (`overnight_summary.json`, `comparison_table.json`)
+
+Harness: `run_lorentz_overnight_campaign.py`, `direct_reciprocity_test.py`, `mpi_runner.py` (np=32 verified)
+
+### Phase 1 — Test audit
+
+| Item | Value |
+|---|---|
+| Source | `mp.Source` + `GaussianSource`, **Hz**, amplitude **1.0** (real) |
+| Receiver | complex **Hz** DFT at monitor point, frequency `fs_a` |
+| Reciprocity relation | **H_AB = H_BA** (passive linear reciprocal TE, B=0) |
+| Timing | `until_after_sources=run_time` (fixed, no decay stop) |
+| Fields large enough? | **Yes** at res32 (\|H\|≈0.97–1.5); res64 \|H\|≈0.09–0.11 still >1e-3 |
+
+### Answers to morning questions
+
+1. **Is 1.48 dB real or test artifact?** **Real** — observable is documented; fields are not near null at res32. At res64 fields are smaller but still above threshold; error is larger (1.48 dB), not a ratio-of-noise artifact.
+
+2. **Does direct reciprocity converge with runtime?** **No** (res32, full active): 0.445 → 0.452 → 0.553 → 0.606 dB for rt=5/10/20/40. Stabilizes ~0.45–0.6 dB, not 0.006 dB.
+
+3. **Where does failure first appear?** **91-bulb quartz geometry alone → 0.13 dB**. Active Drude 1–7 bulbs → ~0.07–0.08 dB. **91-bulb active Drude → 0.55 dB** (res32). Partial-array tests are position-dependent (non-monotonic with index-ordered bulb count).
+
+4. **Does quartz/simple dielectric pass?** **Mostly** — geometry_only 0.13 dB; dielectric_fill 0.085 dB at 91 bulbs.
+
+5. **Does scalar Drude pass?** **Small arrays yes** (~0.08 dB for 1 bulb); **full 91-bulb array no** (0.55 dB res32).
+
+6. **Does GyrotropicDrude(B=0) pass?** **Identical to scalar Drude** — forced gyrotropic path gives bit-identical results at 1 and 91 bulbs. **Not a GyrotropicDrude B=0 implementation bug.**
+
+7. **Scalar vs gyrotropic difference?** **None observed** — at B=0 library already uses `DrudeSusceptibility`; forced gyrotropic matches exactly.
+
+8. **Fields numerically meaningful?** **Yes** at res32. Res64 \|H\|≈0.1 — monitorable but lower dynamic range.
+
+9. **Smallest reproducible failing case?** **91-bulb active plasma array** at res32 (0.55 dB). Geometry-only 91 bulbs is milder (0.13 dB).
+
+10. **Supported hypothesis?** Cumulative **dispersive 91-element PMM array** breaks approximate reciprocity of the localized Hz Green's function test at finite resolution — **not** port normalization, **not** GyrotropicDrude B=0, **not** insufficient runtime. res64 amplifies error (1.48 dB). Port metric adds ~0.7 dB more on top.
+
+11. **Fastest validated config?** **res32, np=32, rt=20, P1↔P2 direct Lorentz** (~10–15 s/case). Full ladder completes in ~15 min.
+
+### Material-complexity ladder (res32, rt=20, np=32)
+
+| Case | amp err (dB) | \|H_AB\| | \|H_BA\| |
+|---|---:|---:|---:|
+| horns_only | **0.006** | 0.966 | 0.965 |
+| geometry_91 (wp=0) | 0.129 | 1.227 | 1.209 |
+| dielectric_91 | 0.085 | 1.440 | 1.426 |
+| Drude 1 bulb | 0.079 | 1.095 | 1.085 |
+| Drude 7 bulbs | 0.074 | 1.523 | 1.511 |
+| Drude 91 bulbs | **0.553** | 1.419 | 1.332 |
+| Gyrotropic B=0 91 | **0.553** (same) | — | — |
+| full active **res64** | **1.476** | 0.109 | 0.092 |
+
+### Decomposition (unchanged)
+
+| Layer | P1↔P2 error |
+|---|---:|
+| Direct Lorentz (full res64) | ~1.5 dB |
+| `num_mode_hz_line` port metric | ~2.2 dB |
+| Port-only excess | ~0.7 dB |
+
+**Do not promote `num_mode_hz_line`.** Resolve PMM-array reciprocity / discretization before port tuning. Horns_only numerical launch (0.076 dB) remains valid for empty-horn validation only.
 
 ---

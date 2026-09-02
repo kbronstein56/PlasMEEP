@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Direct Lorentz reciprocity test (horns_only, B=0) without port normalization.
+Direct Lorentz reciprocity test without port normalization.
 
-Compares complex Hz transfer for swapped localized point sources at two ports.
+Supports material-complexity ladder cases for overnight B=0 diagnostics.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import os
 import sys
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 
@@ -26,18 +26,19 @@ for p in (VAL, os.path.join(ROOT, "scripts")):
 from plasmeep.ports.lorentz_probe import (  # noqa: E402
     ProbeSites,
     evaluate_lorentz_pair,
+    lorentz_test_specification,
 )
 from sixport_common import (  # noqa: E402
     a,
     build_circulator_device,
     default_uniform_rho,
+    effective_port_dir,
     fs_a,
     horn_for_port,
     monitor_center_for_port,
     physical_resolution_report,
     set_geometry_context,
     source_df,
-    effective_port_dir,
 )
 
 
@@ -85,18 +86,36 @@ def _mpi_info() -> Dict[str, Any]:
         }
 
 
+def _rank0() -> bool:
+    try:
+        from mpi4py import MPI
+
+        return int(MPI.COMM_WORLD.Get_rank()) == 0
+    except Exception:
+        return int(os.environ.get("OMPI_COMM_WORLD_RANK", os.environ.get("PMI_RANK", "0"))) == 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--res", type=int, default=32)
-    parser.add_argument("--run-time", type=float, default=40.0)
-    parser.add_argument("--pairs", type=str, default="0,1;1,2")
+    parser.add_argument("--run-time", type=float, default=20.0)
+    parser.add_argument("--pairs", type=str, default="0,1")
     parser.add_argument("--horn-walls", type=str, default="prism")
+    parser.add_argument("--device-mode", type=str, default="horns_only", choices=["full", "horns_only"])
     parser.add_argument(
-        "--device-mode",
+        "--plasma-fill",
         type=str,
-        default="horns_only",
-        choices=["full", "horns_only"],
+        default="active",
+        choices=["active", "geometry_only", "dielectric_fill"],
     )
+    parser.add_argument("--n-bulbs", type=int, default=None)
+    parser.add_argument(
+        "--susceptibility-mode",
+        type=str,
+        default="auto",
+        choices=["auto", "force_gyrotropic_b0"],
+    )
+    parser.add_argument("--label", type=str, default="")
     parser.add_argument("--json-out", type=str, default="")
     args = parser.parse_args()
 
@@ -111,14 +130,34 @@ def main() -> int:
 
     rho = default_uniform_rho()
     B = np.zeros(3)
-    _pmm, p_device, _ = build_circulator_device(
-        rho, B, res=args.res, device_mode=args.device_mode
+    _pmm, p_device, wp_values = build_circulator_device(
+        rho,
+        B,
+        res=args.res,
+        device_mode=args.device_mode,
+        plasma_fill=args.plasma_fill,
+        n_bulbs=args.n_bulbs,
+        susceptibility_mode=args.susceptibility_mode,
     )
+
+    probe_audit = []
+    for port in sorted({p for pair in pairs for p in pair}):
+        s = _sites(port, args.res)
+        probe_audit.append(
+            {
+                "port": port,
+                "source_xy": s.source_xy.tolist(),
+                "monitor_xy": s.monitor_xy.tolist(),
+                "outward_dir": s.outward_dir.tolist(),
+                "tangent": s.tangent.tolist(),
+            }
+        )
 
     results: List[Dict[str, Any]] = []
     t0 = time.perf_counter()
     for pa, pb in pairs:
-        print(f"\n=== Lorentz pair P{pa+1}<->P{pb+1} ===", flush=True)
+        if _rank0():
+            print(f"\n=== Lorentz pair P{pa+1}<->P{pb+1} ===", flush=True)
         pair = evaluate_lorentz_pair(
             p_device,
             _sites(pa, args.res),
@@ -129,34 +168,42 @@ def main() -> int:
             run_time=args.run_time,
         )
         d = pair.as_dict()
+        d["fields_large_enough"] = (
+            d["abs_a_to_b"] > 1e-3 and d["abs_b_to_a"] > 1e-3
+        )
         results.append(d)
-        print(
-            f"  H_{pa}->{pb} = {pair.a_to_b.hz_complex:.6g}",
-            flush=True,
-        )
-        print(
-            f"  H_{pb}->{pa} = {pair.b_to_a.hz_complex:.6g}",
-            flush=True,
-        )
-        print(
-            f"  amp_err={pair.amp_err_dB:.4f} dB  "
-            f"phase_diff={pair.phase_diff_deg:.3f} deg  "
-            f"|dH|/mean|H|={pair.complex_sym_err:.4e}",
-            flush=True,
-        )
+        if _rank0():
+            print(f"  H_{pa}->{pb} = {pair.a_to_b.hz_complex:.6g}", flush=True)
+            print(f"  H_{pb}->{pa} = {pair.b_to_a.hz_complex:.6g}", flush=True)
+            print(
+                f"  |H|={d['abs_a_to_b']:.4g},{d['abs_b_to_a']:.4g}  "
+                f"amp_err={pair.amp_err_dB:.4f} dB  "
+                f"phase={pair.phase_diff_deg:.2f}°  "
+                f"|dH|/mean|H|={pair.complex_sym_err:.4e}",
+                flush=True,
+            )
 
     payload = {
+        "label": args.label,
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "test_specification": lorentz_test_specification(),
         "settings": {
             "res": args.res,
             "run_time": args.run_time,
             "pairs": pairs,
             "horn_walls": args.horn_walls,
             "device_mode": args.device_mode,
+            "plasma_fill": args.plasma_fill,
+            "n_bulbs": args.n_bulbs,
+            "susceptibility_mode": args.susceptibility_mode,
             "a_m": a,
             "fs_a": fs_a,
-            "source": "localized Hz point (Gaussian), no flux normalization",
+            "fwidth_a": source_df,
+            "rho": "uniform_fp_8GHz",
+            "B": [0.0, 0.0, 0.0],
+            "wp_mean": float(np.mean(wp_values)) if len(wp_values) else 0.0,
         },
+        "probe_sites": probe_audit,
         "mpi": _mpi_info(),
         "physical_resolution": physical_resolution_report(args.res),
         "timings_s": {"total": time.perf_counter() - t0},
@@ -164,16 +211,9 @@ def main() -> int:
     }
 
     out_path = args.json_out or os.path.join(
-        OUT, f"lorentz_direct_{args.device_mode}_res{args.res}.json"
+        OUT, f"lorentz_{args.label or 'run'}_res{args.res}_rt{args.run_time:g}.json"
     )
-    try:
-        from mpi4py import MPI
-
-        rank = int(MPI.COMM_WORLD.Get_rank())
-    except Exception:
-        rank = 0
-
-    if rank == 0:
+    if _rank0():
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(_json_safe(payload), f, indent=2)
             f.write("\n")

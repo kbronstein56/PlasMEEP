@@ -55,16 +55,49 @@ class LorentzPairResult:
     complex_sym_err: float
 
     def as_dict(self) -> Dict[str, Any]:
+        h_ab = complex(self.a_to_b.hz_complex)
+        h_ba = complex(self.b_to_a.hz_complex)
         return {
             "port_a": self.port_a,
             "port_b": self.port_b,
-            "a_to_b_hz": complex(self.a_to_b.hz_complex),
-            "b_to_a_hz": complex(self.b_to_a.hz_complex),
+            "a_to_b_hz": h_ab,
+            "b_to_a_hz": h_ba,
+            "abs_a_to_b": float(abs(h_ab)),
+            "abs_b_to_a": float(abs(h_ba)),
             "amp_ratio": self.amp_ratio,
             "amp_err_dB": self.amp_err_dB,
             "phase_diff_deg": self.phase_diff_deg,
             "complex_sym_err": self.complex_sym_err,
+            "source_a_xy": list(self.a_to_b.source_xy),
+            "monitor_b_xy": list(self.a_to_b.monitor_xy),
+            "source_b_xy": list(self.b_to_a.source_xy),
+            "monitor_a_xy": list(self.b_to_a.monitor_xy),
         }
+
+
+def lorentz_test_specification() -> Dict[str, Any]:
+    """Document the direct Lorentz reciprocity observable (Phase 1 audit)."""
+    return {
+        "observable": "complex Hz DFT at monitor point",
+        "source_type": "mp.Source with mp.GaussianSource, component=mp.Hz",
+        "source_amplitude": "1.0 (real, positive)",
+        "source_phase": "0 rad (Meep default)",
+        "receiver_component": "mp.Hz",
+        "reciprocity_relation": (
+            "For passive linear reciprocal 2D TE at B=0: H_AB should equal H_BA "
+            "(same complex transfer when source/monitor roles swap). "
+            "NOT H_AB = -H_BA (that would be odd symmetry)."
+        ),
+        "swap_convention": "A excites at port_a source_center, measured at port_b monitor_center; "
+        "then roles swap.",
+        "dft_frequency": "fs_a (single frequency, index 0)",
+        "timing": "sim.run(until_after_sources=run_time) — fixed duration after source turn-off",
+        "normalization": "none (raw complex Hz DFT coefficient)",
+        "small_field_warning": (
+            "If |H| < 1e-3, dB amplitude ratios are numerically fragile; "
+            "check complex_sym_err and raw magnitudes."
+        ),
+    }
 
 
 def make_point_hz_source(

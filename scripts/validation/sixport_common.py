@@ -465,15 +465,34 @@ def build_circulator_device(
     wall_pec: bool = True,
     wall_eps: float = 1.0e6,
     device_mode: str = "full",
+    *,
+    plasma_fill: str = "active",
+    n_bulbs: Optional[int] = None,
+    susceptibility_mode: str = "auto",
 ):
     """Build six-port PlasMEEP geometry; no sources/monitors/run.
 
     device_mode:
-      full       — 91-element PMM array + horns (default)
+      full       — PMM array + horns (default)
       horns_only — PEC horns in vacuum (no plasma array / bulbs)
+
+    plasma_fill (full device only):
+      active          — Drude/Gyrotropic plasma from rho (default)
+      geometry_only   — quartz bulb shells, wp=0 (no plasma susceptibility)
+      dielectric_fill — quartz shells + quartz-filled plasma annulus (no wp)
+
+    n_bulbs: if set, only mount the first N bulbs (cheap ladder tests).
+
+    susceptibility_mode:
+      auto                — Drude at B=0, GyrotropicDrude when B≠0 (library default)
+      force_gyrotropic_b0 — force GyrotropicDrude path even at B=0 (diagnostic)
     """
     if device_mode not in ("full", "horns_only"):
         raise ValueError(f"device_mode must be 'full' or 'horns_only', got {device_mode!r}")
+    if plasma_fill not in ("active", "geometry_only", "dielectric_fill"):
+        raise ValueError(f"unknown plasma_fill={plasma_fill!r}")
+    if susceptibility_mode not in ("auto", "force_gyrotropic_b0"):
+        raise ValueError(f"unknown susceptibility_mode={susceptibility_mode!r}")
 
     rho = np.asarray(rho, dtype=float).flatten()
     B = np.asarray(B, dtype=float).flatten()
@@ -511,9 +530,13 @@ def build_circulator_device(
 
     P_device = pmm_device.Build_Sim()
 
+    if susceptibility_mode == "force_gyrotropic_b0":
+        P_device.is_magnetized = True
+
     if device_mode == "full":
         locs_device = np.asarray(pmm_device.train_elem_locs, dtype=float)
-        for i in range(91):
+        n_mount = len(wp_values) if n_bulbs is None else min(int(n_bulbs), len(wp_values))
+        for i in range(n_mount):
             center_meep = np.array(
                 [
                     locs_device[i, 0] - nx_ports / 2,
@@ -521,14 +544,25 @@ def build_circulator_device(
                     0.0,
                 ]
             )
-            P_device.Add_Bulb(
-                r_bulb=(r_bulb_inner, r_bulb_outer),
-                center=center_meep,
-                wp=wp_values[i],
-                gamma=gamma_a,
-                axis=np.array([0, 0, 1]),
-                profile=0,
-            )
+            wp_i = float(wp_values[i])
+            if plasma_fill == "geometry_only":
+                wp_i = 0.0
+            if plasma_fill == "dielectric_fill":
+                _add_bulb_dielectric_fill(
+                    P_device,
+                    r_bulb=(r_bulb_inner, r_bulb_outer),
+                    center=center_meep,
+                    axis=np.array([0, 0, 1]),
+                )
+            else:
+                P_device.Add_Bulb(
+                    r_bulb=(r_bulb_inner, r_bulb_outer),
+                    center=center_meep,
+                    wp=wp_i,
+                    gamma=gamma_a,
+                    axis=np.array([0, 0, 1]),
+                    profile=0,
+                )
 
     for horn in horns_for_device(res):
         _mount_horn_walls(
@@ -540,6 +574,19 @@ def build_circulator_device(
         )
 
     return pmm_device, P_device, np.asarray(wp_values, dtype=float)
+
+
+def _add_bulb_dielectric_fill(P_device, *, r_bulb, center, axis):
+    """Quartz-only bulb: shells + plasma annulus as eps=3.8, no Drude."""
+    quartz = P_device.Get_Med(3.8)
+    vac = P_device.Get_Med(1)
+    c = mp.Vector3(center[0], center[1], center[2])
+    ax = mp.Vector3(axis[0], axis[1], axis[2])
+    P_device.geometry.append(mp.Cylinder(r_bulb[1], material=quartz, center=c, axis=ax))
+    P_device.geometry.append(mp.Cylinder(r_bulb[0], material=vac, center=c, axis=ax))
+    P_device.geometry.append(
+        mp.Cylinder(4.6 * r_bulb[0] / 6.5, material=quartz, center=c, axis=ax)
+    )
 
 
 # ---------------------------------------------------------------------------

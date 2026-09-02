@@ -137,6 +137,8 @@ def run_mpi_script(
     cmd = mpirun_cmd(script_args, ranks=ranks, mpirun=mpirun, python=python)
     env = mpi_env()
     if log_path:
+        log_path = Path(log_path)
+        log_path.parent.mkdir(parents=True, exist_ok=True)
         with open(log_path, "w", encoding="utf-8") as log:
             log.write(f"# {' '.join(cmd)}\n")
             return subprocess.run(

@@ -668,7 +668,7 @@ class Plasmeep:
 
     def Add_Port(self, horn, direction, frequency = None, frequencies = None,\
                  fwidth = None, eig_band = 1, eig_parity = None,\
-                 amplitude = 1.0):
+                 amplitude = 1.0, source_offset = 0.5):
         """
         Build a reusable port descriptor on an Add_Horn feed cross-section.
 
@@ -710,6 +710,12 @@ class Plasmeep:
                 polarization used by this project. EVEN_Y / ODD_Y are
                 global-y and are usually wrong for a rotated horn.
             amplitude: EigenModeSource amplitude. Default 1.
+            source_offset: shift of the EigenModeSource from port_center
+                toward the feed back, along -horn['axis'], in a units.
+                Default 0.5. The DFT / EigenmodeCoefficient plane stays
+                at port_center, slightly downstream of the source. A
+                coincident source and monitor makes c_i^+ unusable
+                (Task 1E calibration). 0 restores the coincident layout.
 
         Returns a port dict including:
             volume, volume_center, volume_size, kpoint,
@@ -773,6 +779,22 @@ class Plasmeep:
         stored_frequency, stored_frequencies, stored_fwidth = \
             self._normalize_port_frequencies(frequency, frequencies, fwidth)
 
+        try:
+            source_offset = float(source_offset)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("source_offset must be a real scalar.") from exc
+        if not np.isfinite(source_offset) or source_offset < 0.0:
+            raise ValueError("source_offset must be finite and >= 0.")
+        feed_length = horn.get("feed_length")
+        if feed_length is not None:
+            feed_length = float(feed_length)
+            if source_offset >= 0.5 * feed_length:
+                raise ValueError(
+                    "source_offset must be < feed_length/2 so the source "
+                    "stays in the uniform straight feed, not at the back "
+                    "wall or in the flare."
+                )
+
         k_toward = axis.copy()
         k_away = -axis
         kpoint = k_toward if direction == PORT_TOWARD_APERTURE else k_away
@@ -781,6 +803,9 @@ class Plasmeep:
             center=mp.Vector3(center[0], center[1], center[2]),
             size=mp.Vector3(volume_size[0], volume_size[1], volume_size[2]),
         )
+        # Source sits toward the feed back so the port plane is the
+        # incident / reflection monitor, still in the uniform feed.
+        source_center = center - source_offset * axis
 
         port = {
             "port_center": center.copy(),
@@ -796,6 +821,8 @@ class Plasmeep:
             "volume": volume,
             "volume_center": center.copy(),
             "volume_size": volume_size,
+            "source_offset": source_offset,
+            "source_center": source_center,
             "eig_band": eig_band,
             "eig_parity": eig_parity,
             "amplitude": amplitude,
@@ -846,12 +873,13 @@ class Plasmeep:
                 fwidth = self._require_positive_frequency(fwidth, "fwidth")
                 src = mp.GaussianSource(frequency=frequency, fwidth=fwidth)
 
+        source_center = port.get("source_center", port["port_center"])
         source = mp.EigenModeSource(
             src,
             center=mp.Vector3(
-                port["port_center"][0],
-                port["port_center"][1],
-                port["port_center"][2] if port["port_center"].size > 2 else 0.0,
+                source_center[0],
+                source_center[1],
+                source_center[2] if np.asarray(source_center).size > 2 else 0.0,
             ),
             size=mp.Vector3(
                 port["volume_size"][0],

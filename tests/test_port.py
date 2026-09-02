@@ -42,7 +42,9 @@ class TestAddPort(unittest.TestCase):
     def test_source_and_monitor_center_match_horn_port(self):
         model = _new_model()
         horn = _add_flared_horn(model, center=(0.25, -0.15), theta=0.0)
-        port = model.Add_Port(horn, PORT_TOWARD_APERTURE, frequency=FCEN)
+        port = model.Add_Port(
+            horn, PORT_TOWARD_APERTURE, frequency=FCEN, source_offset=0.0
+        )
         source = model.Add_Port_Source(port)
         sim = model.Get_Sim()
         monitor = model.Add_Port_Monitor(port, sim)
@@ -53,6 +55,30 @@ class TestAddPort(unittest.TestCase):
             _xyz(monitor.volume.center), horn["port_center"]
         )
         np.testing.assert_allclose(_xyz(port["volume"].center), horn["port_center"])
+
+    def test_default_source_offset_is_toward_feed_back(self):
+        model = _new_model()
+        horn = _add_flared_horn(model, center=(0.25, -0.15), theta=0.4)
+        port = model.Add_Port(horn, PORT_TOWARD_APERTURE, frequency=FCEN)
+        source = model.Add_Port_Source(port)
+        sim = model.Get_Sim()
+        monitor = model.Add_Port_Monitor(port, sim)
+
+        expected = horn["port_center"] - 0.5 * horn["axis"]
+        np.testing.assert_allclose(_xyz(source.center), expected)
+        np.testing.assert_allclose(
+            _xyz(monitor.volume.center), horn["port_center"]
+        )
+        self.assertGreater(
+            float((horn["port_center"] - _xyz(source.center)) @ horn["axis"]),
+            0.0,
+        )
+        s_src = float((_xyz(source.center) - horn["feed_back"]) @ horn["axis"])
+        s_mon = float((horn["port_center"] - horn["feed_back"]) @ horn["axis"])
+        s_front = float((horn["feed_front"] - horn["feed_back"]) @ horn["axis"])
+        self.assertGreater(s_src, 0.0)
+        self.assertLess(s_src, s_mon)
+        self.assertLess(s_mon, s_front)
 
     def test_transverse_extent_equals_feed_width(self):
         model = _new_model()
@@ -81,7 +107,8 @@ class TestAddPort(unittest.TestCase):
                 )
                 source = model.Add_Port_Source(port)
                 np.testing.assert_allclose(
-                    _xyz(source.center), horn["port_center"]
+                    _xyz(source.center),
+                    horn["port_center"] - port["source_offset"] * horn["axis"],
                 )
                 np.testing.assert_allclose(port["axis"], horn["axis"])
                 np.testing.assert_allclose(_xyz(source.eig_kpoint), horn["axis"])
@@ -182,6 +209,10 @@ class TestAddPort(unittest.TestCase):
             model.Add_Port_Monitor(port, None)
         with self.assertRaises(ValueError):
             model.Add_Port_Monitor(port, object(), sense="incoming")
+        with self.assertRaises(ValueError):
+            model.Add_Port(horn, PORT_TOWARD_APERTURE, source_offset=-0.1)
+        with self.assertRaises(ValueError):
+            model.Add_Port(horn, PORT_TOWARD_APERTURE, source_offset=FEED_L)
 
     def test_multiple_rotated_horns(self):
         model = _new_model()
@@ -196,7 +227,10 @@ class TestAddPort(unittest.TestCase):
             )
             source = model.Add_Port_Source(port)
             ports.append((horn, port, source))
-            np.testing.assert_allclose(_xyz(source.center), horn["port_center"])
+            np.testing.assert_allclose(
+                _xyz(source.center),
+                horn["port_center"] - port["source_offset"] * horn["axis"],
+            )
             np.testing.assert_allclose(_xyz(source.eig_kpoint), horn["axis"])
             self.assertNotEqual(
                 id(source), id(ports[0][2]) if i else id(object())
@@ -211,7 +245,11 @@ class TestAddPort(unittest.TestCase):
                 port, sim, sense=PORT_AWAY_FROM_APERTURE
             )
             np.testing.assert_allclose(
-                _xyz(monitor.volume.center), _xyz(source.center)
+                _xyz(monitor.volume.center), horn["port_center"]
+            )
+            np.testing.assert_allclose(
+                _xyz(source.center),
+                horn["port_center"] - port["source_offset"] * horn["axis"],
             )
             np.testing.assert_allclose(
                 _xyz(monitor.volume.size), _xyz(source.size)
@@ -251,14 +289,16 @@ class TestAddPort(unittest.TestCase):
         s_src = float(
             (_xyz(source.center) - horn["feed_back"]) @ horn["axis"]
         )
+        s_mon = float((horn["port_center"] - horn["feed_back"]) @ horn["axis"])
         s_front = float((horn["feed_front"] - horn["feed_back"]) @ horn["axis"])
         s_ap = float(
             (horn["aperture_center"] - horn["feed_back"]) @ horn["axis"]
         )
         self.assertGreater(s_src, 0.0)
-        self.assertLess(s_src, s_front)
+        self.assertLess(s_src, s_mon)
+        self.assertLess(s_mon, s_front)
         self.assertLess(s_front, s_ap)
-        self.assertAlmostEqual(s_src, 0.5 * FEED_L)
+        self.assertAlmostEqual(s_src, 0.5 * FEED_L - port["source_offset"])
 
 
 if __name__ == "__main__":

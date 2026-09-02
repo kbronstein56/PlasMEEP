@@ -32,6 +32,12 @@ J01 = 2.40482555768577
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b',\
           '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
+# Port propagation relative to Add_Horn.axis (feed back -> aperture).
+# Do not infer these from global x/y position.
+PORT_TOWARD_APERTURE = "toward_aperture"
+PORT_AWAY_FROM_APERTURE = "away_from_aperture"
+PORT_DIRECTIONS = (PORT_TOWARD_APERTURE, PORT_AWAY_FROM_APERTURE)
+
 def WP(n):
     """
     Function for calculating plasma frequency given density
@@ -658,6 +664,338 @@ class Plasmeep:
             "feed_vertices": feed_verts,
             "flare_vertices": flare_verts,
         }
+
+
+    def Add_Port(self, horn, direction, frequency = None, frequencies = None,\
+                 fwidth = None, eig_band = 1, eig_parity = None,\
+                 amplitude = 1.0):
+        """
+        Build a reusable port descriptor on an Add_Horn feed cross-section.
+
+        This does not create the MEEP source or monitor. Those objects
+        need different inputs (a SourceTime vs. a Simulation), so they
+        are built later by Add_Port_Source and Add_Port_Monitor from
+        this descriptor. Both use the same physical plane.
+
+        The port plane is Add_Horn's mid-feed section (port_center,
+        port_p1, port_p2). It is never placed in the flare.
+
+        MEEP Volume / EigenModeSource / ModeRegion are axis-aligned.
+        The true port line port_p1--port_p2 is therefore represented as
+        an axis-aligned line through port_center whose length is
+        feed_width and whose orientation is the cartesian axis nearest
+        horn['normal']. At 0 and 90 degrees this matches the true line
+        exactly. At a general angle it is the official MEEP pattern
+        (oblique-waveguide EigenModeSource: axis-aligned line plus
+        eig_kpoint). Do not use the bounding box of a diagonal segment:
+        that becomes a 2-D region and MPB would solve the wrong mode.
+
+        Args:
+            horn: metadata dict from Add_Horn. Required keys:
+                port_center, port_p1, port_p2, axis, normal, feed_width.
+            direction: PORT_TOWARD_APERTURE or PORT_AWAY_FROM_APERTURE.
+                This is the source launch direction and the default
+                monitor sense. Toward aperture is +horn['axis']
+                (device-bound). Away from aperture is -horn['axis']
+                (toward the feed back). Required; not inferred from x/y.
+            frequency: optional MEEP cyclic frequency (c/a units) stored
+                for a later Gaussian EigenModeSource.
+            frequencies: optional list of MEEP cyclic frequencies stored
+                for a later caller (EigenmodeCoefficient itself takes
+                frequencies only when OptimizationProblem registers it).
+            fwidth: optional Gaussian source bandwidth, MEEP units.
+            eig_band: MPB band index, 1 = lowest-frequency mode at the
+                search k. Default 1 (MEEP convention).
+            eig_parity: MPB parity. Default mp.ODD_Z, the 2-D TM (Ez)
+                polarization used by this project. EVEN_Y / ODD_Y are
+                global-y and are usually wrong for a rotated horn.
+            amplitude: EigenModeSource amplitude. Default 1.
+
+        Returns a port dict including:
+            volume, volume_center, volume_size, kpoint,
+            kpoint_toward_aperture, kpoint_away_from_aperture,
+            direction, eig_band, eig_parity, amplitude,
+            frequency, frequencies, fwidth,
+            and the horn port-plane fields (copies).
+        """
+        horn = self._require_horn_port_metadata(horn)
+        direction = self._require_port_direction(direction)
+
+        axis = np.asarray(horn["axis"], dtype=float).reshape(-1)
+        if axis.size == 2:
+            axis = np.array([axis[0], axis[1], 0.0], dtype=float)
+        elif axis.size != 3:
+            raise ValueError("horn['axis'] must be a 2-D or 3-D vector.")
+        axis_norm = np.linalg.norm(axis)
+        if not np.isfinite(axis_norm) or axis_norm == 0.0:
+            raise ValueError("horn['axis'] must be a finite nonzero vector.")
+        axis = axis / axis_norm
+
+        normal = np.asarray(horn["normal"], dtype=float).reshape(-1)
+        if normal.size == 2:
+            normal = np.array([normal[0], normal[1], 0.0], dtype=float)
+        elif normal.size != 3:
+            raise ValueError("horn['normal'] must be a 2-D or 3-D vector.")
+
+        feed_width = float(horn["feed_width"])
+        if not np.isfinite(feed_width) or feed_width <= 0.0:
+            raise ValueError("horn['feed_width'] must be finite and > 0.")
+
+        center = np.asarray(horn["port_center"], dtype=float).reshape(-1)
+        if center.size == 2:
+            center = np.array([center[0], center[1], 0.0], dtype=float)
+        elif center.size != 3:
+            raise ValueError("horn['port_center'] must be (x, y) or (x, y, z).")
+        if not np.all(np.isfinite(center)):
+            raise ValueError("horn['port_center'] must be finite.")
+
+        try:
+            eig_band = int(eig_band)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("eig_band must be an integer >= 1.") from exc
+        if eig_band < 1:
+            raise ValueError("eig_band must be an integer >= 1.")
+
+        if eig_parity is None:
+            eig_parity = mp.ODD_Z
+        try:
+            eig_parity = int(eig_parity)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("eig_parity must be a MEEP parity flag.") from exc
+
+        try:
+            amplitude = float(amplitude)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("amplitude must be a real scalar.") from exc
+        if not np.isfinite(amplitude):
+            raise ValueError("amplitude must be finite.")
+
+        stored_frequency, stored_frequencies, stored_fwidth = \
+            self._normalize_port_frequencies(frequency, frequencies, fwidth)
+
+        k_toward = axis.copy()
+        k_away = -axis
+        kpoint = k_toward if direction == PORT_TOWARD_APERTURE else k_away
+        volume_size = self._axis_aligned_port_size(normal, feed_width)
+        volume = mp.Volume(
+            center=mp.Vector3(center[0], center[1], center[2]),
+            size=mp.Vector3(volume_size[0], volume_size[1], volume_size[2]),
+        )
+
+        port = {
+            "port_center": center.copy(),
+            "port_p1": np.asarray(horn["port_p1"], dtype=float).copy(),
+            "port_p2": np.asarray(horn["port_p2"], dtype=float).copy(),
+            "axis": axis.copy(),
+            "normal": normal.copy(),
+            "feed_width": feed_width,
+            "direction": direction,
+            "kpoint": kpoint.copy(),
+            "kpoint_toward_aperture": k_toward,
+            "kpoint_away_from_aperture": k_away,
+            "volume": volume,
+            "volume_center": center.copy(),
+            "volume_size": volume_size,
+            "eig_band": eig_band,
+            "eig_parity": eig_parity,
+            "amplitude": amplitude,
+            "frequency": stored_frequency,
+            "frequencies": stored_frequencies,
+            "fwidth": stored_fwidth,
+            "source": None,
+            "monitor": None,
+        }
+        if not hasattr(self, "ports"):
+            self.ports = []
+        self.ports.append(port)
+        return port
+
+
+    def Add_Port_Source(self, port, src = None, frequency = None,\
+                        fwidth = None):
+        """
+        Create an EigenModeSource on the port plane and append it.
+
+        The source uses the same center and axis-aligned span as the
+        later EigenmodeCoefficient. Propagation is port['kpoint']:
+        +horn.axis if direction is toward_aperture, else -horn.axis.
+        direction is always mp.NO_DIRECTION so eig_kpoint, not +x/+y,
+        defines the waveguide axis (MEEP oblique-waveguide convention).
+
+        Provide either a MEEP SourceTime `src` or a cyclic `frequency`
+        in a units (c/a). If both are omitted, the values stored on
+        the port by Add_Port are used.
+        """
+        if not isinstance(port, dict) or "kpoint" not in port:
+            raise ValueError("port must be a dict returned by Add_Port.")
+
+        if src is None:
+            if frequency is None:
+                frequency = port.get("frequency")
+            if fwidth is None:
+                fwidth = port.get("fwidth")
+            if frequency is None:
+                raise ValueError(
+                    "Add_Port_Source requires src or frequency "
+                    "(or a frequency stored on the port)."
+                )
+            frequency = self._require_positive_frequency(frequency, "frequency")
+            if fwidth is None:
+                src = mp.GaussianSource(frequency=frequency)
+            else:
+                fwidth = self._require_positive_frequency(fwidth, "fwidth")
+                src = mp.GaussianSource(frequency=frequency, fwidth=fwidth)
+
+        source = mp.EigenModeSource(
+            src,
+            center=mp.Vector3(
+                port["port_center"][0],
+                port["port_center"][1],
+                port["port_center"][2] if port["port_center"].size > 2 else 0.0,
+            ),
+            size=mp.Vector3(
+                port["volume_size"][0],
+                port["volume_size"][1],
+                port["volume_size"][2],
+            ),
+            direction=mp.NO_DIRECTION,
+            eig_kpoint=mp.Vector3(
+                port["kpoint"][0], port["kpoint"][1], port["kpoint"][2]
+            ),
+            eig_band=port["eig_band"],
+            eig_parity=port["eig_parity"],
+            eig_match_freq=True,
+            amplitude=port["amplitude"],
+        )
+        self.sources.append(source)
+        port["source"] = source
+        return source
+
+
+    def Add_Port_Monitor(self, port, sim, sense = None):
+        """
+        Create an meep.adjoint.EigenmodeCoefficient on the port plane.
+
+        Uses the same Volume as Add_Port_Source. The modal coefficient
+        is selected with kpoint_func, not EigenmodeCoefficient.forward.
+
+        `forward` without kpoint_func uses the monitor's cartesian
+        normal_direction. That is only correct for axis-aligned ports.
+        Rotated horns must pass the feed axis explicitly.
+
+        sense: PORT_TOWARD_APERTURE or PORT_AWAY_FROM_APERTURE.
+            Default is port['direction']. The returned coefficient is
+            the overlap along that unit k (overlap index 0). The
+            opposite traveling wave is the other sense, not a guessed
+            global +/- x.
+
+        Later S-parameter convention (not implemented here):
+            c_i^+  = toward_aperture coefficient at the driven port
+                     (incident / launched into the device)
+            c_j^-  = away_from_aperture coefficient at a receive port
+                     (outgoing from the device into the feed)
+            S_j    = c_j^-(out) / c_i^+(norm)
+        """
+        if not isinstance(port, dict) or "volume" not in port:
+            raise ValueError("port must be a dict returned by Add_Port.")
+        if sim is None:
+            raise ValueError("Add_Port_Monitor requires a MEEP Simulation.")
+        if sense is None:
+            sense = port["direction"]
+        sense = self._require_port_direction(sense)
+        kpoint = (port["kpoint_toward_aperture"] if sense == PORT_TOWARD_APERTURE
+                  else port["kpoint_away_from_aperture"])
+
+        import meep.adjoint as mpa
+
+        def kpoint_func(freq, mode):
+            return mp.Vector3(kpoint[0], kpoint[1], kpoint[2])
+
+        monitor = mpa.EigenmodeCoefficient(
+            sim,
+            port["volume"],
+            mode=port["eig_band"],
+            kpoint_func=kpoint_func,
+            kpoint_func_overlap_idx=0,
+            eig_parity=port["eig_parity"],
+        )
+        port["monitor"] = monitor
+        return monitor
+
+
+    def _require_horn_port_metadata(self, horn):
+        if not isinstance(horn, dict):
+            raise ValueError("horn must be the metadata dict from Add_Horn.")
+        required = (
+            "port_center", "port_p1", "port_p2", "axis", "normal", "feed_width"
+        )
+        missing = [key for key in required if key not in horn]
+        if missing:
+            raise ValueError(
+                "horn is missing Add_Horn port metadata: " + ", ".join(missing)
+            )
+        return horn
+
+
+    def _require_port_direction(self, direction):
+        if direction not in PORT_DIRECTIONS:
+            raise ValueError(
+                "direction must be {!r} or {!r}, not inferred from "
+                "global position. Got {!r}.".format(
+                    PORT_TOWARD_APERTURE, PORT_AWAY_FROM_APERTURE, direction
+                )
+            )
+        return direction
+
+
+    def _require_positive_frequency(self, value, name):
+        try:
+            value = float(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                "{} must be a finite MEEP cyclic frequency > 0.".format(name)
+            ) from exc
+        if not np.isfinite(value) or value <= 0.0:
+            raise ValueError(
+                "{} must be a finite MEEP cyclic frequency > 0.".format(name)
+            )
+        return value
+
+
+    def _normalize_port_frequencies(self, frequency, frequencies, fwidth):
+        stored_frequency = None
+        stored_frequencies = None
+        stored_fwidth = None
+        if frequency is not None:
+            stored_frequency = self._require_positive_frequency(
+                frequency, "frequency"
+            )
+        if frequencies is not None:
+            freqs = np.asarray(frequencies, dtype=float).reshape(-1)
+            if freqs.size == 0 or np.any(~np.isfinite(freqs)) or np.any(freqs <= 0.0):
+                raise ValueError(
+                    "frequencies must be a nonempty list of finite "
+                    "MEEP cyclic frequencies > 0."
+                )
+            stored_frequencies = freqs.copy()
+            if stored_frequency is None:
+                stored_frequency = float(freqs[0])
+        if fwidth is not None:
+            stored_fwidth = self._require_positive_frequency(fwidth, "fwidth")
+        return stored_frequency, stored_frequencies, stored_fwidth
+
+
+    def _axis_aligned_port_size(self, normal, feed_width):
+        """
+        Axis-aligned line of length feed_width nearest to `normal`.
+
+        MEEP volumes cannot be a rotated line. Snap to x if |n_x| >= |n_y|,
+        otherwise y. The unused cartesian component is 0 (2-D TM).
+        """
+        n = np.asarray(normal, dtype=float).reshape(-1)
+        if abs(n[0]) >= abs(n[1]):
+            return np.array([feed_width, 0.0, 0.0], dtype=float)
+        return np.array([0.0, feed_width, 0.0], dtype=float)
 
 
     def Add_Bulb(self, r_bulb, center, wp = 0, gamma = 0,\

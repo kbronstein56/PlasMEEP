@@ -632,3 +632,182 @@ Major improvement vs pre-fix full-device `num_mode_hz_line` (~2.19 dB at res64/r
 3. res64 confirmation once res32 port metric is satisfactory.
 
 ---
+
+## 16. Six-hour port block (2026-09-02)
+
+Artifacts: `outputs/validation/port_block/` (`block_summary.json`, `followup_summary.json`)
+
+Harness: `run_port_block_campaign.py`, `num_mode_yee_guide_normal`, `audit_mode_symmetry.py`
+
+### P2↔P3 symmetry — confirmed fixed
+
+`mode_symmetry_audit.json`: P2 and P3 use **separate** cached profiles (`tangent_dot=1.0` each). horns_only P2↔P3 ≈ **0 dB** for all `num_mode_*` formulations.
+
+### Best formulations
+
+| Role | Formulation | Notes |
+|---|---|---|
+| **Source** | per-port numerical mode (`make_numerical_mode_sources`) | 64-sample complex Hz profiles |
+| **Receiver (primary)** | **guide-normal flux** (`num_mode_guide_normal`) | orientation-consistent ∫S·n̂ |
+| **Receiver (grid-x robust)** | Yee-snapped guide-normal (`num_mode_yee_guide_normal`) | launch + flux DOFs on Hz Yee grid |
+
+### Horns_only gates (res32, rt=5, np=32)
+
+| Formulation | P1↔P2 | P2↔P3 | discrete FDTD |
+|---|---:|---:|---:|
+| num_mode_guide_normal | **0.061 dB** | ~0 | ~0 |
+| num_mode_yee_guide_normal | 0.105 dB | ~0 | ~0 |
+
+### Grid-offset P1↔P2 (±0.5 cells)
+
+| offset | guide_normal | yee_guide_normal |
+|---|---:|---:|
+| (±0.5, 0) | 0.197 dB | **0.115 dB** |
+| (0, ±0.5) | 0.93–0.96 dB | 0.80–0.83 dB |
+| discrete control (all) | ~0 | ~0 |
+
+Yee snapping **halves** x-offset port error but does not fix y-offset sensitivity.
+
+### Full device (B=0, uniform rho, np=32)
+
+**`num_mode_guide_normal` rt sweep (res32):**
+
+| rt | P1↔P2 port |
+|---:|---:|
+| 5 | 0.301 dB |
+| 10 | 0.314 dB |
+| **20** | **0.166 dB** |
+| 40 | 0.224 dB |
+
+**Minimum safe runtime: rt=20** (non-monotonic above rt=20).
+
+| Test | port reciprocity | discrete FDTD |
+|---|---:|---:|
+| res32 rt=20 P1↔P2 | **0.166 dB** ✓ | ~0 |
+| res32 rt=20 P2↔P3 | **0.003 dB** ✓ | ~0 |
+| **res64 rt=20 P1↔P2** | **2.90 dB** ✗ | ~0 |
+
+Discrete reciprocity passes at all resolutions; **res64 port metric regression is a measurement/discretization issue**, not plasma physics.
+
+### MPI wall time (np=32, cached norm, res32, rt=20)
+
+| Item | Time |
+|---|---:|
+| 2-port reciprocity study (norm+device+discrete) | **~25 s** |
+| Device solve only (2×2 ports) | ~12 s |
+| **Per source excitation (est.)** | **~6 s** |
+| 6-source forward matrix (est.) | **~36 s** |
+
+**Cached (rho-invariant):** numerical modes, horn geometry, incident normalization, flux quadrature weights.
+
+**Per rho evaluation:** PMM FDTD solve + flux extraction only (~6 s/source at res32).
+
+**Est. optimization throughput:** ~100–140 forward evals/hour (3–4 active ports) to ~60/hour (full 6×6), excluding res64.
+
+### Production promotion verdict
+
+**NOT ready for production promotion.**
+
+Blockers:
+1. res64 full-device P1↔P2 port reciprocity **2.9 dB** (discrete still ~0).
+2. Grid **y-offset** ±0.5 cell still ~0.8–1.0 dB port error.
+3. ~4.5% incident-power mismatch between P1/P2 on full device.
+
+**Acceptable for:** res32 horns validation, res32 full-device B=0 preliminary optimization prototyping with `num_mode_guide_normal` + discrete FDTD control.
+
+---
+
+## 17. res64 axis-port diagnosis (2026-09-02 continuation)
+
+Artifacts: `outputs/validation/port_block/res64_horns_summary.json`, `full_num_mode_yee_sdotn_P0P1_g0_0_res64_rt*.json`, `run_res64_followup.py`
+
+### horns_only res64 gates (rt=5, np=32)
+
+| Formulation | P1↔P2 | P2↔P3 | discrete FDTD |
+|---|---:|---:|---:|
+| num_mode_guide_normal | **0.248 dB** | ~0 | ~0 |
+| num_mode_yee_sdotn | **0.251 dB** | ~0 | ~0 |
+
+Horns_only reciprocity is acceptable at res64; axis pair is marginally above the 0.2 dB gate. P1/P2 incident-power mismatch ~**7.8%** (axis vs +60° ports).
+
+### Full device res64 — axis P1↔P2 fails for all receivers
+
+| Formulation | rt | port P1↔P2 | discrete FDTD | flux subtraction |
+|---|---:|---:|---:|---|
+| num_mode_guide_normal | 20 | **2.90 dB** | ~0 | **broken** (positive diagonal) |
+| num_mode_yee_sdotn | 20 | **2.89 dB** | ~0 | N/A (DFT S·n) |
+| num_mode_yee_sdotn | 40 | **3.49 dB** | ~0 | — |
+| num_mode_yee_sdotn | 60 | **4.02 dB** | ~0 | — |
+
+**Key findings:**
+
+1. **`load_minus_flux_data` fails on full device at res64** for guide-normal flux (diagonal reflection entries go positive). horns_only and res32 full device subtract correctly.
+2. **Switching to DFT S·n (`num_mode_yee_sdotn`) does not fix reciprocity** — same ~2.9 dB axis error. The failure is not receiver-specific.
+3. **Longer runtime makes res64 worse** (non-convergence in the port metric sense; discrete control stays ~0).
+4. **Discrete Hz-patch reciprocity remains machine precision** at all res64 full-device points tested.
+5. **Measured port transmission at res64 full (~0.3%) is ~35× smaller than discrete |g| (~11.5%)** — modal launch/measurement severely under-couples on axis with PMM present at res64.
+6. **Diagonal pair P2↔P3 at res64 full device passes** (`full_num_mode_guide_normal_P1P2_g0_0_res64_rt20`: **0.0006 dB**). Failure is **axis-specific** (P1↔P2), not general res64.
+
+### Full device res32 — yee_sdotn confirms guide_normal
+
+| Formulation | rt | P1↔P2 port | discrete FDTD |
+|---|---:|---:|---:|
+| num_mode_guide_normal | 20 | **0.166 dB** | ~0 |
+| num_mode_yee_sdotn | 20 | **0.158 dB** | ~0 |
+
+Both receivers valid at res32 full device.
+
+### Grid-offset P1↔P2 (horns_only, res32, rt=5) — yee_sdotn sweep
+
+| offset | yee_sdotn | yee_guide_normal (§16) |
+|---|---:|---:|
+| (0, 0) | **0.070 dB** | 0.105 dB |
+| (±0.5, 0) | 0.180 dB | **0.115 dB** |
+| (0, ±0.5) | 0.87–0.90 dB | 0.80–0.83 dB |
+
+Yee snapping on launch+DFT helps zero-offset; **y-offset sensitivity remains ~0.9 dB** for all tested receivers.
+
+### Receiver recommendation by resolution
+
+| Resolution | Source | Receiver | Status |
+|---|---|---|---|
+| **res32** | per-port numerical mode | **guide-normal flux** (`num_mode_guide_normal`) | **validated** (full rt=20: 0.166 dB P1↔P2) |
+| res64 horns_only | per-port numerical mode | guide-normal or yee_sdotn | ~0.25 dB P1↔P2 |
+| res64 full device | per-port numerical mode | any tested flux/DFT | **blocked** (~3 dB P1↔P2) |
+
+### Production promotion (updated)
+
+**Still NOT ready** for production promotion at res64. **Ready for res32 optimization prototyping** with `num_mode_guide_normal`, rt=20, np=32, discrete reciprocity control.
+
+Remaining blockers:
+1. res64 full-device axis P1↔P2 port metric (~3 dB; P2↔P3 passes at 0.0006 dB).
+2. Grid y-offset ±0.5 cell on y-axis (~0.9 dB at res32).
+3. P1/P2 incident-power mismatch (~4.5% res32, ~7.8% res64).
+
+**Acceptable for:** res32 horns + full-device B=0 optimization prototyping with `num_mode_guide_normal`, rt=20, np=32.
+
+---
+
+## 18. Optimization forward-eval cost (res32, np=32, cached norm)
+
+Measured on this workstation with `mpi_runner.py`, `OMP_NUM_THREADS=1`, `FI_PROVIDER=tcp`, `MPICH_CH4_NETMOD=ofi`.
+
+| Item | Wall time |
+|---|---:|
+| Norm cache build (one-time, 2 ports) | ~7–90 s (formulation-dependent) |
+| Full-device 2-port study (cached norm + discrete control) | **~25 s** |
+| Device FDTD only (2×2 ports, rt=20) | **~12 s** |
+| **Per source excitation** | **~6 s** |
+| 6-source forward 6×6 matrix (est.) | **~36 s** |
+
+**Cached across rho (invariant):** numerical mode profiles, horn geometry, incident normalization, flux/DFT quadrature weights.
+
+**Per rho evaluation (inner loop):** PMM FDTD solve + port extraction only.
+
+**Estimated throughput (res32, rt=20, cached norm):**
+- 3–4 active ports (typical circulator objective): **~100–140 evals/hour**
+- Full 6×6 characterization: **~60 evals/hour**
+
+**Optimizer needs:** typically 3 forward solves per rho (one per active input port), not full 6×6 — budget **~20 s/rho** at res32 with warm cache.
+
+---

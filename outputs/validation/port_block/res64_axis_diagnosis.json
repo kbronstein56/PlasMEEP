@@ -1,0 +1,27 @@
+{
+  "timestamp_utc": "2026-09-02T14:45:00Z",
+  "recommended_formulation_res32": "num_mode_guide_normal",
+  "recommended_receiver_res32": "guide-normal flux",
+  "recommended_runtime_res32_full": 20,
+  "res64_status": "blocked_axis_P1P2",
+  "full_device_res64_P1P2": {
+    "num_mode_guide_normal_rt20": {"port_dB": 2.896, "discrete_dB": "~0", "flux_subtraction": "broken"},
+    "num_mode_yee_sdotn_rt20": {"port_dB": 2.886, "discrete_dB": "~0"},
+    "num_mode_yee_sdotn_rt40": {"port_dB": 3.488, "discrete_dB": "~0"},
+    "num_mode_yee_sdotn_rt60": {"port_dB": 4.019, "discrete_dB": "~0"}
+  },
+  "horns_only_res64_rt5": {
+    "guide_normal_P1P2": 0.248,
+    "guide_normal_P2P3": 0.0002,
+    "yee_sdotn_P1P2": 0.251,
+    "yee_sdotn_P2P3": 0.0002
+  },
+  "diagnosis": [
+    "guide_normal flux subtraction fails (positive diagonal) on full device res64 only",
+    "yee_sdotn gives same ~2.9 dB axis reciprocity error — not a receiver fix",
+    "longer runtime worsens res64 port metric; discrete control stays ~0",
+    "port T~0.003 vs discrete |g|~0.115 at res64 full — severe under-coupling"
+  ],
+  "production_promotion": false,
+  "optimization_ready_res32": true
+}

@@ -53,6 +53,7 @@ FORMULATION_NAMES = (
     "num_mode_hz_line",
     "num_mode_guide_normal",
     "num_mode_yee_sdotn",
+    "num_mode_yee_guide_normal",
     "te1_hz_modal",
     "num_mode_modal",
 )
@@ -318,6 +319,10 @@ def uses_modal_measurement(formulation: str) -> bool:
     return formulation in ("te1_hz_modal", "num_mode_modal")
 
 
+def guide_normal_yee_snap(formulation: str) -> bool:
+    return formulation in ("num_mode_yee_guide_normal",)
+
+
 def dft_sdotn_yee_snap(formulation: str) -> bool:
     return formulation == "num_mode_yee_sdotn"
 
@@ -437,6 +442,8 @@ def make_guide_normal_flux_spec(
     n_points: int = 31,
     span_factor: float = 0.96,
     weight_profile: str = "uniform",
+    *,
+    yee_snap: bool = False,
 ) -> FluxSpec:
     """
     Approximate ∫ S·n̂ ds along the true feed cross-section.
@@ -444,11 +451,15 @@ def make_guide_normal_flux_spec(
     Meep FluxRegions are axis-aligned, so we place point monitors along the
     *guide tangent* and weight X/Y Poynting components by the outward normal
     components n̂ = (n_x, n_y). Positive flux = power in the +n̂ direction.
+
+    When ``yee_snap`` is True, sample coordinates snap to Hz Yee cell centers
+    and duplicate DOFs merge by summing quadrature weights.
     """
     center_xy = np.asarray(center_xy, dtype=float)
     u = _unit(outward_dir)
     tangent = np.array([-u[1], u[0]])
     span = span_factor * sc.clear_width
+    res = sc.current_res()
     offsets = np.linspace(-span / 2, +span / 2, n_points)
     if n_points == 1:
         ds_weights = np.array([span])
@@ -461,40 +472,41 @@ def make_guide_normal_flux_spec(
     if weight_profile == "te1":
         env = np.cos(np.pi * offsets / span)
         env = np.clip(env, 0.0, None)
-        # Renormalize so total quadrature weight still equals physical span
-        # (preserves units of power ≈ flux through the aperture).
         raw = ds_weights * env
         raw_sum = float(np.sum(raw))
         if raw_sum > 0:
             ds_weights = raw * (span / raw_sum)
-        # else keep uniform ds_weights
 
-    regions: List[mp.FluxRegion] = []
+    # Accumulate axis-aligned flux weights per snapped Yee DOF.
+    merged: Dict[Tuple[float, float, str], float] = {}
     for s, w_ds in zip(offsets, ds_weights):
         xy = center_xy + s * tangent
-        c = mp.Vector3(xy[0], xy[1], 0)
+        if yee_snap:
+            xy = _hz_yee_grid_xy(xy, res=res)
+        key_xy = (round(float(xy[0]), 12), round(float(xy[1]), 12))
         if abs(u[0]) > 1e-14:
-            regions.append(
-                mp.FluxRegion(
-                    center=c,
-                    size=mp.Vector3(),
-                    direction=mp.X,
-                    weight=float(u[0] * w_ds),
-                )
-            )
+            k = (key_xy[0], key_xy[1], "X")
+            merged[k] = merged.get(k, 0.0) + float(u[0] * w_ds)
         if abs(u[1]) > 1e-14:
-            regions.append(
-                mp.FluxRegion(
-                    center=c,
-                    size=mp.Vector3(),
-                    direction=mp.Y,
-                    weight=float(u[1] * w_ds),
-                )
+            k = (key_xy[0], key_xy[1], "Y")
+            merged[k] = merged.get(k, 0.0) + float(u[1] * w_ds)
+
+    regions: List[mp.FluxRegion] = []
+    for (x, y, axis), weight in merged.items():
+        if abs(weight) < 1e-30:
+            continue
+        direction = mp.X if axis == "X" else mp.Y
+        regions.append(
+            mp.FluxRegion(
+                center=mp.Vector3(x, y, 0),
+                size=mp.Vector3(),
+                direction=direction,
+                weight=weight,
             )
+        )
 
     if not regions:
         raise ValueError("guide-normal flux produced no regions")
-    # Flux already oriented along outward n̂.
     return regions, 1.0
 
 
@@ -520,6 +532,14 @@ def make_flux_region_for_formulation(
     ):
         return make_guide_normal_flux_spec(
             center_xy, outward_dir, n_points=31, weight_profile="uniform"
+        )
+    if formulation == "num_mode_yee_guide_normal":
+        return make_guide_normal_flux_spec(
+            center_xy,
+            outward_dir,
+            n_points=31,
+            weight_profile="uniform",
+            yee_snap=True,
         )
     if formulation == "te1_guide_normal_dense":
         return make_guide_normal_flux_spec(
@@ -840,6 +860,11 @@ _REGISTRY: Dict[str, Formulation] = {
     "num_mode_yee_sdotn": Formulation(
         name="num_mode_yee_sdotn",
         measurement="dft_sdotn",
+        make_sources=make_yee_snapped_numerical_mode_sources,
+    ),
+    "num_mode_yee_guide_normal": Formulation(
+        name="num_mode_yee_guide_normal",
+        measurement="flux",
         make_sources=make_yee_snapped_numerical_mode_sources,
     ),
     "te1_hz_modal": Formulation(

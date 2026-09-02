@@ -1,0 +1,115 @@
+{
+  "res": 32,
+  "ports": {
+    "P2": {
+      "cache": {
+        "device_port": "P2",
+        "profile_port": "P2",
+        "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P2.json",
+        "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+        "requested": {
+          "res": 32,
+          "frequency_a": 0.3595820946236079,
+          "horn_walls": "prism",
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "coord_rotation_deg": 0.0
+        },
+        "stored_mode": {
+          "label": "P2_res32",
+          "res": 32,
+          "frequency_a": 0.3595820946236079,
+          "outward_dir": [
+            0.5000000000000001,
+            0.8660254037844385
+          ],
+          "tangent": [
+            -0.8660254037844386,
+            0.5000000000000002
+          ],
+          "n_samples": 64
+        },
+        "res_match": true,
+        "frequency_match": true
+      },
+      "outward_dir": [
+        0.5000000000000001,
+        0.8660254037844385
+      ],
+      "tangent": [
+        -0.8660254037844386,
+        0.5000000000000002
+      ],
+      "mode_tangent": [
+        -0.8660254037844386,
+        0.5000000000000002
+      ],
+      "tangent_dot": 1.0,
+      "n_samples": 64,
+      "offsets_match": [
+        -0.6857142857142856,
+        -0.6639455782312924,
+        -0.6421768707482992
+      ],
+      "weight_rms": 1.0,
+      "phase_span_deg": 1.5090199051123188
+    },
+    "P3": {
+      "cache": {
+        "device_port": "P3",
+        "profile_port": "P3",
+        "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P3.json",
+        "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+        "requested": {
+          "res": 32,
+          "frequency_a": 0.3595820946236079,
+          "horn_walls": "prism",
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "coord_rotation_deg": 0.0
+        },
+        "stored_mode": {
+          "label": "P3_res32",
+          "res": 32,
+          "frequency_a": 0.3595820946236079,
+          "outward_dir": [
+            -0.5,
+            0.8660254037844386
+          ],
+          "tangent": [
+            -0.8660254037844387,
+            -0.5000000000000001
+          ],
+          "n_samples": 64
+        },
+        "res_match": true,
+        "frequency_match": true
+      },
+      "outward_dir": [
+        -0.5,
+        0.8660254037844386
+      ],
+      "tangent": [
+        -0.8660254037844387,
+        -0.5000000000000001
+      ],
+      "mode_tangent": [
+        -0.8660254037844387,
+        -0.5000000000000001
+      ],
+      "tangent_dot": 1.0000000000000002,
+      "n_samples": 64,
+      "offsets_match": [
+        -0.6857142857142856,
+        -0.6639455782312924,
+        -0.6421768707482992
+      ],
+      "weight_rms": 1.0,
+      "phase_span_deg": 1.5090199051120898
+    }
+  }
+}

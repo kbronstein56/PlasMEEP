@@ -1,0 +1,55 @@
+{
+  "timestamp_utc": "2026-09-02T15:20:00Z",
+  "best_source_formulation": "per-port numerical mode (make_numerical_mode_sources)",
+  "best_receiver_res32": "num_mode_guide_normal (guide-normal flux)",
+  "best_receiver_res32_alt": "num_mode_yee_sdotn (DFT S·n, 0.158 dB full rt=20)",
+  "best_receiver_grid_x": "num_mode_yee_guide_normal (0.115 dB at ±0.5 x-cell)",
+  "fdtd_control": "matched discrete Hz-patch reciprocity (~0 dB everywhere)",
+  "horns_only_res32_rt5": {
+    "guide_normal_P1P2_dB": 0.061,
+    "guide_normal_P2P3_dB": 0.0,
+    "yee_guide_normal_P1P2_dB": 0.105,
+    "yee_sdotn_P1P2_dB": 0.070
+  },
+  "horns_only_res64_rt5": {
+    "guide_normal_P1P2_dB": 0.248,
+    "guide_normal_P2P3_dB": 0.0002,
+    "yee_sdotn_P1P2_dB": 0.251
+  },
+  "grid_offset_P1P2_res32_rt5": {
+    "yee_sdotn_zero": 0.070,
+    "yee_sdotn_x_half": 0.180,
+    "yee_sdotn_y_half": 0.88,
+    "yee_guide_normal_x_half": 0.115,
+    "guide_normal_y_half": 0.93
+  },
+  "full_device_res32_rt20": {
+    "guide_normal_P1P2_dB": 0.166,
+    "guide_normal_P2P3_dB": 0.003,
+    "yee_sdotn_P1P2_dB": 0.158,
+    "discrete_dB": "~0",
+    "minimum_safe_rt": 20
+  },
+  "full_device_res64_rt20": {
+    "guide_normal_P1P2_dB": 2.896,
+    "guide_normal_P2P3_dB": 0.0006,
+    "yee_sdotn_P1P2_dB": 2.886,
+    "discrete_dB": "~0",
+    "note": "axis P1P2 blocked; diagonal P2P3 passes"
+  },
+  "mpi_benchmark_np32_res32_rt20_cached": {
+    "pair_study_wall_s": 25,
+    "device_solve_2x2_s": 12,
+    "per_source_excitation_s": 6,
+    "six_source_forward_est_s": 36,
+    "evals_per_hour_3port": "100-140",
+    "evals_per_hour_6x6": "~60"
+  },
+  "production_promotion": false,
+  "optimization_ready_res32": true,
+  "promotion_blockers": [
+    "res64 full-device axis P1P2 ~3 dB (P2P3 passes)",
+    "grid y-offset ±0.5 cell ~0.9 dB",
+    "P1/P2 incident-power mismatch ~4.5% res32 / ~7.8% res64"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "timestamp_utc": "2026-09-02T13:55:00Z",
+  "device_mode": "horns_only",
+  "res": 64,
+  "run_time": 5,
+  "mpi_ranks": 32,
+  "results": {
+    "num_mode_guide_normal": {
+      "P1P2_port_dB": 0.248,
+      "P2P3_port_dB": 0.0002,
+      "discrete_dB": "~0",
+      "incident_mismatch_P1P2_rel": 0.078,
+      "note": "P1/P2 axis pair marginally above 0.2 dB gate; P2/P3 machine precision"
+    },
+    "num_mode_yee_sdotn": {
+      "P1P2_port_dB": 0.251,
+      "P2P3_port_dB": 0.0002,
+      "discrete_dB": "~0",
+      "incident_mismatch_P1P2_rel": 0.078,
+      "note": "DFT S·n receiver gives same axis reciprocity as guide_normal at res64 horns"
+    }
+  },
+  "conclusions": [
+    "res64 horns_only reciprocity is acceptable (~0.25 dB P1↔P2, ~0 dB P2↔P3)",
+    "P1 vs P2 incident-power mismatch ~7.8% at res64 (axis vs +60° normalization)",
+    "Receiver choice (flux vs DFT) does not change horns_only res64 axis error"
+  ]
+}

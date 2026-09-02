@@ -34,6 +34,7 @@ FORMULATIONS = (
     "num_mode_hz_line",
     "num_mode_guide_normal",
     "num_mode_yee_sdotn",
+    "num_mode_yee_guide_normal",
 )
 
 GRID_OFFSETS: Tuple[Tuple[float, float], ...] = (

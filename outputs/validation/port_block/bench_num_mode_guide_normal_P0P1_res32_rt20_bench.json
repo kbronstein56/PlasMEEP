@@ -1,0 +1,9 @@
+{
+  "label": "bench_num_mode_guide_normal_P0P1_res32_rt20",
+  "wall_s": 24.674835865967907,
+  "mpi_ranks": 32,
+  "res": 32,
+  "run_time": 20.0,
+  "formulation": "num_mode_guide_normal",
+  "note": "includes norm cache miss path if first run"
+}

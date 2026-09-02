@@ -1,0 +1,9 @@
+{
+  "label": "bench_num_mode_yee_guide_normal_P0P1_res32_rt40",
+  "wall_s": 28.11160356993787,
+  "mpi_ranks": 32,
+  "res": 32,
+  "run_time": 40.0,
+  "formulation": "num_mode_yee_guide_normal",
+  "note": "includes norm cache miss path if first run"
+}

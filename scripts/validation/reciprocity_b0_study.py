@@ -67,6 +67,25 @@ def _mpi_info() -> Dict[str, Any]:
         }
 
 
+def _flux_subtraction_health(
+    power_matrix: Any, port_ids: List[int]
+) -> Dict[str, Any]:
+    """Detect failed incident-flux subtraction (positive on-port reflection)."""
+    M = np.asarray(power_matrix, dtype=float)
+    diag: Dict[str, float] = {}
+    positive = 0
+    for k, p in enumerate(port_ids):
+        val = float(M[k, k]) if np.isfinite(M[k, k]) else float("nan")
+        diag[f"P{p + 1}"] = val
+        if np.isfinite(val) and val > 0:
+            positive += 1
+    return {
+        "diagonal_normalized_power": diag,
+        "positive_reflection_count": int(positive),
+        "healthy": positive == 0,
+    }
+
+
 def _incident_mismatch(incident_by_port: Dict[Any, float]) -> Dict[str, float]:
     vals = [float(v) for v in incident_by_port.values()]
     if not vals:
@@ -395,6 +414,9 @@ def main() -> None:
             "error_matrix_dB": metrics["error_matrix_dB"],
         },
         "negative_entries": result["negative_entries"].tolist(),
+        "flux_subtraction": _flux_subtraction_health(
+            result["power_matrix"], result["ports"]
+        ),
         "objective": result["objective"],
         "discrete_control": discrete_control,
     }

@@ -565,3 +565,70 @@ Meep interpolates continuous source/monitor coordinates; in a 91-element scatter
 3. Port receivers should likewise be anchored to Yee-grid DOFs where possible.
 
 ---
+
+## 15. Six-port formulation gates (2026-09-02)
+
+Artifacts: `outputs/validation/port_gates/` (`campaign_summary.json`, `grid_offset_P0P1_res32.json`)
+
+Harness: `run_port_gates_campaign.py`, `run_grid_offset_port_gates.py`, `reciprocity_b0_study.py --discrete-control`
+
+Direct-Lorentz / material investigation **closed** (§14). Legacy point-probe metric retained only as documented sampling-artifact lesson.
+
+### P2↔P3 regression — resolved
+
+Per-port numerical mode caches (no symmetry sharing) give **P2↔P3 ≈ 0 dB** for all `num_mode_*` formulations at horns_only res32/rt5/np32. The prior 0.208 dB failure was incorrect P3←P2 profile sharing.
+
+### Horns_only A/B decomposition (res32, rt=5, np=32, zero grid offset)
+
+| Launch + receiver | P1↔P2 | P2↔P3 | discrete FDTD control |
+|---|---:|---:|---:|
+| te1_hz_line + axis flux | 0.625 dB | ~0 dB | ~0 dB |
+| num_mode_hz_line + axis flux | 0.076 dB | ~0 dB | ~0 dB |
+| **num_mode_guide_normal** + guide-normal flux | **0.061 dB** | ~0 dB | ~0 dB |
+| num_mode_yee_sdotn + Yee S·n integration | 0.070 dB | ~0 dB | ~0 dB |
+
+**Gates at zero offset:** P1↔P2 ≤0.2 dB ✓, P2↔P3 ≤0.05 dB ✓.
+
+**Best candidate:** `num_mode_guide_normal` — orientation-consistent guide-normal flux fixes axis↔diagonal asymmetry vs axis-aligned `num_mode_hz_line`; marginally better P1↔P2 than hz_line.
+
+### Grid-offset robustness (P1↔P2, ±0.5 cells) — **not yet passing**
+
+| offset (cells) | num_mode_hz_line | num_mode_guide_normal | discrete control |
+|---|---:|---:|---:|
+| (0, 0) | 0.076 | **0.061** | ~0 |
+| (±0.5, 0) | 0.209 | 0.197 | ~0 |
+| (0, ±0.5) | 0.85–0.87 | 0.93–0.96 | ~0 |
+| (±0.5, ±0.5) | 1.02–1.05 | 1.07–1.10 | ~0 |
+
+Port metric remains grid-sensitive; **discrete FDTD reciprocity stays at machine precision at all offsets** — confirming errors are port sampling/integration, not physics.
+
+### Full device (res32, rt=20, np=32, uniform rho, B=0)
+
+| Pair | `num_mode_guide_normal` port | discrete FDTD control |
+|---|---:|---:|
+| P1↔P2 | **0.166 dB** | ~0 dB |
+| P2↔P3 | **0.003 dB** | ~0 dB |
+
+Major improvement vs pre-fix full-device `num_mode_hz_line` (~2.19 dB at res64/rt20 with contaminated axis flux). Port residual on P1↔P2 remains; FDTD layer is clean.
+
+### Cache architecture (inverse-design prep)
+
+| Artifact | Valid when rho changes? | Valid when B/res/grid offset changes? |
+|---|---|---|
+| Horn geometry | yes | per res/offset/rotation |
+| Numerical mode JSON (per port) | yes | per res/frequency/offset |
+| Incident normalization pickle | yes | per formulation/offset/rt |
+| Yee receiver weights (future) | yes | per res/offset |
+| PMM FDTD solve | **no** — must rerun | per rho/B/res |
+
+### Promotion status
+
+**Do not promote to production yet.** Horns_only zero-offset gates pass; grid-offset sensitivity and full-device P1↔P2 (~0.17 dB) need further Yee-anchored launch/receiver work before res64 confirmation and runtime sweep.
+
+### Next steps
+
+1. Yee-snap numerical launch + guide-normal flux jointly (reduce grid-offset spread).
+2. Full-device rt convergence at res32 with `num_mode_guide_normal`.
+3. res64 confirmation once res32 port metric is satisfactory.
+
+---

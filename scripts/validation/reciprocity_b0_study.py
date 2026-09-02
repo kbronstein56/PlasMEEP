@@ -195,6 +195,11 @@ def main() -> None:
         default=4,
         help="Flare subdivisions for rotated_blocks representation",
     )
+    parser.add_argument(
+        "--discrete-control",
+        action="store_true",
+        help="Run matched Yee-grid discrete reciprocity control for 2-port runs",
+    )
     args = parser.parse_args()
 
     grid_offset = _parse_offset_pair(args.grid_offset_cells)
@@ -288,6 +293,43 @@ def main() -> None:
 
     metrics = reciprocity_metrics(result["power_matrix_dB"], port_ids=result["ports"])
 
+    discrete_control: Dict[str, Any] | None = None
+    if args.discrete_control and ports is not None and len(ports) == 2:
+        from plasmeep.ports.lorentz_probe import ProbeSites, evaluate_reciprocity_pair
+        from sixport_common import build_circulator_device, effective_port_dir, horn_for_port, monitor_center_for_port, source_df, fs_a
+
+        pa, pb = ports[0], ports[1]
+        _pmm, p_device, _wp = build_circulator_device(
+            rho,
+            B,
+            res=args.res,
+            device_mode=args.device_mode,
+            wall_pec=wall_pec,
+        )
+        sites_a = ProbeSites(
+            pa,
+            np.asarray(horn_for_port(pa, args.res)["source_center"], dtype=float),
+            np.asarray(monitor_center_for_port(pa, args.res), dtype=float),
+            np.asarray(effective_port_dir(pa), dtype=float),
+        )
+        sites_b = ProbeSites(
+            pb,
+            np.asarray(horn_for_port(pb, args.res)["source_center"], dtype=float),
+            np.asarray(monitor_center_for_port(pb, args.res), dtype=float),
+            np.asarray(effective_port_dir(pb), dtype=float),
+        )
+        disc = evaluate_reciprocity_pair(
+            p_device,
+            sites_a,
+            sites_b,
+            res=args.res,
+            frequency=fs_a,
+            fwidth=source_df,
+            run_time=args.run_time,
+            observable="discrete",
+        )
+        discrete_control = disc.get("discrete", {})
+
     print()
     print("=" * 54)
     print("B=0 RECIPROCITY DIAGNOSTICS")
@@ -354,6 +396,7 @@ def main() -> None:
         },
         "negative_entries": result["negative_entries"].tolist(),
         "objective": result["objective"],
+        "discrete_control": discrete_control,
     }
 
     # Only rank 0 writes artifacts (all ranks still ran Meep collectives).

@@ -679,6 +679,7 @@ def normalize_port(
         add_dft_sdotn_monitor,
         add_flux_monitor,
         add_modal_overlap_monitor_for_port,
+        dft_sdotn_yee_snap,
         extract_dft_sdotn_power,
         extract_eigenmode_powers,
         extract_modal_powers,
@@ -755,7 +756,9 @@ def normalize_port(
         if verbose:
             print("Running reference (DFT S·n)...")
         ref_sim.run(until_after_sources=run_time)
-        signed_flux = extract_dft_sdotn_power(ref_sim, mon_info)
+        signed_flux = extract_dft_sdotn_power(
+            ref_sim, mon_info, yee_snap=dft_sdotn_yee_snap(form.name)
+        )
         incident_power = abs(signed_flux)
         incident_data = None
     elif form.measurement == "modal_overlap":
@@ -988,6 +991,7 @@ def simulate_circulator(
         port_measure_center,
         uses_finite_metal_walls,
         uses_modal_measurement,
+        dft_sdotn_yee_snap,
     )
 
     form = get_formulation(formulation)
@@ -1113,7 +1117,12 @@ def simulate_circulator(
         modal_coeffs = None
         if form.measurement == "dft_sdotn":
             flux_i = np.array(
-                [extract_dft_sdotn_power(sim_i, info) for info in dft_infos]
+                [
+                    extract_dft_sdotn_power(
+                        sim_i, info, yee_snap=dft_sdotn_yee_snap(form.name)
+                    )
+                    for info in dft_infos
+                ]
             )
         elif form.measurement == "modal_overlap":
             modal_coeffs = extract_modal_coefficients(sim_i, modal_infos)

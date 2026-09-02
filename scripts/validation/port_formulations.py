@@ -51,6 +51,8 @@ FORMULATION_NAMES = (
     "baseline_guide_normal",
     "eigenmode",
     "num_mode_hz_line",
+    "num_mode_guide_normal",
+    "num_mode_yee_sdotn",
     "te1_hz_modal",
     "num_mode_modal",
 )
@@ -64,6 +66,78 @@ def _unit(v: np.ndarray) -> np.ndarray:
     if n == 0:
         raise ValueError("zero-length direction")
     return v / n
+
+
+def _hz_yee_grid_xy(xy: np.ndarray, *, res: int) -> np.ndarray:
+    """Snap a 2D point to the nearest Hz Yee cell-center DOF."""
+    from plasmeep.ports.lorentz_probe import hz_yee_site
+
+    site = hz_yee_site(np.asarray(xy, dtype=float).reshape(2), res=res)
+    return np.array(site.grid_xy, dtype=float)
+
+
+def _merge_complex_sources(
+    coords: List[np.ndarray],
+    amps: List[complex],
+) -> Tuple[List[np.ndarray], List[complex]]:
+    """Merge duplicate launch coordinates by summing complex amplitudes."""
+    merged: Dict[Tuple[float, float], complex] = {}
+    for xy, amp in zip(coords, amps):
+        key = (round(float(xy[0]), 12), round(float(xy[1]), 12))
+        merged[key] = merged.get(key, 0.0 + 0.0j) + complex(amp)
+    out_coords = [np.array(k, dtype=float) for k in merged]
+    out_amps = [merged[k] for k in merged]
+    return out_coords, out_amps
+
+
+def make_yee_snapped_numerical_mode_sources(
+    port_index: int,
+    frequency: Optional[float] = None,
+    fwidth: Optional[float] = None,
+) -> List[mp.Source]:
+    """Numerical-mode launch with each DOF snapped to the Hz Yee grid."""
+    from plasmeep.ports.mode_registry import get_numerical_mode
+    from plasmeep.ports.numerical_launch import port_tangent
+
+    if frequency is None:
+        frequency = sc.fs_a
+    if fwidth is None:
+        fwidth = sc.source_df
+    res = sc.current_res()
+    u = sc.effective_port_dir(port_index)
+    tangent = port_tangent(u)
+    mode = get_numerical_mode(
+        port_index,
+        res=res,
+        frequency_a=frequency,
+        horn_walls=sc.get_horn_walls(),
+        grid_offset_cells=sc.get_grid_offset_cells(),
+        coord_rotation_deg=sc.get_coord_rotation_deg(),
+        validate_alignment=(u, tangent),
+    )
+    center = np.asarray(sc.horn_for_port(port_index, res)["source_center"], dtype=float)
+    weights = mode.source_amplitudes(target_power=1.0)
+    coords: List[np.ndarray] = []
+    amps: List[complex] = []
+    for s, amp in zip(mode.offsets_a, weights):
+        xy = center + float(s) * tangent
+        snapped = _hz_yee_grid_xy(xy, res=res)
+        coords.append(snapped)
+        amps.append(complex(amp))
+    coords, amps = _merge_complex_sources(coords, amps)
+    sources: List[mp.Source] = []
+    for xy, amp in zip(coords, amps):
+        if abs(amp) < 1e-30:
+            continue
+        sources.append(
+            mp.Source(
+                src=mp.GaussianSource(frequency=frequency, fwidth=fwidth),
+                component=mp.Hz,
+                center=mp.Vector3(float(xy[0]), float(xy[1]), 0),
+                amplitude=amp,
+            )
+        )
+    return sources
 
 
 EIGENMODE_WALL_EPS = 1.0e6
@@ -242,6 +316,10 @@ def make_te1_ez_sources(
 
 def uses_modal_measurement(formulation: str) -> bool:
     return formulation in ("te1_hz_modal", "num_mode_modal")
+
+
+def dft_sdotn_yee_snap(formulation: str) -> bool:
+    return formulation == "num_mode_yee_sdotn"
 
 
 def make_numerical_mode_sources(
@@ -438,6 +516,7 @@ def make_flux_region_for_formulation(
     if formulation in (
         "te1_guide_normal",
         "baseline_guide_normal",
+        "num_mode_guide_normal",
     ):
         return make_guide_normal_flux_spec(
             center_xy, outward_dir, n_points=31, weight_profile="uniform"
@@ -585,21 +664,26 @@ def _dft_axes(ex: np.ndarray, mon_info: Dict[str, Any], sim) -> tuple:
     return x_1d, y_1d
 
 
-def extract_dft_sdotn_power(sim, mon_info: Dict[str, Any], n_points: int = 61) -> float:
+def extract_dft_sdotn_power(
+    sim,
+    mon_info: Dict[str, Any],
+    n_points: int = 61,
+    *,
+    yee_snap: bool = False,
+) -> float:
     """Return signed outward power ≈ ∫ (1/2) Re(E×H*)·n̂ ds along the chord."""
     dft = mon_info["dft"]
     center = mon_info["center"]
     u = mon_info["outward"]
     tangent = mon_info["tangent"]
     span = mon_info["span"]
+    res = sc.current_res()
 
     ex = np.asarray(sim.get_dft_array(dft, mp.Ex, 0))
     ey = np.asarray(sim.get_dft_array(dft, mp.Ey, 0))
     hz = np.asarray(sim.get_dft_array(dft, mp.Hz, 0))
     if ex.ndim == 1:
-        # Degenerate 1d DFT slab — reshape using volume aspect
         vol = mon_info["volume"]
-        # Prefer interpreting as variation along the longer volume axis
         if vol.size.x >= vol.size.y:
             ex = ex.reshape((-1, 1))
             ey = ey.reshape((-1, 1))
@@ -619,12 +703,21 @@ def extract_dft_sdotn_power(sim, mon_info: Dict[str, Any], n_points: int = 61) -
         w[0] *= 0.5
         w[-1] *= 0.5
 
+    def _sample(arr: np.ndarray, xq: float, yq: float) -> complex:
+        if yee_snap:
+            ix = int(np.argmin(np.abs(x_1d - xq)))
+            iy = int(np.argmin(np.abs(y_1d - yq)))
+            return complex(arr[ix, iy])
+        return _bilinear(arr, x_1d, y_1d, xq, yq)
+
     total = 0.0
     for s, ws in zip(offsets, w):
         xy = center + s * tangent
-        Ex = _bilinear(ex, x_1d, y_1d, float(xy[0]), float(xy[1]))
-        Ey = _bilinear(ey, x_1d, y_1d, float(xy[0]), float(xy[1]))
-        Hz = _bilinear(hz, x_1d, y_1d, float(xy[0]), float(xy[1]))
+        if yee_snap:
+            xy = _hz_yee_grid_xy(xy, res=res)
+        Ex = _sample(ex, float(xy[0]), float(xy[1]))
+        Ey = _sample(ey, float(xy[0]), float(xy[1]))
+        Hz = _sample(hz, float(xy[0]), float(xy[1]))
         Sx = 0.5 * np.real(Ey * np.conj(Hz))
         Sy = -0.5 * np.real(Ex * np.conj(Hz))
         total += (u[0] * Sx + u[1] * Sy) * ws
@@ -738,6 +831,16 @@ _REGISTRY: Dict[str, Formulation] = {
         name="num_mode_hz_line",
         measurement="flux",
         make_sources=make_numerical_mode_sources,
+    ),
+    "num_mode_guide_normal": Formulation(
+        name="num_mode_guide_normal",
+        measurement="flux",
+        make_sources=make_numerical_mode_sources,
+    ),
+    "num_mode_yee_sdotn": Formulation(
+        name="num_mode_yee_sdotn",
+        measurement="dft_sdotn",
+        make_sources=make_yee_snapped_numerical_mode_sources,
     ),
     "te1_hz_modal": Formulation(
         name="te1_hz_modal",

@@ -1,0 +1,211 @@
+{
+  "timestamp_utc": "2026-09-02T10:34:50.350396+00:00",
+  "settings": {
+    "res": 32,
+    "run_time": 5.0,
+    "ranks": 32,
+    "device_mode": "horns_only",
+    "grid_offset_sweep": false,
+    "gates": {
+      "P1P2_le_0.2_dB": 0.2,
+      "P2P3_le_0.05_dB": 0.05
+    }
+  },
+  "ablation_zero_offset": [
+    {
+      "formulation": "te1_hz_line",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.6253376100236192,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    },
+    {
+      "formulation": "te1_hz_line",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 7.993605777301127e-14,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    },
+    {
+      "formulation": "num_mode_hz_line",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.07573317128071366,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    },
+    {
+      "formulation": "num_mode_hz_line",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 1.2612133559741778e-13,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    },
+    {
+      "formulation": "num_mode_guide_normal",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.060881605670607186,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    },
+    {
+      "formulation": "num_mode_guide_normal",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 1.2789769243681803e-13,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    },
+    {
+      "formulation": "num_mode_yee_sdotn",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.07022881202339804,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    },
+    {
+      "formulation": "num_mode_yee_sdotn",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 1.794120407794253e-13,
+      "discrete_amp_err_dB": 1.928654933106574e-15
+    }
+  ],
+  "rows": [
+    {
+      "label": "te1_hz_line_P0P1_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/te1_hz_line_P0P1_g0_0_res32_rt5.json",
+      "formulation": "te1_hz_line",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.6253376100236192,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 19.033483253093436
+    },
+    {
+      "label": "te1_hz_line_P1P2_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/te1_hz_line_P1P2_g0_0_res32_rt5.json",
+      "formulation": "te1_hz_line",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 7.993605777301127e-14,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 15.440569936996326
+    },
+    {
+      "label": "num_mode_hz_line_P0P1_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/num_mode_hz_line_P0P1_g0_0_res32_rt5.json",
+      "formulation": "num_mode_hz_line",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.07573317128071366,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 16.90508801897522
+    },
+    {
+      "label": "num_mode_hz_line_P1P2_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/num_mode_hz_line_P1P2_g0_0_res32_rt5.json",
+      "formulation": "num_mode_hz_line",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 1.2612133559741778e-13,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 16.554587161983363
+    },
+    {
+      "label": "num_mode_guide_normal_P0P1_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/num_mode_guide_normal_P0P1_g0_0_res32_rt5.json",
+      "formulation": "num_mode_guide_normal",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.060881605670607186,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 21.43614614708349
+    },
+    {
+      "label": "num_mode_guide_normal_P1P2_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/num_mode_guide_normal_P1P2_g0_0_res32_rt5.json",
+      "formulation": "num_mode_guide_normal",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 1.2789769243681803e-13,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 22.254327484988607
+    },
+    {
+      "label": "num_mode_yee_sdotn_P0P1_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/num_mode_yee_sdotn_P0P1_g0_0_res32_rt5.json",
+      "formulation": "num_mode_yee_sdotn",
+      "ports": "0,1",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 0.07022881202339804,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 22.496861592982896
+    },
+    {
+      "label": "num_mode_yee_sdotn_P1P2_g0_0_res32_rt5",
+      "skipped": false,
+      "json_out": "/home/daq_user/PlasMEEP/outputs/validation/port_gates/num_mode_yee_sdotn_P1P2_g0_0_res32_rt5.json",
+      "formulation": "num_mode_yee_sdotn",
+      "ports": "1,2",
+      "grid_offset": [
+        0.0,
+        0.0
+      ],
+      "port_err_dB": 1.794120407794253e-13,
+      "discrete_amp_err_dB": 1.928654933106574e-15,
+      "elapsed_s": 23.71018523501698
+    }
+  ],
+  "elapsed_s": 157.83480599103495
+}

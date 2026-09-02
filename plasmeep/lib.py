@@ -389,6 +389,119 @@ class Plasmeep:
             axis=mp.Vector3(axis[0],axis[1],axis[2]), height=height))
 
 
+    def density_to_meep_wp(self, n):
+        """
+        Convert electron density to a MEEP Drude frequency (a units).
+
+        n: electron density in m^{-3}.
+        WP(n) returns the angular plasma frequency omega_p in rad/s.
+        Get_Med / DrudeSusceptibility.frequency is a cyclic frequency
+        in units of c/a, same convention as Nondimensionalize_Freq (Hz -> a).
+
+        Therefore:
+            f_p [Hz]  = WP(n) / (2*pi)
+            wp_meep   = Nondimensionalize_Freq(f_p) = f_p * a / c
+
+        Do not pass WP(n) directly to Nondimensionalize_Freq; that skips 2*pi
+        and is inconsistent with Bands_MagPlasma (fp in Hz) and Get_Med.
+        """
+        n_arr = np.asarray(n, dtype=float)
+        if np.any(~np.isfinite(n_arr)) or np.any(n_arr < 0.0):
+            raise ValueError("Electron density n must be finite and n >= 0.")
+        f_hz = WP(n_arr) / (2.0 * np.pi)
+        wp = self.Nondimensionalize_Freq(f_hz)
+        if np.isscalar(n) or getattr(n, "ndim", 1) == 0:
+            return float(np.asarray(wp).reshape(()))
+        return wp
+
+
+    def Add_Rod_radial_shells(self, R_p, center, n_e_profile, n_shells = 12,\
+                              eps = 1, gamma = 0, axis = [0,0,1],\
+                              height = mp.inf):
+        """
+        Add a plasma cylinder of radius R_p as concentric Drude shells.
+
+        This is a reusable geometry helper: n_e_profile may be any callable
+        n_e(r) -> density in m^{-3}. Bessel_profile is one valid choice.
+
+        Args:
+            R_p: plasma radius in a units (same length convention as Add_Rod)
+            center: x,y,z coords of the cylinder center in a units
+            n_e_profile: callable. Argument r is the radial coordinate in a
+                units (same as R_p). Return value is electron density in
+                m^{-3}. Sampled at each shell midpoint.
+            n_shells: number of equal-width rings covering 0 <= r <= R_p.
+                Default 12, in the guide's ~10-15 recommendation.
+            eps: 0th-order relative permittivity of each shell (usually 1)
+            gamma: collision frequency in a units, same as Add_Rod / Get_Med.
+                Convert from Hz with Nondimensionalize_Freq at the call site,
+                as Bands_MagPlasma does. Do not pass rad/s.
+            axis: 1-hot vector selecting cylinder axis
+            height: cylinder height, for 3D designs.
+
+        Geometry / precedence:
+            Equal-width shells i = 0..n_shells-1 occupy
+            [i, i+1] * (R_p / n_shells), sampled at the midpoint.
+            Cylinders are appended largest-first, matching Add_Bulb's J0
+            shells. MEEP later objects overwrite earlier ones, so the
+            last (smallest) cylinder is the core.
+
+        Density -> MEEP frequency (does not change Get_Med):
+            wp = density_to_meep_wp(n) = Nondimensionalize_Freq(WP(n)/(2*pi))
+
+        Returns:
+            list of dicts, inner shell first: r_inner, r_outer, r_mid, n_e, wp
+        """
+        try:
+            R_p = float(R_p)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("R_p must be a real scalar.") from exc
+        if isinstance(n_shells, bool) or not isinstance(n_shells, (int, np.integer)):
+            raise ValueError("n_shells must be an integer >= 1.")
+        n_shells = int(n_shells)
+        if not np.isfinite(R_p) or R_p <= 0.0:
+            raise ValueError("R_p must be a finite plasma radius, R_p > 0.")
+        if n_shells < 1:
+            raise ValueError("n_shells must be an integer >= 1.")
+        if not callable(n_e_profile):
+            raise ValueError("n_e_profile must be a callable n_e(r) in m^{-3}.")
+
+        dr = R_p / n_shells
+        shells = []
+        for i in range(n_shells):
+            r_inner = i * dr
+            r_outer = (i + 1) * dr
+            r_mid = 0.5 * (r_inner + r_outer)
+            n_mid = n_e_profile(r_mid)
+            try:
+                n_mid = float(np.asarray(n_mid, dtype=float).reshape(()))
+            except (TypeError, ValueError) as exc:
+                raise ValueError(
+                    "n_e_profile(r) must return a scalar electron density "
+                    "in m^{-3}."
+                ) from exc
+            if not np.isfinite(n_mid) or n_mid < 0.0:
+                raise ValueError(
+                    "n_e_profile(r) must return a finite density n >= 0; "
+                    "got n_e({0}) = {1}.".format(r_mid, n_mid)
+                )
+            wp = self.density_to_meep_wp(n_mid)
+            shells.append({
+                "r_inner": r_inner,
+                "r_outer": r_outer,
+                "r_mid": r_mid,
+                "n_e": n_mid,
+                "wp": wp,
+            })
+
+        # Largest cylinder first so later, smaller cylinders own the core.
+        # Same overlap convention as Add_Bulb profile == 6 / 'J0'.
+        for shell in reversed(shells):
+            self.Add_Rod(shell["r_outer"], center, eps, shell["wp"], gamma,\
+                         axis, height)
+        return shells
+
+
     def Add_Bulb(self, r_bulb, center, wp = 0, gamma = 0,\
                  axis = [0,0,1], height = mp.inf, profile = 0):
         """

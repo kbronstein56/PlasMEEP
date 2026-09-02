@@ -502,6 +502,164 @@ class Plasmeep:
         return shells
 
 
+    def Add_Horn(self, center, theta, feed_width, feed_length, eps,\
+                 flare_length = 0, aperture_width = None, height = mp.inf):
+        """
+        Add a 2D dielectric waveguide feed with an optional flare.
+
+        This is a reusable geometry helper. It places one feed at an
+        arbitrary location and orientation. Five 72-degree tomography
+        horns are the caller's responsibility, not this function's.
+
+        Material: dielectric epsilon (tomography feeds use eps ~ 4).
+        eps is required. There is no default: PlasMEEP's usual eps=1
+        would be invisible against vacuum, and PMM-Design's eps=-1000
+        PEC walls are the wrong object for this project.
+
+        All lengths are in a units.
+
+        Args:
+            center: x,y[,z] of the straight-feed centroid in a units.
+                The recommended future port plane passes through this
+                point. z defaults to 0.
+            theta: feed-axis angle in radians, measured from +x toward
+                +y. The unit axis u = (cos theta, sin theta) points from
+                the back of the feed toward the aperture (launch
+                direction, toward the device when the horn faces inward).
+            feed_width: full width of the uniform waveguide, a units.
+            feed_length: length of the uniform waveguide along u, a units.
+            eps: relative permittivity of the feed and flare. Must be
+                finite and > 0. Do not pass PMM-Design's -1000.
+            flare_length: length of the optional flare along u. 0 means
+                no flare (straight feed only).
+            aperture_width: full width at the flare mouth. Required if
+                flare_length > 0, and must exceed feed_width so the
+                aperture expands toward the mouth.
+            height: extrusion along z (default mp.inf; 2D TM).
+
+        Geometry:
+            Feed occupies center +/- (feed_length/2) * u and is a
+            rectangle of width feed_width. If flare_length > 0, a
+            trapezoid is attached on the aperture side (the +u end).
+            Representation: mp.Prism polygons (MEEP-native, robust at
+            arbitrary theta). Feed first, then flare.
+
+        Returns a metadata dict for a future Add_Port:
+            center, theta, axis, normal, feed_width, feed_length,
+            flare_length, aperture_width, eps, feed_back, feed_front,
+            aperture_center, port_center, port_p1, port_p2.
+            port_* is the mid-feed cross-section, inside the uniform
+            dielectric, perpendicular to the axis.
+        """
+        center = np.asarray(center, dtype=float).reshape(-1)
+        if center.size == 2:
+            center = np.array([center[0], center[1], 0.0], dtype=float)
+        elif center.size == 3:
+            center = center.astype(float)
+        else:
+            raise ValueError("center must be an (x, y) or (x, y, z) position.")
+        if not np.all(np.isfinite(center)):
+            raise ValueError("center must be finite.")
+
+        try:
+            theta = float(theta)
+            feed_width = float(feed_width)
+            feed_length = float(feed_length)
+            flare_length = float(flare_length)
+            eps = float(eps)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                "theta, feed_width, feed_length, flare_length, and eps "
+                "must be real scalars."
+            ) from exc
+        if not np.isfinite(theta):
+            raise ValueError("theta must be a finite angle in radians.")
+        if not np.isfinite(feed_width) or feed_width <= 0.0:
+            raise ValueError("feed_width must be finite and > 0.")
+        if not np.isfinite(feed_length) or feed_length <= 0.0:
+            raise ValueError("feed_length must be finite and > 0.")
+        if not np.isfinite(flare_length) or flare_length < 0.0:
+            raise ValueError("flare_length must be finite and >= 0.")
+        if not np.isfinite(eps) or eps <= 0.0:
+            raise ValueError(
+                "eps must be a finite dielectric constant > 0. "
+                "Require it explicitly; do not use PEC-like negative eps."
+            )
+
+        if flare_length == 0.0:
+            if aperture_width is not None and float(aperture_width) != feed_width:
+                raise ValueError(
+                    "aperture_width must be omitted or equal feed_width "
+                    "when flare_length is 0."
+                )
+            aperture_width = feed_width
+        else:
+            if aperture_width is None:
+                raise ValueError(
+                    "aperture_width is required when flare_length > 0."
+                )
+            try:
+                aperture_width = float(aperture_width)
+            except (TypeError, ValueError) as exc:
+                raise ValueError("aperture_width must be a real scalar.")\
+                    from exc
+            if not np.isfinite(aperture_width) or aperture_width <= feed_width:
+                raise ValueError(
+                    "aperture_width must be finite and > feed_width so the "
+                    "flare expands toward the mouth."
+                )
+
+        axis = np.array([np.cos(theta), np.sin(theta), 0.0], dtype=float)
+        # Transverse unit vector: axis rotated +90 deg CCW in the xy plane.
+        normal = np.array([-np.sin(theta), np.cos(theta), 0.0], dtype=float)
+
+        feed_back = center - 0.5 * feed_length * axis
+        feed_front = center + 0.5 * feed_length * axis
+        aperture_center = feed_front + flare_length * axis
+
+        def _quad(along_a, half_a, along_b, half_b):
+            # CCW when viewed from +z: start at -normal on the back edge.
+            return np.vstack([
+                along_a - half_a * normal,
+                along_b - half_b * normal,
+                along_b + half_b * normal,
+                along_a + half_a * normal,
+            ])
+
+        feed_verts = _quad(feed_back, 0.5 * feed_width,
+                           feed_front, 0.5 * feed_width)
+        self.Add_Prism(feed_verts, axis=[0, 0, 1], height=height, eps=eps)
+
+        if flare_length > 0.0:
+            flare_verts = _quad(feed_front, 0.5 * feed_width,
+                                aperture_center, 0.5 * aperture_width)
+            self.Add_Prism(flare_verts, axis=[0, 0, 1], height=height, eps=eps)
+        else:
+            flare_verts = None
+
+        port_p1 = center - 0.5 * feed_width * normal
+        port_p2 = center + 0.5 * feed_width * normal
+        return {
+            "center": center.copy(),
+            "theta": theta,
+            "axis": axis,
+            "normal": normal,
+            "feed_width": feed_width,
+            "feed_length": feed_length,
+            "flare_length": flare_length,
+            "aperture_width": aperture_width,
+            "eps": eps,
+            "feed_back": feed_back,
+            "feed_front": feed_front,
+            "aperture_center": aperture_center,
+            "port_center": center.copy(),
+            "port_p1": port_p1,
+            "port_p2": port_p2,
+            "feed_vertices": feed_verts,
+            "flare_vertices": flare_verts,
+        }
+
+
     def Add_Bulb(self, r_bulb, center, wp = 0, gamma = 0,\
                  axis = [0,0,1], height = mp.inf, profile = 0):
         """

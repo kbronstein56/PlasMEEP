@@ -68,6 +68,23 @@ def _json_safe(obj: Any) -> Any:
     return obj
 
 
+def _mpi_info() -> Dict[str, Any]:
+    try:
+        from mpi_runner import mpi_info
+
+        return mpi_info()
+    except Exception:
+        size = int(os.environ.get("OMPI_COMM_WORLD_SIZE", os.environ.get("PMI_SIZE", "1")))
+        rank = int(os.environ.get("OMPI_COMM_WORLD_RANK", os.environ.get("PMI_RANK", "0")))
+        return {
+            "ranks": size,
+            "rank": rank,
+            "omp_num_threads": os.environ.get("OMP_NUM_THREADS", ""),
+            "fi_provider": os.environ.get("FI_PROVIDER", ""),
+            "mpich_ch4_netmod": os.environ.get("MPICH_CH4_NETMOD", ""),
+        }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--res", type=int, default=32)
@@ -140,6 +157,7 @@ def main() -> int:
             "fs_a": fs_a,
             "source": "localized Hz point (Gaussian), no flux normalization",
         },
+        "mpi": _mpi_info(),
         "physical_resolution": physical_resolution_report(args.res),
         "timings_s": {"total": time.perf_counter() - t0},
         "pairs": results,
@@ -148,10 +166,18 @@ def main() -> int:
     out_path = args.json_out or os.path.join(
         OUT, f"lorentz_direct_{args.device_mode}_res{args.res}.json"
     )
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(_json_safe(payload), f, indent=2)
-        f.write("\n")
-    print(f"\nWrote {out_path}")
+    try:
+        from mpi4py import MPI
+
+        rank = int(MPI.COMM_WORLD.Get_rank())
+    except Exception:
+        rank = 0
+
+    if rank == 0:
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(_json_safe(payload), f, indent=2)
+            f.write("\n")
+        print(f"\nWrote {out_path}")
     return 0
 
 

@@ -1,12 +1,31 @@
 {
-  "timestamp_utc": "2026-09-02T05:55:00+00:00",
+  "timestamp_utc": "2026-09-02T06:55:00+00:00",
   "res": 64,
   "formulation": "num_mode_hz_line",
-  "note": "Study interrupted after rt40; rt does NOT monotonically improve reciprocity",
+  "campaign_status": "STOPPED — do not resume rt60/80",
+  "mpi_note": "Completed rt10/20/40 were launched serially (no mpirun -np 32). Preserved as-is for record; future runs must use mpi_runner.py.",
   "results": [
-    {"run_time": 10, "reciprocity_dB": 3.462, "wall_s": 2992, "json": "full_num_mode_hz_line_P1P2_res64_rt10.json"},
-    {"run_time": 20, "reciprocity_dB": 2.191, "wall_s": 1914, "json": "full_num_mode_hz_line_P1P2_res64_rt20.json"},
-    {"run_time": 40, "reciprocity_dB": 5.642, "wall_s": 3180, "json": "full_num_mode_hz_line_P1P2_res64_rt40.json"}
+    {
+      "run_time": 10,
+      "reciprocity_dB": 3.462,
+      "wall_s": 2992,
+      "mpi_ranks": 1,
+      "json": "full_num_mode_hz_line_P1P2_res64_rt10.json"
+    },
+    {
+      "run_time": 20,
+      "reciprocity_dB": 2.191,
+      "wall_s": 1914,
+      "mpi_ranks": 1,
+      "json": "full_num_mode_hz_line_P1P2_res64_rt20.json"
+    },
+    {
+      "run_time": 40,
+      "reciprocity_dB": 5.642,
+      "wall_s": 3180,
+      "mpi_ranks": 1,
+      "json": "full_num_mode_hz_line_P1P2_res64_rt40.json"
+    }
   ],
-  "conclusion": "Longer run_time does not collapse toward horns_only (0.076 dB). Incident power mismatch P1/P2 ~10% persists. Next: direct Lorentz on full device."
+  "conclusion": "Runtime does NOT converge toward horns_only (0.076 dB). Non-monotonic: rt20 best, rt40 worse. Next: direct Lorentz on full device with MPI; if Lorentz passes, debug port normalization vs PMM interaction."
 }

@@ -3,7 +3,7 @@
 Full-device P1↔P2 reciprocity vs run_time for num_mode_hz_line.
 
 Runs increasing run_time values until reciprocity stabilizes or the list ends.
-Reuses cached normalizations per (res, run_time) when available.
+All Meep simulations launch via mpirun -np 32 with validated MPI env.
 """
 
 from __future__ import annotations
@@ -11,7 +11,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import subprocess
 import sys
 import time
 from datetime import datetime, timezone
@@ -20,6 +19,18 @@ from typing import Any, Dict, List
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 VAL = os.path.dirname(os.path.abspath(__file__))
+for p in (VAL, os.path.join(ROOT, "scripts")):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+from mpi_runner import (  # noqa: E402
+    DEFAULT_PYTHON,
+    DEFAULT_RANKS,
+    mpi_env,
+    run_mpi_script,
+    verify_mpi_ranks,
+)
+
 OUT = Path(ROOT) / "outputs" / "validation" / "modal_ports"
 
 
@@ -32,17 +43,17 @@ def _json_safe(obj: Any) -> Any:
 
 
 def run_one(
-    python: str,
     *,
     res: int,
     run_time: float,
     formulation: str,
     skip_norm_cached: bool,
+    ranks: int,
 ) -> Dict[str, Any]:
     label = f"full_{formulation}_P1P2_res{res}_rt{run_time:g}"
     json_out = OUT / f"{label}.json"
-    cmd = [
-        python,
+    log_out = OUT / f"{label}.log"
+    script_args = [
         os.path.join(VAL, "reciprocity_b0_study.py"),
         "--res",
         str(res),
@@ -58,15 +69,29 @@ def run_one(
         label,
         "--json-out",
         str(json_out),
+        "--mpi-note",
+        f"np={ranks},FI_PROVIDER=tcp,OMP_NUM_THREADS=1",
     ]
     if skip_norm_cached:
-        cmd.append("--skip-norm-if-cached")
-    print(f"\n>>> {' '.join(cmd)}", flush=True)
+        script_args.append("--skip-norm-if-cached")
+
     t0 = time.perf_counter()
-    proc = subprocess.run(cmd, cwd=ROOT, check=False)
+    proc = run_mpi_script(
+        script_args,
+        ranks=ranks,
+        python=DEFAULT_PYTHON,
+        cwd=ROOT,
+        verify_ranks=True,
+        log_path=log_out,
+    )
     wall = time.perf_counter() - t0
     if proc.returncode != 0:
-        return {"run_time": run_time, "error": f"exit {proc.returncode}", "wall_s": wall}
+        return {
+            "run_time": run_time,
+            "error": f"exit {proc.returncode}",
+            "wall_s": wall,
+            "log": str(log_out),
+        }
     if not json_out.is_file():
         return {"run_time": run_time, "error": "missing json", "wall_s": wall}
     data = json.loads(json_out.read_text(encoding="utf-8"))
@@ -83,8 +108,10 @@ def run_one(
         "T_P1P2_dB": t12,
         "T_P2P1_dB": t21,
         "incident_mismatch": data.get("incident_power_mismatch"),
+        "mpi": data.get("mpi"),
         "timings_s": data.get("timings_s"),
         "wall_s": wall,
+        "log": str(log_out),
     }
 
 
@@ -104,32 +131,55 @@ def main() -> int:
     )
     parser.add_argument("--tol-dB", type=float, default=0.05)
     parser.add_argument("--skip-norm-if-cached", action="store_true", default=True)
-    parser.add_argument("--python", type=str, default=sys.executable)
+    parser.add_argument("--ranks", type=int, default=DEFAULT_RANKS)
+    parser.add_argument(
+        "--no-resume",
+        action="store_true",
+        help="Skip run_times whose JSON output already exists",
+    )
     args = parser.parse_args()
 
     run_times = [float(x) for x in args.run_times.split(",") if x.strip()]
     OUT.mkdir(parents=True, exist_ok=True)
 
-    # Audit mode cache first
+    print(f"Verifying MPI np={args.ranks} ...", flush=True)
+    verify_mpi_ranks(ranks=args.ranks, python=DEFAULT_PYTHON, cwd=ROOT)
+
     audit_cmd = [
-        args.python,
+        DEFAULT_PYTHON,
         os.path.join(VAL, "audit_mode_cache.py"),
         "--res",
         str(args.res),
         "--json-out",
         str(OUT / f"mode_cache_audit_res{args.res}.json"),
     ]
-    subprocess.run(audit_cmd, cwd=ROOT, check=True)
+    subprocess_run = __import__("subprocess").run
+    subprocess_run(audit_cmd, cwd=ROOT, env=mpi_env(), check=True)
 
     results: List[Dict[str, Any]] = []
     prev_rec = None
     for rt in run_times:
+        label = f"full_{args.formulation}_P1P2_res{args.res}_rt{rt:g}"
+        json_out = OUT / f"{label}.json"
+        if args.no_resume and json_out.is_file():
+            data = json.loads(json_out.read_text(encoding="utf-8"))
+            row = {
+                "run_time": rt,
+                "json_out": str(json_out),
+                "reciprocity_dB": data.get("reciprocity", {}).get("max_abs_diff_dB"),
+                "skipped": True,
+            }
+            results.append(row)
+            print(f"  rt={rt:g}: skipped (existing)", flush=True)
+            prev_rec = row.get("reciprocity_dB")
+            continue
+
         row = run_one(
-            args.python,
             res=args.res,
             run_time=rt,
             formulation=args.formulation,
             skip_norm_cached=args.skip_norm_if_cached,
+            ranks=args.ranks,
         )
         results.append(row)
         rec = row.get("reciprocity_dB")
@@ -154,6 +204,12 @@ def main() -> int:
         "res": args.res,
         "formulation": args.formulation,
         "run_times_requested": run_times,
+        "mpi": {
+            "ranks": args.ranks,
+            "omp_num_threads": "1",
+            "fi_provider": "tcp",
+            "mpich_ch4_netmod": "ofi",
+        },
         "results": results,
     }
     summary_path = OUT / f"full_device_rt_convergence_res{args.res}.json"

@@ -16,12 +16,14 @@ for p in (VAL, os.path.join(ROOT, "scripts")):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-from plasmeep.ports.mode_registry import audit_mode_cache  # noqa: E402
-from plasmeep.ports.numerical_launch import port_tangent  # noqa: E402
+from plasmeep.ports.mode_registry import audit_mode_cache, resolve_numerical_mode  # noqa: E402
+from plasmeep.ports.numerical_launch import make_numerical_hz_sources, port_tangent  # noqa: E402
 from sixport_common import (  # noqa: E402
     effective_port_dir,
     fs_a,
+    horn_for_port,
     set_geometry_context,
+    source_df,
 )
 
 
@@ -42,6 +44,9 @@ def main() -> int:
             frequency_a=fs_a,
             horn_walls=args.horn_walls,
         )
+        mode = resolve_numerical_mode(
+            port, res=args.res, frequency_a=fs_a, horn_walls=args.horn_walls
+        )
         u = effective_port_dir(port)
         t = port_tangent(u)
         import numpy as np
@@ -50,9 +55,29 @@ def main() -> int:
         mt = np.array(audit.tangent)
         outward_dot = float(np.dot(u / np.linalg.norm(u), mo))
         tangent_dot = float(np.dot(t, mt / np.linalg.norm(mt)))
+        center = horn_for_port(port, args.res)["source_center"]
+        srcs = make_numerical_hz_sources(
+            mode,
+            center_xy=np.asarray(center),
+            tangent_xy=t,
+            frequency=fs_a,
+            fwidth=source_df,
+        )
+        amps = np.array([s.amplitude for s in srcs])
+        peak_idx = int(np.argmax(np.abs(amps)))
         row = audit.as_dict()
         row["device_outward_dot"] = outward_dot
         row["device_tangent_dot"] = tangent_dot
+        row["launch"] = {
+            "n_sources": len(amps),
+            "peak_offset_a": float(mode.offsets_a[peak_idx]),
+            "peak_amp_abs": float(np.abs(amps[peak_idx])),
+            "peak_amp_phase_deg": float(np.degrees(np.angle(amps[peak_idx]))),
+            "mode_peak_phase_deg": float(
+                np.degrees(np.angle(mode.hz_complex[peak_idx]))
+            ),
+            "sum_abs_amp": float(np.sum(np.abs(amps))),
+        }
         audits.append(row)
         status = "OK" if audit.res_match and tangent_dot > 0.999 else "MISMATCH"
         print(

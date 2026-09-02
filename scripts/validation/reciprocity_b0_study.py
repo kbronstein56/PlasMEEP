@@ -50,6 +50,23 @@ def _parse_ports(s: str | None) -> List[int] | None:
     return ports
 
 
+def _mpi_info() -> Dict[str, Any]:
+    try:
+        from mpi_runner import mpi_info
+
+        return mpi_info()
+    except Exception:
+        size = int(os.environ.get("OMPI_COMM_WORLD_SIZE", os.environ.get("PMI_SIZE", "1")))
+        rank = int(os.environ.get("OMPI_COMM_WORLD_RANK", os.environ.get("PMI_RANK", "0")))
+        return {
+            "ranks": size,
+            "rank": rank,
+            "omp_num_threads": os.environ.get("OMP_NUM_THREADS", ""),
+            "fi_provider": os.environ.get("FI_PROVIDER", ""),
+            "mpich_ch4_netmod": os.environ.get("MPICH_CH4_NETMOD", ""),
+        }
+
+
 def _incident_mismatch(incident_by_port: Dict[Any, float]) -> Dict[str, float]:
     vals = [float(v) for v in incident_by_port.values()]
     if not vals:
@@ -292,6 +309,7 @@ def main() -> None:
         "label": args.label,
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "mpi_note": args.mpi_note,
+        "mpi": _mpi_info(),
         "settings": {
             "res": args.res,
             "run_time": args.run_time,

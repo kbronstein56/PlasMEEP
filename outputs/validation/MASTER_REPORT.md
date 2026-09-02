@@ -399,17 +399,18 @@ All six ports load `outputs/validation/mode_profiles/res64/numerical_mode_P*.jso
 
 Prior `te1_hz_line` range at res32: **0.05–0.79 dB** (~16×). Numerical launch reduces spread to **~2.7×**.
 
-### Full device (res64, P1↔P2) — runtime convergence
+### Full device (res64, P1↔P2) — runtime convergence **STOPPED**
 
-| run_time | `num_mode_hz_line` \|P12−P21\| | wall (s) |
-|---:|---:|---:|
-| 10 | 3.46 dB | 2992 |
-| 20 | **2.19 dB** | 1914 |
-| 40 | 5.64 dB | 3180 |
+| run_time | `num_mode_hz_line` \|P12−P21\| | wall (s) | MPI |
+|---:|---:|---:|---|
+| 10 | 3.46 dB | 2992 | serial (np=1) |
+| 20 | **2.19 dB** | 1914 | serial |
+| 40 | 5.64 dB | 3180 | serial |
+| 60/80 | *not run* | — | campaign stopped |
 
-**Runtime does not monotonically improve reciprocity** — longer `run_time` is not the fix. ~10% incident-power mismatch between P1 and P2 persists in full-device normalization. Direct Lorentz test on full device (res64, rt=40) launched to separate solver vs port-normalization failure.
+**Runtime does not converge** toward horns_only (0.076 dB). Non-monotonic behavior rules out "just needs longer rt". Early serial runs lacked `mpirun -np 32`; orchestrator fixed in `mpi_runner.py` — **do not re-run rt60/80** to chase convergence.
 
-**Do not promote `num_mode_hz_line` until horns_only gates pass (done) AND full-device reciprocity is acceptable.**
+**Next diagnostic:** direct Lorentz reciprocity on full B=0 device (uniform rho, res64, rt=20, np=32). **Result: 1.48 dB amp error** (`lorentz_direct_full_res64_rt20_P1P2_mpi.json`) vs horns_only 0.006 dB. `num_mode_hz_line` port metric: 2.19 dB (serial). Full plasma geometry degrades field reciprocity; port formulation adds ~0.7 dB more. **Not purely a port-normalization artifact** like horns_only.
 
 ### Normalization convention
 

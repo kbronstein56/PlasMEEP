@@ -1,0 +1,33 @@
+{
+  "timestamp_utc": "2026-09-02T07:20:00+00:00",
+  "comparison": "full device B=0 uniform rho, res64, rt=20, P1↔P2",
+  "horns_only_reference": {
+    "direct_lorentz_amp_err_dB": 0.006,
+    "num_mode_hz_line_reciprocity_dB": 0.076,
+    "note": "Solver reciprocal; port error is launch/normalization artifact"
+  },
+  "full_device": {
+    "direct_lorentz": {
+      "amp_err_dB": 1.476,
+      "phase_diff_deg": -31.82,
+      "complex_sym_err": 0.572,
+      "mpi_ranks": 32,
+      "json": "lorentz_direct/lorentz_direct_full_res64_rt20_P1P2_mpi.json",
+      "wall_s": 656
+    },
+    "num_mode_hz_line": {
+      "reciprocity_dB": 2.191,
+      "mpi_ranks": 1,
+      "json": "modal_ports/full_num_mode_hz_line_P1P2_res64_rt20.json",
+      "incident_power_rel_spread": 0.104,
+      "note": "serial run (pre-MPI fix); preserved as-is"
+    }
+  },
+  "mode_cache_audit": {
+    "json": "modal_ports/mode_cache_audit_res64_detailed.json",
+    "all_ports_ok": true,
+    "stored_res": 64,
+    "tangent_dot": 1.0
+  },
+  "interpretation": "Full-device direct Lorentz at rt=20 shows ~1.5 dB field reciprocity error — NOT horns_only-level (~0.006 dB). Port metric adds ~0.7 dB on top (2.19 dB). Plasma geometry / FDTD settling may contribute; port normalization (~10% P1/P2 incident mismatch) also contributes. Do NOT assume horns_only port fix alone closes full-device gap."
+}

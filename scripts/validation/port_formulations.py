@@ -257,9 +257,19 @@ def make_numerical_mode_sources(
     if fwidth is None:
         fwidth = sc.source_df
     res = sc.current_res()
-    mode = get_numerical_mode(port_index, res=res, frequency_a=frequency)
+    u = sc.effective_port_dir(port_index)
+    tangent = port_tangent(u)
+    mode = get_numerical_mode(
+        port_index,
+        res=res,
+        frequency_a=frequency,
+        horn_walls=sc.get_horn_walls(),
+        grid_offset_cells=sc.get_grid_offset_cells(),
+        coord_rotation_deg=sc.get_coord_rotation_deg(),
+        validate_alignment=(u, tangent),
+        log_audit=True,
+    )
     center = np.asarray(sc.horn_for_port(port_index, res)["source_center"], dtype=float)
-    tangent = port_tangent(sc.effective_port_dir(port_index))
     return make_numerical_hz_sources(
         mode,
         center_xy=center,

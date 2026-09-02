@@ -177,7 +177,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--res", type=int, default=32)
     parser.add_argument("--run-time", type=float, default=40.0)
-    parser.add_argument("--ports", type=str, default="0,1,5")
+    parser.add_argument("--ports", type=str, default="0,1,2,3,4,5")
     parser.add_argument("--horn-walls", type=str, default="prism")
     args = parser.parse_args()
 

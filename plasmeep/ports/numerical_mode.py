@@ -131,11 +131,7 @@ class NumericalPortMode:
 
 
 def symmetry_equivalent_ports(port_index: int) -> Tuple[int, ...]:
-    """Ports sharing magnitude of feed angle (+60° / −60° reuse one profile)."""
-    if port_index in (1, 2):
-        return (1, 2)
-    if port_index in (4, 5):
-        return (4, 5)
+    """Each hex face has a distinct outward normal; no profile sharing."""
     return (port_index,)
 
 

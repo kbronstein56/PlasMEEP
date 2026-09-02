@@ -1,26 +1,28 @@
 {
-  "timestamp_utc": "2026-09-01T20:40:00+00:00",
+  "timestamp_utc": "2026-09-02T04:15:00+00:00",
   "settings": {"res": 32, "run_time": 5.0, "device_mode": "horns_only"},
+  "fix": "Per-port numerical mode profiles (P3/P4/P5 extracted); removed incorrect symmetry sharing P2 profile for P3",
   "ablation_P1P2": {
     "te1_hz_line": 0.6253,
-    "num_mode_hz_line": 0.0757,
-    "te1_hz_modal": 0.4869,
-    "num_mode_modal": 0.6724
+    "num_mode_hz_line": 0.0757
   },
   "ablation_P2P3": {
     "te1_hz_line": 0.0,
-    "num_mode_hz_line": 0.2080,
-    "te1_hz_modal": 30.99,
-    "num_mode_modal": 48.42
+    "num_mode_hz_line_before_fix": 0.2080,
+    "num_mode_hz_line_after_fix": 1.26e-13
+  },
+  "gates": {
+    "P1P2_le_0.2_dB": true,
+    "P2P3_le_0.05_dB": true
   },
   "grid_offset_P1P2_num_mode_hz_line": {
     "(-0.5,0)": 0.2091,
     "(0,0)": 0.0757,
     "(0.5,0)": 0.2091
   },
-  "full_device_res64_rt20_P1P2": {
-    "te1_hz_line_baseline_prior": "~0.38-1.03 dB",
-    "num_mode_hz_line": 2.191
-  },
-  "conclusion": "num_mode_hz_line + flux fixes horns_only P1P2 to 0.076 dB; modal receiver not production-ready; full device res64 needs longer run_time / further tuning"
+  "cache_audit_res64": "P1-P6 all OK, stored_res=64, tangent_dot=1.0",
+  "full_device_res64_rt20_prior": {
+    "num_mode_hz_line": 2.191,
+    "note": "P1/P2 profiles were res64-correct; 2.19 dB likely rt too short (prior campaign used rt80). Convergence study in progress."
+  }
 }

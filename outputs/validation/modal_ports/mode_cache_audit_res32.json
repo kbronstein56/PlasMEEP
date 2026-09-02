@@ -1,0 +1,212 @@
+{
+  "timestamp_utc": "2026-09-02T03:47:29.131477+00:00",
+  "res": 32,
+  "frequency_a": 0.3595820946236079,
+  "horn_walls": "prism",
+  "ports": [
+    {
+      "device_port": "P1",
+      "profile_port": "P1",
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P1.json",
+      "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+      "requested": {
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "horn_walls": "prism",
+        "grid_offset_cells": [
+          0.0,
+          0.0
+        ],
+        "coord_rotation_deg": 0.0
+      },
+      "stored_mode": {
+        "label": "P1_res32",
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "outward_dir": [
+          1.0,
+          -0.0
+        ],
+        "tangent": [
+          0.0,
+          1.0
+        ],
+        "n_samples": 64
+      },
+      "res_match": true,
+      "frequency_match": true,
+      "device_outward_dot": 1.0,
+      "device_tangent_dot": 1.0
+    },
+    {
+      "device_port": "P2",
+      "profile_port": "P2",
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P2.json",
+      "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+      "requested": {
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "horn_walls": "prism",
+        "grid_offset_cells": [
+          0.0,
+          0.0
+        ],
+        "coord_rotation_deg": 0.0
+      },
+      "stored_mode": {
+        "label": "P2_res32",
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "outward_dir": [
+          0.5000000000000001,
+          0.8660254037844385
+        ],
+        "tangent": [
+          -0.8660254037844386,
+          0.5000000000000002
+        ],
+        "n_samples": 64
+      },
+      "res_match": true,
+      "frequency_match": true,
+      "device_outward_dot": 1.0,
+      "device_tangent_dot": 1.0
+    },
+    {
+      "device_port": "P3",
+      "profile_port": "P3",
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P3.json",
+      "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+      "requested": {
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "horn_walls": "prism",
+        "grid_offset_cells": [
+          0.0,
+          0.0
+        ],
+        "coord_rotation_deg": 0.0
+      },
+      "stored_mode": {
+        "label": "P3_res32",
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "outward_dir": [
+          -0.5,
+          0.8660254037844386
+        ],
+        "tangent": [
+          -0.8660254037844387,
+          -0.5000000000000001
+        ],
+        "n_samples": 64
+      },
+      "res_match": true,
+      "frequency_match": true,
+      "device_outward_dot": 1.0,
+      "device_tangent_dot": 1.0000000000000002
+    },
+    {
+      "device_port": "P4",
+      "profile_port": "P4",
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P4.json",
+      "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+      "requested": {
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "horn_walls": "prism",
+        "grid_offset_cells": [
+          0.0,
+          0.0
+        ],
+        "coord_rotation_deg": 0.0
+      },
+      "stored_mode": {
+        "label": "P4_res32",
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "outward_dir": [
+          -1.0,
+          -0.0
+        ],
+        "tangent": [
+          0.0,
+          -1.0
+        ],
+        "n_samples": 64
+      },
+      "res_match": true,
+      "frequency_match": true,
+      "device_outward_dot": 1.0,
+      "device_tangent_dot": 1.0
+    },
+    {
+      "device_port": "P5",
+      "profile_port": "P5",
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P5.json",
+      "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+      "requested": {
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "horn_walls": "prism",
+        "grid_offset_cells": [
+          0.0,
+          0.0
+        ],
+        "coord_rotation_deg": 0.0
+      },
+      "stored_mode": {
+        "label": "P5_res32",
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "outward_dir": [
+          -0.5000000000000001,
+          -0.8660254037844386
+        ],
+        "tangent": [
+          0.8660254037844386,
+          -0.5000000000000001
+        ],
+        "n_samples": 64
+      },
+      "res_match": true,
+      "frequency_match": true,
+      "device_outward_dot": 1.0,
+      "device_tangent_dot": 1.0
+    },
+    {
+      "device_port": "P6",
+      "profile_port": "P6",
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/res32/numerical_mode_P6.json",
+      "cache_key": "res32_f0.359582_prism_g0_0_rot0",
+      "requested": {
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "horn_walls": "prism",
+        "grid_offset_cells": [
+          0.0,
+          0.0
+        ],
+        "coord_rotation_deg": 0.0
+      },
+      "stored_mode": {
+        "label": "P6_res32",
+        "res": 32,
+        "frequency_a": 0.3595820946236079,
+        "outward_dir": [
+          0.5000000000000002,
+          -0.8660254037844385
+        ],
+        "tangent": [
+          0.8660254037844386,
+          0.5000000000000003
+        ],
+        "n_samples": 64
+      },
+      "res_match": true,
+      "frequency_match": true,
+      "device_outward_dot": 1.0,
+      "device_tangent_dot": 1.0000000000000002
+    }
+  ]
+}

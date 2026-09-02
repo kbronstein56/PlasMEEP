@@ -74,6 +74,13 @@ def main() -> int:
     parser.add_argument("--run-time", type=float, default=40.0)
     parser.add_argument("--pairs", type=str, default="0,1;1,2")
     parser.add_argument("--horn-walls", type=str, default="prism")
+    parser.add_argument(
+        "--device-mode",
+        type=str,
+        default="horns_only",
+        choices=["full", "horns_only"],
+    )
+    parser.add_argument("--json-out", type=str, default="")
     args = parser.parse_args()
 
     set_geometry_context(res=args.res, horn_walls=args.horn_walls)
@@ -88,7 +95,7 @@ def main() -> int:
     rho = default_uniform_rho()
     B = np.zeros(3)
     _pmm, p_device, _ = build_circulator_device(
-        rho, B, res=args.res, device_mode="horns_only"
+        rho, B, res=args.res, device_mode=args.device_mode
     )
 
     results: List[Dict[str, Any]] = []
@@ -128,7 +135,7 @@ def main() -> int:
             "run_time": args.run_time,
             "pairs": pairs,
             "horn_walls": args.horn_walls,
-            "device_mode": "horns_only",
+            "device_mode": args.device_mode,
             "a_m": a,
             "fs_a": fs_a,
             "source": "localized Hz point (Gaussian), no flux normalization",
@@ -138,7 +145,9 @@ def main() -> int:
         "pairs": results,
     }
 
-    out_path = os.path.join(OUT, f"lorentz_direct_res{args.res}.json")
+    out_path = args.json_out or os.path.join(
+        OUT, f"lorentz_direct_{args.device_mode}_res{args.res}.json"
+    )
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(_json_safe(payload), f, indent=2)
         f.write("\n")

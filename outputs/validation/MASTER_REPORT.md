@@ -252,12 +252,11 @@ API docs: `outputs/validation/ports/HORN_API_PROPOSAL.md`
 
 ## 10. Single recommended next step
 
-**Promote `num_mode_hz_line` (numerical launch + flux receiver)** for horns_only validation; tune full-device `run_time` before res96.
+**Complete full-device res64 runtime convergence** for corrected `num_mode_hz_line`. Horns_only gates now pass (P1↔P2 0.076 dB, P2↔P3 ~0 dB after per-port profile fix). **Do not promote as default** until full-device reciprocity is acceptable at demonstrated-converged `run_time`.
 
-1. Use cached `NumericalPortMode` profiles (`plasmeep/ports/mode_registry.py`) per res/geometry.
-2. Keep axis-aligned flux receiver (modal overlap receiver **not** production-ready).
-3. Re-validate full PMM at res64 with longer `run_time` (rt=20 gave 2.19 dB; horns_only passes at 0.076 dB).
-4. Modal receiver (`te1_hz_modal`, `num_mode_modal`) remains experimental.
+1. Cached profiles: one JSON per port (`audit_mode_cache.py` verifies res + tangent alignment).
+2. Keep flux receiver (modal overlap remains experimental).
+3. Full-device rt convergence: `run_full_device_rt_convergence.py` (prior rt=20 → 2.19 dB likely under-converged).
 
 **Do not** return to horn-wall sweeps unless direct Lorentz reciprocity regresses.
 
@@ -367,12 +366,28 @@ Artifacts: `outputs/validation/modal_ports/`, `plasmeep/ports/{numerical_launch,
 
 | Formulation | Launch | Receiver | P1↔P2 | P2↔P3 |
 |---|---|---:|---:|---:|
-| `te1_hz_line` | analytic TE1 | flux | **0.625 dB** | **0.000 dB** |
-| **`num_mode_hz_line`** | **numerical** | **flux** | **0.076 dB** | **0.208 dB** |
+| `te1_hz_line` | analytic TE1 | flux | **0.625 dB** | **~0 dB** |
+| **`num_mode_hz_line`** (after per-port fix) | **numerical** | **flux** | **0.076 dB** | **~0 dB** |
 | `te1_hz_modal` | analytic TE1 | modal overlap | 0.487 dB | 31 dB |
 | `num_mode_modal` | numerical | modal overlap | 0.672 dB | 48 dB |
 
-**Dominant error was launch, not measurement.** Numerical-mode excitation with existing flux receiver clears the P1↔P2 gate (<0.2 dB). Modal overlap receiver is **not** ready (especially P2↔P3).
+**Dominant error was launch, not measurement.** Modal overlap receiver remains experimental.
+
+### P2↔P3 regression root cause (fixed 2026-09-02)
+
+`canonical_profile_port` incorrectly mapped **P3 → P2 profile** (and P5 → P6, P4 → P1), assuming ±60° symmetry classes share one JSON file. On the hexagon:
+
+| Port | angle | old profile | tangent_dot | result |
+|---|---:|---|---:|---|
+| P2 | +60° | P2 | 1.0 | OK |
+| P3 | +120° | P2 (wrong) | **0.5** | **0.208 dB** reciprocity error |
+| P6 | −60° | P6 | 1.0 | OK |
+
+**Fix:** one cached profile per port (`numerical_mode_P{1..6}.json`); `audit_mode_cache.py` logs file path + `res_match` + `tangent_dot` at launch. P3/P4/P5 profiles extracted at res32 and res64.
+
+### Cache audit (res64 full-device)
+
+All six ports load `outputs/validation/mode_profiles/res64/numerical_mode_P*.json` with `stored_res=64`, `tangent_dot=1.0`. **No res32 interpolation.** Prior full-device P1↔P2 result (2.19 dB at rt=20) used correct P1/P2 references; failure is **not** a cache-resolution mismatch.
 
 ### Grid-offset robustness (`num_mode_hz_line`, P1↔P2)
 
@@ -382,16 +397,19 @@ Artifacts: `outputs/validation/modal_ports/`, `plasmeep/ports/{numerical_launch,
 | (0, 0) | **0.076 dB** |
 | (+0.5, 0) | 0.209 dB |
 
-Prior `te1_hz_line` range at res32: **0.05–0.79 dB** (~16×). Numerical launch reduces spread to **~2.7×** (0.076–0.209 dB).
+Prior `te1_hz_line` range at res32: **0.05–0.79 dB** (~16×). Numerical launch reduces spread to **~2.7×**.
 
-### Full device (res64, rt=20, P1↔P2)
+### Full device (res64, P1↔P2) — runtime convergence
 
-| Formulation | \|P12−P21\| |
-|---|---:|
-| `te1_hz_line` (prior) | ~0.38–1.03 dB |
-| `num_mode_hz_line` | **2.19 dB** |
+| run_time | `num_mode_hz_line` \|P12−P21\| | wall (s) |
+|---:|---:|---:|
+| 10 | 3.46 dB | 2992 |
+| 20 | **2.19 dB** | 1914 |
+| 40 | 5.64 dB | 3180 |
 
-**Not satisfactory** — do not run res96. Likely needs longer `run_time` and/or horns_only-validated settings re-tuned with plasma present.
+**Runtime does not monotonically improve reciprocity** — longer `run_time` is not the fix. ~10% incident-power mismatch between P1 and P2 persists in full-device normalization. Direct Lorentz test on full device (res64, rt=40) launched to separate solver vs port-normalization failure.
+
+**Do not promote `num_mode_hz_line` until horns_only gates pass (done) AND full-device reciprocity is acceptable.**
 
 ### Normalization convention
 
@@ -402,21 +420,21 @@ Prior `te1_hz_line` range at res32: **0.05–0.79 dB** (~16×). Numerical launch
 
 ### Cache invalidation (B=0 inverse design)
 
-| Quantity | Recompute when changing… |
-|---|---|
-| Numerical mode JSON | `res`, `fs_a`, horn geometry/offsets, `horn_walls` |
-| Source normalization pickle | `res`, `run_time`, formulation, geometry offsets |
-| **Not** required for inner loop | **91-element `rho` pattern** (linear plasma, fixed geometry, B=0) |
+| Quantity | Recompute when changing… | **Not** invalidated by `rho` alone |
+|---|---|---|
+| Numerical mode JSON | `res`, `fs_a`, horn geometry/offsets, `horn_walls`, **per-port orientation** | ✓ at B=0 |
+| Source normalization pickle | `res`, `run_time`, formulation, geometry offsets | ✓ at B=0 |
+| Device FDTD response | every `rho` / B evaluation | — |
+
+Inner optimization loop: **only FDTD device runs** per `rho` once norms + modes cached.
 
 ### Production forward-eval cost estimate (np=32, cached)
 
-| Item | horns_only P1↔P2 rt=5 | full device P1↔P2 res64 rt=20 |
+| Item | horns_only P1↔P2 rt=5 | full device P1↔P2 res64 |
 |---|---:|---:|
-| Mode profiles (one-time / res) | ~50 s/port | ~90 s/port |
-| Norm cache (2 ports, first run) | ~9 s | ~included in 895 s |
-| Pair simulation (cached norms) | **~8–11 s** | **~895 s** |
-| Full 6×6 matrix (extrapolated) | ~6 × 11 s ≈ **1 min** | ~6 × 450 s ≈ **45 min** |
-
-Inner optimization loop: **only FDTD device runs** per `rho` once norms + modes cached.
+| Mode profiles (one-time / res, 6 ports) | ~50 s/port | ~90 s/port |
+| Norm cache (2 ports, first run) | ~9 s | ~270 s (rt=10) |
+| Pair simulation (cached norms) | **~8–11 s** | **~450–900 s** (rt-dependent) |
+| Full 6×6 matrix (extrapolated) | ~6 × 11 s ≈ **1 min** | TBD after min safe rt |
 
 ---

@@ -18,6 +18,7 @@ from PIL import Image
 import shutil
 import sys
 import scipy.special as sp
+from scipy.optimize import brentq
 import csv
 
 ###############################################################################
@@ -46,6 +47,168 @@ def n_e(wp):
     wp: plasma frequency in rad/s
     """
     return wp**2*me*epso/e**2
+
+
+def _as_float_array(x):
+    """Return x as a float ndarray, preserving scalar-ness for callers."""
+    return np.asarray(x, dtype=float)
+
+
+def _is_scalar(x):
+    return np.isscalar(x) or isinstance(x, np.ndarray) and x.ndim == 0
+
+
+def _validate_beta(beta):
+    """
+    beta is the dimensionless wall argument in n_e(r) = n0 J0(beta r / R_p).
+
+    Physical first-lobe range: (0, J01].
+    beta -> 0+ is the flat-top (collisional) limit.
+    beta = J01 is the Schottky solution (first J0 zero at the wall).
+    """
+    beta_arr = _as_float_array(beta)
+    if np.any(~np.isfinite(beta_arr)):
+        raise ValueError("beta must be finite.")
+    if np.any(beta_arr <= 0.0) or np.any(beta_arr > J01):
+        raise ValueError(
+            "beta must lie in the first positive J0 lobe: 0 < beta <= J01 "
+            "(J01 = {:.12f}). beta = 0 is the excluded flat-top limit; "
+            "beta > J01 leaves the first lobe and can make n_e(r) negative."
+            .format(J01)
+        )
+    return beta_arr
+
+
+def _validate_h(h):
+    """
+    h is the edge-to-center density ratio, not a Bessel argument.
+
+    h = n_e(R_p) / n0 = J0(beta), so h is in [0, 1).
+    h = 0 is Schottky (beta = J01).
+    h -> 1- is the flat-top limit (beta -> 0+).
+    The Stage A/B prior samples h uniformly in about [0.05, 0.8].
+    """
+    h_arr = _as_float_array(h)
+    if np.any(~np.isfinite(h_arr)):
+        raise ValueError("h must be finite.")
+    if np.any(h_arr < 0.0) or np.any(h_arr >= 1.0):
+        raise ValueError(
+            "h = J0(beta) = n_e(R_p)/n0 must satisfy 0 <= h < 1 on the first "
+            "J0 lobe. h = 0 is Schottky; h -> 1 is the excluded flat-top limit. "
+            "Do not pass beta as h."
+        )
+    return h_arr
+
+
+def h_from_beta(beta):
+    """
+    Convert wall argument beta to edge-to-center ratio h.
+
+    h = J0(beta) = n_e(R_p) / n0.
+
+    beta: dimensionless, 0 < beta <= J01. Not a density ratio.
+    Returns h in [0, 1). J0(J01) is flushed to 0 to absorb float error.
+    """
+    scalar = _is_scalar(beta)
+    beta_arr = _validate_beta(beta)
+    # J0 is nonnegative on the first lobe; clip the signed residual at J01.
+    # PlasMEEP's J01 is the library Schottky wall argument (not scipy's jn_zeros).
+    h = np.clip(sp.j0(beta_arr), 0.0, 1.0)
+    h = np.where(np.isclose(beta_arr, J01, rtol=0.0, atol=1e-12), 0.0, h)
+    if scalar:
+        return float(np.asarray(h).reshape(()))
+    return h
+
+
+def beta_from_h(h):
+    """
+    Invert h = J0(beta) on the first positive J0 lobe.
+
+    Returns the unique beta in (0, J01] such that J0(beta) = h.
+    Uses scipy.optimize.brentq. h = 0 maps exactly to J01.
+
+    h: edge-to-center ratio n_e(R_p)/n0, 0 <= h < 1. Not a Bessel argument.
+    """
+    scalar = _is_scalar(h)
+    h_arr = _validate_h(h)
+    out = np.empty(h_arr.shape, dtype=float)
+
+    def _root(hv):
+        if hv == 0.0:
+            return J01
+        # brentq on [0, J01]; xtol tightened because J0'(0) = 0 makes
+        # the flat-top end mildly ill-conditioned.
+        return brentq(lambda b: sp.j0(b) - hv, 0.0, J01, xtol=1e-14)
+
+    for idx in np.ndindex(h_arr.shape):
+        out[idx] = _root(h_arr[idx])
+    if scalar:
+        return float(out.reshape(()))
+    return out
+
+
+def Bessel_profile(r, n0, R_p, beta=None, h=None):
+    """
+    Radial Bessel / diffusion-family electron-density profile.
+
+    n_e(r) = n0 * J0(beta * r / R_p)
+
+    n0 is the on-axis density (same units as the return value, typically
+    m^{-3}). This helper does not convert n_e to plasma frequency and does
+    not nondimensionalize; use WP(n) and Nondimensionalize_Freq separately.
+
+    Specify exactly one of:
+        beta: dimensionless wall argument, 0 < beta <= J01.
+              beta -> 0+ : flat-top. beta = J01 : Schottky (n_e(R_p) = 0).
+        h:    edge-to-center ratio n_e(R_p)/n0 = J0(beta), 0 <= h < 1.
+              The tomography prior samples h, not beta, uniformly in
+              about [0.05, 0.8], then converts with beta_from_h.
+
+    r and R_p must share length units. The physical column is 0 <= r <= R_p;
+    coordinates outside that interval are rejected.
+    """
+    if (beta is None) == (h is None):
+        raise ValueError("Specify exactly one of beta or h, not both or neither.")
+    if h is not None:
+        if not _is_scalar(h):
+            raise ValueError("Bessel_profile expects a scalar h.")
+        beta = beta_from_h(h)
+    else:
+        if not _is_scalar(beta):
+            raise ValueError("Bessel_profile expects a scalar beta.")
+        _validate_beta(beta)
+
+    try:
+        n0 = float(n0)
+        R_p = float(R_p)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("n0 and R_p must be real scalars.") from exc
+    if not np.isfinite(n0) or n0 < 0.0:
+        raise ValueError("n0 must be a finite on-axis density, n0 >= 0.")
+    if not np.isfinite(R_p) or R_p <= 0.0:
+        raise ValueError("R_p must be a finite plasma radius, R_p > 0.")
+
+    scalar_r = _is_scalar(r)
+    r_arr = _as_float_array(r)
+    if np.any(~np.isfinite(r_arr)):
+        raise ValueError("Radial coordinates r must be finite.")
+    if np.any(r_arr < 0.0) or np.any(r_arr > R_p):
+        raise ValueError(
+            "Radial coordinates must satisfy 0 <= r <= R_p. "
+            "Bessel_profile is the interior column n_e(r); it is not defined "
+            "outside the plasma radius."
+        )
+
+    beta = float(np.asarray(beta, dtype=float).reshape(()))
+    # Interior uses J0(beta r / R_p). The wall is set from h = J0(beta)
+    # so n(R_p) = h n0 exactly, including Schottky (h = 0 at beta = J01),
+    # where scipy.j0(J01) is a ~1e-12 residual times n0.
+    n = n0 * sp.j0(beta * r_arr / R_p)
+    n = np.maximum(n, 0.0)
+    n = np.where(r_arr >= R_p, n0 * h_from_beta(beta), n)
+    if scalar_r:
+        return float(np.asarray(n).reshape(()))
+    return n
 
 def get_trilat_shift(loc,\
               a_basis = np.array([[np.sqrt(3)/2,0.5,0],[np.sqrt(3)/2,-0.5,0]])):

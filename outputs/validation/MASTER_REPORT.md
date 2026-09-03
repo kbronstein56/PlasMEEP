@@ -1,6 +1,6 @@
 # Master validation report — `agent/eigenmode-ports`
 
-**Generated:** 2026-08-31 (overnight performance + reciprocity checkpoint)  
+**Generated:** 2026-09-03 (physical units cleanup + 50 points/cm port validation)  
 **Branch:** `agent/eigenmode-ports`  
 **Registry:** `outputs/validation/MASTER_VALIDATION_REGISTRY.json`
 
@@ -25,8 +25,8 @@
 
 | Item | Simulation | Physical |
 |---|---|---|
-| `a` | 1.0 | **0.028 m = 2.8 cm** |
-| Lattice pitch `d_exp = 0.020/a` | 0.714 a | **20 mm** |
+| `a` | 1.0 | **0.020 m = 2.0 cm (lattice pitch; was 0.028 m until §19)** |
+| Lattice pitch `d_exp = 0.020/a` | **1.0 a** | **20 mm** |
 | Bulb OD `0.0075/a` | — | **15 mm** |
 | Bulb ID `0.0065/a` | — | **13 mm** |
 | Horn wall | 4 mm / 104 mm / 48 mm / 89 mm + 60 mm feed | as coded |
@@ -809,5 +809,119 @@ Measured on this workstation with `mpi_runner.py`, `OMP_NUM_THREADS=1`, `FI_PROV
 - Full 6×6 characterization: **~60 evals/hour**
 
 **Optimizer needs:** typically 3 forward solves per rho (one per active input port), not full 6×6 — budget **~20 s/rho** at res32 with warm cache.
+
+---
+
+## 19. Physical units cleanup + high-resolution port validation (2026-09-02)
+
+### Why `a = 28 mm` was used before
+
+The production notebook (`Sketchbook_PMMCirculator.ipynb`, cell 4) sets `a = 0.028 m` with the comment *"1 Meep length unit = 2.8 cm"*. This was an **arbitrary Meep normalization length**, not the paper lattice constant. Physical device dimensions were always entered as SI lengths divided by `a`:
+
+- `d_exp = 0.020 / a` → **20 mm** lattice pitch regardless of `a`
+- bulb / horn sizes likewise via `X_m / a`
+
+So **`a = 28 mm` did not represent the paper geometry** as the lattice constant; it was a legacy normalization choice. The physical lattice pitch was still exactly 20 mm.
+
+### Cleanup: `a` = lattice constant
+
+`scripts/validation/sixport_common.py` now sets:
+
+| Item | Before | After cleanup |
+|---|---|---|
+| Normalization length `a` | 0.028 m (arbitrary) | **0.020 m = 20 mm lattice pitch** |
+| `d_exp` in a-units | 0.714 | **1.0** |
+| `fs_a` (3.85 GHz) | 0.3596 c/a | **0.2568 c/a** |
+| `fp_a` (8.00 GHz) | 0.7472 c/a | **0.5337 c/a** |
+| Domain `nx×ny` (a-units) | 23×21 | **30×28** (same physical extent) |
+
+All **SI physical dimensions are unchanged**; only normalized Meep coordinates and nondimensional frequencies rescale.
+
+### Physical geometry audit
+
+| Quantity | Paper (Rodriguez et al. 2026) | Code before `a` cleanup | After cleanup |
+|---|---:|---:|---:|
+| Lattice center-to-center pitch | 20 mm | 20 mm (`0.020/a`, `a=28 mm`) | **20 mm** (`d_exp=1.0 a`) |
+| Quartz tube OD | 15 mm | 15 mm | **15 mm** |
+| Quartz tube ID | 13 mm | 13 mm | **13 mm** |
+| Quartz wall thickness | 1 mm | 1 mm (via OD−ID) | **1 mm** |
+| Quartz ε_r | ≈3.8 | 3.8 | **3.8** |
+| Horn aperture | — (commercial) | 104 mm | **104 mm** |
+| Horn throat | — | 48 mm | **48 mm** |
+| Horn flare depth | — | 89 mm | **89 mm** |
+| Straight feed | — | 60 mm | **60 mm** |
+| Plasma radius (model) | — | 5 mm | **5 mm** |
+
+Six-port topology is unchanged; only the normalization convention is now physically transparent.
+
+### New user-facing resolution interface
+
+**Primary:** `points_per_cm` with `dx_mm = 10 / points_per_cm`.
+
+Every validation JSON now reports:
+
+- `points_per_cm`
+- `dx_mm`
+- internal Meep `res` (= `round(a_m / dx_m)`)
+- normalization length `a_m`
+
+Implementation: `scripts/validation/physical_units.py`; `reciprocity_b0_study.py` accepts `--points-per-cm` (preferred) or legacy `--res`.
+
+| points/cm | dx (mm) | Meep `res` (`a=20 mm`) | Old Meep res64 equiv. ppc (`a=28 mm`) |
+|---:|---:|---:|---:|
+| 50 | 0.200 | **100** | ~22.9 |
+| 75 | 0.133 | **150** | — |
+| 100 | 0.100 | **200** | — |
+
+Low-resolution Meep res32/res64 campaigns are **debugging history only**; substantive validation starts at **≥50 points/cm**.
+
+### High-resolution B=0 port campaign (50 points/cm)
+
+Harness: `run_hires_port_validation.py` → `reciprocity_b0_study.py`, formulation **`num_mode_guide_normal`**, full 91-bulb device, `rt=20`, **np=32**, matched discrete Yee-grid reciprocity control.
+
+Artifacts: `outputs/validation/hires_ports/`
+
+| Item | P1↔P2 | P2↔P3 |
+|---|---|---|
+| points/cm | 50 | 50 |
+| dx_mm | 0.20 | 0.20 |
+| Meep `res` | 100 | 100 |
+| `a` | 0.020 m | 0.020 m |
+| MPI ranks | 32 | 32 |
+| Wall time | 3.74 h | 3.73 h |
+| Discrete FDTD reciprocity | **7.5×10⁻¹³ dB** | **1.6×10⁻¹³ dB** |
+| Port reciprocity \|Pij−Pji\| | **2.259 dB** | **4.8×10⁻¹³ dB** |
+| Raw T (dB) | P12 −24.46 / P21 −26.72 | P23 = P32 = −25.36 |
+| Incident power | P1 2910 / P2 2859 | P2 = P3 = 2859 |
+| Incident mismatch | 1.8% | ~0 |
+| Flux-subtraction diagonal | P1 +0.279 / P2 +0.015 (**unhealthy**) | P2/P3 +0.015 (**unhealthy**) |
+| Numerical-mode TE1 overlap | P1 0.792 / P2 0.790 | same P2/P3 caches |
+
+**Does the port formulation behave correctly when the spatial discretization is genuinely fine?**
+
+- **FDTD control: yes.** Matched discrete Hz-patch reciprocity remains machine precision at 50 points/cm. Do not reopen plasma/Drude/Faraday debugging.
+- **Diagonal ports (P2↔P3): yes.** Port metric is machine precision, same as at low res.
+- **Axis port (P1↔P2): no.** **2.26 dB** remains. Old Meep res64 (~22.9 points/cm, `a=28 mm`) was **~2.9 dB**; finer physical grid did **not** remove the axis-port failure.
+- **Flux subtraction is unhealthy** (positive reflection diagonals) on both pairs at this formulation, so the 2.26 dB number is a port-extraction problem, not a discrete Maxwell failure.
+
+The apparent res64 axis-port problem **persists at genuinely fine physical resolution**. It is not merely an intermediate-grid pathology of old res64.
+
+### 75 / 100 points/cm — not started
+
+Estimate from 50 points/cm (cell count ∝ ppc², ~3.74 h wall per 2-port case at np=32):
+
+| Target | dx | Meep `res` | Cell scale vs 50 ppc | Est. wall / pair | Est. both pairs |
+|---:|---:|---:|---:|---:|---:|
+| 75 ppc | 0.133 mm | 150 | 2.25× | **~8.4 h** | **~17 h** |
+| 100 ppc | 0.10 mm | 200 | 4× | **~15 h** | **~30 h** |
+
+75/100 were not launched: 50 points/cm already answers the high-res question (axis-port metric still fails; discrete control still passes). A 100 ppc confirmation is not justified until the P1 flux-subtraction / axis-port formulation is fixed.
+
+### Preserved findings (unchanged)
+
+- Matched discrete B=0 FDTD reciprocity ≈ machine precision (now also at 50 points/cm)
+- Off-grid point-probe reciprocity failure was a sampling artifact
+- Numerical horn launch substantially improved the port source
+- P2↔P3 has generally behaved much better than P1↔P2 — **and remains so at 50 points/cm**
 
 ---

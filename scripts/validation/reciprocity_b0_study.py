@@ -34,6 +34,7 @@ from sixport_common import (
     fs_Hz,
     fp_Hz,
 )
+from physical_units import add_resolution_arguments, resolve_simulation_resolution
 
 
 def _parse_ports(s: str | None) -> List[int] | None:
@@ -127,7 +128,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="B=0 six-port circulator reciprocity study (uniform rho)."
     )
-    parser.add_argument("--res", type=int, default=64, help="Meep resolution")
+    add_resolution_arguments(parser)
     parser.add_argument(
         "--run-time",
         type=float,
@@ -221,12 +222,16 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    sim_res, points_per_cm, res_report = resolve_simulation_resolution(
+        args, a_m=a, default_points_per_cm=50.0
+    )
+
     grid_offset = _parse_offset_pair(args.grid_offset_cells)
     monitor_offset = _parse_offset_pair(args.monitor_offset_cells)
     set_geometry_context(
         grid_offset_cells=grid_offset,
         monitor_offset_cells=monitor_offset,
-        res=args.res,
+        res=sim_res,
         horn_walls=args.horn_walls,
         coord_rotation_deg=args.coord_rotation_deg,
         flare_steps=args.flare_steps,
@@ -251,7 +256,7 @@ def main() -> None:
     rot_tag = f"rot{args.coord_rotation_deg:g}".replace(".", "p")
     cache_path = os.path.join(
         cache_dir,
-        f"norm_{formul_tag}_{dev_tag}_{horn_tag}_{rot_tag}_{wall_tag}_{off_tag}_res{args.res}_rt{args.run_time:g}_{port_tag}.pkl",
+        f"norm_{formul_tag}_{dev_tag}_{horn_tag}_{rot_tag}_{wall_tag}_{off_tag}_ppc{points_per_cm:g}_res{sim_res}_rt{args.run_time:g}_{port_tag}.pkl",
     )
 
     json_out = args.json_out
@@ -260,12 +265,15 @@ def main() -> None:
             "ports" + "".join(str(p) for p in ports) if ports is not None else "all"
         )
         json_out = os.path.join(
-            here, f"reciprocity_b0_{args.label}_r{args.res}_{port_tag}.json"
+            here, f"reciprocity_b0_{args.label}_ppc{points_per_cm:g}_{port_tag}.json"
         )
 
     print(geometry_summary())
     print()
-    print(f"label={args.label}  res={args.res}  run_time={args.run_time}")
+    print(
+        f"label={args.label}  points_per_cm={points_per_cm:g}  "
+        f"res={sim_res}  dx_mm={res_report['dx_mm']:.4f}  run_time={args.run_time}"
+    )
     print(f"formulation={args.port_formulation}")
     print(f"device_mode={args.device_mode}")
     print(f"grid_offset_cells={grid_offset}")
@@ -280,7 +288,7 @@ def main() -> None:
 
     t0 = time.perf_counter()
     norm = ensure_normalizations(
-        res=args.res,
+        res=sim_res,
         run_time=args.run_time,
         force=not args.skip_norm_if_cached,
         ports=ports,
@@ -297,7 +305,7 @@ def main() -> None:
     result = simulate_circulator(
         rho,
         B,
-        res=args.res,
+        res=sim_res,
         run_time=args.run_time,
         direction="CCW",
         verbose=True,
@@ -321,27 +329,27 @@ def main() -> None:
         _pmm, p_device, _wp = build_circulator_device(
             rho,
             B,
-            res=args.res,
+            res=sim_res,
             device_mode=args.device_mode,
             wall_pec=wall_pec,
         )
         sites_a = ProbeSites(
             pa,
-            np.asarray(horn_for_port(pa, args.res)["source_center"], dtype=float),
-            np.asarray(monitor_center_for_port(pa, args.res), dtype=float),
+            np.asarray(horn_for_port(pa, sim_res)["source_center"], dtype=float),
+            np.asarray(monitor_center_for_port(pa, sim_res), dtype=float),
             np.asarray(effective_port_dir(pa), dtype=float),
         )
         sites_b = ProbeSites(
             pb,
-            np.asarray(horn_for_port(pb, args.res)["source_center"], dtype=float),
-            np.asarray(monitor_center_for_port(pb, args.res), dtype=float),
+            np.asarray(horn_for_port(pb, sim_res)["source_center"], dtype=float),
+            np.asarray(monitor_center_for_port(pb, sim_res), dtype=float),
             np.asarray(effective_port_dir(pb), dtype=float),
         )
         disc = evaluate_reciprocity_pair(
             p_device,
             sites_a,
             sites_b,
-            res=args.res,
+            res=sim_res,
             frequency=fs_a,
             fwidth=source_df,
             run_time=args.run_time,
@@ -372,7 +380,8 @@ def main() -> None:
         "mpi_note": args.mpi_note,
         "mpi": _mpi_info(),
         "settings": {
-            "res": args.res,
+            "points_per_cm": points_per_cm,
+            "res": sim_res,
             "run_time": args.run_time,
             "B": [0.0, 0.0, 0.0],
             "ports": result["ports"],
@@ -394,7 +403,7 @@ def main() -> None:
             "skip_norm_if_cached": bool(args.skip_norm_if_cached),
             "norm_cache_path": cache_path,
         },
-        "physical_resolution": physical_resolution_report(args.res),
+        "physical_resolution": res_report,
         "timings_s": {
             "normalization": t_norm,
             "device": t_device,

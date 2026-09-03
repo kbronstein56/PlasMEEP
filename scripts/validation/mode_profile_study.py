@@ -47,6 +47,7 @@ from sixport_common import (  # noqa: E402
     set_geometry_context,
     source_df,
 )
+from physical_units import add_resolution_arguments, resolve_simulation_resolution  # noqa: E402
 
 OUT = Path(ROOT) / "outputs" / "validation" / "mode_profiles"
 
@@ -175,25 +176,29 @@ def plot_profiles(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--res", type=int, default=32)
+    add_resolution_arguments(parser)
     parser.add_argument("--run-time", type=float, default=40.0)
     parser.add_argument("--ports", type=str, default="0,1,2,3,4,5")
     parser.add_argument("--horn-walls", type=str, default="prism")
     args = parser.parse_args()
 
+    sim_res, points_per_cm, res_report = resolve_simulation_resolution(
+        args, a_m=a, default_res=32
+    )
+
     ports = [int(x) for x in args.ports.split(",")]
-    set_geometry_context(res=args.res, horn_walls=args.horn_walls)
+    set_geometry_context(res=sim_res, horn_walls=args.horn_walls)
     os.makedirs(OUT, exist_ok=True)
 
     rho = default_uniform_rho()
     B = np.zeros(3)
     _pmm, p_device, _ = build_circulator_device(
-        rho, B, res=args.res, device_mode="horns_only"
+        rho, B, res=sim_res, device_mode="horns_only"
     )
 
     profiles: List[ModeLineProfile] = []
     overlaps: List[Dict[str, Any]] = []
-    modes_dir = OUT / f"res{args.res}"
+    modes_dir = OUT / f"res{sim_res}"
     modes_dir.mkdir(parents=True, exist_ok=True)
 
     t0 = time.perf_counter()
@@ -202,7 +207,7 @@ def main() -> int:
         prof = extract_hz_line_profile(
             p_device,
             port,
-            args.res,
+            sim_res,
             frequency=fs_a,
             fwidth=source_df,
             run_time=args.run_time,
@@ -226,9 +231,9 @@ def main() -> int:
 
         mode = NumericalPortMode.from_profile(
             prof,
-            label=f"P{port+1}_res{args.res}",
+            label=f"P{port+1}_ppc{points_per_cm:g}",
             frequency_a=fs_a,
-            res=args.res,
+            res=sim_res,
             outward_dir=effective_port_dir(port),
         )
         mode.save(modes_dir / f"numerical_mode_P{port+1}.json")
@@ -253,25 +258,26 @@ def main() -> int:
     payload = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "settings": {
-            "res": args.res,
+            "points_per_cm": points_per_cm,
+            "res": sim_res,
             "run_time": args.run_time,
             "ports": ports,
             "horn_walls": args.horn_walls,
             "excitation": "te1_hz_line (for profile extraction only)",
         },
-        "physical_resolution": physical_resolution_report(args.res),
+        "physical_resolution": res_report,
         "profiles": [p.as_dict() for p in profiles],
         "analytic_overlaps": overlaps,
         "cross_port_overlaps": cross,
         "timings_s": {"total": time.perf_counter() - t0},
     }
 
-    json_path = OUT / f"mode_profiles_res{args.res}.json"
+    json_path = OUT / f"mode_profiles_ppc{points_per_cm:g}_res{sim_res}.json"
     with json_path.open("w", encoding="utf-8") as f:
         json.dump(_json_safe(payload), f, indent=2)
         f.write("\n")
 
-    plot_profiles(profiles, overlaps, OUT / f"mode_profiles_res{args.res}.png")
+    plot_profiles(profiles, overlaps, OUT / f"mode_profiles_ppc{points_per_cm:g}_res{sim_res}.png")
     print(f"\nWrote {json_path}")
     return 0
 

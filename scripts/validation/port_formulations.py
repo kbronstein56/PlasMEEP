@@ -54,6 +54,7 @@ FORMULATION_NAMES = (
     "num_mode_guide_normal",
     "num_mode_yee_sdotn",
     "num_mode_yee_guide_normal",
+    "num_mode_grid_index",
     "te1_hz_modal",
     "num_mode_modal",
 )
@@ -139,6 +140,133 @@ def make_yee_snapped_numerical_mode_sources(
             )
         )
     return sources
+
+
+def make_grid_index_numerical_mode_sources(
+    port_index: int,
+    frequency: Optional[float] = None,
+    fwidth: Optional[float] = None,
+) -> List[mp.Source]:
+    """Launch on grid-index port line DOFs at the source plane."""
+    from plasmeep.ports.grid_index_port import build_grid_index_port_line
+    from plasmeep.ports.mode_registry import get_numerical_mode
+    from plasmeep.ports.numerical_launch import port_tangent
+
+    if frequency is None:
+        frequency = sc.fs_a
+    if fwidth is None:
+        fwidth = sc.source_df
+    res = sc.current_res()
+    u = sc.effective_port_dir(port_index)
+    tangent = port_tangent(u)
+    mode = get_numerical_mode(
+        port_index,
+        res=res,
+        frequency_a=frequency,
+        horn_walls=sc.get_horn_walls(),
+        grid_offset_cells=sc.get_grid_offset_cells(),
+        coord_rotation_deg=sc.get_coord_rotation_deg(),
+        validate_alignment=(u, tangent),
+    )
+    center = np.asarray(sc.horn_for_port(port_index, res)["source_center"], dtype=float)
+    line = build_grid_index_port_line(
+        port_index,
+        res=res,
+        center_xy=center,
+        outward_dir=u,
+        span_a=0.96 * sc.clear_width,
+    )
+    weights = mode.source_amplitudes(target_power=1.0)
+    merged: Dict[Tuple[float, float], complex] = {}
+    for s, amp in zip(mode.offsets_a, weights):
+        xy = center + float(s) * tangent
+        snapped = _hz_yee_grid_xy(xy, res=res)
+        key = (round(float(snapped[0]), 12), round(float(snapped[1]), 12))
+        merged[key] = merged.get(key, 0.0 + 0.0j) + complex(amp)
+    # Restrict to grid-index line DOFs (drop off-aperture snaps)
+    line_keys = {
+        (round(xy[0], 12), round(xy[1], 12)) for xy in line.grid_xy
+    }
+    coords: List[np.ndarray] = []
+    amps: List[complex] = []
+    for key, amp in merged.items():
+        if key not in line_keys:
+            continue
+        coords.append(np.array(key, dtype=float))
+        amps.append(amp)
+    if not coords:
+        coords, amps = zip(
+            *[
+                (np.array(k, dtype=float), merged[k])
+                for k in merged
+            ]
+        )
+        coords, amps = list(coords), list(amps)
+    sources: List[mp.Source] = []
+    for xy, amp in zip(coords, amps):
+        if abs(amp) < 1e-30:
+            continue
+        sources.append(
+            mp.Source(
+                src=mp.GaussianSource(frequency=frequency, fwidth=fwidth),
+                component=mp.Hz,
+                center=mp.Vector3(float(xy[0]), float(xy[1]), 0),
+                amplitude=amp,
+            )
+        )
+    return sources
+
+
+def make_grid_index_guide_normal_flux_spec(
+    center_xy: np.ndarray,
+    outward_dir: np.ndarray,
+    port_index: int,
+) -> FluxSpec:
+    """Guide-normal flux on the grid-index monitor cross-section."""
+    from plasmeep.ports.grid_index_port import build_grid_index_port_line
+
+    center_xy = np.asarray(center_xy, dtype=float)
+    u = _unit(outward_dir)
+    line = build_grid_index_port_line(
+        port_index,
+        res=sc.current_res(),
+        center_xy=center_xy,
+        outward_dir=u,
+        span_a=0.96 * sc.clear_width,
+    )
+    n_pts = line.n_samples
+    if n_pts == 1:
+        ds_weights = np.array([line.span_a])
+    else:
+        ds = line.span_a / (n_pts - 1)
+        ds_weights = np.full(n_pts, ds)
+        ds_weights[0] *= 0.5
+        ds_weights[-1] *= 0.5
+    merged: Dict[Tuple[float, float, str], float] = {}
+    for (x, y), w_ds in zip(line.grid_xy, ds_weights):
+        key_xy = (round(float(x), 12), round(float(y), 12))
+        if abs(u[0]) > 1e-14:
+            k = (key_xy[0], key_xy[1], "X")
+            merged[k] = merged.get(k, 0.0) + float(u[0] * w_ds)
+        if abs(u[1]) > 1e-14:
+            k = (key_xy[0], key_xy[1], "Y")
+            merged[k] = merged.get(k, 0.0) + float(u[1] * w_ds)
+    regions: List[mp.FluxRegion] = []
+    for (x, y, axis), weight in merged.items():
+        if abs(weight) < 1e-30:
+            continue
+        direction = mp.X if axis == "X" else mp.Y
+        regions.append(
+            mp.FluxRegion(
+                center=mp.Vector3(x, y, 0),
+                size=mp.Vector3(),
+                direction=direction,
+                weight=weight,
+            )
+        )
+    if not regions:
+        raise ValueError("grid-index flux produced no regions")
+    return regions, 1.0
 
 
 EIGENMODE_WALL_EPS = 1.0e6
@@ -320,7 +448,7 @@ def uses_modal_measurement(formulation: str) -> bool:
 
 
 def guide_normal_yee_snap(formulation: str) -> bool:
-    return formulation in ("num_mode_yee_guide_normal",)
+    return formulation in ("num_mode_yee_guide_normal", "num_mode_grid_index")
 
 
 def dft_sdotn_yee_snap(formulation: str) -> bool:
@@ -524,7 +652,14 @@ def make_flux_region_for_formulation(
     formulation: str,
     center_xy: np.ndarray,
     outward_dir: np.ndarray,
+    port_index: Optional[int] = None,
 ) -> FluxSpec:
+    if formulation == "num_mode_grid_index":
+        if port_index is None:
+            raise ValueError("num_mode_grid_index flux requires port_index")
+        return make_grid_index_guide_normal_flux_spec(
+            center_xy, outward_dir, port_index
+        )
     if formulation in (
         "te1_guide_normal",
         "baseline_guide_normal",
@@ -866,6 +1001,11 @@ _REGISTRY: Dict[str, Formulation] = {
         name="num_mode_yee_guide_normal",
         measurement="flux",
         make_sources=make_yee_snapped_numerical_mode_sources,
+    ),
+    "num_mode_grid_index": Formulation(
+        name="num_mode_grid_index",
+        measurement="flux",
+        make_sources=make_grid_index_numerical_mode_sources,
     ),
     "te1_hz_modal": Formulation(
         name="te1_hz_modal",

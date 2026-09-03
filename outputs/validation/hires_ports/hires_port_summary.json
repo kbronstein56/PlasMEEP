@@ -1,0 +1,56 @@
+{
+  "timestamp_utc": "2026-09-03T08:22:11+00:00",
+  "a_m": 0.02,
+  "a_m_previous": 0.028,
+  "a_was_lattice_constant": false,
+  "a_now_lattice_constant": true,
+  "physical_lattice_pitch_mm": 20.0,
+  "physical_bulb_od_mm": 15.0,
+  "physical_bulb_id_mm": 13.0,
+  "physical_wall_thickness_mm": 1.0,
+  "formulation": "num_mode_guide_normal",
+  "device_mode": "full",
+  "run_time": 20.0,
+  "mpi_ranks": 32,
+  "cases": [
+    {
+      "label": "full_num_mode_guide_normal_P1P2_ppc50_rt20",
+      "points_per_cm": 50.0,
+      "dx_mm": 0.2,
+      "meep_resolution": 100,
+      "port_err_dB": 2.2585651109135583,
+      "discrete_amp_err_dB": 7.541040788446377e-13,
+      "flux_subtraction_healthy": false,
+      "incident_power": {"P1": 2910.050554910713, "P2": 2859.3049834716544},
+      "wall_s": 13462.154569178005
+    },
+    {
+      "label": "full_num_mode_guide_normal_P2P3_ppc50_rt20",
+      "points_per_cm": 50.0,
+      "dx_mm": 0.2,
+      "meep_resolution": 100,
+      "port_err_dB": 4.831690603168681e-13,
+      "discrete_amp_err_dB": 1.6393566931405729e-13,
+      "flux_subtraction_healthy": false,
+      "incident_power": {"P2": 2859.3049834716544, "P3": 2859.3049834716535},
+      "wall_s": 13410.066997663933
+    }
+  ],
+  "estimate_75ppc": {
+    "meep_res": 150,
+    "cell_scale": 2.25,
+    "estimated_wall_s_per_pair": 30290
+  },
+  "estimate_100ppc": {
+    "meep_res": 200,
+    "cell_scale": 4.0,
+    "estimated_wall_s_per_pair": 53849,
+    "recommend_run": false,
+    "reason": "50 ppc already shows P1-P2 port failure persists; discrete control still machine precision"
+  },
+  "verdict": {
+    "high_res_port_measurements_stable": false,
+    "axis_port_problem_persists_at_50ppc": true,
+    "discrete_fdtd_ok": true
+  }
+}

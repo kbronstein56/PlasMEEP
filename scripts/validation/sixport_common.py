@@ -29,8 +29,16 @@ from PMMCirculatorInverse import PMMI  # noqa: E402
 # ---------------------------------------------------------------------------
 # Physical / numerical constants (notebook cells 4, 22, 23, 27, 28)
 # ---------------------------------------------------------------------------
+# Meep length unit = 20 mm lattice center-to-center pitch (paper geometry).
+# Prior notebook/harness used a=28 mm as an arbitrary normalization with
+# d_exp=0.020/a enforcing 20 mm pitch; rescaling to a=20 mm leaves all SI
+# dimensions unchanged while making a match the lattice constant.
+from physical_units import (  # noqa: E402
+    A_M_DEFAULT,
+    physical_resolution_report as _physical_resolution_report,
+)
 
-a = 0.028  # 1 Meep length unit = 2.8 cm
+a = A_M_DEFAULT  # 1 Meep length unit = 2.0 cm = lattice pitch
 dpml = 1.0
 
 fs_Hz = 3.85e9
@@ -775,7 +783,7 @@ def normalize_port(
         incident_data = None
     else:
         regions, sign = make_flux_region_for_formulation(
-            form.name, measure_xy, effective_port_dir(source_port)
+            form.name, measure_xy, effective_port_dir(source_port), source_port
         )
         monitor = add_flux_monitor(ref_sim, regions)
         if verbose:
@@ -1095,6 +1103,7 @@ def simulate_circulator(
                     form.name,
                     measure_xy,
                     effective_port_dir(output_port),
+                    output_port,
                 )
                 monitor = add_flux_monitor(sim_i, regions)
                 monitors_i.append(monitor)
@@ -1221,35 +1230,25 @@ def geometry_dimensions_table() -> Dict[str, Any]:
     }
 
 
-def physical_resolution_report(res: int) -> Dict[str, float]:
-    """Map Meep resolution to physical grid metrics (a is the Meep length unit)."""
-    a_cm = float(a) * 100.0
-    a_mm = float(a) * 1000.0
-    dx_a = 1.0 / float(res)
-    dx_mm = dx_a * a_mm
-    pixels_per_cm = float(res) / a_cm
-    lattice_mm = 20.0
-    pixels_per_lattice = lattice_mm / dx_mm
-    c_mps = 2.99792458e8
-    lambda0_mm = c_mps / fs_Hz * 1000.0
-    pixels_per_lambda0 = lambda0_mm / dx_mm
-    return {
-        "a_m": float(a),
-        "a_cm": a_cm,
-        "meep_resolution": float(res),
-        "grid_spacing_a": dx_a,
-        "grid_spacing_mm": dx_mm,
-        "pixels_per_cm": pixels_per_cm,
-        "pixels_per_lattice_20mm": pixels_per_lattice,
-        "pixels_per_free_space_lambda0": pixels_per_lambda0,
-        "lambda0_mm": lambda0_mm,
-    }
+def physical_resolution_report(
+    res: int | None = None,
+    *,
+    points_per_cm: float | None = None,
+) -> Dict[str, float]:
+    """Map resolution to physical grid metrics (``a`` is the Meep length unit)."""
+    if points_per_cm is not None:
+        return _physical_resolution_report(
+            points_per_cm=float(points_per_cm), a_m=float(a), fs_Hz=fs_Hz
+        )
+    if res is None:
+        raise ValueError("provide res or points_per_cm")
+    return _physical_resolution_report(res=int(res), a_m=float(a), fs_Hz=fs_Hz)
 
 
 def geometry_summary() -> str:
     lines = [
-        f"a = {a} m = {a * 100:.2f} cm  (Meep length unit; NOT the 20 mm lattice pitch)",
-        f"lattice pitch = 20 mm = {0.020 / a:.6f} a-units",
+        f"a = {a} m = {a * 100:.2f} cm  (Meep length unit = 20 mm lattice pitch)",
+        f"lattice pitch = 20 mm = {d_exp:.6f} a-units",
         f"nx_ports = {nx_ports}, ny_ports = {ny_ports}, dpml_ports = {dpml_ports}",
         f"feed_length = {feed_length_m * 1e3:.1f} mm",
         f"clear_width = {clear_width * a * 1e3:.3f} mm",

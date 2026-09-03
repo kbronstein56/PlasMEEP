@@ -1,0 +1,349 @@
+{
+  "label": "full_num_mode_guide_normal_P2P3_ppc50_rt20",
+  "timestamp_utc": "2026-09-03T08:22:11.150194+00:00",
+  "mpi_note": "",
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "settings": {
+    "points_per_cm": 50.0,
+    "res": 100,
+    "run_time": 20.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      1,
+      2
+    ],
+    "nx_ports": 30,
+    "ny_ports": 28,
+    "dpml_ports": 2.0,
+    "a": 0.02,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "num_mode_guide_normal",
+    "device_mode": "full",
+    "grid_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "monitor_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "wall_mode": "pec",
+    "horn_walls": "prism",
+    "coord_rotation_deg": 0.0,
+    "flare_steps": 4,
+    "skip_norm_if_cached": false,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_guide_normal_full_prism_rot0_pec_g0_0_m0_0_ppc50_res100_rt20_p12.pkl"
+  },
+  "physical_resolution": {
+    "points_per_cm": 50.0,
+    "dx_mm": 0.2,
+    "meep_resolution": 100.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.01,
+    "grid_spacing_mm": 0.2,
+    "pixels_per_lattice_20mm": 100.0,
+    "pixels_per_free_space_lambda0": 389.3408545454546,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 50.0
+  },
+  "timings_s": {
+    "normalization": 4682.719449423952,
+    "device": 8727.347513164976,
+    "total": 13410.066997663933
+  },
+  "incident_power_by_port": {
+    "1": 2859.3049834716544,
+    "2": 2859.3049834716535
+  },
+  "incident_power_mismatch": {
+    "max_over_min": 1.0000000000000002,
+    "rel_spread": 3.180824385752149e-16,
+    "min": 2859.3049834716535,
+    "max": 2859.3049834716544,
+    "mean": 2859.304983471654
+  },
+  "power_matrix": [
+    [
+      0.01527732495472455,
+      0.0029076717598538956
+    ],
+    [
+      0.002907671759853572,
+      0.015277324954717375
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      -18.159526836600246,
+      -25.364546215166165
+    ],
+    [
+      -25.364546215166648,
+      -18.159526836602286
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 4.831690603168681e-13,
+    "max_abs_diff_dB": 4.831690603168681e-13,
+    "worst_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 4.831690603168681e-13,
+        "T_ji_dB": -25.364546215166165,
+        "T_ij_dB": -25.364546215166648
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 4.831690603168681e-13,
+        "T_ji_dB": -25.364546215166165,
+        "T_ij_dB": -25.364546215166648
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        4.831690603168681e-13
+      ],
+      [
+        4.831690603168681e-13,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "flux_subtraction": {
+    "diagonal_normalized_power": {
+      "P2": 0.01527732495472455,
+      "P3": 0.015277324954717375
+    },
+    "positive_reflection_count": 2,
+    "healthy": false
+  },
+  "objective": null,
+  "discrete_control": {
+    "patch_a": {
+      "label": "P2_source",
+      "requested_center": [
+        5.627563509461095,
+        9.747225921207237
+      ],
+      "half_width_cells": 1,
+      "res": 100,
+      "n_dofs": 9,
+      "coords": [
+        [
+          5.615,
+          9.735
+        ],
+        [
+          5.615,
+          9.745
+        ],
+        [
+          5.615,
+          9.755
+        ],
+        [
+          5.625,
+          9.735
+        ],
+        [
+          5.625,
+          9.745
+        ],
+        [
+          5.625,
+          9.755
+        ],
+        [
+          5.635,
+          9.735
+        ],
+        [
+          5.635,
+          9.745
+        ],
+        [
+          5.635,
+          9.755
+        ]
+      ],
+      "weights": [
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111
+      ],
+      "cell_indices": [
+        [
+          561,
+          973
+        ],
+        [
+          561,
+          974
+        ],
+        [
+          561,
+          975
+        ],
+        [
+          562,
+          973
+        ],
+        [
+          562,
+          974
+        ],
+        [
+          562,
+          975
+        ],
+        [
+          563,
+          973
+        ],
+        [
+          563,
+          974
+        ],
+        [
+          563,
+          975
+        ]
+      ]
+    },
+    "patch_b": {
+      "label": "P3_source",
+      "requested_center": [
+        -5.627563509461097,
+        9.747225921207237
+      ],
+      "half_width_cells": 1,
+      "res": 100,
+      "n_dofs": 9,
+      "coords": [
+        [
+          -5.635,
+          9.735
+        ],
+        [
+          -5.635,
+          9.745
+        ],
+        [
+          -5.635,
+          9.755
+        ],
+        [
+          -5.625,
+          9.735
+        ],
+        [
+          -5.625,
+          9.745
+        ],
+        [
+          -5.625,
+          9.755
+        ],
+        [
+          -5.615,
+          9.735
+        ],
+        [
+          -5.615,
+          9.745
+        ],
+        [
+          -5.615,
+          9.755
+        ]
+      ],
+      "weights": [
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111
+      ],
+      "cell_indices": [
+        [
+          -564,
+          973
+        ],
+        [
+          -564,
+          974
+        ],
+        [
+          -564,
+          975
+        ],
+        [
+          -563,
+          973
+        ],
+        [
+          -563,
+          974
+        ],
+        [
+          -563,
+          975
+        ],
+        [
+          -562,
+          973
+        ],
+        [
+          -562,
+          974
+        ],
+        [
+          -562,
+          975
+        ]
+      ]
+    },
+    "g_a_to_b": "(0.29990308809872157-0.16524607716441675j)",
+    "g_b_to_a": "(0.2999030880987055-0.16524607716443257j)",
+    "abs_g_a_to_b": 0.3424151402455474,
+    "abs_g_b_to_a": 0.342415140245541,
+    "amp_ratio": 1.0000000000000189,
+    "amp_err_dB": 1.6393566931405729e-13,
+    "phase_diff_deg": 3.619471227505482e-12,
+    "complex_sym_err": 6.591686445985588e-14,
+    "fields_large_enough": true
+  }
+}

@@ -925,3 +925,44 @@ Estimate from 50 points/cm (cell count ∝ ppc², ~3.74 h wall per 2-port case a
 - P2↔P3 has generally behaved much better than P1↔P2 — **and remains so at 50 points/cm**
 
 ---
+
+## 20. S-parameter reciprocity mismatch — overnight decision tree (2026-09-04/05)
+
+### Phase 1 audit — how S21/S12 are computed
+
+Artifacts: `outputs/validation/sparam_audit/phase1_sparam_path_audit.{md,json}`
+
+| Quantity | Formula | Uses `load_minus_flux_data`? |
+|---|---|---|
+| Incident Pk | `\|flux\|` on straight-feed reference oriented as port k | no |
+| S21-like | `flux(P2 \| drive P1) / incident_P1` | **no** |
+| S12-like | `flux(P1 \| drive P2) / incident_P2` | **no** |
+| S11-like | source-port flux **after** subtract / incident | **yes** |
+
+**Critical finding:** `load_minus_flux_data` is called **only on the source-port monitor**. It cannot create S21≠S12. Transmission off-diagonals are always raw receive flux / incident. Unhealthy positive reflection diagonals are a **separate** reflection-subtraction bug.
+
+Reference roles:
+- P1 full-device run uses **P1** reference only; P2 uses **P2** only — no cross-port reference sharing.
+- Norm cache keys: `res`, `run_time`, `formulation`, grid/monitor offsets, horn walls, rotation, port subset.
+- Mode caches: per-port JSON under `mode_profiles/res{N}/` (P1/P2/P3 at res100 present; cross-port numerical-mode power overlap >99.99%).
+- Reference vs device monitors use the **same** `monitor_center_for_port` / flux-region builders; only the geometry content differs.
+
+### Overnight experiments (in progress)
+
+Harness: `dual_receiver_diagnostic.py` — one FDTD run measures **both** guide-normal flux and numerical-mode overlap (no subtraction on modal path).
+
+Campaign: `run_sparam_reciprocity_overnight.py` → `outputs/validation/sparam_audit/`
+
+Planned sequence:
+1. horns-only P1↔P2 / P2↔P3 at 50 ppc (flux vs modal; sub vs nosub)
+2. full PMM P1↔P2 / P2↔P3 at 50 ppc (dual receive)
+3. full P1↔P2 nosub confirmation (expect identical transmission to sub)
+4. horns-only monitor moved +2 / +5 cells into feed
+
+*(Results filled as cases complete.)*
+
+### Phase 7 (modes) — preliminary
+
+At 50 points/cm / res100: P1/P2/P3 TE1 power overlaps ≈0.79; P1↔P2 and P2↔P3 numerical-mode shape overlaps **>0.99999**. Stale incompatible modes are unlikely.
+
+---

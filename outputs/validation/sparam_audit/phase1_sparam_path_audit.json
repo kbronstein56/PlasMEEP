@@ -1,0 +1,536 @@
+{
+  "timestamp_utc": "2026-09-05T05:18:04.606128+00:00",
+  "physical_resolution": {
+    "points_per_cm": 50.0,
+    "dx_mm": 0.2,
+    "meep_resolution": 100.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.01,
+    "grid_spacing_mm": 0.2,
+    "pixels_per_lattice_20mm": 100.0,
+    "pixels_per_free_space_lambda0": 389.3408545454546,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 50.0
+  },
+  "calculation_path": {
+    "quantity_name": "power_matrix[receive, source] \u2248 |S_rs|^2 (power ratio, not complex S)",
+    "S21_like": "power_matrix[P2, P1] = flux_out_P2(drive_P1) / incident_P1",
+    "S12_like": "power_matrix[P1, P2] = flux_out_P1(drive_P2) / incident_P2",
+    "dB": "10*log10(power_matrix) when positive",
+    "reference_simulation": {
+      "function": "normalize_port() in sixport_common.py",
+      "geometry": "isolated straight PEC/high-eps parallel-plate feed at that port's source_center orientation",
+      "source": "same formulation source as device (e.g. numerical mode Hz line)",
+      "saved": [
+        "incident_power = |signed outward flux| at monitor plane",
+        "incident_flux_data = Meep FluxData DFT for load_minus_flux_data (flux formulations only)"
+      ],
+      "P1_reference": "built with port_index=0 orientation only",
+      "P2_reference": "built with port_index=1 orientation only",
+      "shared_between_ports": false
+    },
+    "device_simulation": {
+      "function": "simulate_circulator() in sixport_common.py",
+      "per_source": "one FDTD run; monitors on all requested ports",
+      "load_minus_flux_data": {
+        "called": "only on SOURCE port flux monitor",
+        "subtracts": "stored reference incident DFT flux for THAT same source port",
+        "affects_reflection_diagonal": true,
+        "affects_transmission_S21_S12": false,
+        "code": "sim_i.load_minus_flux_data(monitors_i[src_local], incident_flux_data_by_port[source_port])"
+      },
+      "transmitted_power": "signed guide-normal flux at receive port (NO subtraction)",
+      "reflected_power": "source-port flux AFTER load_minus_flux_data / incident",
+      "normalization": "column_i = flux_i / incident_power_by_port[source_port]"
+    },
+    "cache_keys": {
+      "norm_pickle": [
+        "res",
+        "run_time",
+        "formulation",
+        "grid_offset_cells",
+        "monitor_offset_cells",
+        "horn_walls",
+        "coord_rotation_deg",
+        "port subset in filename"
+      ],
+      "mode_json": [
+        "res directory (res{N}/numerical_mode_P{k}.json)",
+        "frequency_a checked at load",
+        "per-port file (P1..P6 not shared)"
+      ],
+      "missing_from_norm_key_explicitly": [
+        "points_per_cm (implied by res + a)",
+        "a_m (implicit via module constant; changing a invalidates physics of old caches)"
+      ]
+    },
+    "orientation_dependence": [
+      "source amplitudes follow per-port numerical mode + local tangent",
+      "flux regions use outward normal (n_x, n_y) weights along true tangent",
+      "P1 is axis-aligned (horizontal); P2/P3 are \u00b160\u00b0 \u2014 FluxRegion axis-alignment requires guide-normal point decomposition"
+    ],
+    "critical_finding": "load_minus_flux_data cannot explain S21!=S12 transmission mismatch: it only modifies the source-port (reflection) monitor. S21 and S12 are raw receive fluxes divided by per-port incident powers."
+  },
+  "ports": [
+    {
+      "port": "P1",
+      "port_index": 0,
+      "outward_normal": [
+        1.0,
+        -0.0
+      ],
+      "tangent": [
+        0.0,
+        1.0
+      ],
+      "angle_deg": -0.0,
+      "source": {
+        "requested_xy_a": [
+          11.25512701892219,
+          0.0
+        ],
+        "requested_xy_mm": [
+          225.1025403784438,
+          0.0
+        ],
+        "continuous_cell": [
+          1125.512701892219,
+          0.0
+        ],
+        "frac_offset_from_hz_center": [
+          0.012701892218956345,
+          -0.5
+        ],
+        "nearest_hz_xy_a": [
+          11.255,
+          0.005
+        ],
+        "nearest_hz_cell_index": [
+          1125.0,
+          0.0
+        ]
+      },
+      "monitor": {
+        "requested_xy_a": [
+          10.05512701892219,
+          0.0
+        ],
+        "requested_xy_mm": [
+          201.10254037844382,
+          0.0
+        ],
+        "continuous_cell": [
+          1005.5127018922191,
+          0.0
+        ],
+        "frac_offset_from_hz_center": [
+          0.012701892219070032,
+          -0.5
+        ],
+        "nearest_hz_xy_a": [
+          10.055,
+          0.005
+        ],
+        "nearest_hz_cell_index": [
+          1005.0,
+          0.0
+        ]
+      },
+      "source_to_monitor_distance_a": 1.1999999999999993,
+      "source_to_monitor_distance_mm": 23.999999999999986,
+      "guide_normal_n_points": 31,
+      "guide_normal_span_a": 1.92,
+      "guide_normal_span_mm": 38.4,
+      "first_sample": {
+        "requested_xy_a": [
+          10.05512701892219,
+          -0.96
+        ],
+        "requested_xy_mm": [
+          201.10254037844382,
+          -19.2
+        ],
+        "continuous_cell": [
+          1005.5127018922191,
+          -96.0
+        ],
+        "frac_offset_from_hz_center": [
+          0.012701892219070032,
+          -0.5
+        ],
+        "nearest_hz_xy_a": [
+          10.055,
+          -0.955
+        ],
+        "nearest_hz_cell_index": [
+          1005.0,
+          -96.0
+        ]
+      },
+      "mid_sample": {
+        "requested_xy_a": [
+          10.05512701892219,
+          0.0
+        ],
+        "requested_xy_mm": [
+          201.10254037844382,
+          0.0
+        ],
+        "continuous_cell": [
+          1005.5127018922191,
+          0.0
+        ],
+        "frac_offset_from_hz_center": [
+          0.012701892219070032,
+          -0.5
+        ],
+        "nearest_hz_xy_a": [
+          10.055,
+          0.005
+        ],
+        "nearest_hz_cell_index": [
+          1005.0,
+          0.0
+        ]
+      },
+      "last_sample": {
+        "requested_xy_a": [
+          10.05512701892219,
+          0.96
+        ],
+        "requested_xy_mm": [
+          201.10254037844382,
+          19.2
+        ],
+        "continuous_cell": [
+          1005.5127018922191,
+          96.0
+        ],
+        "frac_offset_from_hz_center": [
+          0.012701892219070032,
+          -0.5
+        ],
+        "nearest_hz_xy_a": [
+          10.055,
+          0.965
+        ],
+        "nearest_hz_cell_index": [
+          1005.0,
+          96.0
+        ]
+      },
+      "clear_width_mm": 40.0,
+      "wall_thickness_mm": 4.0
+    },
+    {
+      "port": "P2",
+      "port_index": 1,
+      "outward_normal": [
+        0.5000000000000001,
+        0.8660254037844387
+      ],
+      "tangent": [
+        -0.8660254037844387,
+        0.5000000000000001
+      ],
+      "angle_deg": 59.99999999999999,
+      "source": {
+        "requested_xy_a": [
+          5.627563509461095,
+          9.747225921207237
+        ],
+        "requested_xy_mm": [
+          112.5512701892219,
+          194.94451842414472
+        ],
+        "continuous_cell": [
+          562.7563509461095,
+          974.7225921207237
+        ],
+        "frac_offset_from_hz_center": [
+          0.2563509461094782,
+          0.22259212072367518
+        ],
+        "nearest_hz_xy_a": [
+          5.625,
+          9.745
+        ],
+        "nearest_hz_cell_index": [
+          562.0,
+          974.0
+        ]
+      },
+      "monitor": {
+        "requested_xy_a": [
+          5.027563509461095,
+          8.707995436665911
+        ],
+        "requested_xy_mm": [
+          100.55127018922191,
+          174.15990873331822
+        ],
+        "continuous_cell": [
+          502.75635094610954,
+          870.799543666591
+        ],
+        "frac_offset_from_hz_center": [
+          0.256350946109535,
+          0.2995436665910347
+        ],
+        "nearest_hz_xy_a": [
+          5.025,
+          8.705
+        ],
+        "nearest_hz_cell_index": [
+          502.0,
+          870.0
+        ]
+      },
+      "source_to_monitor_distance_a": 1.1999999999999995,
+      "source_to_monitor_distance_mm": 23.99999999999999,
+      "guide_normal_n_points": 31,
+      "guide_normal_span_a": 1.92,
+      "guide_normal_span_mm": 38.4,
+      "first_sample": {
+        "requested_xy_a": [
+          5.858947897094156,
+          8.22799543666591
+        ],
+        "requested_xy_mm": [
+          117.17895794188313,
+          164.55990873331822
+        ],
+        "continuous_cell": [
+          585.8947897094156,
+          822.799543666591
+        ],
+        "frac_offset_from_hz_center": [
+          0.39478970941559055,
+          0.2995436665910347
+        ],
+        "nearest_hz_xy_a": [
+          5.855,
+          8.225
+        ],
+        "nearest_hz_cell_index": [
+          585.0,
+          822.0
+        ]
+      },
+      "mid_sample": {
+        "requested_xy_a": [
+          5.027563509461095,
+          8.707995436665911
+        ],
+        "requested_xy_mm": [
+          100.55127018922191,
+          174.15990873331822
+        ],
+        "continuous_cell": [
+          502.75635094610954,
+          870.799543666591
+        ],
+        "frac_offset_from_hz_center": [
+          0.256350946109535,
+          0.2995436665910347
+        ],
+        "nearest_hz_xy_a": [
+          5.025,
+          8.705
+        ],
+        "nearest_hz_cell_index": [
+          502.0,
+          870.0
+        ]
+      },
+      "last_sample": {
+        "requested_xy_a": [
+          4.196179121828035,
+          9.187995436665911
+        ],
+        "requested_xy_mm": [
+          83.92358243656071,
+          183.75990873331824
+        ],
+        "continuous_cell": [
+          419.6179121828035,
+          918.7995436665911
+        ],
+        "frac_offset_from_hz_center": [
+          0.11791218280347948,
+          0.2995436665911484
+        ],
+        "nearest_hz_xy_a": [
+          4.195,
+          9.185
+        ],
+        "nearest_hz_cell_index": [
+          419.0,
+          918.0
+        ]
+      },
+      "clear_width_mm": 40.0,
+      "wall_thickness_mm": 4.0
+    },
+    {
+      "port": "P3",
+      "port_index": 2,
+      "outward_normal": [
+        -0.5000000000000001,
+        0.8660254037844387
+      ],
+      "tangent": [
+        -0.8660254037844387,
+        -0.5000000000000001
+      ],
+      "angle_deg": 120.00000000000001,
+      "source": {
+        "requested_xy_a": [
+          -5.627563509461097,
+          9.747225921207237
+        ],
+        "requested_xy_mm": [
+          -112.55127018922194,
+          194.94451842414472
+        ],
+        "continuous_cell": [
+          -562.7563509461097,
+          974.7225921207237
+        ],
+        "frac_offset_from_hz_center": [
+          -0.25635094610970555,
+          0.22259212072367518
+        ],
+        "nearest_hz_xy_a": [
+          -5.625,
+          9.745
+        ],
+        "nearest_hz_cell_index": [
+          -563.0,
+          974.0
+        ]
+      },
+      "monitor": {
+        "requested_xy_a": [
+          -5.027563509461097,
+          8.707995436665911
+        ],
+        "requested_xy_mm": [
+          -100.55127018922194,
+          174.15990873331822
+        ],
+        "continuous_cell": [
+          -502.7563509461097,
+          870.799543666591
+        ],
+        "frac_offset_from_hz_center": [
+          -0.25635094610970555,
+          0.2995436665910347
+        ],
+        "nearest_hz_xy_a": [
+          -5.025,
+          8.705
+        ],
+        "nearest_hz_cell_index": [
+          -503.0,
+          870.0
+        ]
+      },
+      "source_to_monitor_distance_a": 1.1999999999999995,
+      "source_to_monitor_distance_mm": 23.99999999999999,
+      "guide_normal_n_points": 31,
+      "guide_normal_span_a": 1.92,
+      "guide_normal_span_mm": 38.4,
+      "first_sample": {
+        "requested_xy_a": [
+          -4.196179121828036,
+          9.187995436665911
+        ],
+        "requested_xy_mm": [
+          -83.92358243656074,
+          183.75990873331824
+        ],
+        "continuous_cell": [
+          -419.61791218280365,
+          918.7995436665911
+        ],
+        "frac_offset_from_hz_center": [
+          -0.11791218280365001,
+          0.2995436665911484
+        ],
+        "nearest_hz_xy_a": [
+          -4.195,
+          9.185
+        ],
+        "nearest_hz_cell_index": [
+          -420.0,
+          918.0
+        ]
+      },
+      "mid_sample": {
+        "requested_xy_a": [
+          -5.027563509461097,
+          8.707995436665911
+        ],
+        "requested_xy_mm": [
+          -100.55127018922194,
+          174.15990873331822
+        ],
+        "continuous_cell": [
+          -502.7563509461097,
+          870.799543666591
+        ],
+        "frac_offset_from_hz_center": [
+          -0.25635094610970555,
+          0.2995436665910347
+        ],
+        "nearest_hz_xy_a": [
+          -5.025,
+          8.705
+        ],
+        "nearest_hz_cell_index": [
+          -503.0,
+          870.0
+        ]
+      },
+      "last_sample": {
+        "requested_xy_a": [
+          -5.858947897094158,
+          8.22799543666591
+        ],
+        "requested_xy_mm": [
+          -117.17895794188316,
+          164.55990873331822
+        ],
+        "continuous_cell": [
+          -585.8947897094158,
+          822.799543666591
+        ],
+        "frac_offset_from_hz_center": [
+          -0.3947897094158179,
+          0.2995436665910347
+        ],
+        "nearest_hz_xy_a": [
+          -5.855,
+          8.225
+        ],
+        "nearest_hz_cell_index": [
+          -586.0,
+          822.0
+        ]
+      },
+      "clear_width_mm": 40.0,
+      "wall_thickness_mm": 4.0
+    }
+  ],
+  "reference_vs_device_monitor_identity": {
+    "same_functions": [
+      "monitor_center_for_port(port, res)",
+      "make_flux_region_for_formulation(...)",
+      "horn_for_port(port, res)['source_center'] for launch"
+    ],
+    "reference_differs_by": "geometry content (straight feed vs full device), NOT monitor coordinate formulas",
+    "yee_dofs_match_if": "same res, same grid_offset, same monitor_offset, same a"
+  }
+}

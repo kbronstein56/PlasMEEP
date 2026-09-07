@@ -1018,3 +1018,180 @@ This strengthens the current diagnosis:
 At 50 points/cm / res100: P1/P2/P3 TE1 power overlaps ≈0.79; P1↔P2 and P2↔P3 numerical-mode shape overlaps **>0.99999**. Stale incompatible modes are unlikely.
 
 ---
+
+## 21. Port-physics audit and reciprocity-paired diagnostic (2026-09-07)
+
+### Phase 1 — read-only audit
+
+#### What exact source distribution launches P1 / P2 / P3?
+
+Current `num_mode_*` launches are built from per-port cached `NumericalPortMode` profiles:
+
+- cache load: `plasmeep/ports/mode_registry.py` → `get_numerical_mode()`
+- source weights: `plasmeep/ports/numerical_mode.py` → `source_amplitudes()`
+- Meep source placement: `plasmeep/ports/numerical_launch.py` → `make_numerical_hz_sources()`
+
+Mathematically, for cached complex transverse samples `φ_k` on offsets `s_k`, the source uses:
+
+\[
+J_k \propto \overline{\phi_k}
+\]
+
+as distributed `mp.Hz` point sources along the local port tangent. This is **not** an eigenmode source from MPB; it is a discrete impressed `Hz` current pattern derived from a previously extracted numerical line profile.
+
+For the snapped variants (`num_mode_yee_*` / `num_mode_grid_*`), continuous points are first snapped to nearest `Hz` Yee sites and duplicate snaps are merged. Thus:
+
+- P1 and P2 do **not** land on identical DOF layouts after rotation.
+- They are **separate numerical profiles**, not one mathematically rotated object reused at two angles.
+
+#### Are P1 and P2 the same properly normalized electromagnetic mode, just rotated?
+
+**No.** They are separate cached per-port profiles with matching qualitative shape but different discrete support:
+
+- `canonical_profile_port()` is identity in `plasmeep/ports/mode_registry.py`
+- each port loads its own JSON (`numerical_mode_P1.json`, `numerical_mode_P2.json`, ...)
+- snapped P1 and P2 use different Yee-site patterns because the Cartesian lattice treats the horizontal and 60° cross-sections differently
+
+So they are “similar numerical source profiles” rather than one exact rotated discrete mode.
+
+#### How are amplitude, phase, and power normalized?
+
+There are three layers:
+
+1. **Mode-vector normalization**  
+   `NumericalPortMode.normalized_field()` L2-normalizes the cached complex `Hz` samples.
+
+2. **Source normalization**  
+   `source_amplitudes(target_power=1)` returns `conj(φ)` scaled so `Σ|J_k|² = 1` in discrete source-weight norm.
+
+3. **Reference-run normalization**  
+   `scripts/validation/sixport_common.py` → `normalize_port()` runs an isolated straight-guide reference for each port and defines incident power from the chosen receiver:
+   - flux formulations: `|Φ_inc|`
+   - direct Poynting (`num_mode_yee_sdotn`): `|∫ S·n dl|`
+   - modal formulations: `|⟨φ,H_inc⟩|²`
+
+Device “S-parameters” are then power ratios:
+
+\[
+P_{ij} = \frac{\text{receiver}_i(\text{field from source }j)}{\text{incident power of source }j}
+\]
+
+with dB reported as `10 log10(Pij)`. These are **not** complex scattering amplitudes.
+
+#### Do P1 and P2 use the same Yee-grid source DOFs?
+
+Not after snapping. The axis-aligned P1 aperture and the 60° P2 aperture collapse onto different snapped Hz-site patterns. That means even when the same conceptual chord width and cached offsets are used, the actual discrete launch operator differs by orientation.
+
+#### What receiver is paired with each source formulation?
+
+- `num_mode_guide_normal`: total guide-normal flux across a weighted chord
+- `num_mode_yee_sdotn`: direct field-based `∫ (1/2) Re(E×H*)·n dl`
+- `num_mode_modal`: `Hz`-only overlap `⟨φ,H⟩`
+
+None of the first two is a mode projector. They measure **total net power crossing the plane**, not the amplitude of one designated port mode.
+
+The third (`num_mode_modal`) is closer to an adjoint modal receiver, but it still uses only scalar `Hz` samples, not a full electromagnetic forward/backward mode pair with Lorentz-orthogonality normalization.
+
+#### Is the current receiver plane a clean single-mode port plane?
+
+Geometrically, yes; electromagnetically, not necessarily.
+
+From `plasmeep/ports/horn.py`:
+
+- flare depth = **89 mm**
+- straight feed length = **60 mm**
+- legacy receiver plane = **18 mm** from throat (`monitor_frac = 0.30`)
+- source plane = **42 mm** from throat (`source_frac = 0.70`)
+- clear PEC guide width = **40 mm**
+
+At `fs = 3.85 GHz`, that 40 mm guide is only just above first cutoff (`fc1 ≈ c / (2W) ≈ 3.75 GHz`). So there is approximately **one propagating mode**, but the monitor plane is only **0.45 guide widths** and about **0.053 guided wavelengths** from the throat. Evanescent / higher-order reactive content from the flare and PMM transition can therefore still contaminate the field there.
+
+#### Does total `∫ S·n dl` measure the quantity needed for an S-parameter?
+
+Not in general. It measures **total net real power** crossing that section. A true modal S-parameter requires the complex amplitude of a designated port mode. Those coincide only when the cross-section is effectively single-mode and contamination-free.
+
+#### Exact reciprocity issue
+
+For a reciprocal multiport electromagnetic system, `S21 = S12` requires:
+
+1. the two ports be defined as reciprocal forward/backward modes of the same linear operator;
+2. excitation and readout use the corresponding adjoint modal pairing;
+3. normalization be performed with the same modal convention at both ports.
+
+Our current `num_mode_hz_line + flux` and direct `S·n` receivers fail this because the source is a discrete `Hz` current pattern while the receiver is **total power through a plane**, not the adjoint modal functional.
+
+Current `num_mode_modal` improves the situation but still loses reciprocity mathematically because it projects only `Hz` on a continuous sampled line, not the exact snapped DOFs of the launched source and not the full electromagnetic modal bilinear form.
+
+This is why the matched discrete reciprocity control can be machine precision while the extracted port powers differ by 2.31 dB:
+
+- the matched discrete test uses the **same Yee DOFs and identical weights** as both source and receiver;
+- the S-parameter path adds a non-matching measurement operator (flux, total `S·n`, or incomplete modal projection).
+
+### Phase 2 — chosen single best diagnostic
+
+Choice: **C (both)**.
+
+The implemented diagnostic is:
+
+- source: exact snapped Yee-grid modal source on the actual port line
+- receiver: adjoint `Hz` modal overlap on the **same snapped Yee DOFs**
+- plane: moved deeper into the straight feed, from 18 mm to **30 mm** past the throat (`feed_frac = 0.50`)
+
+Implementation:
+
+- new shared helper: `plasmeep/ports/grid_modal.py`
+- new formulation: `num_mode_grid_modal_clean`
+
+Hypothesis:
+- the old measurement loses reciprocity because it combines an orientation-dependent discrete source with a non-adjoint or contaminated receiver plane.
+
+Support:
+- if `horns_only` P1↔P2 at 50 ppc becomes very tight, then the main remaining error was the old source/receiver definition, not the solver.
+
+Falsification:
+- if `horns_only` remains noticeably nonreciprocal, then even this paired `Hz`-only modal definition is still missing the operation needed to match the reciprocal electromagnetic response, and a fuller E/H Lorentz-mode pairing is the next likely step.
+
+### Phase 3 — horns-only gate at 50 points/cm
+
+Case: `paired_modal_horns_P1P2_ppc50_rt20.json`
+
+| Method | P1→P2 | P2→P1 | Difference dB |
+|---|---:|---:|---:|
+| matched discrete control | — | — | **1.45×10⁻¹⁴** |
+| direct Poynting `S·n` (previous) | -14.260 | -14.346 | **0.0861** |
+| new `num_mode_grid_modal_clean` | **+4.691** | **-4.691** | **9.382** |
+
+Raw facts:
+
+- incident normalization P1: **1.0119×10^209**
+- incident normalization P2: **3.4356×10^208**
+- incident mismatch: **2.945×**
+- normalized off-diagonal powers became exact reciprocals: **2.945** and **0.3395**
+
+This is a mathematically useful failure. The new paired-`Hz` modal receiver/source did **not** produce a valid modal power normalization even in `horns_only`.
+
+Interpretation:
+
+1. The underlying horns-only field solve is still reciprocal (matched discrete control remains machine precision).
+2. The new receiver/source pairing is closer in DOF matching, but the quantity
+
+\[
+| \langle \phi, H \rangle |^2
+\]
+
+with `φ` a scalar `Hz` line profile is **not** a power-orthogonal electromagnetic port norm.
+3. Therefore the reference “incident power” extracted from that functional is not invariant across P1/P2 orientation and can become arbitrarily ill-scaled.
+4. Because the horns-only gate failed, a full PMM confirmation was **not** run.
+
+### Current best diagnosis
+
+The single most likely remaining cause is now more specific:
+
+- not `load_minus_flux_data`
+- not total Poynting integration alone
+- not Meep reciprocity
+- not merely “wrong monitor location”
+
+Instead, the missing mathematical ingredient is a **true electromagnetic forward/backward port-mode bilinear form**. A scalar `Hz` overlap, even on exact snapped DOFs and a cleaner plane, is still not the Lorentz-reciprocal adjoint required for a physically normalized S-matrix.
+
+The likely next step is a port definition based on a full E/H reference mode and the appropriate Lorentz overlap functional, rather than `Hz`-only Euclidean projection.

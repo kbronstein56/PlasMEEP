@@ -217,6 +217,46 @@ def make_grid_index_numerical_mode_sources(
     return sources
 
 
+def make_grid_modal_numerical_mode_sources(
+    port_index: int,
+    frequency: Optional[float] = None,
+    fwidth: Optional[float] = None,
+) -> List[mp.Source]:
+    """Launch on exact snapped modal DOFs at the diagnostic feed plane."""
+    from plasmeep.ports.grid_modal import (
+        build_grid_modal_profile,
+        make_grid_modal_hz_sources,
+    )
+    from plasmeep.ports.mode_registry import get_numerical_mode
+
+    if frequency is None:
+        frequency = sc.fs_a
+    if fwidth is None:
+        fwidth = sc.source_df
+    res = sc.current_res()
+    u = sc.effective_port_dir(port_index)
+    center = np.asarray(sc.horn_for_port(port_index, res)["source_center"], dtype=float)
+    mode = get_numerical_mode(
+        port_index,
+        res=res,
+        frequency_a=frequency,
+        horn_walls=sc.get_horn_walls(),
+        grid_offset_cells=sc.get_grid_offset_cells(),
+        coord_rotation_deg=sc.get_coord_rotation_deg(),
+        validate_alignment=(u, np.array([-u[1], u[0]])),
+    )
+    profile = build_grid_modal_profile(
+        mode,
+        center_xy=center,
+        outward_dir=u,
+        res=res,
+        span_a=0.96 * sc.clear_width,
+    )
+    return make_grid_modal_hz_sources(
+        profile, frequency=frequency, fwidth=fwidth, target_power=1.0
+    )
+
+
 def make_grid_index_guide_normal_flux_spec(
     center_xy: np.ndarray,
     outward_dir: np.ndarray,
@@ -508,6 +548,43 @@ def add_modal_overlap_monitor_for_port(
     )
 
 
+def add_modal_overlap_monitor_for_formulation(
+    sim: mp.Simulation,
+    formulation: str,
+    port_index: int,
+) -> Dict[str, Any]:
+    if formulation == "num_mode_grid_modal_clean":
+        from plasmeep.ports.grid_modal import (
+            add_grid_modal_overlap_monitor,
+            build_grid_modal_profile,
+        )
+        from plasmeep.ports.mode_registry import get_numerical_mode
+
+        res = sc.current_res()
+        u = sc.effective_port_dir(port_index)
+        center = sc.feed_center_for_port(
+            port_index, res, sc.DIAGNOSTIC_MODAL_FEED_FRAC
+        )
+        mode = get_numerical_mode(
+            port_index,
+            res=res,
+            frequency_a=sc.fs_a,
+            horn_walls=sc.get_horn_walls(),
+            grid_offset_cells=sc.get_grid_offset_cells(),
+            coord_rotation_deg=sc.get_coord_rotation_deg(),
+            validate_alignment=(u, np.array([-u[1], u[0]])),
+        )
+        profile = build_grid_modal_profile(
+            mode,
+            center_xy=center,
+            outward_dir=u,
+            res=res,
+            span_a=0.96 * sc.clear_width,
+        )
+        return add_grid_modal_overlap_monitor(sim, profile, frequency=sc.fs_a)
+    return add_modal_overlap_monitor_for_port(sim, port_index)
+
+
 def extract_modal_powers(sim, mon_infos: Sequence[Dict[str, Any]]) -> np.ndarray:
     from plasmeep.ports.modal_receiver import extract_modal_power
 
@@ -515,9 +592,16 @@ def extract_modal_powers(sim, mon_infos: Sequence[Dict[str, Any]]) -> np.ndarray
 
 
 def extract_modal_coefficients(sim, mon_infos: Sequence[Dict[str, Any]]) -> np.ndarray:
+    from plasmeep.ports.grid_modal import extract_grid_modal_coefficient
     from plasmeep.ports.modal_receiver import extract_modal_coefficient
 
-    return np.array([extract_modal_coefficient(sim, info) for info in mon_infos])
+    coeffs = []
+    for info in mon_infos:
+        if "profile" in info and "dft_objs" in info:
+            coeffs.append(extract_grid_modal_coefficient(sim, info))
+        else:
+            coeffs.append(extract_modal_coefficient(sim, info))
+    return np.array(coeffs)
 
 
 def make_eigenmode_sources(
@@ -641,9 +725,13 @@ def make_guide_normal_flux_spec(
 def port_measure_center(formulation: str, port_index: int) -> np.ndarray:
     """Geometric center used for flux/DFT monitors."""
     res = sc.current_res()
-    if formulation == "te1_axis_at_source":
+    if formulation in ("te1_axis_at_source",):
         return np.asarray(
             sc.horn_for_port(port_index, res)["source_center"], dtype=float
+        )
+    if formulation == "num_mode_grid_modal_clean":
+        return sc.feed_center_for_port(
+            port_index, res, sc.DIAGNOSTIC_MODAL_FEED_FRAC
         )
     return sc.monitor_center_for_port(port_index, res)
 
@@ -1006,6 +1094,11 @@ _REGISTRY: Dict[str, Formulation] = {
         name="num_mode_grid_index",
         measurement="flux",
         make_sources=make_grid_index_numerical_mode_sources,
+    ),
+    "num_mode_grid_modal_clean": Formulation(
+        name="num_mode_grid_modal_clean",
+        measurement="modal_overlap",
+        make_sources=make_grid_modal_numerical_mode_sources,
     ),
     "te1_hz_modal": Formulation(
         name="te1_hz_modal",

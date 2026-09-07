@@ -1,0 +1,349 @@
+{
+  "label": "paired_modal_horns_P1P2_ppc50_rt20",
+  "timestamp_utc": "2026-09-07T19:10:08.061184+00:00",
+  "mpi_note": "",
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "settings": {
+    "points_per_cm": 50.0,
+    "res": 100,
+    "run_time": 20.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      0,
+      1
+    ],
+    "nx_ports": 30,
+    "ny_ports": 28,
+    "dpml_ports": 2.0,
+    "a": 0.02,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "num_mode_grid_modal_clean",
+    "device_mode": "horns_only",
+    "grid_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "monitor_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "wall_mode": "pec",
+    "horn_walls": "prism",
+    "coord_rotation_deg": 0.0,
+    "flare_steps": 4,
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_grid_modal_clean_horns_only_prism_rot0_pec_g0_0_m0_0_ppc50_res100_rt20_p01.pkl"
+  },
+  "physical_resolution": {
+    "points_per_cm": 50.0,
+    "dx_mm": 0.2,
+    "meep_resolution": 100.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.01,
+    "grid_spacing_mm": 0.2,
+    "pixels_per_lattice_20mm": 100.0,
+    "pixels_per_free_space_lambda0": 389.3408545454546,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 50.0
+  },
+  "timings_s": {
+    "normalization": 4721.173819649033,
+    "device": 4864.388819042011,
+    "total": 9585.562689586077
+  },
+  "incident_power_by_port": {
+    "0": 1.0118719635229175e+209,
+    "1": 3.435646971998718e+208
+  },
+  "incident_power_mismatch": {
+    "max_over_min": 2.9452151858729887,
+    "rel_spread": 0.9861136055840036,
+    "min": 3.435646971998718e+208,
+    "max": 1.0118719635229175e+209,
+    "mean": 6.777183303613946e+208
+  },
+  "power_matrix": [
+    [
+      1.0,
+      2.9452151858729887
+    ],
+    [
+      0.33953376473019603,
+      1.0
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      0.0,
+      4.69117031083436
+    ],
+    [
+      -4.6911703108343605,
+      0.0
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 9.382340621668721,
+    "max_abs_diff_dB": 9.382340621668721,
+    "worst_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 9.382340621668721,
+        "T_ji_dB": 4.69117031083436,
+        "T_ij_dB": -4.6911703108343605
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 9.382340621668721,
+        "T_ji_dB": 4.69117031083436,
+        "T_ij_dB": -4.6911703108343605
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        9.382340621668721
+      ],
+      [
+        9.382340621668721,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "flux_subtraction": {
+    "diagonal_normalized_power": {
+      "P1": 1.0,
+      "P2": 1.0
+    },
+    "positive_reflection_count": 2,
+    "healthy": false
+  },
+  "objective": null,
+  "discrete_control": {
+    "patch_a": {
+      "label": "P1_source",
+      "requested_center": [
+        11.25512701892219,
+        0.0
+      ],
+      "half_width_cells": 1,
+      "res": 100,
+      "n_dofs": 9,
+      "coords": [
+        [
+          11.245,
+          -0.005
+        ],
+        [
+          11.245,
+          0.005
+        ],
+        [
+          11.245,
+          0.015
+        ],
+        [
+          11.255,
+          -0.005
+        ],
+        [
+          11.255,
+          0.005
+        ],
+        [
+          11.255,
+          0.015
+        ],
+        [
+          11.265,
+          -0.005
+        ],
+        [
+          11.265,
+          0.005
+        ],
+        [
+          11.265,
+          0.015
+        ]
+      ],
+      "weights": [
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111
+      ],
+      "cell_indices": [
+        [
+          1124,
+          -1
+        ],
+        [
+          1124,
+          0
+        ],
+        [
+          1124,
+          1
+        ],
+        [
+          1125,
+          -1
+        ],
+        [
+          1125,
+          0
+        ],
+        [
+          1125,
+          1
+        ],
+        [
+          1126,
+          -1
+        ],
+        [
+          1126,
+          0
+        ],
+        [
+          1126,
+          1
+        ]
+      ]
+    },
+    "patch_b": {
+      "label": "P2_source",
+      "requested_center": [
+        5.627563509461095,
+        9.747225921207237
+      ],
+      "half_width_cells": 1,
+      "res": 100,
+      "n_dofs": 9,
+      "coords": [
+        [
+          5.615,
+          9.735
+        ],
+        [
+          5.615,
+          9.745
+        ],
+        [
+          5.615,
+          9.755
+        ],
+        [
+          5.625,
+          9.735
+        ],
+        [
+          5.625,
+          9.745
+        ],
+        [
+          5.625,
+          9.755
+        ],
+        [
+          5.635,
+          9.735
+        ],
+        [
+          5.635,
+          9.745
+        ],
+        [
+          5.635,
+          9.755
+        ]
+      ],
+      "weights": [
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111,
+        0.1111111111111111
+      ],
+      "cell_indices": [
+        [
+          561,
+          973
+        ],
+        [
+          561,
+          974
+        ],
+        [
+          561,
+          975
+        ],
+        [
+          562,
+          973
+        ],
+        [
+          562,
+          974
+        ],
+        [
+          562,
+          975
+        ],
+        [
+          563,
+          973
+        ],
+        [
+          563,
+          974
+        ],
+        [
+          563,
+          975
+        ]
+      ]
+    },
+    "g_a_to_b": "(0.7863134438021897-0.29710436845391347j)",
+    "g_b_to_a": "(0.786313443802191-0.297104368453914j)",
+    "abs_g_a_to_b": 0.8405711377738698,
+    "abs_g_b_to_a": 0.8405711377738713,
+    "amp_ratio": 0.9999999999999983,
+    "amp_err_dB": -1.4464911998299318e-14,
+    "phase_diff_deg": 3.1805546814635168e-15,
+    "complex_sym_err": 1.7170348435172846e-15,
+    "fields_large_enough": true
+  }
+}

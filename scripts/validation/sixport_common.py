@@ -71,6 +71,11 @@ feed_length = feed_length_m / a
 
 clear_width = width_base - 2 * wall_thickness  # cell 28
 
+# Diagnostic receiver plane deeper in the straight feed than the legacy
+# monitor_center (30% of feed). 0.50 keeps the plane in the uniform guide while
+# remaining 12 mm inward of the current source_center at 0.70.
+DIAGNOSTIC_MODAL_FEED_FRAC = 0.50
+
 # In-memory normalization cache: (res, run_time) -> dict
 _NORM_CACHE: Dict[Tuple[int, float], Dict[str, Any]] = {}
 
@@ -324,6 +329,20 @@ def monitor_center_for_port(port_index: int, res: int) -> np.ndarray:
     tangent = np.array([-u[1], u[0]])
     delta_a = offset_cells_to_a(mo, res)
     # monitor_offset_cells[0] along outward, [1] along tangent
+    return center + mo[0] * u / res + mo[1] * tangent / res
+
+
+def feed_center_for_port(port_index: int, res: int, feed_frac: float) -> np.ndarray:
+    """Point in the straight feed at a chosen fraction of feed length."""
+    horn = horn_for_port(port_index, res)
+    throat = np.asarray(horn["throat_center"], dtype=float)
+    u = np.asarray(effective_port_dir(port_index), dtype=float)
+    u = u / max(np.linalg.norm(u), 1e-30)
+    center = throat + float(feed_frac) * feed_length * u
+    mo = get_monitor_offset_cells()
+    if np.allclose(mo, 0):
+        return center
+    tangent = np.array([-u[1], u[0]])
     return center + mo[0] * u / res + mo[1] * tangent / res
 
 
@@ -686,7 +705,7 @@ def normalize_port(
         EIGENMODE_WALL_EPS,
         add_dft_sdotn_monitor,
         add_flux_monitor,
-        add_modal_overlap_monitor_for_port,
+        add_modal_overlap_monitor_for_formulation,
         dft_sdotn_yee_snap,
         extract_dft_sdotn_power,
         extract_eigenmode_powers,
@@ -770,7 +789,9 @@ def normalize_port(
         incident_power = abs(signed_flux)
         incident_data = None
     elif form.measurement == "modal_overlap":
-        mon_info = add_modal_overlap_monitor_for_port(ref_sim, source_port)
+        mon_info = add_modal_overlap_monitor_for_formulation(
+            ref_sim, form.name, source_port
+        )
         if verbose:
             print("Running reference (modal overlap)...")
         ref_sim.run(until_after_sources=run_time)
@@ -988,7 +1009,7 @@ def simulate_circulator(
         EIGENMODE_WALL_EPS,
         add_dft_sdotn_monitor,
         add_flux_monitor,
-        add_modal_overlap_monitor_for_port,
+        add_modal_overlap_monitor_for_formulation,
         extract_dft_sdotn_power,
         extract_eigenmode_powers,
         extract_flux_powers,
@@ -1093,7 +1114,9 @@ def simulate_circulator(
                 modal_infos.append(None)
             elif form.measurement == "modal_overlap":
                 modal_infos.append(
-                    add_modal_overlap_monitor_for_port(sim_i, output_port)
+                    add_modal_overlap_monitor_for_formulation(
+                        sim_i, form.name, output_port
+                    )
                 )
                 monitors_i.append(None)
                 signs_i.append(1.0)

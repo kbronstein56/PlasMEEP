@@ -947,7 +947,7 @@ Reference roles:
 - Mode caches: per-port JSON under `mode_profiles/res{N}/` (P1/P2/P3 at res100 present; cross-port numerical-mode power overlap >99.99%).
 - Reference vs device monitors use the **same** `monitor_center_for_port` / flux-region builders; only the geometry content differs.
 
-### Overnight experiments (in progress)
+### Overnight experiments (completed except abandoned monitor-shift follow-up)
 
 Harness: `dual_receiver_diagnostic.py` — one FDTD run measures **both** guide-normal flux and numerical-mode overlap (no subtraction on modal path).
 
@@ -959,7 +959,59 @@ Planned sequence:
 3. full P1↔P2 nosub confirmation (expect identical transmission to sub)
 4. horns-only monitor moved +2 / +5 cells into feed
 
-*(Results filled as cases complete.)*
+The monitor-shift follow-up was intentionally not resumed after the first unfinished case.
+
+### Overnight results (auto-filled)
+
+| Case | Device | Settings | Flux Δ dB | Modal Δ dB | Discrete dB | Flux-sub healthy | Wall |
+|---|---|---|---:|---:|---:|---|---:|
+| `horns_dual_P1P2_ppc50_rt20_nosub` | horns_only | skip_sub=True mon=0.0 | 0.0102 | 0.5856 | -1.446e-14 | True | 9731s |
+| `horns_dual_P1P2_ppc50_rt20_sub` | horns_only | skip_sub=False mon=0.0 | 0.0102 | 0.5856 | -1.446e-14 | True | 19214s |
+| `horns_dual_P2P3_ppc50_rt20_nosub` | horns_only | skip_sub=True mon=0.0 | 1.776e-14 | 6.75e-14 | 1.929e-15 | True | 9735s |
+| `horns_dual_P2P3_ppc50_rt20_sub` | horns_only | skip_sub=False mon=0.0 | 1.776e-14 | 6.75e-14 | 1.929e-15 | True | 19159s |
+| `full_dual_P1P2_ppc50_rt20_nosub` | full | skip_sub=True mon=0.0 | 2.259 | 1.095 | 7.541e-13 | True | 17541s |
+| `full_dual_P1P2_ppc50_rt20_sub` | full | skip_sub=False mon=0.0 | 2.259 | 1.095 | 7.541e-13 | True | 22073s |
+| `full_dual_P2P3_ppc50_rt20_sub` | full | skip_sub=False mon=0.0 | 4.832e-13 | 1.918e-13 | 1.639e-13 | True | 22186s |
+
+### Decision-tree status
+
+- Horns-only P1↔P2: flux Δ=0.0102 dB, modal Δ=0.5856 dB
+- Full PMM P1↔P2: flux Δ=2.259 dB, modal Δ=1.095 dB
+- **Interpretation:** horns nearly OK; full PMM amplifies a small port error.
+- **Interpretation:** both flux and modal fail → launch/grid/mode definition, not flux subtraction.
+- Full P1↔P2 sub vs nosub flux Δ: 2.259 vs 2.259 (expect nearly identical transmission)
+
+### Direct Poynting-vector integral (`S·n`) at 50 points/cm
+
+Receiver used: `num_mode_yee_sdotn` in `reciprocity_b0_study.py`, which samples complex `Ex`, `Ey`, `Hz` on a DFT slab and integrates
+
+\[
+P_{\text{port}} \approx \int \tfrac12 \mathrm{Re}(E \times H^*) \cdot \hat{n}\; dl
+\]
+
+along the horn cross-section (`extract_dft_sdotn_power()` in `port_formulations.py`). This uses **no** `load_minus_flux_data`, no reference-field subtraction on transmission, and no modal-overlap receiver.
+
+Existing 50 ppc dual-receiver JSONs did **not** save `Ex/Ey`, so this test required fresh Meep runs.
+
+| Method | Geometry | Pair | S21/S12-like reciprocity error |
+|---|---|---|---:|
+| matched discrete Yee-grid control | horns_only | P1↔P2 | **1.45×10⁻¹⁴ dB** |
+| existing guide-normal flux | horns_only | P1↔P2 | **0.0102 dB** |
+| direct Poynting `S·n` integral | horns_only | P1↔P2 | **0.0861 dB** |
+| matched discrete Yee-grid control | full PMM | P1↔P2 | **7.54×10⁻¹³ dB** |
+| existing guide-normal flux | full PMM | P1↔P2 | **2.259 dB** |
+| direct Poynting `S·n` integral | full PMM | P1↔P2 | **2.314 dB** |
+| matched discrete Yee-grid control | full PMM | P2↔P3 | **1.64×10⁻¹³ dB** |
+| existing guide-normal flux | full PMM | P2↔P3 | **4.83×10⁻¹³ dB** |
+| direct Poynting `S·n` integral | full PMM | P2↔P3 | **1.03×10⁻¹² dB** |
+
+Result: **No.** Simply integrating `S·n` across the horn does **not** recover `S21 = S12` for the axis/diagonal `P1↔P2` pair at `B=0`. It preserves reciprocity for `P2↔P3`, but `P1↔P2` remains **~2.31 dB** on the full PMM and **~0.086 dB** on horns-only.
+
+This strengthens the current diagnosis:
+- the failure is **not** caused by `load_minus_flux_data`;
+- it is **not** specific to modal-overlap normalization;
+- it survives a direct field-based `S·n` receiver;
+- the full PMM amplifies a smaller axis-port measurement asymmetry already present in horns-only.
 
 ### Phase 7 (modes) — preliminary
 

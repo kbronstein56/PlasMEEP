@@ -1348,3 +1348,80 @@ The receiver math is now much closer to Meep's eigenmode-coefficient formulation
 3. the chosen clean plane is still not acting like a single-mode guide cross-section for this reciprocal decomposition.
 
 Therefore, the full E/H overlap is a **necessary correction**, but by itself it is **not sufficient** to make the present horn source/plane pair behave like a true reciprocal eigenmode port.
+
+## 23. Full PMM confirmation with the full E/H modal port (2026-09-08)
+
+Driver: `scripts/validation/eh_modal_horns_gate.py --device-mode full`  
+Output: `outputs/validation/eh_modal/full_P1P2_ppc50_rt20.json`
+
+This was the **one** allowed expensive follow-up after the horns-only E/H gate. No additional reciprocal pairs or sweeps were run.
+
+### Result (`B=0`, full 91-bulb PMM, `P1↔P2`, `50 points/cm`, `np=32`, `rt=20`)
+
+Reference/incident modal powers reused from the horns-only E/H calibration:
+
+- `P1 incident modal power = 2910.182`
+- `P2 incident modal power = 2812.465`
+
+Complex transmitted modal amplitudes:
+
+- `P1 -> P2`: `α_out,+ = -2.55817 - 0.32835i`
+- `P2 -> P1`: `α_out,+ = -2.71944 - 0.45291i`
+
+Transmitted modal powers:
+
+- `P1 -> P2`: `|α_out,+|² = 6.65204`
+- `P2 -> P1`: `|α_out,+|² = 7.60051`
+
+Normalized transmissions:
+
+- `S21 = 0.00228578`
+- `S12 = 0.00270244`
+- `|S21/S12| mismatch = 0.72721 dB`
+
+Matched discrete reciprocity control for this same full-PMM `50 ppc` case remains the previously established
+
+- **`7.54×10⁻¹³ dB`** (machine precision)
+
+### Comparison against existing `50 ppc` full-PMM `P1↔P2` methods
+
+| Method | reciprocity difference |
+|---|---:|
+| matched discrete control | **`~7.54×10⁻¹³ dB`** |
+| existing guide-normal flux | **`2.2586 dB`** |
+| direct Poynting `S·n` | **`2.3139 dB`** |
+| previous `Hz` numerical-mode overlap | **`1.0948 dB`** |
+| new full E/H Lorentz modal port | **`0.7272 dB`** |
+
+### Interpretation
+
+This is a **real improvement**, but not a fix.
+
+- The catastrophic `Hz`-only normalization failure is gone.
+- The full E/H port is better than every previous **mode-specific** receiver we tested on the full PMM.
+- However, the full E/H port still does **not** recover reciprocal `S21=S12` at `B=0`.
+
+The strongest clue is the source-port decomposition in the full device runs:
+
+- `P1` source case: `|α_src,-|² = 2777.03`, `|α_src,+|² = 757.62`
+- `P2` source case: `|α_src,-|² = 2809.80`, `|α_src,+|² = 93.19`
+
+Compared to the horns-only E/H gate:
+
+- horns-only `P1` source case: `|α_src,+|² = 32.87`
+- horns-only `P2` source case: `|α_src,+|² = 42.40`
+
+So in the full PMM, the source-port measurement plane is no longer behaving like a clean nearly-one-way modal section, especially for `P1`, where the outward-going (`α+`) content becomes **very large**. This is consistent with one of two tightly related explanations:
+
+1. the straight-guide reference mode is still not the exact reciprocal partner of the launched horn field once the PMM strongly perturbs the near-port field; and/or
+2. the chosen horn feed plane is not sufficiently in a single-mode asymptotic region for the Lorentz decomposition to represent a de-embedded port amplitude cleanly.
+
+### Current best explanation
+
+The full E/H bilinear form itself is no longer the main suspect. The remaining inconsistency is now concentrated in the **mode/source/plane equivalence problem**:
+
+- the source is a time-domain numerical horn launch;
+- the reference mode is extracted from a straight PEC guide;
+- the receiver assumes the full-device fields on the horn feed plane are well represented by that same local guide mode basis.
+
+That approximation is evidently imperfect even at `50 ppc`. It is good enough to reduce the full-device mismatch from `1.09 dB` to `0.73 dB`, but not good enough to recover reciprocity to the level of the horns-only controls or the matched discrete invariant.

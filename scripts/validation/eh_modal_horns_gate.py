@@ -48,6 +48,7 @@ from sixport_common import (
     a,
     build_circulator_device,
     clear_width,
+    default_uniform_rho,
     effective_port_dir,
     feed_center_for_port,
     fs_a,
@@ -285,7 +286,7 @@ class PortObservation:
         }
 
 
-def run_horns_case(
+def run_case(
     source_port: int,
     receive_port: int,
     *,
@@ -293,6 +294,7 @@ def run_horns_case(
     run_time: float,
     rho: np.ndarray,
     mode_by_port: Dict[int, EMLineMode],
+    device_mode: str,
 ) -> Dict[str, Any]:
     set_geometry_context(res=res)
     _pmm, device, _wp = build_circulator_device(
@@ -300,7 +302,7 @@ def run_horns_case(
         np.array([0.0, 0.0, 0.0]),
         res=res,
         wall_pec=True,
-        device_mode="horns_only",
+        device_mode=device_mode,
     )
     device.sources = make_yee_snapped_numerical_mode_sources(source_port)
     sim = device.Get_Sim()
@@ -333,6 +335,7 @@ def run_horns_case(
         )
 
     return {
+        "device_mode": device_mode,
         "source_port": source_port,
         "receive_port": receive_port,
         "observations": {f"P{k+1}": v.as_dict() for k, v in obs.items()},
@@ -353,9 +356,14 @@ def main() -> None:
     ap.add_argument("--run-time", type=float, default=20.0)
     ap.add_argument("--force-modes", action="store_true")
     ap.add_argument(
+        "--device-mode",
+        choices=("horns_only", "full"),
+        default="horns_only",
+    )
+    ap.add_argument(
         "--output",
         type=str,
-        default=str(ROOT / "outputs" / "validation" / "eh_modal" / "horns_only_P1P2_ppc50.json"),
+        default="",
     )
     args = ap.parse_args()
 
@@ -394,12 +402,29 @@ def main() -> None:
     incident_p1 = float(mode_meta["P1"].get("reference_power_minus", 1.0))
     incident_p2 = float(mode_meta["P2"].get("reference_power_minus", 1.0))
 
-    rho = np.ones(91, dtype=float)
-    p1_to_p2 = run_horns_case(
-        0, 1, res=sim_res, run_time=args.run_time, rho=rho, mode_by_port=mode_by_port
+    output_path = args.output
+    if not output_path:
+        stem = f"{args.device_mode}_P1P2_ppc50_rt20.json"
+        output_path = str(ROOT / "outputs" / "validation" / "eh_modal" / stem)
+
+    rho = default_uniform_rho()
+    p1_to_p2 = run_case(
+        0,
+        1,
+        res=sim_res,
+        run_time=args.run_time,
+        rho=rho,
+        mode_by_port=mode_by_port,
+        device_mode=args.device_mode,
     )
-    p2_to_p1 = run_horns_case(
-        1, 0, res=sim_res, run_time=args.run_time, rho=rho, mode_by_port=mode_by_port
+    p2_to_p1 = run_case(
+        1,
+        0,
+        res=sim_res,
+        run_time=args.run_time,
+        rho=rho,
+        mode_by_port=mode_by_port,
+        device_mode=args.device_mode,
     )
 
     s21 = float(p1_to_p2["transmitted_power"] / max(incident_p1, 1e-300))
@@ -409,6 +434,7 @@ def main() -> None:
     out = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "mpi": info,
+        "device_mode": args.device_mode,
         "resolution_report": res_report,
         "run_time": args.run_time,
         "mode_formula": {
@@ -436,7 +462,7 @@ def main() -> None:
     }
 
     if _is_root():
-        out_path = Path(args.output)
+        out_path = Path(output_path)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(out["normalized_transmission"], indent=2))

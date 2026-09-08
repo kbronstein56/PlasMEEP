@@ -1425,3 +1425,151 @@ The full E/H bilinear form itself is no longer the main suspect. The remaining i
 - the receiver assumes the full-device fields on the horn feed plane are well represented by that same local guide mode basis.
 
 That approximation is evidently imperfect even at `50 ppc`. It is good enough to reduce the full-device mismatch from `1.09 dB` to `0.73 dB`, but not good enough to recover reciprocity to the level of the horns-only controls or the matched discrete invariant.
+
+## 24. Horns-only E/H modal error budget and source/reference audit (2026-09-08)
+
+No new Meep run was needed for this section. The saved `horns_only_P1P2_ppc50_rt20.json` contains enough information to decompose the `0.4779 dB` mismatch.
+
+### 24.1 What is being compared?
+
+For the new full E/H modal port, the reported off-diagonal values are
+
+\[
+S_{21} = \frac{|a_{21}|^2}{P_{1,\mathrm{inc}}},\qquad
+S_{12} = \frac{|a_{12}|^2}{P_{2,\mathrm{inc}}}
+\]
+
+where
+
+- `a21` is the raw Lorentz overlap amplitude measured at the `P2` receiver during the `P1` source case,
+- `a12` is the raw Lorentz overlap amplitude measured at the `P1` receiver during the `P2` source case,
+- `P1_inc`, `P2_inc` are the incident modal powers extracted from the separate straight-guide reference runs.
+
+Therefore,
+
+\[
+10\log_{10}\frac{S_{12}}{S_{21}}
+=
+10\log_{10}\frac{|a_{12}|^2}{|a_{21}|^2}
++
+10\log_{10}\frac{P_{1,\mathrm{inc}}}{P_{2,\mathrm{inc}}}
+\]
+
+This is the exact horns-only error budget.
+
+### 24.2 Raw reciprocal-coupling test before normalization
+
+Saved raw receiver amplitudes:
+
+- `a21 = -7.75282 - 4.51205i`, `|a21| = 8.97022`
+- `a12 = -7.55768 - 5.44879i`, `|a12| = 9.31707`
+
+So before applying the incident-power normalization:
+
+- magnitude ratio `|a12|/|a21| = 1.03867`
+- raw power-ratio mismatch `= 10 log10(|a12|² / |a21|²) = 0.32953 dB`
+- phase difference `arg(a12/a21) = 5.59°`
+
+**Conclusion:** the raw Lorentz couplings are **not reciprocal before normalization**. The source and receiver are still not a true reciprocal pair.
+
+### 24.3 Incident-normalization contribution
+
+Saved incident modal powers from the straight-guide references:
+
+- `P1_inc = 2910.182`
+- `P2_inc = 2812.465`
+
+This contributes
+
+\[
+10\log_{10}\frac{P_{1,\mathrm{inc}}}{P_{2,\mathrm{inc}}}
+= 0.14833\ \mathrm{dB}
+\]
+
+to the final `S12/S21` difference.
+
+### 24.4 Final horns-only mismatch budget
+
+| Factor | contribution to `S12/S21` mismatch |
+|---|---:|
+| raw receive-side Lorentz coupling asymmetry | **`0.32953 dB`** |
+| incident-power normalization asymmetry | **`0.14833 dB`** |
+| total | **`0.47786 dB`** |
+
+So the final horns-only mismatch is **not** primarily a pure normalization artifact. About **69%** of it is already present in the raw reciprocal-coupling amplitudes.
+
+### 24.5 Source/reference equivalence audit
+
+The new E/H receiver uses `EMLineMode` from `plasmeep/ports/em_mode.py`, but the source is still constructed by `make_yee_snapped_numerical_mode_sources` in `port_formulations.py`:
+
+1. load cached `NumericalPortMode` (`Hz` only),
+2. form source weights from `conj(mode.normalized_field())`,
+3. place `mp.Source(..., component=mp.Hz, amplitude=amp)` on snapped `Hz` Yee-grid points.
+
+This means the source does **not** launch from the same full E/H mode object that the receiver uses. The source is:
+
+- `Hz`-only,
+- point-current based,
+- normalized by Euclidean `Hz` L2 weights,
+- defined at the **source plane**.
+
+The receiver/reference are:
+
+- full `Ex/Ey/Hz`,
+- normalized by the Lorentz/power bilinear form,
+- evaluated on the **clean measurement plane** at `feed_frac=0.50`.
+
+Therefore the source and receiver are **not mathematically adjoint twins** of one another. The first symmetry-breaking step is already present before incident normalization.
+
+### 24.6 Does the straight-guide reference mode match the incoming launched mode?
+
+Per port, **approximately yes at the chosen clean plane**, because the reference mode is extracted from a straight-guide run driven by that same source. However, it is **not** an independently isolated incoming-only eigenmode. It is the measured total field on that plane, with `Hz` flipped if needed so the net power points outward before normalization.
+
+That distinction matters. The reference-run self-decomposition shows:
+
+| Port | opposite-going reference power `|α_+|² / |α_-|²` |
+|---|---:|
+| P1 | **`6.8×10⁻⁸`** |
+| P2 | **`6.95×10⁻³`** |
+
+So the `P2` reference field contains **~0.7% opposite-going power** even in the straight guide, whereas `P1` is essentially one-way. That means the `P2` reference mode is not as clean an incoming-only modal representative as `P1`.
+
+### 24.7 Is the 3.4% P1/P2 incident-power difference legitimate?
+
+Not fully. Some port-to-port discretization difference is possible on a Cartesian grid, but the saved reference decomposition shows that the `P2` reference is also noticeably less one-way than the `P1` reference. So the `3.4%` difference is **not just a harmless rotated-port discretization effect**; it is evidence that the present reference extraction and normalization are still internally inconsistent between ports.
+
+### 24.8 Exact operation that first breaks symmetry relative to the matched discrete control
+
+The matched discrete control is reciprocal because it uses:
+
+- the **same discrete source DOFs** in both reciprocal directions,
+- the **same discrete receiver functional** on the corresponding Yee DOFs,
+- no intermediate port-model projection.
+
+The new full E/H port first breaks that symmetry when it inserts a **modal projection onto a straight-guide reference field** while still exciting the structure with a **different Hz-only current source model**. In other words:
+
+1. reciprocal Maxwell field solve: still fine,
+2. project receive field onto empirical E/H reference mode: introduces `0.3295 dB`,
+3. divide by separately extracted incident powers: adds another `0.1483 dB`.
+
+### 24.9 Exact code/math change most likely to eliminate the horns-only discrepancy
+
+Do **not** tune scale factors.
+
+The required change is to make the source and receiver use the **same full E/H modal object on the same plane**:
+
+1. extract/store an incoming-only `EMLineMode` per port at the measurement plane,
+2. launch from that same mode using equivalent tangential **electric and magnetic surface-current sources** derived from its `E_t` and `H_z`,
+3. keep the receiver as the corresponding Lorentz overlap with that same mode.
+
+In code terms, the present non-reciprocal pairing
+
+- source: `make_yee_snapped_numerical_mode_sources` (`Hz`-only `NumericalPortMode`)
+- receiver: `EMLineMode.overlap_amplitudes` (full E/H)
+
+should be replaced by a **single shared full-E/H port object** that owns both:
+
+- source construction, and
+- receive overlap / normalization.
+
+Until that is done, the horns-only discrepancy is expected to persist because the launch and receive functionals are still different mathematical objects.

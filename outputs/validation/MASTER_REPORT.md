@@ -1195,3 +1195,156 @@ The single most likely remaining cause is now more specific:
 Instead, the missing mathematical ingredient is a **true electromagnetic forward/backward port-mode bilinear form**. A scalar `Hz` overlap, even on exact snapped DOFs and a cleaner plane, is still not the Lorentz-reciprocal adjoint required for a physically normalized S-matrix.
 
 The likely next step is a port definition based on a full E/H reference mode and the appropriate Lorentz overlap functional, rather than `Hz`-only Euclidean projection.
+
+## 22. Meep eigenmode-coefficient audit for full E/H ports (2026-09-07)
+
+### Phase 1 — established Meep mathematics
+
+Meep's documented mode-decomposition path (`Simulation.get_eigenmode_coefficients`, `Mode_Decomposition`) does **not** use a scalar `Hz` norm. It uses a full electromagnetic bilinear form over a port cross-section `S`:
+
+\[
+\left\langle \psi,\psi' \right\rangle
+= \int_S \left[
+\mathbf{E}^*(\rho)\times\mathbf{H}'(\rho)
++ \mathbf{E}'(\rho)\times\mathbf{H}^*(\rho)
+\right]\cdot\hat{\mathbf{n}}\,dA
+\]
+
+where `\hat{n}` is the port normal and `\psi=(E_\parallel,H_\parallel)` contains the **tangential electric and magnetic fields together**. For our 2D `Hz` polarization on a line port this reduces to
+
+\[
+\left\langle \psi,\psi' \right\rangle
+= \int \left[E_t^* H_z' + E_t' H_z^*\right]\,dl
+\]
+
+with `E_t = \mathbf{E}\cdot\hat{\mathbf{t}}` on the guide cross-section.
+
+Meep separates forward/backward amplitudes by projecting onto the forward and backward traveling versions of the same mode. For a reciprocal uniform guide, the tangential fields satisfy:
+
+- `E_t^- = E_t^+`
+- `H_z^- = -H_z^+`
+
+So if we define
+
+\[
+I_1 = \int E_{t,m}^* H_z\,dl,\qquad
+I_2 = \int E_t H_{z,m}^*\,dl
+\]
+
+then the Meep-style coefficients are
+
+\[
+\alpha^+ = \frac{1}{2}(I_1 + I_2),\qquad
+\alpha^- = \frac{1}{2}(I_1 - I_2)
+\]
+
+after the reference mode has been normalized to **unit modal power**.
+
+### Modal power normalization
+
+Per Meep's documentation, the eigenmodes are normalized so that the real power flux of the reference mode is unity:
+
+\[
+P_m = \Re\int_S \mathbf{E}_m^*\times\mathbf{H}_m\cdot\hat{\mathbf{n}}\,dA = 1
+\]
+
+In the present 2D line-port reduction:
+
+\[
+P_m = \Re\int E_{t,m}^* H_{z,m}\,dl = 1
+\]
+
+With that normalization, the coefficient powers satisfy
+
+\[
+|\alpha^\pm|^2 = P^\pm
+\]
+
+which is exactly the quantity needed for a power-normalized modal S-parameter.
+
+### Why this is the right adaptation target
+
+This mathematics is directly reusable with a **numerical reference mode** extracted from a time-domain straight PEC guide, even though MPB/EigenModeSource is not suitable for the staircased horn. The required ingredients are:
+
+1. full complex `Ex`, `Ey`, and `Hz` for the numerical guide mode,
+2. a fixed port line with known tangent/normal,
+3. a consistent quadrature/interpolation rule for the measured fields and the reference mode,
+4. unit-power normalization of the reference mode before using the overlap.
+
+The previous `Hz`-only `|<\phi,Hz>|^2` diagnostic failed because it discarded `E_t`, so it could not represent Meep's forward/backward electromagnetic bilinear form or its power normalization.
+
+### Phase 2/3 — numerical reference-mode audit and reusable implementation
+
+New reusable helper: `plasmeep/ports/em_mode.py`  
+Gate driver: `scripts/validation/eh_modal_horns_gate.py`  
+Output: `outputs/validation/eh_modal/horns_only_P1P2_ppc50_rt20.json`
+
+Implementation choices:
+
+- store full complex `Ex`, `Ey`, and `Hz` samples on the port line;
+- reduce `Ex/Ey` to tangential `E_t = E\cdot\hat{t}`;
+- normalize the reference mode by `P_m = Re ∫ E_t^* H_z dl = 1`;
+- compute forward/backward amplitudes by
+  - `α+ = 0.5 (I1 + I2)`
+  - `α− = 0.5 (I1 − I2)`
+  - `I1 = ∫ E_{t,m}^* H_z dl`
+  - `I2 = ∫ E_t H_{z,m}^* dl`
+- explicitly reject NaN/Inf/absurdly large field magnitudes and non-positive mode powers.
+
+The reference runs at `50 points/cm` produced **finite, sensible** modal quantities for both ports:
+
+| Port | `|α_inc,+|²` | `|α_inc,-|²` | chosen incident power |
+|---|---:|---:|---:|
+| P1 | `1.98×10⁻⁴` | **2910.18** | **2910.18** |
+| P2 | `19.56` | **2812.47** | **2812.47** |
+
+Interpretation:
+
+- the inward (`α−`) component is dominant for both reference runs, as expected;
+- the incident modal powers are of the same order but **not identical** (~3.4% mismatch);
+- the coefficients are finite, unlike the invalid `Hz`-only exact-DOF test.
+
+### Phase 4 — horns-only hard gate (`P1↔P2`, 50 ppc, `np=32`, `rt=20`)
+
+| Method | `S21` | `S12` | `|S21/S12|` mismatch |
+|---|---:|---:|---:|
+| matched discrete Yee-grid control | — | — | **1.45×10⁻¹⁴ dB** |
+| existing guide-normal flux | — | — | **0.0102 dB** |
+| direct Poynting `S·n` integral | — | — | **0.0861 dB** |
+| full E/H modal overlap (new) | `0.02765` | `0.03087` | **0.4779 dB** |
+
+Raw transmitted modal powers:
+
+- `P1 -> P2`: `|α_out,+|² = 80.465`
+- `P2 -> P1`: `|α_out,+|² = 86.808`
+
+Raw source-port decomposition in the device runs:
+
+- `P1` source case: `|α_src,-|² = 2892.32`, `|α_src,+|² = 32.87`
+- `P2` source case: `|α_src,-|² = 2826.55`, `|α_src,+|² = 42.40`
+
+### Horns-only verdict
+
+This full E/H formulation is **mathematically defensible and numerically finite**, but it does **not** restore near-reciprocal horns-only `P1↔P2` behavior at `50 points/cm`.
+
+What improved:
+
+- the result is no longer an invalid normalization catastrophe;
+- the overlap now uses the correct electromagnetic bilinear form rather than scalar `Hz` projection;
+- forward/backward amplitudes and incident modal powers are explicitly separated.
+
+What did **not** improve enough:
+
+- horns-only `P1↔P2` remains **0.478 dB**, only modestly better than the prior `Hz`-only modal receiver result (**0.5856 dB**), and much worse than both
+  - guide-normal flux (**0.0102 dB**), and
+  - direct horn-aperture `S·n` (**0.0861 dB**).
+
+Most likely remaining cause after this gate:
+
+The receiver math is now much closer to Meep's eigenmode-coefficient formulation, so the next blockage is more likely in the **reference/source pairing and modal-plane equivalence**, not in the bilinear form itself. In particular:
+
+1. the time-domain straight-guide reference mode used for `P1` and `P2` is not yielding equal incident modal powers;
+2. the launched horn fields in the full horns geometry still contain a sizeable opposite-going / non-mode component at the measurement plane (`|α_src,+|²` is not small);
+3. the chosen clean plane is still not acting like a single-mode guide cross-section for this reciprocal decomposition.
+
+Therefore, the full E/H overlap is a **necessary correction**, but by itself it is **not sufficient** to make the present horn source/plane pair behave like a true reciprocal eigenmode port.

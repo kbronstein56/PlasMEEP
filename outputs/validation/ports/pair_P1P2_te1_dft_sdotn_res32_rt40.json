@@ -1,0 +1,102 @@
+{
+  "label": "P1P2_te1_dft_sdotn_res32_rt40",
+  "timestamp_utc": "2026-08-26T07:35:16.336684+00:00",
+  "mpi_note": "np=4",
+  "settings": {
+    "res": 32,
+    "run_time": 40.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      0,
+      1
+    ],
+    "nx_ports": 23,
+    "ny_ports": 21,
+    "dpml_ports": 2.0,
+    "a": 0.028,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "te1_dft_sdotn",
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_dft_sdotn_res32_rt40_p01.pkl"
+  },
+  "timings_s": {
+    "normalization": 28.78265940500023,
+    "device": 122.02369625899883,
+    "total": 150.80637779500103
+  },
+  "incident_power_by_port": {
+    "0": 15.99456915560008,
+    "1": 16.542066780929797
+  },
+  "power_matrix": [
+    [
+      -0.8920338611247449,
+      0.07766675946668841
+    ],
+    [
+      0.08367051699682858,
+      -0.885332492907197
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      NaN,
+      -11.097648147771633
+    ],
+    [
+      -10.77427547517501,
+      NaN
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 0.32337267259662283,
+    "max_abs_diff_dB": 0.32337267259662283,
+    "worst_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 0.32337267259662283,
+        "T_ji_dB": -11.097648147771633,
+        "T_ij_dB": -10.77427547517501
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 0.32337267259662283,
+        "T_ji_dB": -11.097648147771633,
+        "T_ij_dB": -10.77427547517501
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        0.32337267259662283
+      ],
+      [
+        0.32337267259662283,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ]
+  ],
+  "objective": null
+}

@@ -1,0 +1,11 @@
+{
+  "formulation": "eigenmode",
+  "status": "FAILED_UNSUITABLE",
+  "reasons": [
+    "PEC invalid for MPB",
+    "near-zero launched flux on diagonal ports",
+    "unphysical MPB |k|~180 for f~0.36",
+    "eigenmode coefficients near zero on 60deg feeds"
+  ],
+  "conclusion": "EigenModeSource not viable drop-in for angled PEC horn feeds."
+}

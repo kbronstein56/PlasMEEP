@@ -1,0 +1,23 @@
+{
+  "mode": "throughput",
+  "ranks_per_job": 32,
+  "res": 96,
+  "run_time": 20.0,
+  "wall_s_parallel": 5362.601844072342,
+  "jobs": [
+    {
+      "job": 0,
+      "ports": "0,1",
+      "wall_s": 3794.7585542201996,
+      "returncode": 0,
+      "path": "/home/daq_user/PlasMEEP/outputs/validation/mpi_scale/throughput_j0_r32_res96.json"
+    },
+    {
+      "job": 1,
+      "ports": "1,2",
+      "wall_s": 5362.599320650101,
+      "returncode": 0,
+      "path": "/home/daq_user/PlasMEEP/outputs/validation/mpi_scale/throughput_j1_r32_res96.json"
+    }
+  ]
+}

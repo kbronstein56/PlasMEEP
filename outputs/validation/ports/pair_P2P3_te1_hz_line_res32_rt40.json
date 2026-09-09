@@ -1,0 +1,93 @@
+{
+  "label": "P2P3_te1_hz_line_res32_rt40",
+  "timestamp_utc": "2026-08-25T20:16:15.991813+00:00",
+  "mpi_note": "np=4",
+  "settings": {
+    "res": 32,
+    "run_time": 40.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      1,
+      2
+    ],
+    "nx_ports": 23,
+    "ny_ports": 21,
+    "dpml_ports": 2.0,
+    "a": 0.028,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "te1_hz_line",
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_hz_line_res32_rt40_p12.pkl"
+  },
+  "timings_s": {
+    "normalization": 33.33601667599578,
+    "device": 118.19011836199934,
+    "total": 151.5261596939963
+  },
+  "incident_power_by_port": {
+    "1": 33.388215826277595,
+    "2": 33.388215826277595
+  },
+  "power_matrix": [
+    [
+      0.04826842456377291,
+      0.023224706470393028
+    ],
+    [
+      0.023222878128920228,
+      0.047360363640314505
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      -13.163368759156311,
+      -16.340497662081273
+    ],
+    [
+      -16.340839569467814,
+      -13.245849716910554
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 0.0003419073865416067,
+    "max_abs_diff_dB": 0.0003419073865416067,
+    "worst_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.0003419073865416067,
+        "T_ji_dB": -16.340497662081273,
+        "T_ij_dB": -16.340839569467814
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.0003419073865416067,
+        "T_ji_dB": -16.340497662081273,
+        "T_ij_dB": -16.340839569467814
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        0.0003419073865416067
+      ],
+      [
+        0.0003419073865416067,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "objective": null
+}

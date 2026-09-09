@@ -111,8 +111,188 @@ def main() -> int:
         type=str,
         default="/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python",
     )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        default="oneport",
+        choices=["oneport", "reciprocity_pair", "throughput"],
+        help="oneport=device-port worker; reciprocity_pair=P1P2 study; throughput=parallel pairs",
+    )
+    parser.add_argument("--pair-ports", type=str, default="0,1")
+    parser.add_argument(
+        "--device-mode",
+        type=str,
+        default="full",
+        choices=["full", "horns_only"],
+        help="Device build for reciprocity_pair / throughput modes",
+    )
     args = parser.parse_args()
 
+    if args.mode == "oneport":
+        return _run_oneport_benchmark(args)
+
+    if args.mode == "reciprocity_pair":
+        return _run_reciprocity_pair_benchmark(args)
+
+    return _run_throughput_benchmark(args)
+
+
+def _mpi_env_base(omp_threads: int) -> dict:
+    env = os.environ.copy()
+    env["OMP_NUM_THREADS"] = str(omp_threads)
+    env["MKL_NUM_THREADS"] = str(omp_threads)
+    env["OPENBLAS_NUM_THREADS"] = str(omp_threads)
+    env.setdefault("FI_PROVIDER", "tcp")
+    env.setdefault("MPICH_CH4_NETMOD", "ofi")
+    env.setdefault("UCX_TLS", "tcp,self")
+    env["PYTHONPATH"] = f"{VAL}:{os.path.join(ROOT, 'scripts')}:" + env.get(
+        "PYTHONPATH", ""
+    )
+    return env
+
+
+def _run_reciprocity_pair_benchmark(args) -> int:
+    """Time a full P1↔P2 reciprocity_b0_study (norm + device) at given res."""
+    out_dir = os.path.join(ROOT, "outputs", "validation", "mpi_scale")
+    os.makedirs(out_dir, exist_ok=True)
+    ranks_list = [int(x) for x in args.ranks.split(",") if x.strip()]
+    json_out = args.json_out or os.path.join(
+        out_dir,
+        f"reciprocity_pair_res{args.res}_rt{args.run_time:g}_{args.port_formulation}.json",
+    )
+    results = []
+    study = os.path.join(VAL, "reciprocity_b0_study.py")
+    for n in ranks_list:
+        tag = f"mpi_pair_r{n}_res{args.res}"
+        out_json = os.path.join(out_dir, f"{tag}.json")
+        log_path = os.path.join(out_dir, f"{tag}.log")
+        cmd = [
+            args.mpirun,
+            "-np",
+            str(n),
+            args.python,
+            study,
+            "--res",
+            str(args.res),
+            "--run-time",
+            str(args.run_time),
+            "--ports",
+            args.pair_ports,
+            "--port-formulation",
+            args.port_formulation,
+            "--device-mode",
+            args.device_mode,
+            "--label",
+            tag,
+            "--json-out",
+            out_json,
+            "--mpi-note",
+            f"np={n}",
+            "--skip-norm-if-cached",
+        ]
+        print(f"\n=== reciprocity_pair ranks={n} res={args.res} ===", flush=True)
+        t0 = time.time()
+        env = _mpi_env_base(args.omp_threads)
+        with open(log_path, "w", encoding="utf-8") as log:
+            log.write(f"# {' '.join(cmd)}\n")
+            proc = subprocess.run(cmd, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
+        wall = time.time() - t0
+        row = {"ranks": n, "wall_s": wall, "returncode": proc.returncode}
+        if os.path.isfile(out_json):
+            with open(out_json, encoding="utf-8") as f:
+                data = json.load(f)
+            row["total_s"] = data.get("timings_s", {}).get("total")
+            row["P12_dB"] = data.get("reciprocity", {}).get("max_abs_diff_dB")
+        results.append(row)
+        print(f"  wall={wall:.1f}s total={row.get('total_s')}", flush=True)
+
+    summary = {
+        "mode": "reciprocity_pair",
+        "res": args.res,
+        "run_time": args.run_time,
+        "formulation": args.port_formulation,
+        "results": results,
+    }
+    with open(json_out, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+    print(f"Wrote {json_out}")
+    return 0
+
+
+def _run_throughput_benchmark(args) -> int:
+    """Two independent reciprocity jobs in parallel (e.g. 2×np=32)."""
+    import concurrent.futures
+
+    out_dir = os.path.join(ROOT, "outputs", "validation", "mpi_scale")
+    os.makedirs(out_dir, exist_ok=True)
+    ranks = int(args.ranks.split(",")[0])
+    study = os.path.join(VAL, "reciprocity_b0_study.py")
+
+    def _one_job(job_id: int, ports: str) -> dict:
+        tag = f"throughput_j{job_id}_r{ranks}_res{args.res}"
+        out_json = os.path.join(out_dir, f"{tag}.json")
+        log_path = os.path.join(out_dir, f"{tag}.log")
+        cmd = [
+            args.mpirun,
+            "-np",
+            str(ranks),
+            args.python,
+            study,
+            "--res",
+            str(args.res),
+            "--run-time",
+            str(args.run_time),
+            "--ports",
+            ports,
+            "--port-formulation",
+            args.port_formulation,
+            "--device-mode",
+            args.device_mode,
+            "--label",
+            tag,
+            "--json-out",
+            out_json,
+            "--skip-norm-if-cached",
+        ]
+        env = _mpi_env_base(args.omp_threads)
+        t0 = time.time()
+        with open(log_path, "w", encoding="utf-8") as log:
+            proc = subprocess.run(cmd, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
+        return {
+            "job": job_id,
+            "ports": ports,
+            "wall_s": time.time() - t0,
+            "returncode": proc.returncode,
+            "path": out_json,
+        }
+
+    t0 = time.time()
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as ex:
+        futs = [
+            ex.submit(_one_job, 0, "0,1"),
+            ex.submit(_one_job, 1, "1,2"),
+        ]
+        jobs = [f.result() for f in futs]
+    wall = time.time() - t0
+    summary = {
+        "mode": "throughput",
+        "ranks_per_job": ranks,
+        "res": args.res,
+        "run_time": args.run_time,
+        "wall_s_parallel": wall,
+        "jobs": jobs,
+    }
+    json_out = args.json_out or os.path.join(
+        out_dir, f"throughput_2xnp{ranks}_res{args.res}.json"
+    )
+    with open(json_out, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+    print(f"parallel wall={wall:.1f}s  jobs={jobs}")
+    print(f"Wrote {json_out}")
+    return 0
+
+
+def _run_oneport_benchmark(args) -> int:
     out_dir = os.path.join(ROOT, "outputs", "validation", "mpi_scale")
     os.makedirs(out_dir, exist_ok=True)
     worker_path = os.path.join(out_dir, "_mpi_worker.py")

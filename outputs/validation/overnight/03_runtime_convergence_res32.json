@@ -1,5 +1,9 @@
 {
+  "timestamp_utc": "2026-08-31T03:40:32.079644+00:00",
+  "res": 32,
   "reference_run_time": 80.0,
+  "reciprocity_gate_dB": 0.2,
+  "convergence_gate_dB": 0.01,
   "sweep": [
     {
       "run_time": 5,
@@ -42,6 +46,20 @@
       "amp_err_dB_reciprocity": 0.0063137082057291094,
       "phase_diff_deg": -0.8691440641971516,
       "h01_rel_err_vs_rt80": 0.0003164989559986171
+    },
+    {
+      "run_time": 60,
+      "amp_err_dB_reciprocity": 0.00638140331761309,
+      "phase_diff_deg": -0.8693061840459015,
+      "h01_rel_err_vs_rt80": 0.0004842385795299241
+    },
+    {
+      "run_time": 80,
+      "amp_err_dB_reciprocity": 0.00635770733901158,
+      "phase_diff_deg": -0.8695020756416176,
+      "h01_rel_err_vs_rt80": 0.0
     }
-  ]
+  ],
+  "recommended_run_time": 5,
+  "note": "recommended_run_time: shortest rt with |P12-P21|<0.01 dB and H01 within 2% of rt=80"
 }

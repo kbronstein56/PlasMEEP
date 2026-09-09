@@ -1,0 +1,93 @@
+{
+  "label": "P2P3_te1_guide_normal_dense_res32_rt40",
+  "timestamp_utc": "2026-08-26T07:18:03.093251+00:00",
+  "mpi_note": "np=4",
+  "settings": {
+    "res": 32,
+    "run_time": 40.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      1,
+      2
+    ],
+    "nx_ports": 23,
+    "ny_ports": 21,
+    "dpml_ports": 2.0,
+    "a": 0.028,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "te1_guide_normal_dense",
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_guide_normal_dense_res32_rt40_p12.pkl"
+  },
+  "timings_s": {
+    "normalization": 37.08937776899984,
+    "device": 122.42668051200053,
+    "total": 159.51608868699986
+  },
+  "incident_power_by_port": {
+    "1": 33.305820127452236,
+    "2": 33.30582012745218
+  },
+  "power_matrix": [
+    [
+      0.05874059730798578,
+      0.01887153287977461
+    ],
+    [
+      0.018874261735414295,
+      0.05793564363437908
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      -12.310616416361107,
+      -17.24192821923595
+    ],
+    [
+      -17.241300267454637,
+      -12.370541638902694
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 0.0006279517813148061,
+    "max_abs_diff_dB": 0.0006279517813148061,
+    "worst_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.0006279517813148061,
+        "T_ji_dB": -17.24192821923595,
+        "T_ij_dB": -17.241300267454637
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.0006279517813148061,
+        "T_ji_dB": -17.24192821923595,
+        "T_ij_dB": -17.241300267454637
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        0.0006279517813148061
+      ],
+      [
+        0.0006279517813148061,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "objective": null
+}

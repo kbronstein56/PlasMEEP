@@ -1,0 +1,212 @@
+{
+  "timestamp_utc": "2026-09-08T08:50:46.964901+00:00",
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "resolution_report": {
+    "points_per_cm": 50.0,
+    "dx_mm": 0.2,
+    "meep_resolution": 100.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.01,
+    "grid_spacing_mm": 0.2,
+    "pixels_per_lattice_20mm": 100.0,
+    "pixels_per_free_space_lambda0": 389.3408545454546,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 50.0
+  },
+  "run_time": 20.0,
+  "mode_formula": {
+    "mode_power": "Re integral(E_t* conj(H_z) dl) = 1",
+    "alpha_plus": "0.5 * integral(conj(E_t_mode) * H_z + E_t * conj(H_z_mode)) dl",
+    "alpha_minus": "0.5 * integral(conj(E_t_mode) * H_z - E_t * conj(H_z_mode)) dl"
+  },
+  "reference_modes": {
+    "P1": {
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/em_modes/res100/res100_f0.256844_prism_g0_0_rot0/eh_mode_P1.json",
+      "cached": true,
+      "raw_overlap": {
+        "alpha_plus": {
+          "real": 0.0,
+          "imag": -0.014069875827898135
+        },
+        "alpha_minus": {
+          "real": -53.94610713534581,
+          "imag": 8.673617379884035e-19
+        },
+        "power_plus": 0.00019796140581247222,
+        "power_minus": 2910.182475058208,
+        "i1": {
+          "real": -53.94610713534581,
+          "imag": -0.014069875827898133
+        },
+        "i2": {
+          "real": 53.94610713534581,
+          "imag": -0.014069875827898135
+        }
+      },
+      "mode_power": 1.0000000000000002,
+      "n_samples": 64,
+      "center_xy": [
+        10.65512701892219,
+        0.0
+      ],
+      "tangent_xy": [
+        0.0,
+        1.0
+      ],
+      "outward_dir": [
+        1.0,
+        -0.0
+      ],
+      "reference_alpha_plus": {
+        "real": 0.0,
+        "imag": -0.014069875827898135
+      },
+      "reference_alpha_minus": {
+        "real": -53.94610713534581,
+        "imag": 8.673617379884035e-19
+      },
+      "reference_power_plus": 0.00019796140581247222,
+      "reference_power_minus": 2910.182475058208
+    },
+    "P2": {
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/em_modes/res100/res100_f0.256844_prism_g0_0_rot0/eh_mode_P2.json",
+      "cached": false,
+      "raw_overlap": {
+        "alpha_plus": {
+          "real": 0.0,
+          "imag": 4.422262839739824
+        },
+        "alpha_minus": {
+          "real": -53.03267905574036,
+          "imag": 0.0
+        },
+        "power_plus": 19.556408623743735,
+        "power_minus": 2812.4650478291624,
+        "i1": {
+          "real": -53.03267905574036,
+          "imag": 4.422262839739824
+        },
+        "i2": {
+          "real": 53.03267905574036,
+          "imag": 4.422262839739824
+        }
+      },
+      "mode_power": 0.9999999999999998,
+      "n_samples": 64,
+      "center_xy": [
+        5.327563509461095,
+        9.227610678936575
+      ],
+      "tangent_xy": [
+        -0.8660254037844387,
+        0.5000000000000001
+      ],
+      "outward_dir": [
+        0.5,
+        0.8660254037844386
+      ],
+      "reference_alpha_plus": {
+        "real": 0.0,
+        "imag": 4.422262839739824
+      },
+      "reference_alpha_minus": {
+        "real": -53.03267905574036,
+        "imag": 0.0
+      },
+      "reference_power_plus": 19.556408623743735,
+      "reference_power_minus": 2812.4650478291624
+    }
+  },
+  "cases": {
+    "P1_to_P2": {
+      "source_port": 0,
+      "receive_port": 1,
+      "observations": {
+        "P1": {
+          "alpha_plus": {
+            "real": -1.4969055813607213,
+            "imag": -5.534404457613045
+          },
+          "alpha_minus": {
+            "real": -53.21310187293807,
+            "imag": -7.78980566215821
+          },
+          "power_plus": 32.87035901995601,
+          "power_minus": 2892.315283193877
+        },
+        "P2": {
+          "alpha_plus": {
+            "real": -7.752820349419404,
+            "imag": -4.51205247006455
+          },
+          "alpha_minus": {
+            "real": 0.2569215432382892,
+            "imag": 1.7160329096346794
+          },
+          "power_plus": 80.46484086298722,
+          "power_minus": 3.010777626329208
+        }
+      },
+      "transmitted_power": 80.46484086298722,
+      "source_forward_power": 32.87035901995601,
+      "source_backward_power": 2892.315283193877
+    },
+    "P2_to_P1": {
+      "source_port": 1,
+      "receive_port": 0,
+      "observations": {
+        "P1": {
+          "alpha_plus": {
+            "real": -7.557676964277445,
+            "imag": -5.448793304493744
+          },
+          "alpha_minus": {
+            "real": 0.8043889863471838,
+            "imag": 1.7598680015268544
+          },
+          "power_plus": 86.8078295714658,
+          "power_minus": 3.7441770241547734
+        },
+        "P2": {
+          "alpha_plus": {
+            "real": -5.615093630331327,
+            "imag": -3.2965744323554818
+          },
+          "alpha_minus": {
+            "real": -53.08348262347843,
+            "imag": -2.94837972216449
+          },
+          "power_plus": 42.3966794654473,
+          "power_minus": 2826.549070423207
+        }
+      },
+      "transmitted_power": 86.8078295714658,
+      "source_forward_power": 42.3966794654473,
+      "source_backward_power": 2826.549070423207
+    }
+  },
+  "incident_modal_powers": {
+    "P1": 2910.182475058208,
+    "P2": 2812.4650478291624
+  },
+  "transmitted_modal_powers": {
+    "S21_numer": 80.46484086298722,
+    "S12_numer": 86.8078295714658
+  },
+  "normalized_transmission": {
+    "S21": 0.027649414273026914,
+    "S12": 0.03086538964758675,
+    "difference_db": 0.4778582829630694,
+    "known_direct_poynting_difference_db": 0.0861
+  },
+  "elapsed_s": 7287.656698465347
+}

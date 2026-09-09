@@ -1,0 +1,3532 @@
+{
+  "generated_utc": "2026-08-31T01:35:18.664994+00:00",
+  "branch_hint": "agent/eigenmode-ports",
+  "scripts": {
+    "sixport_common.py": "shared geometry, device build, simulate, norm cache",
+    "port_formulations.py": "source/measurement formulation registry",
+    "reciprocity_b0_study.py": "B=0 reciprocity pair/subset runs \u2192 JSON",
+    "incident_power_orientation.py": "six-port incident uniformity",
+    "run_port_validation.py": "A/B formulation orchestrator",
+    "run_reciprocity_campaign.py": "overnight baseline reciprocity batch",
+    "mpi_scale_oneport.py": "MPI scaling + throughput benchmarks",
+    "faraday_benchmark.py": "isolated gyrotropy / Faraday rotation",
+    "make_advisor_figures.py": "plots from existing JSON only",
+    "validation_registry.py": "this consolidation tool",
+    "run_diagnostic_campaign.py": "cheap orientation / device-mode diagnostics"
+  },
+  "reciprocity_runs": [
+    {
+      "path": "outputs/validation/reciprocity/pair_P1P2_res32_rt40.json",
+      "label": "pair_P1P2_res32_rt40",
+      "formulation": null,
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18104509932502566,
+      "incident_rel_spread": 0.09871974076709324,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 148.63491169999907,
+      "timestamp_utc": "2026-08-25T06:07:56.838926+00:00"
+    },
+    {
+      "path": "outputs/validation/reciprocity/pair_P1P2_res32_rt80.json",
+      "label": "pair_P1P2_res32_rt80",
+      "formulation": null,
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.48607882803294267,
+      "incident_rel_spread": 0.09871785259561185,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 266.6707289879996,
+      "timestamp_utc": "2026-08-25T06:19:39.752527+00:00"
+    },
+    {
+      "path": "outputs/validation/reciprocity/pair_P2P3_res32_rt40.json",
+      "label": "pair_P2P3_res32_rt40",
+      "formulation": null,
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.0003287168678678398,
+      "incident_rel_spread": 4.791976564889626e-15,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 152.00631305300158,
+      "timestamp_utc": "2026-08-25T06:10:30.321887+00:00"
+    },
+    {
+      "path": "outputs/validation/reciprocity/pair_P1P2_res48_rt80.json",
+      "label": "pair_P1P2_res48_rt80",
+      "formulation": null,
+      "device_mode": "full",
+      "res": 48,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.4522536030795976,
+      "incident_rel_spread": 0.12711176327815737,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 1835.9562022129994,
+      "timestamp_utc": "2026-08-25T06:50:17.783957+00:00"
+    },
+    {
+      "path": "outputs/validation/reciprocity/pair_P1P2_res64_rt80.json",
+      "label": "pair_P1P2_res64_rt80",
+      "formulation": null,
+      "device_mode": "full",
+      "res": 64,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.6355813862280044,
+      "incident_rel_spread": 0.10636827478732036,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 4549.842245900001,
+      "timestamp_utc": "2026-08-25T08:06:10.722164+00:00"
+    },
+    {
+      "path": "outputs/validation/reciprocity/pair_P1P2_res96_rt80.json",
+      "label": "pair_P1P2_res96_rt80",
+      "formulation": null,
+      "device_mode": "full",
+      "res": 96,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.0984879958705811,
+      "incident_rel_spread": 0.09841071881659756,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 15875.059638515999,
+      "timestamp_utc": "2026-08-25T12:30:49.615542+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_aligned_hz_line_res32_rt40.json",
+      "label": "P1P2_aligned_hz_line_res32_rt40",
+      "formulation": "aligned_hz_line",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2735667296719644,
+      "incident_rel_spread": 0.3738144388053343,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 155.90753980199952,
+      "timestamp_utc": "2026-08-25T20:33:09.902265+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P2P3_aligned_hz_line_res32_rt40.json",
+      "label": "P2P3_aligned_hz_line_res32_rt40",
+      "formulation": "aligned_hz_line",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.0006347135552289274,
+      "incident_rel_spread": 1.742672336562278e-15,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 151.81787981299567,
+      "timestamp_utc": "2026-08-25T20:35:43.178541+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_baseline_guide_normal_res32_rt40.json",
+      "label": "P1P2_baseline_guide_normal_res32_rt40",
+      "formulation": "baseline_guide_normal",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.22533478473694935,
+      "incident_rel_spread": 0.07778708923861269,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 154.0845438489996,
+      "timestamp_utc": "2026-08-26T06:29:02.217999+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P2P3_baseline_guide_normal_res32_rt40.json",
+      "label": "P2P3_baseline_guide_normal_res32_rt40",
+      "formulation": "baseline_guide_normal",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.0006431913000177758,
+      "incident_rel_spread": 4.6706285572437675e-15,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 154.89542888400047,
+      "timestamp_utc": "2026-08-26T06:31:38.572505+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_dft_sdotn_res32_rt40.json",
+      "label": "P1P2_te1_dft_sdotn_res32_rt40",
+      "formulation": "te1_dft_sdotn",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.32337267259662283,
+      "incident_rel_spread": 0.033654224511577395,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 150.80637779500103,
+      "timestamp_utc": "2026-08-26T07:35:16.336684+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P2P3_te1_dft_sdotn_res32_rt40.json",
+      "label": "P2P3_te1_dft_sdotn_res32_rt40",
+      "formulation": "te1_dft_sdotn",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.0006279177734462849,
+      "incident_rel_spread": 0.0,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 157.54255900799944,
+      "timestamp_utc": "2026-08-26T07:37:55.327932+00:00"
+    },
+    {
+      "path": "outputs/validation/diagnostics/pair_full_te1ez_P1P2_res32_rt40.json",
+      "label": "full_te1ez_P1P2",
+      "formulation": "te1_ez_line",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 52.925508020316165,
+      "incident_rel_spread": 1.999979394529314,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "np=8",
+      "total_s": 44.216188725986285,
+      "timestamp_utc": "2026-08-28T02:04:29.125571+00:00"
+    },
+    {
+      "path": "outputs/validation/diagnostics/pair_full_te1ez_P2P3_res32_rt40.json",
+      "label": "full_te1ez_P2P3",
+      "formulation": "te1_ez_line",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.00014045013783459126,
+      "incident_rel_spread": 3.1597897004994027e-12,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "np=8",
+      "total_s": 47.016912584003876,
+      "timestamp_utc": "2026-08-28T02:05:17.403199+00:00"
+    },
+    {
+      "path": "outputs/validation/diagnostics/pair_horns_te1ez_P1P2_res32_rt40.json",
+      "label": "horns_te1ez_P1P2",
+      "formulation": "te1_ez_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 52.845945315255285,
+      "incident_rel_spread": 1.999979394529314,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "np=8",
+      "total_s": 24.67628998600412,
+      "timestamp_utc": "2026-08-28T02:03:17.714293+00:00"
+    },
+    {
+      "path": "outputs/validation/diagnostics/pair_horns_te1ez_P2P3_res32_rt40.json",
+      "label": "horns_te1ez_P2P3",
+      "formulation": "te1_ez_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 1.3727685654885136e-11,
+      "incident_rel_spread": 3.1597897004994027e-12,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "np=8",
+      "total_s": 24.71383007300028,
+      "timestamp_utc": "2026-08-28T02:03:43.658687+00:00"
+    },
+    {
+      "path": "outputs/validation/diagnostics/pair_horns_te1gn_P1P2_res32_rt40.json",
+      "label": "horns_te1gn_P1P2",
+      "formulation": "te1_guide_normal",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.595875295493169,
+      "incident_rel_spread": 0.042033247189301196,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "np=8",
+      "total_s": 63.899734001999605,
+      "timestamp_utc": "2026-08-28T02:36:02.080787+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_guide_normal_res32_rt40.json",
+      "label": "P1P2_te1_guide_normal_res32_rt40",
+      "formulation": "te1_guide_normal",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.343060599008183,
+      "incident_rel_spread": 0.042033247189301196,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 149.21801218200017,
+      "timestamp_utc": "2026-08-26T05:47:50.389398+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P2P3_te1_guide_normal_res32_rt40.json",
+      "label": "P2P3_te1_guide_normal_res32_rt40",
+      "formulation": "te1_guide_normal",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.0006200785250882745,
+      "incident_rel_spread": 1.276432950057079e-15,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 157.6129414029997,
+      "timestamp_utc": "2026-08-26T05:50:29.452125+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_guide_normal_dense_res32_rt40.json",
+      "label": "P1P2_te1_guide_normal_dense_res32_rt40",
+      "formulation": "te1_guide_normal_dense",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.34652850831629856,
+      "incident_rel_spread": 0.03922205898518863,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 156.5255962880001,
+      "timestamp_utc": "2026-08-26T07:15:21.887867+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P2P3_te1_guide_normal_dense_res32_rt40.json",
+      "label": "P2P3_te1_guide_normal_dense_res32_rt40",
+      "formulation": "te1_guide_normal_dense",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.0006279517813148061,
+      "incident_rel_spread": 1.7067112787880285e-15,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 159.51608868699986,
+      "timestamp_utc": "2026-08-26T07:18:03.093251+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_guide_normal_te1w_res32_rt40.json",
+      "label": "P1P2_te1_guide_normal_te1w_res32_rt40",
+      "formulation": "te1_guide_normal_te1w",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.681823994396531,
+      "incident_rel_spread": 0.10133175094087651,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 154.68128049300003,
+      "timestamp_utc": "2026-08-26T06:07:22.823806+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P2P3_te1_guide_normal_te1w_res32_rt40.json",
+      "label": "P2P3_te1_guide_normal_te1w_res32_rt40",
+      "formulation": "te1_guide_normal_te1w",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.00032279331139051237,
+      "incident_rel_spread": 6.070339861433715e-16,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 158.5560352829998,
+      "timestamp_utc": "2026-08-26T06:10:03.064240+00:00"
+    },
+    {
+      "path": "outputs/validation/diagnostics/pair_horns_te1hz_P1P2_res32_rt40.json",
+      "label": "horns_te1hz_P1P2",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6172353725213409,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "np=8",
+      "total_s": 29.105641545989783,
+      "timestamp_utc": "2026-08-28T02:02:19.488276+00:00"
+    },
+    {
+      "path": "outputs/validation/diagnostics/pair_horns_te1hz_P2P3_res32_rt40.json",
+      "label": "horns_te1hz_P2P3",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 8.526512829121202e-14,
+      "incident_rel_spread": 0.0,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "np=8",
+      "total_s": 30.931753725002636,
+      "timestamp_utc": "2026-08-28T02:02:51.648585+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0_oy0_p01.json",
+      "label": "cand_grid_snapped_r0_res32_ox0_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.8206064104246487,
+      "incident_rel_spread": 0.020389736061256263,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.305993145972025,
+      "timestamp_utc": "2026-08-30T21:21:04.326056+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0_oy0p5_p01.json",
+      "label": "cand_grid_snapped_r0_res32_ox0_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 2.163782053392742,
+      "incident_rel_spread": 0.02038999327270522,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.029134154028725,
+      "timestamp_utc": "2026-08-30T21:21:22.425210+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0_oyneg0p5_p01.json",
+      "label": "cand_grid_snapped_r0_res32_ox0_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.359693987813353,
+      "incident_rel_spread": 0.014467431229307519,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.243977962993085,
+      "timestamp_utc": "2026-08-30T21:20:46.014119+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0p5_oy0_p01.json",
+      "label": "cand_grid_snapped_r0_res32_ox0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.43329906849264255,
+      "incident_rel_spread": 0.020342894850361712,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.903023636026774,
+      "timestamp_utc": "2026-08-30T21:21:58.984774+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0p5_oy0p5_p01.json",
+      "label": "cand_grid_snapped_r0_res32_ox0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.6614537808868644,
+      "incident_rel_spread": 0.02034315206193337,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.709117873047944,
+      "timestamp_utc": "2026-08-30T21:22:16.749400+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0p5_oyneg0p5_p01.json",
+      "label": "cand_grid_snapped_r0_res32_ox0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.93433726727846,
+      "incident_rel_spread": 0.01442058760399707,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.554398396983743,
+      "timestamp_utc": "2026-08-30T21:21:39.978612+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_oxneg0p5_oy0_p01.json",
+      "label": "cand_grid_snapped_r0_res32_oxneg0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.4332990247539179,
+      "incident_rel_spread": 0.020342925742427857,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 17.144916660967283,
+      "timestamp_utc": "2026-08-30T21:20:09.640571+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_oxneg0p5_oy0p5_p01.json",
+      "label": "cand_grid_snapped_r0_res32_oxneg0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.661453749088004,
+      "incident_rel_spread": 0.020343182953999655,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.23773622402223,
+      "timestamp_utc": "2026-08-30T21:20:27.814394+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_grid_snapped_r0_res32_oxneg0p5_oyneg0p5_p01.json",
+      "label": "cand_grid_snapped_r0_res32_oxneg0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.9343372245449064,
+      "incident_rel_spread": 0.014420618497653397,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.956253477022983,
+      "timestamp_utc": "2026-08-30T21:19:50.570488+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_ox0_oy0_p01.json",
+      "label": "cand_prism_r0_res32_ox0_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6172353725213391,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.797012345981784,
+      "timestamp_utc": "2026-08-30T21:15:41.990854+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_ox0_oy0p5_p01.json",
+      "label": "cand_prism_r0_res32_ox0_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.25513483300667694,
+      "incident_rel_spread": 0.0277883415646928,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.894963630998973,
+      "timestamp_utc": "2026-08-30T21:16:00.828660+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_ox0_oyneg0p5_p01.json",
+      "label": "cand_prism_r0_res32_ox0_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2849709609836246,
+      "incident_rel_spread": 0.020919145401214877,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 27.82806678203633,
+      "timestamp_utc": "2026-08-30T21:15:24.289170+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_ox0p5_oy0_p01.json",
+      "label": "cand_prism_r0_res32_ox0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.786989788580339,
+      "incident_rel_spread": 0.022446377149863805,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.96946167497663,
+      "timestamp_utc": "2026-08-30T21:16:37.705172+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_ox0p5_oy0p5_p01.json",
+      "label": "cand_prism_r0_res32_ox0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3171348699629615,
+      "incident_rel_spread": 0.02233755759252778,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.835328235989437,
+      "timestamp_utc": "2026-08-30T21:16:56.533544+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_ox0p5_oyneg0p5_p01.json",
+      "label": "cand_prism_r0_res32_ox0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.34604914573586676,
+      "incident_rel_spread": 0.015680208512018966,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.02746620500693,
+      "timestamp_utc": "2026-08-30T21:16:18.760463+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_oxneg0p5_oy0_p01.json",
+      "label": "cand_prism_r0_res32_oxneg0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.7869897416405447,
+      "incident_rel_spread": 0.02244640740684689,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.204319228010718,
+      "timestamp_utc": "2026-08-30T21:14:36.043582+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_oxneg0p5_oy0p5_p01.json",
+      "label": "cand_prism_r0_res32_oxneg0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3171349159398247,
+      "incident_rel_spread": 0.02233758545384814,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.54019526200136,
+      "timestamp_utc": "2026-08-30T21:14:54.516884+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r0_res32_oxneg0p5_oyneg0p5_p01.json",
+      "label": "cand_prism_r0_res32_oxneg0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.34604919171055926,
+      "incident_rel_spread": 0.015680236375102668,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 19.131062484986614,
+      "timestamp_utc": "2026-08-30T21:14:13.769965+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_ox0_oy0_p01.json",
+      "label": "cand_prism_r15_res32_ox0_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3394023722044288,
+      "incident_rel_spread": 0.07847188890417782,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.943689719948452,
+      "timestamp_utc": "2026-08-30T21:23:50.147205+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_ox0_oy0p5_p01.json",
+      "label": "cand_prism_r15_res32_ox0_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.19886295471231286,
+      "incident_rel_spread": 0.07242656345890852,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.784241471032146,
+      "timestamp_utc": "2026-08-30T21:24:07.986495+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_ox0_oyneg0p5_p01.json",
+      "label": "cand_prism_r15_res32_ox0_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.20711313797711206,
+      "incident_rel_spread": 0.0741185848193579,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.589602982043289,
+      "timestamp_utc": "2026-08-30T21:23:31.189557+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_ox0p5_oy0_p01.json",
+      "label": "cand_prism_r15_res32_ox0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.4741884121637501,
+      "incident_rel_spread": 0.08324776974390337,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 17.769026914960705,
+      "timestamp_utc": "2026-08-30T21:24:46.357607+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_ox0p5_oy0p5_p01.json",
+      "label": "cand_prism_r15_res32_ox0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.35218402014650607,
+      "incident_rel_spread": 0.08156328197324002,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.098142670001835,
+      "timestamp_utc": "2026-08-30T21:25:04.374803+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_ox0p5_oyneg0p5_p01.json",
+      "label": "cand_prism_r15_res32_ox0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3488961840400435,
+      "incident_rel_spread": 0.08055796344959507,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.518700896005612,
+      "timestamp_utc": "2026-08-30T21:24:26.591312+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_oxneg0p5_oy0_p01.json",
+      "label": "cand_prism_r15_res32_oxneg0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.4289586827843497,
+      "incident_rel_spread": 0.07284910278233286,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 17.174766369047575,
+      "timestamp_utc": "2026-08-30T21:22:54.038208+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_oxneg0p5_oy0p5_p01.json",
+      "label": "cand_prism_r15_res32_oxneg0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3070860904924082,
+      "incident_rel_spread": 0.07119424113389965,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 17.584889944992028,
+      "timestamp_utc": "2026-08-30T21:23:13.678420+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r15_res32_oxneg0p5_oyneg0p5_p01.json",
+      "label": "cand_prism_r15_res32_oxneg0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.30379825434808794,
+      "incident_rel_spread": 0.07018852647905559,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.976067273993976,
+      "timestamp_utc": "2026-08-30T21:22:34.843087+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_ox0_oy0_p01.json",
+      "label": "cand_prism_r30_res32_ox0_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.957560386568197,
+      "incident_rel_spread": 0.10179658285334647,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 14.589172222011257,
+      "timestamp_utc": "2026-08-30T21:26:32.118030+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_ox0_oy0p5_p01.json",
+      "label": "cand_prism_r30_res32_ox0_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.1224551294236935,
+      "incident_rel_spread": 0.10279376558010186,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 14.935382468043827,
+      "timestamp_utc": "2026-08-30T21:26:49.031797+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_ox0_oyneg0p5_p01.json",
+      "label": "cand_prism_r30_res32_ox0_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.1275596637463234,
+      "incident_rel_spread": 0.10279374129390098,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.54125968500739,
+      "timestamp_utc": "2026-08-30T21:26:15.448473+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_ox0p5_oy0_p01.json",
+      "label": "cand_prism_r30_res32_ox0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.09071627269549865,
+      "incident_rel_spread": 0.11204156501419331,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.17726601997856,
+      "timestamp_utc": "2026-08-30T21:27:23.476336+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_ox0p5_oy0p5_p01.json",
+      "label": "cand_prism_r30_res32_ox0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.027150893506600937,
+      "incident_rel_spread": 0.106784334364673,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.35894027299946,
+      "timestamp_utc": "2026-08-30T21:27:41.813173+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_ox0p5_oyneg0p5_p01.json",
+      "label": "cand_prism_r30_res32_ox0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.033498941706566754,
+      "incident_rel_spread": 0.10678431086309446,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.222408572037239,
+      "timestamp_utc": "2026-08-30T21:27:06.342800+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_oxneg0p5_oy0_p01.json",
+      "label": "cand_prism_r30_res32_oxneg0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.020633438304637153,
+      "incident_rel_spread": 0.09594815923235421,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.901011962036137,
+      "timestamp_utc": "2026-08-30T21:25:40.865726+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_oxneg0p5_oy0p5_p01.json",
+      "label": "cand_prism_r30_res32_oxneg0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.04273112472740692,
+      "incident_rel_spread": 0.09073277266370529,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 14.989820087968837,
+      "timestamp_utc": "2026-08-30T21:25:57.808631+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_prism_r30_res32_oxneg0p5_oyneg0p5_p01.json",
+      "label": "cand_prism_r30_res32_oxneg0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.036383076628752065,
+      "incident_rel_spread": 0.09073274914344581,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.634048487991095,
+      "timestamp_utc": "2026-08-30T21:25:22.020453+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0_oy0_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_ox0_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.7987276999456725,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 7.655460758018307,
+      "timestamp_utc": "2026-08-30T21:18:18.082751+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0_oy0p5_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_ox0_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.15435051901702934,
+      "incident_rel_spread": 0.0277883415646928,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 17.158258676994592,
+      "timestamp_utc": "2026-08-30T21:18:37.241147+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0_oyneg0p5_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_ox0_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18418664855062872,
+      "incident_rel_spread": 0.020919145401214877,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.13035699602915,
+      "timestamp_utc": "2026-08-30T21:18:08.426890+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0p5_oy0_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_ox0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.8831504688122429,
+      "incident_rel_spread": 0.022446377149863805,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.91093383304542,
+      "timestamp_utc": "2026-08-30T21:19:13.573815+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0p5_oy0p5_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_ox0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.19660603549255917,
+      "incident_rel_spread": 0.02233755759252778,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.112159138021525,
+      "timestamp_utc": "2026-08-30T21:19:31.677258+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0p5_oyneg0p5_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_ox0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2255202938361318,
+      "incident_rel_spread": 0.015680208512018966,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.54660463501932,
+      "timestamp_utc": "2026-08-30T21:18:55.685505+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_oxneg0p5_oy0_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_oxneg0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.8831504226595115,
+      "incident_rel_spread": 0.02244640740684689,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.811150888970587,
+      "timestamp_utc": "2026-08-30T21:17:32.627589+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_oxneg0p5_oy0p5_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_oxneg0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.19660608376749877,
+      "incident_rel_spread": 0.02233758545384814,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.733549453958403,
+      "timestamp_utc": "2026-08-30T21:17:50.340504+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_oxneg0p5_oyneg0p5_p01.json",
+      "label": "cand_rotated_blocks_r0_res32_oxneg0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2255203421077372,
+      "incident_rel_spread": 0.015680236375102668,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.42958662600722,
+      "timestamp_utc": "2026-08-30T21:17:14.909451+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_ox0_oy0_p01.json",
+      "label": "cand_rotated_r15_res32_ox0_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3392751710110051,
+      "incident_rel_spread": 0.07847188890417782,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.818950195040088,
+      "timestamp_utc": "2026-08-30T21:29:13.292144+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_ox0_oy0p5_p01.json",
+      "label": "cand_rotated_r15_res32_ox0_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2447967621715481,
+      "incident_rel_spread": 0.07242656345890852,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.795513960998505,
+      "timestamp_utc": "2026-08-30T21:29:32.082574+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_ox0_oyneg0p5_p01.json",
+      "label": "cand_rotated_r15_res32_ox0_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2531234500949626,
+      "incident_rel_spread": 0.0741185848193579,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.345653994008899,
+      "timestamp_utc": "2026-08-30T21:28:54.444648+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_ox0p5_oy0_p01.json",
+      "label": "cand_rotated_r15_res32_ox0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.42797233681666036,
+      "incident_rel_spread": 0.08324776974390337,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.83942269498948,
+      "timestamp_utc": "2026-08-30T21:30:07.359240+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_ox0p5_oy0p5_p01.json",
+      "label": "cand_rotated_r15_res32_ox0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.35208214312935837,
+      "incident_rel_spread": 0.08156328197324002,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.550557605049107,
+      "timestamp_utc": "2026-08-30T21:30:24.863971+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_ox0p5_oyneg0p5_p01.json",
+      "label": "cand_rotated_r15_res32_ox0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.34881527235352117,
+      "incident_rel_spread": 0.08055796344959507,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.321514095994644,
+      "timestamp_utc": "2026-08-30T21:29:49.413019+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_oxneg0p5_oy0_p01.json",
+      "label": "cand_rotated_r15_res32_oxneg0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3827426074935829,
+      "incident_rel_spread": 0.07284910278233286,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.848289909015875,
+      "timestamp_utc": "2026-08-30T21:28:18.519249+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_oxneg0p5_oy0p5_p01.json",
+      "label": "cand_rotated_r15_res32_oxneg0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.30698421275737964,
+      "incident_rel_spread": 0.07119424113389965,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.506686884036753,
+      "timestamp_utc": "2026-08-30T21:28:37.019912+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/cand_rotated_r15_res32_oxneg0p5_oyneg0p5_p01.json",
+      "label": "cand_rotated_r15_res32_oxneg0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.30371734193928823,
+      "incident_rel_spread": 0.07018852647905559,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.985972790047526,
+      "timestamp_utc": "2026-08-30T21:27:59.712078+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/monoff_res32_mx0_P1P2.json",
+      "label": "monoff_res32_mx0_P1P2",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6172353725213391,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 7.0693675160291605,
+      "timestamp_utc": "2026-08-30T20:16:19.499604+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/monoff_res32_mx0p25_P1P2.json",
+      "label": "monoff_res32_mx0p25_P1P2",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6182687288632405,
+      "incident_rel_spread": 0.020491129428078986,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.134722589049488,
+      "timestamp_utc": "2026-08-30T20:16:36.596454+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/monoff_res32_mx0p5_P1P2.json",
+      "label": "monoff_res32_mx0p5_P1P2",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6191404067670785,
+      "incident_rel_spread": 0.020502722747729483,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 13.77925437601516,
+      "timestamp_utc": "2026-08-30T20:16:52.454710+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/monoff_res32_mxneg0p25_P1P2.json",
+      "label": "monoff_res32_mxneg0p25_P1P2",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6155121708044646,
+      "incident_rel_spread": 0.020467943185240638,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.334917764994316,
+      "timestamp_utc": "2026-08-30T20:16:10.454133+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/monoff_res32_mxneg0p5_P1P2.json",
+      "label": "monoff_res32_mxneg0p5_P1P2",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6125673020861448,
+      "incident_rel_spread": 0.02045591003220685,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 14.955768484971486,
+      "timestamp_utc": "2026-08-30T20:15:52.117176+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.25_oy-0.25_p01.json",
+      "label": "offset_res32_ox0.25_oy-0.25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18926958786402892,
+      "incident_rel_spread": 0.03869774308555319,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.63058745500166,
+      "timestamp_utc": "2026-08-30T18:07:49.070963+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.25_oy-0.5_p01.json",
+      "label": "offset_res32_ox0.25_oy-0.5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.38424389760078803,
+      "incident_rel_spread": 0.019307885383727803,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 21.01764503697632,
+      "timestamp_utc": "2026-08-30T18:07:25.661493+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.25_oy0.25_p01.json",
+      "label": "offset_res32_ox0.25_oy0.25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.04653740636381265,
+      "incident_rel_spread": 0.03900118647028193,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.90402696095407,
+      "timestamp_utc": "2026-08-30T18:08:25.641620+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.25_oy0.5_p01.json",
+      "label": "offset_res32_ox0.25_oy0.5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3549853318044516,
+      "incident_rel_spread": 0.02604424875595843,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 21.001614968990907,
+      "timestamp_utc": "2026-08-30T18:08:49.572391+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.25_oy0_p01.json",
+      "label": "offset_res32_ox0.25_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6785393781889262,
+      "incident_rel_spread": 0.019483048791424724,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.11633469600929,
+      "timestamp_utc": "2026-08-30T18:08:01.904763+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.5_oy-0.25_p01.json",
+      "label": "offset_res32_ox0.5_oy-0.25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18270864377053186,
+      "incident_rel_spread": 0.04145788851930805,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 21.052729817980435,
+      "timestamp_utc": "2026-08-30T18:09:37.416979+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.5_oy-0.5_p01.json",
+      "label": "offset_res32_ox0.5_oy-0.5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.34604914573586676,
+      "incident_rel_spread": 0.015680208512018966,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 21.138476104009897,
+      "timestamp_utc": "2026-08-30T18:09:13.573918+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.5_oy0.25_p01.json",
+      "label": "offset_res32_ox0.5_oy0.25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.06310143434191673,
+      "incident_rel_spread": 0.039637051121263325,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.900962157000322,
+      "timestamp_utc": "2026-08-30T18:10:24.774997+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.5_oy0.5_p01.json",
+      "label": "offset_res32_ox0.5_oy0.5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3171348699629615,
+      "incident_rel_spread": 0.02233755759252778,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.90300951298559,
+      "timestamp_utc": "2026-08-30T18:10:48.398655+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0.5_oy0_p01.json",
+      "label": "offset_res32_ox0.5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.786989788580339,
+      "incident_rel_spread": 0.022446377149863805,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.988265771011356,
+      "timestamp_utc": "2026-08-30T18:10:01.148123+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oy-0.25_p01.json",
+      "label": "offset_res32_ox0_oy-0.25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18897883779267133,
+      "incident_rel_spread": 0.03776763293509952,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 46.66773160902085,
+      "timestamp_utc": "2026-08-30T18:04:51.365288+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oy-0.5_p01.json",
+      "label": "offset_res32_ox0_oy-0.5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2849709609836246,
+      "incident_rel_spread": 0.020919145401214877,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 44.88171924802009,
+      "timestamp_utc": "2026-08-30T18:04:01.902017+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oy0.25_p01.json",
+      "label": "offset_res32_ox0_oy0.25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.13167602542684165,
+      "incident_rel_spread": 0.04772425603887341,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 36.46036218199879,
+      "timestamp_utc": "2026-08-30T18:06:23.348126+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oy0.5_p01.json",
+      "label": "offset_res32_ox0_oy0.5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.25513483300667694,
+      "incident_rel_spread": 0.0277883415646928,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 36.00594136695145,
+      "timestamp_utc": "2026-08-30T18:07:01.933760+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oy0_p01.json",
+      "label": "offset_res32_ox0_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6172353725213391,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 50.07832207001047,
+      "timestamp_utc": "2026-08-30T18:05:44.189673+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oy0p25_p01.json",
+      "label": "offset_res32_ox0_oy0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.13167602542684165,
+      "incident_rel_spread": 0.04772425603887341,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.35771425702842,
+      "timestamp_utc": "2026-08-30T18:09:30.111091+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oy0p5_p01.json",
+      "label": "offset_res32_ox0_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.25513483300667694,
+      "incident_rel_spread": 0.0277883415646928,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.316803364024963,
+      "timestamp_utc": "2026-08-30T18:09:43.139303+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oyneg0p25_p01.json",
+      "label": "offset_res32_ox0_oyneg0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18897883779267133,
+      "incident_rel_spread": 0.03776763293509952,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.279413032985758,
+      "timestamp_utc": "2026-08-30T18:09:17.026646+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0_oyneg0p5_p01.json",
+      "label": "offset_res32_ox0_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2849709609836246,
+      "incident_rel_spread": 0.020919145401214877,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.194607299985364,
+      "timestamp_utc": "2026-08-30T18:09:04.054704+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p25_oy0_p01.json",
+      "label": "offset_res32_ox0p25_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6785393781889262,
+      "incident_rel_spread": 0.019483048791424724,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.312365912017412,
+      "timestamp_utc": "2026-08-30T18:10:21.665575+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p25_oy0p25_p01.json",
+      "label": "offset_res32_ox0p25_oy0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.04653740636381265,
+      "incident_rel_spread": 0.03900118647028193,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.136326380015817,
+      "timestamp_utc": "2026-08-30T18:10:34.504948+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p25_oy0p5_p01.json",
+      "label": "offset_res32_ox0p25_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3549853318044516,
+      "incident_rel_spread": 0.02604424875595843,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.248946903971955,
+      "timestamp_utc": "2026-08-30T18:10:47.420643+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p25_oyneg0p25_p01.json",
+      "label": "offset_res32_ox0p25_oyneg0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18926958786402892,
+      "incident_rel_spread": 0.03869774308555319,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.14605726802256,
+      "timestamp_utc": "2026-08-30T18:10:08.794827+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p25_oyneg0p5_p01.json",
+      "label": "offset_res32_ox0p25_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.38424389760078803,
+      "incident_rel_spread": 0.019307885383727803,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 10.229126497986726,
+      "timestamp_utc": "2026-08-30T18:09:55.968720+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p5_oy0_p01.json",
+      "label": "offset_res32_ox0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.786989788580339,
+      "incident_rel_spread": 0.022446377149863805,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 8.076732037006877,
+      "timestamp_utc": "2026-08-30T18:11:18.320869+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p5_oy0p25_p01.json",
+      "label": "offset_res32_ox0p5_oy0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.06310143434191673,
+      "incident_rel_spread": 0.039637051121263325,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 8.255663498013746,
+      "timestamp_utc": "2026-08-30T18:11:28.627752+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p5_oy0p5_p01.json",
+      "label": "offset_res32_ox0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3171348699629615,
+      "incident_rel_spread": 0.02233755759252778,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 8.507086543017067,
+      "timestamp_utc": "2026-08-30T18:11:39.238590+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p5_oyneg0p25_p01.json",
+      "label": "offset_res32_ox0p5_oyneg0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.18270864377053186,
+      "incident_rel_spread": 0.04145788851930805,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 7.89229853200959,
+      "timestamp_utc": "2026-08-30T18:11:08.216242+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_ox0p5_oyneg0p5_p01.json",
+      "label": "offset_res32_ox0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.34604914573586676,
+      "incident_rel_spread": 0.015680208512018966,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 8.19687513198005,
+      "timestamp_utc": "2026-08-30T18:10:58.272297+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p25_oy0_p01.json",
+      "label": "offset_res32_oxneg0p25_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.7334060042688382,
+      "incident_rel_spread": 0.02499411253985289,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 21.005673422012478,
+      "timestamp_utc": "2026-08-30T18:08:03.380998+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p25_oy0p25_p01.json",
+      "label": "offset_res32_oxneg0p25_oy0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.06045670565188743,
+      "incident_rel_spread": 0.04555812298079211,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.931660194997676,
+      "timestamp_utc": "2026-08-30T18:08:27.266108+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p25_oy0p5_p01.json",
+      "label": "offset_res32_oxneg0p25_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2912848960250862,
+      "incident_rel_spread": 0.024730086783745674,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.722527728998102,
+      "timestamp_utc": "2026-08-30T18:08:50.915844+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p25_oyneg0p25_p01.json",
+      "label": "offset_res32_oxneg0p25_oyneg0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2012865815887661,
+      "incident_rel_spread": 0.03940877560418209,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 20.673842954041902,
+      "timestamp_utc": "2026-08-30T18:07:39.696168+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p25_oyneg0p5_p01.json",
+      "label": "offset_res32_oxneg0p25_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3200660179962842,
+      "incident_rel_spread": 0.018103560412967127,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 24.576868328033015,
+      "timestamp_utc": "2026-08-30T18:07:16.314379+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p5_oy0_p01.json",
+      "label": "offset_res32_oxneg0p5_oy0_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.7869897416405447,
+      "incident_rel_spread": 0.02244640740684689,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 44.375321463972796,
+      "timestamp_utc": "2026-08-30T18:05:22.397544+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p5_oy0p25_p01.json",
+      "label": "offset_res32_oxneg0p5_oy0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.06310258123773771,
+      "incident_rel_spread": 0.03963682626274752,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 44.18802354496438,
+      "timestamp_utc": "2026-08-30T18:06:09.295029+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p5_oy0p5_p01.json",
+      "label": "offset_res32_oxneg0p5_oy0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3171349159398247,
+      "incident_rel_spread": 0.02233758545384814,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 37.0617573549971,
+      "timestamp_utc": "2026-08-30T18:06:49.068976+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p5_oyneg0p25_p01.json",
+      "label": "offset_res32_oxneg0p5_oyneg0p25_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.1827098111780412,
+      "incident_rel_spread": 0.041457663669096395,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 48.171245486009866,
+      "timestamp_utc": "2026-08-30T18:04:35.260990+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/offset_res32_oxneg0p5_oyneg0p5_p01.json",
+      "label": "offset_res32_oxneg0p5_oyneg0p5_p01",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.34604919171055926,
+      "incident_rel_spread": 0.015680236375102668,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 35.14043789799325,
+      "timestamp_utc": "2026-08-30T18:03:44.341319+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res32_P1P2_zero_offset.json",
+      "label": "res32_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6172353725213391,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 7.8785258600255474,
+      "timestamp_utc": "2026-08-30T18:11:58.387591+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res32_P2P3_zero_offset.json",
+      "label": "res32_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 8.171241461241152e-14,
+      "incident_rel_spread": 2.128124304266898e-16,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 16.447083425009623,
+      "timestamp_utc": "2026-08-30T18:12:16.841828+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_32_P1P2_zero_offset.json",
+      "label": "res_prism_r15_32_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3394023722044288,
+      "incident_rel_spread": 0.07847188890417782,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 8.212806157011073,
+      "timestamp_utc": "2026-08-30T23:32:24.287218+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_32_P2P3_zero_offset.json",
+      "label": "res_prism_r15_32_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.26983468236438846,
+      "incident_rel_spread": 0.10708156581020033,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.694469719950575,
+      "timestamp_utc": "2026-08-30T23:32:41.988147+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_32_P1P2_zero_offset.json",
+      "label": "res_rotated_blocks_r15_32_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.3392751710110051,
+      "incident_rel_spread": 0.07847188890417782,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 8.518655635998584,
+      "timestamp_utc": "2026-08-30T21:30:59.173169+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_32_P2P3_zero_offset.json",
+      "label": "res_rotated_blocks_r15_32_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.24211917968147212,
+      "incident_rel_spread": 0.10708156581020033,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 15.75142062397208,
+      "timestamp_utc": "2026-08-30T21:31:16.985466+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/smoke_offset.json",
+      "label": "smoke_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.678539378188928,
+      "incident_rel_spread": 0.019483048791424724,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 68.29717743798392,
+      "timestamp_utc": "2026-08-30T18:02:45.226946+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/smoke_rotblocks.json",
+      "label": "smoke_rotblocks",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.7987276999456725,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 63.152786977996584,
+      "timestamp_utc": "2026-08-30T21:13:33.429202+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/wall_pec_res32_P1P2.json",
+      "label": "wall_pec_res32_P1P2",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6172353725213391,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": 0.875,
+      "px_per_cm": 11.428571428571427,
+      "mpi_note": "",
+      "total_s": 8.043000642966945,
+      "timestamp_utc": "2026-08-30T20:15:24.297898+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res32_rt40.json",
+      "label": "P1P2_te1_hz_line_res32_rt40",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.38395902314566754,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 148.66729876900354,
+      "timestamp_utc": "2026-08-25T20:13:43.052727+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P2P3_te1_hz_line_res32_rt40.json",
+      "label": "P2P3_te1_hz_line_res32_rt40",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.0003419073865416067,
+      "incident_rel_spread": 0.0,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 151.5261596939963,
+      "timestamp_utc": "2026-08-25T20:16:15.991813+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res48_P1P2_zero_offset.json",
+      "label": "res48_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 48,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2284658796637835,
+      "incident_rel_spread": 0.02465267343182046,
+      "dx_mm": 0.5833333333333333,
+      "px_per_cm": 17.142857142857142,
+      "mpi_note": "",
+      "total_s": 43.128106614982244,
+      "timestamp_utc": "2026-08-30T18:13:02.071706+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res48_P2P3_zero_offset.json",
+      "label": "res48_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 48,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 7.283063041541027e-14,
+      "incident_rel_spread": 6.34567562908762e-16,
+      "dx_mm": 0.5833333333333333,
+      "px_per_cm": 17.142857142857142,
+      "mpi_note": "",
+      "total_s": 40.62395377299981,
+      "timestamp_utc": "2026-08-30T18:13:44.752724+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_48_P1P2_zero_offset.json",
+      "label": "res_prism_r15_48_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 48,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.29405456126092844,
+      "incident_rel_spread": 0.06796867302071018,
+      "dx_mm": 0.5833333333333333,
+      "px_per_cm": 17.142857142857142,
+      "mpi_note": "",
+      "total_s": 40.77372517599724,
+      "timestamp_utc": "2026-08-30T23:33:24.751328+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_48_P2P3_zero_offset.json",
+      "label": "res_prism_r15_48_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 48,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.17793680011184598,
+      "incident_rel_spread": 0.08221308984883745,
+      "dx_mm": 0.5833333333333333,
+      "px_per_cm": 17.142857142857142,
+      "mpi_note": "",
+      "total_s": 45.44487205299083,
+      "timestamp_utc": "2026-08-30T23:34:12.317264+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_48_P1P2_zero_offset.json",
+      "label": "res_rotated_blocks_r15_48_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 48,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.29394746672835836,
+      "incident_rel_spread": 0.06796867302071018,
+      "dx_mm": 0.5833333333333333,
+      "px_per_cm": 17.142857142857142,
+      "mpi_note": "",
+      "total_s": 48.95817169302609,
+      "timestamp_utc": "2026-08-30T21:32:07.919424+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_48_P2P3_zero_offset.json",
+      "label": "res_rotated_blocks_r15_48_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 48,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.1470717465219824,
+      "incident_rel_spread": 0.08221308984883745,
+      "dx_mm": 0.5833333333333333,
+      "px_per_cm": 17.142857142857142,
+      "mpi_note": "",
+      "total_s": 44.22512626898242,
+      "timestamp_utc": "2026-08-30T21:32:54.076278+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res48_rt80.json",
+      "label": "P1P2_te1_hz_line_res48_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 48,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.2816697745901884,
+      "incident_rel_spread": 0.02465259801621009,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 853.9739261330105,
+      "timestamp_utc": "2026-08-25T22:04:33.462575+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res64_P1P2_zero_offset.json",
+      "label": "res64_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 64,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.30119084517942696,
+      "incident_rel_spread": 0.029252848314910276,
+      "dx_mm": 0.4375,
+      "px_per_cm": 22.857142857142854,
+      "mpi_note": "",
+      "total_s": 213.13089795201086,
+      "timestamp_utc": "2026-08-30T18:17:19.934741+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res64_P2P3_zero_offset.json",
+      "label": "res64_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 64,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 9.059419880941277e-14,
+      "incident_rel_spread": 1.2650901672467364e-15,
+      "dx_mm": 0.4375,
+      "px_per_cm": 22.857142857142854,
+      "mpi_note": "",
+      "total_s": 213.38754520803923,
+      "timestamp_utc": "2026-08-30T18:20:55.264913+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_64_P1P2_zero_offset.json",
+      "label": "res_prism_r15_64_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 64,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2911639258456198,
+      "incident_rel_spread": 0.06726176911729005,
+      "dx_mm": 0.4375,
+      "px_per_cm": 22.857142857142854,
+      "mpi_note": "",
+      "total_s": 326.399841077975,
+      "timestamp_utc": "2026-08-30T23:39:40.694808+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_64_P2P3_zero_offset.json",
+      "label": "res_prism_r15_64_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 64,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.536300170727591,
+      "incident_rel_spread": 0.10170961284198606,
+      "dx_mm": 0.4375,
+      "px_per_cm": 22.857142857142854,
+      "mpi_note": "",
+      "total_s": 327.28840149199823,
+      "timestamp_utc": "2026-08-30T23:45:09.956489+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_64_P1P2_zero_offset.json",
+      "label": "res_rotated_blocks_r15_64_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 64,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.29110256045128224,
+      "incident_rel_spread": 0.06726176911729005,
+      "dx_mm": 0.4375,
+      "px_per_cm": 22.857142857142854,
+      "mpi_note": "",
+      "total_s": 308.1370728519978,
+      "timestamp_utc": "2026-08-30T21:38:04.221577+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_64_P2P3_zero_offset.json",
+      "label": "res_rotated_blocks_r15_64_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 64,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.7715126549122839,
+      "incident_rel_spread": 0.10170961284198606,
+      "dx_mm": 0.4375,
+      "px_per_cm": 22.857142857142854,
+      "mpi_note": "",
+      "total_s": 297.1866038320004,
+      "timestamp_utc": "2026-08-30T21:43:03.382496+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res64_rt80.json",
+      "label": "P1P2_te1_hz_line_res64_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 64,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.0331012302000104,
+      "incident_rel_spread": 0.02925320370010886,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 2241.3344420420035,
+      "timestamp_utc": "2026-08-25T21:50:18.026549+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res96_P1P2_zero_offset.json",
+      "label": "res96_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.26725390318158126,
+      "incident_rel_spread": 0.03304175945477484,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 3422.190578977985,
+      "timestamp_utc": "2026-08-30T19:17:59.460924+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res96_P2P3_zero_offset.json",
+      "label": "res96_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 7.460698725481052e-14,
+      "incident_rel_spread": 6.302528067039786e-16,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 3403.0983571910183,
+      "timestamp_utc": "2026-08-30T20:14:44.618458+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_96_P1P2_zero_offset.json",
+      "label": "res_prism_r15_96_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.29674554855502144,
+      "incident_rel_spread": 0.06853578444106202,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 3326.328084546025,
+      "timestamp_utc": "2026-08-31T00:40:38.405555+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_prism_r15_96_P2P3_zero_offset.json",
+      "label": "res_prism_r15_96_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.5839906152080037,
+      "incident_rel_spread": 0.0804354763483674,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 3277.486261162965,
+      "timestamp_utc": "2026-08-31T01:35:17.876892+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_96_P1P2_zero_offset.json",
+      "label": "res_rotated_blocks_r15_96_P1P2_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.29664951143731955,
+      "incident_rel_spread": 0.06853578444106202,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 3230.1629615180427,
+      "timestamp_utc": "2026-08-30T22:36:55.509551+00:00"
+    },
+    {
+      "path": "outputs/validation/horn_grid/res_rotated_blocks_r15_96_P2P3_zero_offset.json",
+      "label": "res_rotated_blocks_r15_96_P2P3_zero_offset",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 40.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 0.5600739318427834,
+      "incident_rel_spread": 0.0804354763483674,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 3291.1175817630137,
+      "timestamp_utc": "2026-08-30T23:31:48.621395+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_pair_r16_res96.json",
+      "label": "mpi_pair_r16_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2667810444395968,
+      "incident_rel_spread": 0.03304196511083961,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "np=16",
+      "total_s": 1673.112394775002,
+      "timestamp_utc": "2026-08-28T04:20:36.811234+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_pair_r32_res96.json",
+      "label": "mpi_pair_r32_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2667810444395968,
+      "incident_rel_spread": 0.03304196511083961,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "np=32",
+      "total_s": 1625.2303038320097,
+      "timestamp_utc": "2026-08-28T04:47:43.703536+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_pair_r48_res96.json",
+      "label": "mpi_pair_r48_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2667810444395968,
+      "incident_rel_spread": 0.03304196511083961,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "np=48",
+      "total_s": 1662.5329388919927,
+      "timestamp_utc": "2026-08-28T05:15:28.561718+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_pair_r4_res96.json",
+      "label": "mpi_pair_r4_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2667810444395968,
+      "incident_rel_spread": 0.03304196511083961,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "np=4",
+      "total_s": 4194.871178250003,
+      "timestamp_utc": "2026-08-28T03:17:30.179719+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_pair_r64_res96.json",
+      "label": "mpi_pair_r64_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2667810444395968,
+      "incident_rel_spread": 0.03304196511083961,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "np=64",
+      "total_s": 1685.3643194199976,
+      "timestamp_utc": "2026-08-28T05:43:37.014280+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_pair_r8_res96.json",
+      "label": "mpi_pair_r8_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2667810444395968,
+      "incident_rel_spread": 0.03304196511083961,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "np=8",
+      "total_s": 2110.8922491409903,
+      "timestamp_utc": "2026-08-28T03:52:42.396769+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/throughput_j0_r32_res96.json",
+      "label": "throughput_j0_r32_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.2667810444395968,
+      "incident_rel_spread": 0.03304196511083961,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 3790.1814759789995,
+      "timestamp_utc": "2026-08-28T06:47:14.463733+00:00"
+    },
+    {
+      "path": "outputs/validation/mpi_scale/throughput_j1_r32_res96.json",
+      "label": "throughput_j1_r32_res96",
+      "formulation": "te1_hz_line",
+      "device_mode": "horns_only",
+      "res": 96,
+      "run_time": 20.0,
+      "ports": [
+        1,
+        2
+      ],
+      "P12_dB": 6.572520305780927e-14,
+      "incident_rel_spread": 1.890758031146482e-15,
+      "dx_mm": 0.29166666666666663,
+      "px_per_cm": 34.285714285714285,
+      "mpi_note": "",
+      "total_s": 5359.894625182002,
+      "timestamp_utc": "2026-08-28T07:13:24.150062+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res96_rt80.json",
+      "label": "P1P2_te1_hz_line_res96_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 96,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6822933896053058,
+      "incident_rel_spread": 0.03304192821773403,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 7494.294778711999,
+      "timestamp_utc": "2026-08-26T09:44:53.528087+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res128_rt80.json",
+      "label": "P1P2_te1_hz_line_res128_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 128,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.5194792112319675,
+      "incident_rel_spread": 0.022456805630092527,
+      "dx_mm": 0.21875,
+      "px_per_cm": 45.71428571428571,
+      "mpi_note": "np=32,FI_PROVIDER=tcp",
+      "total_s": 14145.516340881994,
+      "timestamp_utc": "2026-08-27T22:17:12.095282+00:00"
+    }
+  ],
+  "mpi_benchmarks": [
+    {
+      "path": "outputs/validation/mpi_scale/mpi_scale_summary_res32.json",
+      "res": null,
+      "run_time": null,
+      "formulation": null,
+      "results": [
+        {
+          "rank_env": 1,
+          "t_norm_s": 56.0318169593811,
+          "t_device_s": 122.63029503822327,
+          "flux": 5.427181136787441,
+          "res": 32,
+          "run_time": 30.0,
+          "port": 0
+        },
+        {
+          "rank_env": 2,
+          "t_norm_s": 27.48220658302307,
+          "t_device_s": 72.45872783660889,
+          "flux": 5.427181136787441,
+          "res": 32,
+          "run_time": 30.0,
+          "port": 0
+        },
+        {
+          "rank_env": 4,
+          "t_norm_s": 13.531110286712646,
+          "t_device_s": 58.28771758079529,
+          "flux": 5.427181136787441,
+          "res": 32,
+          "run_time": 30.0,
+          "port": 0
+        },
+        {
+          "rank_env": 8,
+          "t_norm_s": 7.436530590057373,
+          "t_device_s": 46.28045082092285,
+          "flux": 5.427181136787441,
+          "res": 32,
+          "run_time": 30.0,
+          "port": 0
+        }
+      ]
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_scale_summary_res48_te1_highrank.json",
+      "res": 48,
+      "run_time": 20.0,
+      "formulation": "te1_hz_line",
+      "results": [
+        {
+          "ranks": 48,
+          "wall_s": 70.57690382003784,
+          "returncode": 0,
+          "rank_env": 48,
+          "t_norm_s": 9.073188066482544,
+          "t_device_s": 54.11579513549805,
+          "flux": 0.21376731613849925,
+          "res": 48,
+          "run_time": 20.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 1.0,
+          "parallel_efficiency_vs_first": 1.0
+        },
+        {
+          "ranks": 64,
+          "wall_s": 63.34392070770264,
+          "returncode": 0,
+          "rank_env": 64,
+          "t_norm_s": 8.738101482391357,
+          "t_device_s": 51.159220457077026,
+          "flux": 0.21376731613849925,
+          "res": 48,
+          "run_time": 20.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 1.0577916288013343,
+          "parallel_efficiency_vs_first": 0.7933437216010008
+        }
+      ]
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_scale_summary_res48_te1_hz_line.json",
+      "res": 48,
+      "run_time": 30.0,
+      "formulation": "te1_hz_line",
+      "results": [
+        {
+          "ranks": 4,
+          "wall_s": 365.1312403678894,
+          "returncode": 0,
+          "rank_env": 4,
+          "t_norm_s": 118.30361843109131,
+          "t_device_s": 245.45223355293274,
+          "flux": 0.21533286893900422,
+          "res": 48,
+          "run_time": 30.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 1.0,
+          "parallel_efficiency_vs_first": 1.0
+        },
+        {
+          "ranks": 8,
+          "wall_s": 335.43996810913086,
+          "returncode": 0,
+          "rank_env": 8,
+          "t_norm_s": 121.57972550392151,
+          "t_device_s": 212.39508962631226,
+          "flux": 0.21533286893900422,
+          "res": 48,
+          "run_time": 30.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 1.1556398690044163,
+          "parallel_efficiency_vs_first": 0.5778199345022081
+        },
+        {
+          "ranks": 16,
+          "wall_s": 1.0853500366210938,
+          "returncode": 15
+        },
+        {
+          "ranks": 32,
+          "wall_s": 1.3691084384918213,
+          "returncode": 15
+        }
+      ]
+    },
+    {
+      "path": "outputs/validation/mpi_scale/mpi_scale_summary_res48_te1_hz_line_ofi.json",
+      "res": 48,
+      "run_time": 30.0,
+      "formulation": "te1_hz_line",
+      "results": [
+        {
+          "ranks": 4,
+          "wall_s": 361.98990082740784,
+          "returncode": 0,
+          "rank_env": 4,
+          "t_norm_s": 117.22023034095764,
+          "t_device_s": 243.42109727859497,
+          "flux": 0.21533286893900422,
+          "res": 48,
+          "run_time": 30.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 1.0,
+          "parallel_efficiency_vs_first": 1.0
+        },
+        {
+          "ranks": 8,
+          "wall_s": 338.072137594223,
+          "returncode": 0,
+          "rank_env": 8,
+          "t_norm_s": 121.01265597343445,
+          "t_device_s": 215.62358331680298,
+          "flux": 0.21533286893900422,
+          "res": 48,
+          "run_time": 30.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 1.1289168537791654,
+          "parallel_efficiency_vs_first": 0.5644584268895827
+        },
+        {
+          "ranks": 16,
+          "wall_s": 122.98423147201538,
+          "returncode": 0,
+          "rank_env": 16,
+          "t_norm_s": 14.352930068969727,
+          "t_device_s": 107.14085555076599,
+          "flux": 0.21533286893900422,
+          "res": 48,
+          "run_time": 30.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 2.2719726851840942,
+          "parallel_efficiency_vs_first": 0.5679931712960236
+        },
+        {
+          "ranks": 32,
+          "wall_s": 58.12110257148743,
+          "returncode": 0,
+          "rank_env": 32,
+          "t_norm_s": 9.949006080627441,
+          "t_device_s": 46.173094034194946,
+          "flux": 0.21533286893900422,
+          "res": 48,
+          "run_time": 30.0,
+          "port": 0,
+          "formulation": "te1_hz_line",
+          "physical_resolution": {
+            "a_m": 0.028,
+            "a_cm": 2.8000000000000003,
+            "meep_resolution": 48.0,
+            "grid_spacing_a": 0.020833333333333332,
+            "grid_spacing_mm": 0.5833333333333333,
+            "pixels_per_cm": 17.142857142857142,
+            "pixels_per_lattice_20mm": 34.28571428571429,
+            "pixels_per_free_space_lambda0": 133.488292987013,
+            "lambda0_mm": 77.86817090909092
+          },
+          "speedup_vs_first": 5.271925184357838,
+          "parallel_efficiency_vs_first": 0.6589906480447297
+        }
+      ]
+    }
+  ],
+  "faraday_runs": [],
+  "completed_te1_hz_line_P1P2": [
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res32_rt40.json",
+      "label": "P1P2_te1_hz_line_res32_rt40",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 32,
+      "run_time": 40.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.38395902314566754,
+      "incident_rel_spread": 0.020479536240583244,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 148.66729876900354,
+      "timestamp_utc": "2026-08-25T20:13:43.052727+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res48_rt80.json",
+      "label": "P1P2_te1_hz_line_res48_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 48,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.2816697745901884,
+      "incident_rel_spread": 0.02465259801621009,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 853.9739261330105,
+      "timestamp_utc": "2026-08-25T22:04:33.462575+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res64_rt80.json",
+      "label": "P1P2_te1_hz_line_res64_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 64,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.0331012302000104,
+      "incident_rel_spread": 0.02925320370010886,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 2241.3344420420035,
+      "timestamp_utc": "2026-08-25T21:50:18.026549+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res96_rt80.json",
+      "label": "P1P2_te1_hz_line_res96_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 96,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 0.6822933896053058,
+      "incident_rel_spread": 0.03304192821773403,
+      "dx_mm": null,
+      "px_per_cm": null,
+      "mpi_note": "np=4",
+      "total_s": 7494.294778711999,
+      "timestamp_utc": "2026-08-26T09:44:53.528087+00:00"
+    },
+    {
+      "path": "outputs/validation/ports/pair_P1P2_te1_hz_line_res128_rt80.json",
+      "label": "P1P2_te1_hz_line_res128_rt80",
+      "formulation": "te1_hz_line",
+      "device_mode": "full",
+      "res": 128,
+      "run_time": 80.0,
+      "ports": [
+        0,
+        1
+      ],
+      "P12_dB": 1.5194792112319675,
+      "incident_rel_spread": 0.022456805630092527,
+      "dx_mm": 0.21875,
+      "px_per_cm": 45.71428571428571,
+      "mpi_note": "np=32,FI_PROVIDER=tcp",
+      "total_s": 14145.516340881994,
+      "timestamp_utc": "2026-08-27T22:17:12.095282+00:00"
+    }
+  ],
+  "notes": {
+    "do_not_rerun": [
+      "te1_hz_line P1P2 res32-128 full device (completed)",
+      "measurement formulation cheap screen res32 (completed)",
+      "faraday res32/64 PASS (completed)"
+    ],
+    "obsolete_or_superseded": [
+      "te1_axis_at_source (broken source-plane flux)",
+      "eigenmode on PEC horns (MPB failure)"
+    ]
+  }
+}

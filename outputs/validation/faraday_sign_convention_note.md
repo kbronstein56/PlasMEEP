@@ -23,13 +23,17 @@ At the homogeneous Faraday point (fs=5 GHz, fp=2 GHz, |B|=0.05 T):
 
 **Working conclusion:** opposite global sign is consistent with a **basis/Stokes vs (k₊−k₋) labeling convention**, not a |κ| or reversal bug. Closing it requires one controlled sign-walk (fix charge in bias, Stokes definition, and circular-basis labeling one at a time).
 
-## Finite-length reporting plan (later)
+## Finite-length validation (completed)
 
-For length L (a-units) at fixed (fp, B, fs):
+Homogeneous Faraday cell at res=64 (`faraday_res64.json`):
 
-- theory_deg = degrees(κ_theory × L)
-- meep_deg = degrees(ψ(L) − ψ(0)) with same Stokes unwrap
+| Quantity | Value |
+|---|---|
+| Length L | 20 a (= 56 cm) |
+| fp | 2 GHz, fs = 5 GHz, \|B\| = 0.05 T |
+| Theory κ(+B) | +0.07846 rad/a → **+1.57 rad ≈ +89.9°** over L |
+| Meep κ(+B) | −0.07848 rad/a (opposite sign, same \|κ\|) |
+| \|κ\| error | 0.024% |
+| B-reversal | perfect (κ(−B) = −κ(+B)) |
 
-Report: “For this fp, B, and L, theory predicts X° and Meep gives Y° (and −B → −Y°).”
-
-Do **not** block the high-resolution reciprocity study on this.
+**Conclusion:** magnitude and reversal are trustworthy; global sign is a **labeling/convention** issue (Stokes ψ vs theory circular-basis κ), not a gyrotropy implementation bug.

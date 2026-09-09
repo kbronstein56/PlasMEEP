@@ -76,11 +76,23 @@ Cold-plasma tensor with **B = Bẑ** couples **Ex ↔ Ey** via ε_g. **Ez** only
 | Same polarization as published/experimental beam-steering PMM? | **No** — paper/Ceviche/experiment: **Ez**; current circulator model: **Hz**. |
 | Wrong for a **magnetized** 2D circulator with **B ∥ discharge axis**? | **No** — **Hz / in-plane E** is the gyrotropy-active polarization. Switching to Ez would remove the intended B≠0 nonreciprocity mechanism in this 2D model. |
 
-**Resolution campaign decision:** keep **`te1_hz_line` (Hz)** fixed. Treat Ez-matching as a **separate** experimental-fidelity task, not as a prerequisite to grid-convergence of the present circulator model.
+**Resolution campaign decision:** keep **`te1_hz_line` (Hz)** for the magnetized circulator. Ez-matching the paper is a **separate fidelity track** and is **not viable** with the current PEC horn + TE flux path (see diagnostic results below).
 
 ---
 
-## 4. Measurement-formulation result (already completed)
+## 5. `te1_ez_line` diagnostic (2026-08-28, res32/rt40)
+
+| Case | P1↔P2 | P2↔P3 | Notes |
+|---|---|---|---|
+| horns_only `te1_hz_line` | **0.62 dB** | <10⁻¹³ dB | plasma removed; axis error persists |
+| horns_only `te1_ez_line` | **52.8 dB** | <10⁻⁵ dB | port-1 incident ≈0 vs port-0 ≈172 |
+| full `te1_ez_line` | **52.9 dB** | 0.00014 dB | same failure mode |
+
+Ez launch fails on axis-aligned ports because PEC boundaries enforce **Ez=0** and flux integrates **Ex,Ey** (TE-oriented). Diagonal ports happen to reciprocate because geometry aligns better with the monitor.
+
+---
+
+## 6. Measurement-formulation result (already completed)
 
 No alternative receiver **materially** beat `te1_hz_line`+axis flux toward the 0.2 dB gate (cheap res32): best TE1+DFT S·n ≈ **0.32 dB** vs TE1+axis **0.38 dB** vs baseline+axis **0.18 dB**. **Not continuing measurement A/B.**
 

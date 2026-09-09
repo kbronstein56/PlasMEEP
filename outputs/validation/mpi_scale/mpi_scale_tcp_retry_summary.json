@@ -1,0 +1,50 @@
+{
+  "note": "UCX failed at >=16; retried with pml=ob1 btl=tcp,self",
+  "results": [
+    {
+      "ranks": 16,
+      "res": 48,
+      "run_time": 30,
+      "wall_s": 0.024480104446411133,
+      "returncode": 255,
+      "tag": "tcp_retry",
+      "log_tail": "[mpiexec@eng-rog442-daq2] match_arg (lib/utils/args.c:166): unrecognized argument mca\n[mpiexec@eng-rog442-daq2] HYDU_parse_array (lib/utils/args.c:181): argument matching returned error\n[mpiexec@eng-rog442-daq2] parse_args (mpiexec/get_parameters.c:315): error parsing input array\n[mpiexec@eng-rog442-daq2] HYD_uii_mpx_get_parameters (mpiexec/get_parameters.c:48): unable to parse user arguments\n[mpiexec@eng-rog442-daq2] main (mpiexec/mpiexec.c:49): error parsing parameters\n"
+    },
+    {
+      "ranks": 32,
+      "res": 48,
+      "run_time": 30,
+      "wall_s": 0.0034780502319335938,
+      "returncode": 255,
+      "tag": "tcp_retry",
+      "log_tail": "[mpiexec@eng-rog442-daq2] match_arg (lib/utils/args.c:166): unrecognized argument mca\n[mpiexec@eng-rog442-daq2] HYDU_parse_array (lib/utils/args.c:181): argument matching returned error\n[mpiexec@eng-rog442-daq2] parse_args (mpiexec/get_parameters.c:315): error parsing input array\n[mpiexec@eng-rog442-daq2] HYD_uii_mpx_get_parameters (mpiexec/get_parameters.c:48): unable to parse user arguments\n[mpiexec@eng-rog442-daq2] main (mpiexec/mpiexec.c:49): error parsing parameters\n"
+    },
+    {
+      "ranks": 4,
+      "res": 64,
+      "run_time": 20,
+      "wall_s": 0.0030672550201416016,
+      "returncode": 255,
+      "tag": "res64_tcp",
+      "log_tail": "[mpiexec@eng-rog442-daq2] match_arg (lib/utils/args.c:166): unrecognized argument mca\n[mpiexec@eng-rog442-daq2] HYDU_parse_array (lib/utils/args.c:181): argument matching returned error\n[mpiexec@eng-rog442-daq2] parse_args (mpiexec/get_parameters.c:315): error parsing input array\n[mpiexec@eng-rog442-daq2] HYD_uii_mpx_get_parameters (mpiexec/get_parameters.c:48): unable to parse user arguments\n[mpiexec@eng-rog442-daq2] main (mpiexec/mpiexec.c:49): error parsing parameters\n"
+    },
+    {
+      "ranks": 8,
+      "res": 64,
+      "run_time": 20,
+      "wall_s": 0.0028769969940185547,
+      "returncode": 255,
+      "tag": "res64_tcp",
+      "log_tail": "[mpiexec@eng-rog442-daq2] match_arg (lib/utils/args.c:166): unrecognized argument mca\n[mpiexec@eng-rog442-daq2] HYDU_parse_array (lib/utils/args.c:181): argument matching returned error\n[mpiexec@eng-rog442-daq2] parse_args (mpiexec/get_parameters.c:315): error parsing input array\n[mpiexec@eng-rog442-daq2] HYD_uii_mpx_get_parameters (mpiexec/get_parameters.c:48): unable to parse user arguments\n[mpiexec@eng-rog442-daq2] main (mpiexec/mpiexec.c:49): error parsing parameters\n"
+    },
+    {
+      "ranks": 16,
+      "res": 64,
+      "run_time": 20,
+      "wall_s": 0.002843618392944336,
+      "returncode": 255,
+      "tag": "res64_tcp",
+      "log_tail": "[mpiexec@eng-rog442-daq2] match_arg (lib/utils/args.c:166): unrecognized argument mca\n[mpiexec@eng-rog442-daq2] HYDU_parse_array (lib/utils/args.c:181): argument matching returned error\n[mpiexec@eng-rog442-daq2] parse_args (mpiexec/get_parameters.c:315): error parsing input array\n[mpiexec@eng-rog442-daq2] HYD_uii_mpx_get_parameters (mpiexec/get_parameters.c:48): unable to parse user arguments\n[mpiexec@eng-rog442-daq2] main (mpiexec/mpiexec.c:49): error parsing parameters\n"
+    }
+  ]
+}

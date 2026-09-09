@@ -1,0 +1,21 @@
+{
+  "started_utc": "2026-08-28T02:34:55.755480+00:00",
+  "ranks": 8,
+  "runs": [
+    {
+      "label": "horns_te1gn_P1P2",
+      "formulation": "te1_guide_normal",
+      "device_mode": "horns_only",
+      "ports": "0,1",
+      "res": 32,
+      "run_time": 40,
+      "ranks": 8,
+      "wall_s": 67.32587313652039,
+      "returncode": 0,
+      "path": "/home/daq_user/PlasMEEP/outputs/validation/diagnostics/pair_horns_te1gn_P1P2_res32_rt40.json",
+      "log": "/home/daq_user/PlasMEEP/outputs/validation/diagnostics/pair_horns_te1gn_P1P2_res32_rt40.log",
+      "P12_dB": 0.595875295493169,
+      "incident_rel": 0.042033247189301196
+    }
+  ]
+}

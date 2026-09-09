@@ -1,78 +1,70 @@
 {
-  "timestamp_utc": "2026-08-31T03:38:00+00:00",
-  "branch": "agent/eigenmode-ports",
-  "phases_completed": [
-    "timing_breakdown",
-    "mpi_cheap_benchmark",
-    "runtime_convergence",
-    "direct_lorentz_reciprocity",
-    "mode_profiles",
-    "port_reciprocity_rt5_validation",
-    "cache_policy"
-  ],
-  "timing_breakdown": {
-    "source": "outputs/validation/overnight/01_timing_breakdown_res32.json",
-    "total_wall_s": 325.2,
-    "python_geometry_pct": 0.0003,
-    "source_normalization_pct": 42.7,
-    "fdtd_one_excitation_s": 62.2,
-    "full_pair_simulate_s": 124.3,
-    "conclusion": "Python horn construction is negligible; normalization + FDTD dominate."
-  },
-  "mpi_cheap_res32": {
-    "source": "outputs/validation/overnight/02_mpi_summary_res32.json",
-    "optimal_ranks": 32,
-    "wall_s_by_ranks": {"4": 15.8, "8": 11.1, "16": 10.1, "32": 5.6},
-    "note": "np=32 fastest even for cheap res32 lorentz transfer; retain np=32 for res96."
-  },
-  "runtime_convergence": {
-    "source": "outputs/validation/overnight/03_runtime_convergence_res32.json",
-    "recommended_run_time": 5.0,
-    "reciprocity_amp_err_dB_at_rt5": 0.00615,
-    "h01_rel_err_vs_rt80_at_rt5": 0.000875,
-    "port_te1_P1P2_dB_at_rt5": 0.625,
-    "note": "Lorentz reciprocity converged by rt=5; port metric unchanged 0.625 dB at rt=5 vs rt=40."
-  },
-  "direct_lorentz_reciprocity": {
-    "source": "outputs/validation/overnight/04_lorentz_direct_res32_rt5.json",
-    "P1P2_amp_err_dB": 0.00615,
-    "P2P3_amp_err_dB": 2e-13,
-    "meep_reciprocal_at_B0": true,
-    "port_te1_apparent_error_dB": 0.625,
-    "interpretation": "Solver reciprocal; ~100x gap vs port metric implicates te1_hz_line + flux normalization."
-  },
-  "mode_profiles": {
-    "source": "outputs/validation/mode_profiles/mode_profiles_res32.json",
-    "te1_power_overlap": {"P1": 0.791, "P2": 0.785, "P6": 0.785},
-    "cross_orientation_overlap": 0.9998,
-    "interpretation": "TE1 cos misses ~21% of numerical mode uniformly; oriented modes nearly identical."
-  },
-  "validated_speedups": {
-    "baseline_horns_only_P1P2_te1_rt40_s": 325,
-    "optimized_rt5_np32_norm_cached_s": 6.6,
-    "speedup_factor": 49.2,
-    "optimizations": [
-      "run_time 40 -> 5 (Lorentz + port metric unchanged)",
-      "MPI np=32 for res32 cheap cases",
-      "--skip-norm-if-cached for repeat port studies",
-      "reuse numerical_mode JSON from mode_profiles/res32/",
-      "skip completed JSON phases in overnight_campaign.py"
-    ]
-  },
-  "cached_port_mode_approach": {
-    "module": "plasmeep/ports/numerical_mode.py",
-    "policy": "outputs/validation/overnight/CACHE_POLICY.md",
-    "artifacts": "outputs/validation/mode_profiles/res32/numerical_mode_P*.json",
-    "symmetry_reuse": "P2/P6 share +60/-60 class; P1 horizontal separate",
-    "next_step": "Wire numerical mode launch + modal overlap receiver in port_formulations.py"
-  },
-  "full_circulator_implications": {
-    "dominant_cost": "FDTD timestepping + per-port normalization",
-    "safe_cheap_defaults": "horns_only res32 rt=5 np=32 skip-norm-if-cached",
-    "expensive_defaults": "full device res96 rt80 np=32 sequential pairs",
-    "do_not": "run concurrent np32 jobs; micro-optimize Python horn build"
-  },
+  "timestamp_utc": "2026-08-31T03:19:54.335591+00:00",
   "phases": {
-    "cache_policy": "outputs/validation/overnight/CACHE_POLICY.md"
+    "runtime": {
+      "timestamp_utc": "2026-08-31T03:40:32.079644+00:00",
+      "res": 32,
+      "reference_run_time": 80.0,
+      "reciprocity_gate_dB": 0.2,
+      "convergence_gate_dB": 0.01,
+      "sweep": [
+        {
+          "run_time": 5,
+          "amp_err_dB_reciprocity": 0.006152273120972095,
+          "phase_diff_deg": -0.8688940675152373,
+          "h01_rel_err_vs_rt80": 0.0008747196821760287
+        },
+        {
+          "run_time": 10,
+          "amp_err_dB_reciprocity": 0.006282911521725775,
+          "phase_diff_deg": -0.8688882091242964,
+          "h01_rel_err_vs_rt80": 0.0007640027291207095
+        },
+        {
+          "run_time": 15,
+          "amp_err_dB_reciprocity": 0.006359246289016934,
+          "phase_diff_deg": -0.8694442035589212,
+          "h01_rel_err_vs_rt80": 0.0004180891622518575
+        },
+        {
+          "run_time": 20,
+          "amp_err_dB_reciprocity": 0.006337231537894595,
+          "phase_diff_deg": -0.8696751552047931,
+          "h01_rel_err_vs_rt80": 0.00020353608747371676
+        },
+        {
+          "run_time": 25,
+          "amp_err_dB_reciprocity": 0.006323093659823766,
+          "phase_diff_deg": -0.8695632549777145,
+          "h01_rel_err_vs_rt80": 0.00015387688890293363
+        },
+        {
+          "run_time": 30,
+          "amp_err_dB_reciprocity": 0.006319908866275499,
+          "phase_diff_deg": -0.8695082426451379,
+          "h01_rel_err_vs_rt80": 0.00012202750079395549
+        },
+        {
+          "run_time": 40,
+          "amp_err_dB_reciprocity": 0.0063137082057291094,
+          "phase_diff_deg": -0.8691440641971516,
+          "h01_rel_err_vs_rt80": 0.0003164989559986171
+        },
+        {
+          "run_time": 60,
+          "amp_err_dB_reciprocity": 0.00638140331761309,
+          "phase_diff_deg": -0.8693061840459015,
+          "h01_rel_err_vs_rt80": 0.0004842385795299241
+        },
+        {
+          "run_time": 80,
+          "amp_err_dB_reciprocity": 0.00635770733901158,
+          "phase_diff_deg": -0.8695020756416176,
+          "h01_rel_err_vs_rt80": 0.0
+        }
+      ],
+      "recommended_run_time": 5,
+      "note": "recommended_run_time: shortest rt with |P12-P21|<0.01 dB and H01 within 2% of rt=80"
+    }
   }
 }

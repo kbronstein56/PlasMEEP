@@ -1,0 +1,1270 @@
+{
+  "candidates": [
+    {
+      "candidate": "prism_r0",
+      "horn_walls": "prism",
+      "coord_rotation_deg": 0.0,
+      "res": 32,
+      "offset_range_dB": 0.531854955573662,
+      "offset_std_dB": 0.20472478701187063,
+      "offset_max_dB": 0.786989788580339,
+      "offset_min_dB": 0.25513483300667694,
+      "zero_offset_dB": 0.6172353725213391,
+      "runs": [
+        {
+          "label": "cand_prism_r0_res32_oxneg0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 21.224669456481934,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_oxneg0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.34604919171055926,
+          "incident_rel": 0.015680236375102668
+        },
+        {
+          "label": "cand_prism_r0_res32_oxneg0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 22.26631498336792,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_oxneg0p5_oy0_p01.json",
+          "P12_dB": 0.7869897416405447,
+          "incident_rel": 0.02244640740684689
+        },
+        {
+          "label": "cand_prism_r0_res32_oxneg0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.487191915512085,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_oxneg0p5_oy0p5_p01.json",
+          "P12_dB": 0.3171349159398247,
+          "incident_rel": 0.02233758545384814
+        },
+        {
+          "label": "cand_prism_r0_res32_ox0_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 29.777512788772583,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_ox0_oyneg0p5_p01.json",
+          "P12_dB": 0.2849709609836246,
+          "incident_rel": 0.020919145401214877
+        },
+        {
+          "label": "cand_prism_r0_res32_ox0_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 17.69469380378723,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_ox0_oy0_p01.json",
+          "P12_dB": 0.6172353725213391,
+          "incident_rel": 0.020479536240583244
+        },
+        {
+          "label": "cand_prism_r0_res32_ox0_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.831120252609253,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_ox0_oy0p5_p01.json",
+          "P12_dB": 0.25513483300667694,
+          "incident_rel": 0.0277883415646928
+        },
+        {
+          "label": "cand_prism_r0_res32_ox0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 17.956454277038574,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_ox0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.34604914573586676,
+          "incident_rel": 0.015680208512018966
+        },
+        {
+          "label": "cand_prism_r0_res32_ox0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.93075966835022,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_ox0p5_oy0_p01.json",
+          "P12_dB": 0.786989788580339,
+          "incident_rel": 0.022446377149863805
+        },
+        {
+          "label": "cand_prism_r0_res32_ox0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.83014154434204,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r0_res32_ox0p5_oy0p5_p01.json",
+          "P12_dB": 0.3171348699629615,
+          "incident_rel": 0.02233755759252778
+        }
+      ]
+    },
+    {
+      "candidate": "rotated_blocks_r0",
+      "horn_walls": "rotated_blocks",
+      "coord_rotation_deg": 0.0,
+      "res": 32,
+      "offset_range_dB": 0.7287999497952136,
+      "offset_std_dB": 0.3116208970979944,
+      "offset_max_dB": 0.8831504688122429,
+      "offset_min_dB": 0.15435051901702934,
+      "zero_offset_dB": 0.7987276999456725,
+      "runs": [
+        {
+          "label": "cand_rotated_blocks_r0_res32_oxneg0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.37003231048584,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_oxneg0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.2255203421077372,
+          "incident_rel": 0.015680236375102668
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_oxneg0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 17.712807178497314,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_oxneg0p5_oy0_p01.json",
+          "P12_dB": 0.8831504226595115,
+          "incident_rel": 0.02244640740684689
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_oxneg0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 17.70749568939209,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_oxneg0p5_oy0p5_p01.json",
+          "P12_dB": 0.19660608376749877,
+          "incident_rel": 0.02233758545384814
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_ox0_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.096961498260498,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0_oyneg0p5_p01.json",
+          "P12_dB": 0.18418664855062872,
+          "incident_rel": 0.020919145401214877
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_ox0_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 9.645923137664795,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0_oy0_p01.json",
+          "P12_dB": 0.7987276999456725,
+          "incident_rel": 0.020479536240583244
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_ox0_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 19.155943632125854,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0_oy0p5_p01.json",
+          "P12_dB": 0.15435051901702934,
+          "incident_rel": 0.0277883415646928
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_ox0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.461527585983276,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.2255202938361318,
+          "incident_rel": 0.015680208512018966
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_ox0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 17.89080548286438,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0p5_oy0_p01.json",
+          "P12_dB": 0.8831504688122429,
+          "incident_rel": 0.022446377149863805
+        },
+        {
+          "label": "cand_rotated_blocks_r0_res32_ox0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.08850860595703,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_blocks_r0_res32_ox0p5_oy0p5_p01.json",
+          "P12_dB": 0.19660603549255917,
+          "incident_rel": 0.02233755759252778
+        }
+      ]
+    },
+    {
+      "candidate": "grid_snapped_r0",
+      "horn_walls": "grid_snapped_prism",
+      "coord_rotation_deg": 0.0,
+      "res": 32,
+      "offset_range_dB": 1.7304830286388242,
+      "offset_std_dB": 0.5601025241998087,
+      "offset_max_dB": 2.163782053392742,
+      "offset_min_dB": 0.4332990247539179,
+      "zero_offset_dB": 0.8206064104246487,
+      "runs": [
+        {
+          "label": "cand_grid_snapped_r0_res32_oxneg0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.897331476211548,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_oxneg0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.9343372245449064,
+          "incident_rel": 0.014420618497653397
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_oxneg0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 19.075934410095215,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_oxneg0p5_oy0_p01.json",
+          "P12_dB": 0.4332990247539179,
+          "incident_rel": 0.020342925742427857
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_oxneg0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.16862154006958,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_oxneg0p5_oy0p5_p01.json",
+          "P12_dB": 1.661453749088004,
+          "incident_rel": 0.020343182953999655
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_ox0_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.212615966796875,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0_oyneg0p5_p01.json",
+          "P12_dB": 1.359693987813353,
+          "incident_rel": 0.014467431229307519
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_ox0_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.29281187057495,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0_oy0_p01.json",
+          "P12_dB": 0.8206064104246487,
+          "incident_rel": 0.020389736061256263
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_ox0_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 18.094887256622314,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0_oy0p5_p01.json",
+          "P12_dB": 2.163782053392742,
+          "incident_rel": 0.02038999327270522
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_ox0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 17.573349475860596,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.93433726727846,
+          "incident_rel": 0.01442058760399707
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_ox0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 19.092375993728638,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0p5_oy0_p01.json",
+          "P12_dB": 0.43329906849264255,
+          "incident_rel": 0.020342894850361712
+        },
+        {
+          "label": "cand_grid_snapped_r0_res32_ox0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "grid_snapped_prism",
+          "coord_rotation_deg": 0.0,
+          "wall_s": 17.68113350868225,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_grid_snapped_r0_res32_ox0p5_oy0p5_p01.json",
+          "P12_dB": 1.6614537808868644,
+          "incident_rel": 0.02034315206193337
+        }
+      ]
+    },
+    {
+      "candidate": "prism_r15",
+      "horn_walls": "prism",
+      "coord_rotation_deg": 15.0,
+      "res": 32,
+      "offset_range_dB": 0.2753254574514372,
+      "offset_std_dB": 0.0849969645103383,
+      "offset_max_dB": 0.4741884121637501,
+      "offset_min_dB": 0.19886295471231286,
+      "zero_offset_dB": 0.3394023722044288,
+      "runs": [
+        {
+          "label": "cand_prism_r15_res32_oxneg0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.07677388191223,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_oxneg0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.30379825434808794,
+          "incident_rel": 0.07018852647905559
+        },
+        {
+          "label": "cand_prism_r15_res32_oxneg0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 19.186227083206177,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_oxneg0p5_oy0_p01.json",
+          "P12_dB": 0.4289586827843497,
+          "incident_rel": 0.07284910278233286
+        },
+        {
+          "label": "cand_prism_r15_res32_oxneg0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 19.651317596435547,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_oxneg0p5_oy0p5_p01.json",
+          "P12_dB": 0.3070860904924082,
+          "incident_rel": 0.07119424113389965
+        },
+        {
+          "label": "cand_prism_r15_res32_ox0_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 17.500668048858643,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_ox0_oyneg0p5_p01.json",
+          "P12_dB": 0.20711313797711206,
+          "incident_rel": 0.0741185848193579
+        },
+        {
+          "label": "cand_prism_r15_res32_ox0_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.973109245300293,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_ox0_oy0_p01.json",
+          "P12_dB": 0.3394023722044288,
+          "incident_rel": 0.07847188890417782
+        },
+        {
+          "label": "cand_prism_r15_res32_ox0_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 17.840902090072632,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_ox0_oy0p5_p01.json",
+          "P12_dB": 0.19886295471231286,
+          "incident_rel": 0.07242656345890852
+        },
+        {
+          "label": "cand_prism_r15_res32_ox0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.588406085968018,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_ox0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.3488961840400435,
+          "incident_rel": 0.08055796344959507
+        },
+        {
+          "label": "cand_prism_r15_res32_ox0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 19.76575493812561,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_ox0p5_oy0_p01.json",
+          "P12_dB": 0.4741884121637501,
+          "incident_rel": 0.08324776974390337
+        },
+        {
+          "label": "cand_prism_r15_res32_ox0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.019539833068848,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r15_res32_ox0p5_oy0p5_p01.json",
+          "P12_dB": 0.35218402014650607,
+          "incident_rel": 0.08156328197324002
+        }
+      ]
+    },
+    {
+      "candidate": "prism_r30",
+      "horn_walls": "prism",
+      "coord_rotation_deg": 30.0,
+      "res": 32,
+      "offset_range_dB": 1.1069262254416863,
+      "offset_std_dB": 0.4867936495941535,
+      "offset_max_dB": 1.1275596637463234,
+      "offset_min_dB": 0.020633438304637153,
+      "zero_offset_dB": 0.957560386568197,
+      "runs": [
+        {
+          "label": "cand_prism_r30_res32_oxneg0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 17.63897442817688,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_oxneg0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.036383076628752065,
+          "incident_rel": 0.09073274914344581
+        },
+        {
+          "label": "cand_prism_r30_res32_oxneg0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 18.850988149642944,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_oxneg0p5_oy0_p01.json",
+          "P12_dB": 0.020633438304637153,
+          "incident_rel": 0.09594815923235421
+        },
+        {
+          "label": "cand_prism_r30_res32_oxneg0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 16.94696807861328,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_oxneg0p5_oy0p5_p01.json",
+          "P12_dB": 0.04273112472740692,
+          "incident_rel": 0.09073277266370529
+        },
+        {
+          "label": "cand_prism_r30_res32_ox0_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 17.657653331756592,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_ox0_oyneg0p5_p01.json",
+          "P12_dB": 1.1275596637463234,
+          "incident_rel": 0.10279374129390098
+        },
+        {
+          "label": "cand_prism_r30_res32_ox0_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 16.65452527999878,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_ox0_oy0_p01.json",
+          "P12_dB": 0.957560386568197,
+          "incident_rel": 0.10179658285334647
+        },
+        {
+          "label": "cand_prism_r30_res32_ox0_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 16.926210641860962,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_ox0_oy0p5_p01.json",
+          "P12_dB": 1.1224551294236935,
+          "incident_rel": 0.10279376558010186
+        },
+        {
+          "label": "cand_prism_r30_res32_ox0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 17.289697647094727,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_ox0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.033498941706566754,
+          "incident_rel": 0.10678431086309446
+        },
+        {
+          "label": "cand_prism_r30_res32_ox0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 17.141474723815918,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_ox0p5_oy0_p01.json",
+          "P12_dB": 0.09071627269549865,
+          "incident_rel": 0.11204156501419331
+        },
+        {
+          "label": "cand_prism_r30_res32_ox0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "prism",
+          "coord_rotation_deg": 30.0,
+          "wall_s": 18.316439151763916,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_prism_r30_res32_ox0p5_oy0p5_p01.json",
+          "P12_dB": 0.027150893506600937,
+          "incident_rel": 0.106784334364673
+        }
+      ]
+    },
+    {
+      "candidate": "rotated_r15",
+      "horn_walls": "rotated_blocks",
+      "coord_rotation_deg": 15.0,
+      "res": 32,
+      "offset_range_dB": 0.18317557464511225,
+      "offset_std_dB": 0.055463599341086994,
+      "offset_max_dB": 0.42797233681666036,
+      "offset_min_dB": 0.2447967621715481,
+      "zero_offset_dB": 0.3392751710110051,
+      "runs": [
+        {
+          "label": "cand_rotated_r15_res32_oxneg0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 17.90799045562744,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_oxneg0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.30371734193928823,
+          "incident_rel": 0.07018852647905559
+        },
+        {
+          "label": "cand_rotated_r15_res32_oxneg0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.819876194000244,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_oxneg0p5_oy0_p01.json",
+          "P12_dB": 0.3827426074935829,
+          "incident_rel": 0.07284910278233286
+        },
+        {
+          "label": "cand_rotated_r15_res32_oxneg0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            -0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.48662519454956,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_oxneg0p5_oy0p5_p01.json",
+          "P12_dB": 0.30698421275737964,
+          "incident_rel": 0.07119424113389965
+        },
+        {
+          "label": "cand_rotated_r15_res32_ox0_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 17.440083026885986,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_ox0_oyneg0p5_p01.json",
+          "P12_dB": 0.2531234500949626,
+          "incident_rel": 0.0741185848193579
+        },
+        {
+          "label": "cand_rotated_r15_res32_ox0_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.847859859466553,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_ox0_oy0_p01.json",
+          "P12_dB": 0.3392751710110051,
+          "incident_rel": 0.07847188890417782
+        },
+        {
+          "label": "cand_rotated_r15_res32_ox0_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.0,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 18.781062841415405,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_ox0_oy0p5_p01.json",
+          "P12_dB": 0.2447967621715481,
+          "incident_rel": 0.07242656345890852
+        },
+        {
+          "label": "cand_rotated_r15_res32_ox0p5_oyneg0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            -0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 17.320175886154175,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_ox0p5_oyneg0p5_p01.json",
+          "P12_dB": 0.34881527235352117,
+          "incident_rel": 0.08055796344959507
+        },
+        {
+          "label": "cand_rotated_r15_res32_ox0p5_oy0_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.0
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 17.952468872070312,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_ox0p5_oy0_p01.json",
+          "P12_dB": 0.42797233681666036,
+          "incident_rel": 0.08324776974390337
+        },
+        {
+          "label": "cand_rotated_r15_res32_ox0p5_oy0p5_p01",
+          "ports": "0,1",
+          "res": 32,
+          "run_time": 40.0,
+          "grid_offset_cells": [
+            0.5,
+            0.5
+          ],
+          "monitor_offset_cells": [
+            0.0,
+            0.0
+          ],
+          "wall_mode": "pec",
+          "horn_walls": "rotated_blocks",
+          "coord_rotation_deg": 15.0,
+          "wall_s": 17.490872144699097,
+          "returncode": 0,
+          "path": "/home/daq_user/PlasMEEP/outputs/validation/horn_grid/cand_rotated_r15_res32_ox0p5_oy0p5_p01.json",
+          "P12_dB": 0.35208214312935837,
+          "incident_rel": 0.08156328197324002
+        }
+      ]
+    }
+  ]
+}

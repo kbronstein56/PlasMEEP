@@ -1,0 +1,93 @@
+{
+  "label": "P2P3_baseline_guide_normal_res32_rt40",
+  "timestamp_utc": "2026-08-26T06:31:38.572505+00:00",
+  "mpi_note": "np=4",
+  "settings": {
+    "res": 32,
+    "run_time": 40.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      1,
+      2
+    ],
+    "nx_ports": 23,
+    "ny_ports": 21,
+    "dpml_ports": 2.0,
+    "a": 0.028,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "baseline_guide_normal",
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_baseline_guide_normal_res32_rt40_p12.pkl"
+  },
+  "timings_s": {
+    "normalization": 34.26085472200066,
+    "device": 120.63452644300014,
+    "total": 154.89542888400047
+  },
+  "incident_power_by_port": {
+    "1": 29.665350557224453,
+    "2": 29.665350557224315
+  },
+  "power_matrix": [
+    [
+      0.07758389226600944,
+      0.021150381678998974
+    ],
+    [
+      0.02115351428819931,
+      0.07670850126110844
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      -11.10228436295035,
+      -16.74681790956199
+    ],
+    [
+      -16.746174718261972,
+      -11.151565024630884
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 0.0006431913000177758,
+    "max_abs_diff_dB": 0.0006431913000177758,
+    "worst_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.0006431913000177758,
+        "T_ji_dB": -16.74681790956199,
+        "T_ij_dB": -16.746174718261972
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.0006431913000177758,
+        "T_ji_dB": -16.74681790956199,
+        "T_ij_dB": -16.746174718261972
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        0.0006431913000177758
+      ],
+      [
+        0.0006431913000177758,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "objective": null
+}

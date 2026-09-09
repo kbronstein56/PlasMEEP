@@ -1,0 +1,130 @@
+{
+  "label": "offset_res32_ox0p5_oyneg0p25_p01",
+  "timestamp_utc": "2026-08-30T18:11:08.216242+00:00",
+  "mpi_note": "",
+  "settings": {
+    "res": 32,
+    "run_time": 40.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      0,
+      1
+    ],
+    "nx_ports": 23,
+    "ny_ports": 21,
+    "dpml_ports": 2.0,
+    "a": 0.028,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "te1_hz_line",
+    "device_mode": "horns_only",
+    "grid_offset_cells": [
+      0.5,
+      -0.25
+    ],
+    "monitor_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "wall_mode": "pec",
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_hz_line_horns_only_pec_g0.5_-0.25_m0_0_res32_rt40_p01.pkl"
+  },
+  "physical_resolution": {
+    "a_m": 0.028,
+    "a_cm": 2.8000000000000003,
+    "meep_resolution": 32.0,
+    "grid_spacing_a": 0.03125,
+    "grid_spacing_mm": 0.875,
+    "pixels_per_cm": 11.428571428571427,
+    "pixels_per_lattice_20mm": 22.857142857142858,
+    "pixels_per_free_space_lambda0": 88.99219532467534,
+    "lambda0_mm": 77.86817090909092
+  },
+  "timings_s": {
+    "normalization": 0.00011811999138444662,
+    "device": 7.8921635710285045,
+    "total": 7.89229853200959
+  },
+  "incident_power_by_port": {
+    "0": 32.05347510523032,
+    "1": 33.410473649994216
+  },
+  "incident_power_mismatch": {
+    "max_over_min": 1.0423354578656112,
+    "rel_spread": 0.04145788851930805,
+    "min": 32.05347510523032,
+    "max": 33.410473649994216,
+    "mean": 32.73197437761227
+  },
+  "power_matrix": [
+    [
+      -0.9985266873491715,
+      0.042312260689115234
+    ],
+    [
+      0.04056909926232454,
+      -0.9664283284634486
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      NaN,
+      -13.735337702588897
+    ],
+    [
+      -13.918046346359429,
+      NaN
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 0.18270864377053186,
+    "max_abs_diff_dB": 0.18270864377053186,
+    "worst_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 0.18270864377053186,
+        "T_ji_dB": -13.735337702588897,
+        "T_ij_dB": -13.918046346359429
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 0.18270864377053186,
+        "T_ji_dB": -13.735337702588897,
+        "T_ij_dB": -13.918046346359429
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        0.18270864377053186
+      ],
+      [
+        0.18270864377053186,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ]
+  ],
+  "objective": null
+}

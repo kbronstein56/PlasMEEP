@@ -1,0 +1,93 @@
+{
+  "label": "P2P3_te1_guide_normal_te1w_res32_rt40",
+  "timestamp_utc": "2026-08-26T06:10:03.064240+00:00",
+  "mpi_note": "np=4",
+  "settings": {
+    "res": 32,
+    "run_time": 40.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      1,
+      2
+    ],
+    "nx_ports": 23,
+    "ny_ports": 21,
+    "dpml_ports": 2.0,
+    "a": 0.028,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "te1_guide_normal_te1w",
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_te1_guide_normal_te1w_res32_rt40_p12.pkl"
+  },
+  "timings_s": {
+    "normalization": 37.49852070499992,
+    "device": 121.05748769699994,
+    "total": 158.5560352829998
+  },
+  "incident_power_by_port": {
+    "1": 35.11546727100129,
+    "2": 35.11546727100127
+  },
+  "power_matrix": [
+    [
+      0.10316670070152117,
+      0.014870913977456919
+    ],
+    [
+      0.014872019312698671,
+      0.10238314028403568
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      -9.864604580890791,
+      -18.276623385952007
+    ],
+    [
+      -18.276300592640617,
+      -9.897715539505242
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 0.00032279331139051237,
+    "max_abs_diff_dB": 0.00032279331139051237,
+    "worst_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.00032279331139051237,
+        "T_ji_dB": -18.276623385952007,
+        "T_ij_dB": -18.276300592640617
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 1,
+        "j": 2,
+        "label": "P2<->P3",
+        "abs_diff_dB": 0.00032279331139051237,
+        "T_ji_dB": -18.276623385952007,
+        "T_ij_dB": -18.276300592640617
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        0.00032279331139051237
+      ],
+      [
+        0.00032279331139051237,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "objective": null
+}

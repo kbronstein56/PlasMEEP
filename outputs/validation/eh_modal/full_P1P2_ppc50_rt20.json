@@ -1,0 +1,215 @@
+{
+  "timestamp_utc": "2026-09-08T11:25:25.777116+00:00",
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "device_mode": "full",
+  "resolution_report": {
+    "points_per_cm": 50.0,
+    "dx_mm": 0.2,
+    "meep_resolution": 100.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.01,
+    "grid_spacing_mm": 0.2,
+    "pixels_per_lattice_20mm": 100.0,
+    "pixels_per_free_space_lambda0": 389.3408545454546,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 50.0
+  },
+  "run_time": 20.0,
+  "mode_formula": {
+    "mode_power": "Re integral(E_t* conj(H_z) dl) = 1",
+    "alpha_plus": "0.5 * integral(conj(E_t_mode) * H_z + E_t * conj(H_z_mode)) dl",
+    "alpha_minus": "0.5 * integral(conj(E_t_mode) * H_z - E_t * conj(H_z_mode)) dl"
+  },
+  "reference_modes": {
+    "P1": {
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/em_modes/res100/res100_f0.256844_prism_g0_0_rot0/eh_mode_P1.json",
+      "cached": true,
+      "raw_overlap": {
+        "alpha_plus": {
+          "real": 0.0,
+          "imag": -0.014069875827898135
+        },
+        "alpha_minus": {
+          "real": -53.94610713534581,
+          "imag": 8.673617379884035e-19
+        },
+        "power_plus": 0.00019796140581247222,
+        "power_minus": 2910.182475058208,
+        "i1": {
+          "real": -53.94610713534581,
+          "imag": -0.014069875827898133
+        },
+        "i2": {
+          "real": 53.94610713534581,
+          "imag": -0.014069875827898135
+        }
+      },
+      "mode_power": 1.0000000000000002,
+      "n_samples": 64,
+      "center_xy": [
+        10.65512701892219,
+        0.0
+      ],
+      "tangent_xy": [
+        0.0,
+        1.0
+      ],
+      "outward_dir": [
+        1.0,
+        -0.0
+      ],
+      "reference_alpha_plus": {
+        "real": 0.0,
+        "imag": -0.014069875827898135
+      },
+      "reference_alpha_minus": {
+        "real": -53.94610713534581,
+        "imag": 8.673617379884035e-19
+      },
+      "reference_power_plus": 0.00019796140581247222,
+      "reference_power_minus": 2910.182475058208
+    },
+    "P2": {
+      "cache_path": "/home/daq_user/PlasMEEP/outputs/validation/mode_profiles/em_modes/res100/res100_f0.256844_prism_g0_0_rot0/eh_mode_P2.json",
+      "cached": true,
+      "raw_overlap": {
+        "alpha_plus": {
+          "real": 0.0,
+          "imag": 4.422262839739824
+        },
+        "alpha_minus": {
+          "real": -53.03267905574036,
+          "imag": 0.0
+        },
+        "power_plus": 19.556408623743735,
+        "power_minus": 2812.4650478291624,
+        "i1": {
+          "real": -53.03267905574036,
+          "imag": 4.422262839739824
+        },
+        "i2": {
+          "real": 53.03267905574036,
+          "imag": 4.422262839739824
+        }
+      },
+      "mode_power": 0.9999999999999998,
+      "n_samples": 64,
+      "center_xy": [
+        5.327563509461095,
+        9.227610678936575
+      ],
+      "tangent_xy": [
+        -0.8660254037844387,
+        0.5000000000000001
+      ],
+      "outward_dir": [
+        0.5,
+        0.8660254037844386
+      ],
+      "reference_alpha_plus": {
+        "real": 0.0,
+        "imag": 4.422262839739824
+      },
+      "reference_alpha_minus": {
+        "real": -53.03267905574036,
+        "imag": 0.0
+      },
+      "reference_power_plus": 19.556408623743735,
+      "reference_power_minus": 2812.4650478291624
+    }
+  },
+  "cases": {
+    "P1_to_P2": {
+      "device_mode": "full",
+      "source_port": 0,
+      "receive_port": 1,
+      "observations": {
+        "P1": {
+          "alpha_plus": {
+            "real": -15.285590299578256,
+            "imag": -22.89038134384355
+          },
+          "alpha_minus": {
+            "real": -52.52420870338106,
+            "imag": -4.270336509305439
+          },
+          "power_plus": 757.6188288731418,
+          "power_minus": 2777.0282738190385
+        },
+        "P2": {
+          "alpha_plus": {
+            "real": -2.558168255903167,
+            "imag": -0.32835444448712714
+          },
+          "alpha_minus": {
+            "real": 0.5896912808161993,
+            "imag": 0.3939156334177438
+          },
+          "power_plus": 6.6520414667251,
+          "power_minus": 0.5029053329215519
+        }
+      },
+      "transmitted_power": 6.6520414667251,
+      "source_forward_power": 757.6188288731418,
+      "source_backward_power": 2777.0282738190385
+    },
+    "P2_to_P1": {
+      "device_mode": "full",
+      "source_port": 1,
+      "receive_port": 0,
+      "observations": {
+        "P1": {
+          "alpha_plus": {
+            "real": -2.7194447043753316,
+            "imag": -0.4529136663698285
+          },
+          "alpha_minus": {
+            "real": 0.8534106872024092,
+            "imag": 0.5021365148173665
+          },
+          "power_plus": 7.600510289339594,
+          "power_minus": 0.9804508805442197
+        },
+        "P2": {
+          "alpha_plus": {
+            "real": -9.026150820608642,
+            "imag": -3.423949829929069
+          },
+          "alpha_minus": {
+            "real": -52.95138680889604,
+            "imag": -2.4403362884962743
+          },
+          "power_plus": 93.19483107424534,
+          "power_minus": 2809.8046061862806
+        }
+      },
+      "transmitted_power": 7.600510289339594,
+      "source_forward_power": 93.19483107424534,
+      "source_backward_power": 2809.8046061862806
+    }
+  },
+  "incident_modal_powers": {
+    "P1": 2910.182475058208,
+    "P2": 2812.4650478291624
+  },
+  "transmitted_modal_powers": {
+    "S21_numer": 6.6520414667251,
+    "S12_numer": 7.600510289339594
+  },
+  "normalized_transmission": {
+    "S21": 0.0022857815699656595,
+    "S12": 0.002702437242804545,
+    "difference_db": 0.7272089064413894,
+    "known_direct_poynting_difference_db": 0.0861
+  },
+  "elapsed_s": 9163.380953550339
+}

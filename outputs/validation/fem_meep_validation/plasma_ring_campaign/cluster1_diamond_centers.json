@@ -1,0 +1,29 @@
+{
+  "n": 1,
+  "core": "diamond",
+  "centers_a": [
+    [
+      0.0,
+      0.0
+    ]
+  ],
+  "geometry": {
+    "plasma_radius_a": 0.22999999999999995,
+    "plasma_radius_mm": 4.599999999999999,
+    "square_side_a": 0.32526911934581176,
+    "square_side_mm": 6.505382386916236,
+    "square_half_side_a": 0.16263455967290588,
+    "circle_area_a2": 0.1661902513749,
+    "square_area_a2": 0.10579999999999994,
+    "square_over_circle_area": 0.6366197723675812,
+    "corner_radius_a": 0.22999999999999995,
+    "quartz_inner_a": 0.32499999999999996,
+    "quartz_outer_a": 0.375,
+    "min_clearance_to_quartz_inner_a": 0.095,
+    "min_clearance_to_quartz_inner_mm": 1.9,
+    "side_reduced": false,
+    "corners_on_plasma_circle": true,
+    "overlaps_quartz": false,
+    "topology": "square plasma inside the original disk, then the production vacuum gap, then the 1 mm quartz shell"
+  }
+}

@@ -1,0 +1,322 @@
+[
+  {
+    "n": 7,
+    "core": "square",
+    "level": "FEM-C",
+    "h": 0.03,
+    "h_edge": 0.012,
+    "n_nodes": 485314,
+    "n_tris": 968496,
+    "centers_a": [
+      [
+        0.0,
+        -1.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.8660254037844384,
+        -0.5
+      ],
+      [
+        -0.8660254037844384,
+        0.5
+      ],
+      [
+        -0.8660254037844384,
+        -0.5
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.8660254037844384,
+        0.5
+      ]
+    ],
+    "geometry": {
+      "plasma_radius_a": 0.22999999999999995,
+      "plasma_radius_mm": 4.599999999999999,
+      "square_side_a": 0.32526911934581176,
+      "square_side_mm": 6.505382386916236,
+      "square_half_side_a": 0.16263455967290588,
+      "circle_area_a2": 0.1661902513749,
+      "square_area_a2": 0.10579999999999994,
+      "square_over_circle_area": 0.6366197723675812,
+      "corner_radius_a": 0.22999999999999995,
+      "quartz_inner_a": 0.32499999999999996,
+      "quartz_outer_a": 0.375,
+      "min_clearance_to_quartz_inner_a": 0.095,
+      "min_clearance_to_quartz_inner_mm": 1.9,
+      "side_reduced": false,
+      "corners_on_plasma_circle": true,
+      "overlaps_quartz": false,
+      "topology": "square plasma inside the original disk, then the production vacuum gap, then the 1 mm quartz shell"
+    },
+    "eps": [
+      -3.317759870618328,
+      0.001121496070290476
+    ],
+    "T_forward": [
+      0.1045389398905777,
+      1.738002256982197
+    ],
+    "R_back": [
+      0.005530074887442107,
+      -0.008284747265619155
+    ],
+    "inside_over_vac": [
+      0.1613749813208193,
+      0.7877946368026267
+    ],
+    "just_out_over_vac": [
+      -0.9642684328140483,
+      2.6448400296124794
+    ],
+    "mean_abs_Hz_inside": 0.07939834729406027,
+    "mean_abs_Hz_vac_inside": 0.06405227123590485
+  },
+  {
+    "n": 7,
+    "core": "square",
+    "level": "FEM-F",
+    "h": 0.018,
+    "h_edge": 0.007,
+    "n_nodes": 1345989,
+    "n_tris": 2688422,
+    "centers_a": [
+      [
+        0.0,
+        -1.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.8660254037844384,
+        -0.5
+      ],
+      [
+        -0.8660254037844384,
+        0.5
+      ],
+      [
+        -0.8660254037844384,
+        -0.5
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.8660254037844384,
+        0.5
+      ]
+    ],
+    "geometry": {
+      "plasma_radius_a": 0.22999999999999995,
+      "plasma_radius_mm": 4.599999999999999,
+      "square_side_a": 0.32526911934581176,
+      "square_side_mm": 6.505382386916236,
+      "square_half_side_a": 0.16263455967290588,
+      "circle_area_a2": 0.1661902513749,
+      "square_area_a2": 0.10579999999999994,
+      "square_over_circle_area": 0.6366197723675812,
+      "corner_radius_a": 0.22999999999999995,
+      "quartz_inner_a": 0.32499999999999996,
+      "quartz_outer_a": 0.375,
+      "min_clearance_to_quartz_inner_a": 0.095,
+      "min_clearance_to_quartz_inner_mm": 1.9,
+      "side_reduced": false,
+      "corners_on_plasma_circle": true,
+      "overlaps_quartz": false,
+      "topology": "square plasma inside the original disk, then the production vacuum gap, then the 1 mm quartz shell"
+    },
+    "eps": [
+      -3.317759870618328,
+      0.001121496070290476
+    ],
+    "T_forward": [
+      -0.06367363039661757,
+      1.7704348407355908
+    ],
+    "R_back": [
+      -0.032416304611794296,
+      -0.011592331651558018
+    ],
+    "inside_over_vac": [
+      0.11761539712319465,
+      0.7587762366629089
+    ],
+    "just_out_over_vac": [
+      -1.4081778023872107,
+      2.654968615955939
+    ],
+    "mean_abs_Hz_inside": 0.08314776154887533,
+    "mean_abs_Hz_vac_inside": 0.06405856476338859
+  },
+  {
+    "n": 7,
+    "core": "square",
+    "level": "FEM-X",
+    "h": 0.012,
+    "h_edge": 0.004,
+    "n_nodes": 3028102,
+    "n_tris": 6050872,
+    "centers_a": [
+      [
+        0.0,
+        -1.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.8660254037844384,
+        -0.5
+      ],
+      [
+        -0.8660254037844384,
+        0.5
+      ],
+      [
+        -0.8660254037844384,
+        -0.5
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.8660254037844384,
+        0.5
+      ]
+    ],
+    "geometry": {
+      "plasma_radius_a": 0.22999999999999995,
+      "plasma_radius_mm": 4.599999999999999,
+      "square_side_a": 0.32526911934581176,
+      "square_side_mm": 6.505382386916236,
+      "square_half_side_a": 0.16263455967290588,
+      "circle_area_a2": 0.1661902513749,
+      "square_area_a2": 0.10579999999999994,
+      "square_over_circle_area": 0.6366197723675812,
+      "corner_radius_a": 0.22999999999999995,
+      "quartz_inner_a": 0.32499999999999996,
+      "quartz_outer_a": 0.375,
+      "min_clearance_to_quartz_inner_a": 0.095,
+      "min_clearance_to_quartz_inner_mm": 1.9,
+      "side_reduced": false,
+      "corners_on_plasma_circle": true,
+      "overlaps_quartz": false,
+      "topology": "square plasma inside the original disk, then the production vacuum gap, then the 1 mm quartz shell"
+    },
+    "eps": [
+      -3.317759870618328,
+      0.001121496070290476
+    ],
+    "T_forward": [
+      -0.2019359073034758,
+      1.77822490148999
+    ],
+    "R_back": [
+      -0.06893708061608027,
+      -0.02058673382097112
+    ],
+    "inside_over_vac": [
+      0.09246093682943181,
+      0.7309962940315539
+    ],
+    "just_out_over_vac": [
+      -1.7861845658287716,
+      2.60311346241706
+    ],
+    "mean_abs_Hz_inside": 0.0862110240566653,
+    "mean_abs_Hz_vac_inside": 0.0640621079637061
+  },
+  {
+    "n": 7,
+    "core": "square",
+    "level": "FEM-Y",
+    "h": 0.009,
+    "h_edge": 0.003,
+    "n_nodes": 5380106,
+    "n_tris": 10753100,
+    "centers_a": [
+      [
+        0.0,
+        -1.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.8660254037844384,
+        -0.5
+      ],
+      [
+        -0.8660254037844384,
+        0.5
+      ],
+      [
+        -0.8660254037844384,
+        -0.5
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.8660254037844384,
+        0.5
+      ]
+    ],
+    "geometry": {
+      "plasma_radius_a": 0.22999999999999995,
+      "plasma_radius_mm": 4.599999999999999,
+      "square_side_a": 0.32526911934581176,
+      "square_side_mm": 6.505382386916236,
+      "square_half_side_a": 0.16263455967290588,
+      "circle_area_a2": 0.1661902513749,
+      "square_area_a2": 0.10579999999999994,
+      "square_over_circle_area": 0.6366197723675812,
+      "corner_radius_a": 0.22999999999999995,
+      "quartz_inner_a": 0.32499999999999996,
+      "quartz_outer_a": 0.375,
+      "min_clearance_to_quartz_inner_a": 0.095,
+      "min_clearance_to_quartz_inner_mm": 1.9,
+      "side_reduced": false,
+      "corners_on_plasma_circle": true,
+      "overlaps_quartz": false,
+      "topology": "square plasma inside the original disk, then the production vacuum gap, then the 1 mm quartz shell"
+    },
+    "eps": [
+      -3.317759870618328,
+      0.001121496070290476
+    ],
+    "T_forward": [
+      -0.2738721204993876,
+      1.7753104104583208
+    ],
+    "R_back": [
+      -0.08771075035001859,
+      -0.03038510621365233
+    ],
+    "inside_over_vac": [
+      0.07951594246665818,
+      0.7218616662907691
+    ],
+    "just_out_over_vac": [
+      -1.9803553355287369,
+      2.543303277379558
+    ],
+    "mean_abs_Hz_inside": 0.08781457456994977,
+    "mean_abs_Hz_vac_inside": 0.06406225612952672
+  }
+]

@@ -4,7 +4,9 @@
 **CURVED_DRUDE_INTERFACE_ERROR**
 **TEMPORAL_DFT_NOT_CONVERGED**
 
-Update after the seven-bulb long run. The same seven-bulb geometry, continued to 1600 time units after the source, does not return to FEM. The complex forward error settles near 0.45 (−0.6 dB, −15°) and stays there. A 0.25-cell shift of that whole cluster drops the late error to about 0.05. The full record is in `SEVEN_BULB_LONGTIME.md`. The paragraph below is the earlier bare-disk conclusion and is unchanged.
+Update after the inscribed-square control. Replacing the seven circular plasma cores with axis-aligned inscribed squares does not remove the Meep–FEM error. On the original grid the square cluster settles near |Δ| ≈ 0.48 (−1.1 dB, −15°), with a boundary mode at 3.90 GHz and Q ≈ 800. One square, alone, settles immediately and stays within 0.15 dB of its own FEM solution, with no high-Q ring. The cluster error is not specific to curvature. The full record is in `SQUARE_CORE_CONTROL.md`. The seven-bulb circular time history remains in `SEVEN_BULB_LONGTIME.md`.
+
+Update after the seven-bulb long run. The same seven-bulb geometry, continued to 1600 time units after the source, does not return to FEM. The complex forward error settles near 0.45 (−0.6 dB, −15°) and stays there. A 0.25-cell shift of that whole cluster drops the late error to about 0.05. The paragraph below is the earlier bare-disk conclusion and is unchanged.
 
 The late field on the bare curved plasma boundary is a discrete Yee mode. Its frequency walks through 3.85 GHz as the grid is refined, and a half-cell shift moves it by hundreds of megahertz and changes its amplitude by more than ten. It is not the broad continuum Mie feature near 5.25 GHz. On the default 50 points/cm registration a run lasting about four decay times still sits +0.15 dB and +4° off the FEM/Mie forward ratio. The same physical disk, shifted by 0.25 cell, returns to that continuum value within 0.05 dB. Quartz does not remove the mode. From 1 to 7 bulbs the mode Q does not grow; the unfinished target-frequency error at a fixed short time does grow. A 19-bulb run was not justified. No 91-bulb run was launched.
 

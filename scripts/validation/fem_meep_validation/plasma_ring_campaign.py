@@ -214,14 +214,32 @@ def meep_main() -> None:
         E_susceptibilities=[mp.DrudeSusceptibility(frequency=fp, gamma=gamma, sigma=1.0)],
     )
     quartz = mp.Medium(epsilon=3.8)
+    core = core_name()
     center = mp.Vector3(float(shift[0]), float(shift[1]))
+
+    def plasma_shape(cc):
+        if core == "circle":
+            return mp.Cylinder(radius=R_DISK, center=cc, material=plasma)
+        half = inscribed_half_side()
+        if core == "square":
+            return mp.Block(size=mp.Vector3(2.0 * half, 2.0 * half, mp.inf), center=cc, material=plasma)
+        c45 = float(np.cos(np.pi / 4.0))
+        s45 = float(np.sin(np.pi / 4.0))
+        return mp.Block(
+            size=mp.Vector3(2.0 * half, 2.0 * half, mp.inf),
+            center=cc,
+            e1=mp.Vector3(c45, s45, 0.0),
+            e2=mp.Vector3(-s45, c45, 0.0),
+            material=plasma,
+        )
+
     if kind == "disk":
-        geom = [mp.Cylinder(radius=R_DISK, center=center, material=plasma)]
+        geom = [plasma_shape(center)]
     elif kind == "bulb":
         geom = [
             mp.Cylinder(radius=float(sc.r_bulb_outer), center=center, material=quartz),
             mp.Cylinder(radius=float(sc.r_bulb_inner), center=center, material=mp.Medium(epsilon=1.0)),
-            mp.Cylinder(radius=R_DISK, center=center, material=plasma),
+            plasma_shape(center),
         ]
     elif kind.startswith("cluster"):
         nbulbs = int(kind.replace("cluster", ""))
@@ -233,22 +251,22 @@ def meep_main() -> None:
                 [
                     mp.Cylinder(radius=float(sc.r_bulb_outer), center=cc, material=quartz),
                     mp.Cylinder(radius=float(sc.r_bulb_inner), center=cc, material=vac_med),
-                    mp.Cylinder(radius=R_DISK, center=cc, material=plasma),
+                    plasma_shape(cc),
                 ]
             )
     else:
         raise ValueError(kind)
     probes = _probes(dx, shift)
     if kind.startswith("cluster"):
-        # One probe just inside and just outside each plasma core, along +x
-        # in that bulb's frame. 2 dx off the radius, so the point is not on
-        # the Yee material boundary. Spacing is the production pitch.
+        # 2 dx off the plasma face, so the point is not on the material boundary.
+        inside_off, outside_off = _boundary_probe_offsets(dx, core)
         for i, c in enumerate(cluster_centers(int(kind.replace("cluster", "")))):
             base = np.asarray(c, float) + shift
-            probes[f"b{i}_in"] = (base + np.array([R_DISK - 2.0 * dx, 0.0])).tolist()
-            probes[f"b{i}_out"] = (base + np.array([R_DISK + 2.0 * dx, 0.0])).tolist()
+            probes[f"b{i}_in"] = (base + inside_off).tolist()
+            probes[f"b{i}_out"] = (base + outside_off).tolist()
     src = SRC_XY + shift
-    tag = f"{task}_{kind}_ppc{ppc:g}_ox{ox:g}_oy{oy:g}_u{until:g}"
+    core_tag = "" if core == "circle" else f"_{core}"
+    tag = f"{task}_{kind}_ppc{ppc:g}_ox{ox:g}_oy{oy:g}_u{until:g}{core_tag}"
 
     def one(geometry, with_harminv: bool, checkpoints: bool, run_until: float):
         sim = mp.Simulation(
@@ -389,6 +407,7 @@ def meep_main() -> None:
                 {
                     "task": task,
                     "kind": kind,
+                    "core": core,
                     "resolution": res_info,
                     "shift_a": shift.tolist(),
                     "until_after_sources": until,
@@ -441,6 +460,78 @@ def meep_main() -> None:
     print(f"{tag} EXIT modes={ {k: len(v) for k, v in disk['modes'].items()} }", flush=True)
 
 
+def core_name() -> str:
+    """circle, axis-aligned inscribed square, or the same square rotated 45 degrees."""
+    name = os.environ.get("RING_CORE", "circle")
+    if name not in ("circle", "square", "diamond"):
+        raise ValueError(name)
+    return name
+
+
+def inscribed_half_side() -> float:
+    """Half-side of the square whose corners lie on the production plasma circle.
+
+    Side length L = sqrt(2) * R, so the corner radius is R and the square
+    does not leave the original plasma disk.
+    """
+    return float(R_DISK) / np.sqrt(2.0)
+
+
+def core_geometry_record() -> dict:
+    r = float(R_DISK)
+    half = inscribed_half_side()
+    side = 2.0 * half
+    corner = half * np.sqrt(2.0)
+    r_in = float(sc.r_bulb_inner)
+    r_out = float(sc.r_bulb_outer)
+    clearance = r_in - corner
+    rec = {
+        "plasma_radius_a": r,
+        "plasma_radius_mm": r * float(sc.a) * 1e3,
+        "square_side_a": side,
+        "square_side_mm": side * float(sc.a) * 1e3,
+        "square_half_side_a": half,
+        "circle_area_a2": float(np.pi * r * r),
+        "square_area_a2": float(side * side),
+        "square_over_circle_area": float((side * side) / (np.pi * r * r)),
+        "corner_radius_a": float(corner),
+        "quartz_inner_a": r_in,
+        "quartz_outer_a": r_out,
+        "min_clearance_to_quartz_inner_a": float(clearance),
+        "min_clearance_to_quartz_inner_mm": float(clearance * float(sc.a) * 1e3),
+        "side_reduced": False,
+        "corners_on_plasma_circle": bool(abs(corner - r) < 1e-12),
+        "overlaps_quartz": bool(clearance <= 0.0),
+        "topology": "square plasma inside the original disk, then the production vacuum gap, then the 1 mm quartz shell",
+    }
+    if rec["overlaps_quartz"]:
+        raise RuntimeError(f"inscribed square reaches the quartz, clearance {clearance}")
+    return rec
+
+
+def _boundary_probe_offsets(dx: float, core: str) -> tuple[np.ndarray, np.ndarray]:
+    """Points 2 dx inside and outside the plasma face, not on the interface."""
+    if core == "circle":
+        return np.array([R_DISK - 2.0 * dx, 0.0]), np.array([R_DISK + 2.0 * dx, 0.0])
+    half = inscribed_half_side()
+    if core == "square":
+        return np.array([half - 2.0 * dx, 0.0]), np.array([half + 2.0 * dx, 0.0])
+    # Midpoint of the diamond edge that faces +x/+y, offset along its outward normal.
+    normal = np.array([1.0, 1.0]) / np.sqrt(2.0)
+    midpoint = np.array([float(R_DISK) / 2.0, float(R_DISK) / 2.0])
+    return midpoint - 2.0 * dx * normal, midpoint + 2.0 * dx * normal
+
+
+def _plasma_mask(origin: np.ndarray, center: np.ndarray, core: str) -> np.ndarray:
+    delta = origin - center
+    if core == "circle":
+        return np.linalg.norm(delta, axis=1) <= float(R_DISK)
+    half = inscribed_half_side()
+    if core == "square":
+        return (np.abs(delta[:, 0]) <= half) & (np.abs(delta[:, 1]) <= half)
+    return np.abs(delta[:, 0]) + np.abs(delta[:, 1]) <= float(R_DISK)
+
+
 def cluster_centers(n: int) -> np.ndarray:
     """Production hex lattice, origin at the central bulb. Distances are in units of a."""
     locs = np.load(OUT / "bulb_locs.npz")["locs"]
@@ -484,17 +575,30 @@ def fem_cluster(n: int) -> None:
     )
 
     OUT.mkdir(parents=True, exist_ok=True)
+    core = core_name()
+    geom_rec = core_geometry_record()
     centers = cluster_centers(n)
-    (OUT / f"cluster{n}_centers.json").write_text(
-        json.dumps({"n": n, "centers_a": centers.tolist()}, indent=2) + "\n"
+    stem = f"cluster{n}" if core == "circle" else f"cluster{n}_{core}"
+    (OUT / f"{stem}_centers.json").write_text(
+        json.dumps({"n": n, "core": core, "centers_a": centers.tolist(), "geometry": geom_rec}, indent=2) + "\n"
     )
+    (OUT / "square_core_geometry.json").write_text(json.dumps(geom_rec, indent=2) + "\n")
     tr = _tri()
     r_out = float(sc.r_bulb_outer)
     r_in = float(sc.r_bulb_inner)
     eps_p = complex(eps_tensor_at_bias(0.0)[0])
     rho_p = rho_from_eps(eps_p, 0j, 0j, eps_p)
-    levels = [("FEM-C", 0.030, 0.012), ("FEM-F", 0.018, 0.007)]
-    rows = []
+    if os.environ.get("RING_FEM_LEVEL"):
+        levels = [(
+            os.environ["RING_FEM_LEVEL"],
+            float(os.environ["RING_FEM_H"]),
+            float(os.environ["RING_FEM_HE"]),
+        )]
+        prior = OUT / f"fem_{stem}.json"
+        rows = json.loads(prior.read_text()) if prior.exists() else []
+    else:
+        levels = [("FEM-C", 0.030, 0.012), ("FEM-F", 0.018, 0.007)]
+        rows = []
     for name, h, h_edge in levels:
         print(f"=== FEM cluster{n} {name} ===", flush=True)
         verts: list[list[float]] = []
@@ -527,13 +631,29 @@ def fem_cluster(n: int) -> None:
         corners = [(0.0, 0.0), (LX, 0.0), (LX, LY), (0.0, LY)]
         for i in range(4):
             add_chain(linspace_edge(corners[i], corners[(i + 1) % 4], h), closed=False)
+        half = inscribed_half_side()
         for c in centers:
             mesh_c = origin_to_mesh(c)
-            for radius in (R_DISK, r_in, r_out):
+            if core == "circle":
+                radii = (R_DISK, r_in, r_out)
+            else:
+                radii = (r_in, r_out)
+            for radius in radii:
                 m = max(32, int(np.ceil(2 * np.pi * radius / h_edge)))
                 ang = np.linspace(0.0, 2 * np.pi, m, endpoint=False)
                 ring = mesh_c + radius * np.column_stack([np.cos(ang), np.sin(ang)])
                 add_chain(ring, closed=True)
+            if core != "circle":
+                local = np.array([[-half, -half], [half, -half], [half, half], [-half, half]], float)
+                if core == "diamond":
+                    rot = np.array([[np.cos(np.pi / 4), -np.sin(np.pi / 4)], [np.sin(np.pi / 4), np.cos(np.pi / 4)]])
+                    local = local @ rot.T
+                corners_sq = mesh_c + local
+                loop = []
+                for i in range(4):
+                    edge = linspace_edge(corners_sq[i], corners_sq[(i + 1) % 4], h_edge)
+                    loop.append(edge[:-1])
+                add_chain(np.vstack(loop), closed=True)
         amax = 0.45 * h * h
         mesh = tr.triangulate(
             {"vertices": np.asarray(verts, float), "segments": np.asarray(segs, np.int32)},
@@ -565,8 +685,10 @@ def fem_cluster(n: int) -> None:
                 origin = mesh_to_origin(pts[tris].mean(1))
                 for c in centers:
                     rad = np.linalg.norm(origin - c, axis=1)
-                    plasma = rad <= R_DISK
+                    plasma = _plasma_mask(origin, c, core)
                     quartz = (rad > r_in) & (rad <= r_out)
+                    if np.any(plasma & quartz):
+                        raise RuntimeError("plasma square overlaps the quartz shell")
                     rho[0][plasma] = rho_p[0]
                     rho[3][plasma] = rho_p[3]
                     rho[0][quartz] = 1.0 / 3.8
@@ -588,23 +710,26 @@ def fem_cluster(n: int) -> None:
         ratios = field_ratios(xy[:, 0], out["Hz_vac"], out["Hz_disk"])
         rec = {
             "n": n,
+            "core": core,
             "level": name,
             "h": h,
+            "h_edge": h_edge,
             "n_nodes": int(len(pts)),
             "n_tris": int(len(tris)),
             "centers_a": centers.tolist(),
+            "geometry": geom_rec,
             "eps": [eps_p.real, eps_p.imag],
             **ratios,
         }
         print(name, "DOFs", rec["n_nodes"], "T", rec["T_forward"], flush=True)
         rows.append(rec)
         np.savez_compressed(
-            OUT / f"fem_cluster{n}_{name}.npz",
+            OUT / f"fem_{stem}_{name}.npz",
             x=xy[:, 0],
             Hz_vac=out["Hz_vac"],
             Hz_disk=out["Hz_disk"],
         )
-        (OUT / f"fem_cluster{n}.json").write_text(json.dumps(rows, indent=2) + "\n")
+        (OUT / f"fem_{stem}.json").write_text(json.dumps(rows, indent=2) + "\n")
     if len(rows) == 2:
         a = complex(*rows[0]["T_forward"])
         b = complex(*rows[1]["T_forward"])
@@ -781,6 +906,12 @@ def main() -> int:
         return 0
     if cmd == "fem-cluster":
         fem_cluster(int(sys.argv[2]))
+        return 0
+    if cmd == "core-geometry":
+        rec = core_geometry_record()
+        OUT.mkdir(parents=True, exist_ok=True)
+        (OUT / "square_core_geometry.json").write_text(json.dumps(rec, indent=2) + "\n")
+        print(json.dumps(rec, indent=2), flush=True)
         return 0
     raise SystemExit(f"unknown command {cmd}")
 

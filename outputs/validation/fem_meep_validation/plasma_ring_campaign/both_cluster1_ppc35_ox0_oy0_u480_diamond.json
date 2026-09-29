@@ -1,0 +1,88 @@
+{
+  "task": "both",
+  "kind": "cluster1",
+  "resolution": {
+    "points_per_cm": 35.0,
+    "dx_mm": 0.2857142857142857,
+    "meep_resolution": 70.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.014285714285714285,
+    "grid_spacing_mm": 0.2857142857142857,
+    "pixels_per_lattice_20mm": 70.0,
+    "pixels_per_free_space_lambda0": 272.53859818181826,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 35.0,
+    "meaning": "points_per_cm is the physical grid density. dx_mm = 10/points_per_cm. meep_resolution = a_m/dx_m = 2*points_per_cm when a_m=0.020 m. pixels_per_free_space_lambda0 is cells per vacuum wavelength at 3.85 GHz, and is not the 25/35/50 label."
+  },
+  "offset_cells": [
+    0.0,
+    0.0
+  ],
+  "shift_a": [
+    0.0,
+    0.0
+  ],
+  "until_after_sources": 480.0,
+  "probes": {
+    "center": [
+      0.0,
+      0.0
+    ],
+    "inside": [
+      0.20142857142857137,
+      0.0
+    ],
+    "outside": [
+      0.2585714285714285,
+      0.0
+    ],
+    "outside_far": [
+      0.31571428571428567,
+      0.0
+    ],
+    "forward": [
+      3.0,
+      0.0
+    ],
+    "vacuum": [
+      0.0,
+      2.0
+    ],
+    "inside_hot": [
+      -0.18275827931609012,
+      -0.0846928611464808
+    ],
+    "outside_hot": [
+      -0.23460459968944902,
+      -0.10871920473413492
+    ],
+    "b0_in": [
+      0.09479694910895577,
+      0.09479694910895577
+    ],
+    "b0_out": [
+      0.1352030508910442,
+      0.1352030508910442
+    ]
+  },
+  "fwidth_a": 0.05136887066051541,
+  "fs_GHz": 3.849999999999999,
+  "fp_GHz": 8.000000000000002,
+  "wall_disk_s": 414.6953458408825,
+  "modes": {
+    "b0_out": [
+      {
+        "f_a": 0.2697013430108567,
+        "f_GHz": 4.042721427356292,
+        "decay_a": -0.003944460554406937,
+        "Q": 34.18735455593968,
+        "amp_re": -0.007936406875500027,
+        "amp_im": -0.004792075489140597,
+        "amp_abs": 0.009270951493083447,
+        "err": 3.247977404068662e-10
+      }
+    ]
+  },
+  "wall_vac_s": 17.077622899087146
+}

@@ -1,0 +1,77 @@
+{
+  "label": "fem_validation_meep_P1_all6_ppc25_df0.10",
+  "timestamp_utc": "2026-09-22T05:38:55.367229+00:00",
+  "settings": {
+    "points_per_cm": 25.0,
+    "res": 50,
+    "run_time": 20.0,
+    "source_df": 0.025684435330257705,
+    "df_frac": 0.1,
+    "formulation": "num_mode_guide_normal",
+    "device_mode": "full",
+    "B": [
+      0,
+      0,
+      0
+    ],
+    "horn_walls": "prism",
+    "grid_offset_cells": [
+      0,
+      0
+    ],
+    "coord_rotation_deg": 0.0,
+    "rho": "uniform_fp_8GHz"
+  },
+  "physical_resolution": {
+    "points_per_cm": 25.0,
+    "dx_mm": 0.4,
+    "meep_resolution": 50.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.02,
+    "grid_spacing_mm": 0.4,
+    "pixels_per_lattice_20mm": 50.0,
+    "pixels_per_free_space_lambda0": 194.6704272727273,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 25.0
+  },
+  "incident_power": 2909.7210690501206,
+  "normalized_power_by_port": {
+    "0": 0.16826699269846146,
+    "1": 0.013729682,
+    "2": 0.00220668062,
+    "3": 0.318803961,
+    "4": 0.00220668062,
+    "5": 0.013729682
+  },
+  "P11_broken_no_flux_subtraction": -0.859989257,
+  "P11_reconstructed_plus1": 0.14001074300000005,
+  "P11_trusted_prior_P1P2_study": 0.16826699269846146,
+  "P1_to_P2": 0.013729682,
+  "P1_to_P3": 0.00220668062,
+  "P1_to_P4": 0.318803961,
+  "P1_to_P5": 0.00220668062,
+  "P1_to_P6": 0.013729682,
+  "notes": [
+    "Meep device run completed; JSON write failed on physical_resolution_report API (fixed).",
+    "Pickled FluxData E/H are all zeros \u2192 load_minus_flux_data was a no-op \u2192 P11 negative.",
+    "Transmission ports P2\u2013P6 do not need flux subtraction and match prior P1\u2192P2 bit-exactly.",
+    "For FEM comparison use P11 from trusted prior P1P2 study; transmissions from this run."
+  ],
+  "comparison_powers": {
+    "0": 0.16826699269846146,
+    "1": 0.013729682,
+    "2": 0.00220668062,
+    "3": 0.318803961,
+    "4": 0.00220668062,
+    "5": 0.013729682
+  },
+  "power_dB_by_port": {
+    "0": -7.740010669997956,
+    "1": -18.623395215574618,
+    "2": -26.562605191304858,
+    "3": -4.964762913231143,
+    "4": -26.562605191304858,
+    "5": -18.623395215574618
+  }
+}

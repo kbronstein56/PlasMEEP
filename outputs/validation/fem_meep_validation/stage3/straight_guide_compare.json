@@ -1,0 +1,23 @@
+{
+  "fem": {
+    "P_ref": 1.189486868445306,
+    "P_down": 1.1896751796293281,
+    "P_upstream": -0.9853013732681981,
+    "T_down_over_ref": 1.0001583129574758,
+    "n_nodes": 73322,
+    "h_a": 0.05
+  },
+  "meep": {
+    "P_ref": 1436.0052523435388,
+    "P_down": 1436.2098283010785,
+    "P_upstream": -1435.226692542284,
+    "T_down_over_ref": 1.0001424618449033,
+    "wall_s": 14.583415303961374,
+    "res": 40,
+    "fwidth": 0.025684435330257705
+  },
+  "fem_T_dB": 0.0006874900206018724,
+  "meep_T_dB": 0.0006186598645660027,
+  "fem_minus_meep_T_dB": 6.883015603586975e-05,
+  "note": "Each T is P_down/P_ref within that solver. Ideal lossless guide: T_dB ~ 0. Difference isolates port/solver physics from absolute source amplitude."
+}

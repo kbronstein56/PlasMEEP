@@ -1,0 +1,21 @@
+{
+  "FEM-H_validated_path_timings_s": {
+    "note": "From rho0-walls field_sub run; port PP still expensive (~3s) due to nodal E reconstruction",
+    "factor": 5.674278821970802,
+    "solve_one_rhs": 0.18588398897554725,
+    "n_nodes": 661890,
+    "nnz": 4631312,
+    "estimated_extra_rhs_solve_s": 0.18,
+    "estimated_six_port_candidate_s_excluding_incident": null,
+    "measured_extra_rhs_solves_s_prior_run": [
+      0.17905547603731975,
+      0.17562009498942643,
+      0.18782767601078376,
+      0.17495406599482521,
+      0.1641863770200871
+    ],
+    "mean_extra_rhs_s": 0.17632873801048846,
+    "factor_plus_first_solve_s": 5.860162810946349,
+    "estimated_six_solve_only_s": 6.741806500998791
+  }
+}

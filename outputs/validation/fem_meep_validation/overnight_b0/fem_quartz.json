@@ -1,0 +1,178 @@
+[
+  {
+    "kind": "quartz",
+    "level": "FEM-H",
+    "n_nodes": 444775,
+    "n_tris": 886220,
+    "mesh_s": 1.2618487029103562,
+    "material_s": 0.8453263719566166,
+    "assemble_s": 4.479647013009526,
+    "factor_s": 13.68408830894623,
+    "solve_s": 0.4599632649915293,
+    "residual": 3.3788334616900123e-13,
+    "P_inc": 1.4457519531973158,
+    "normalized": [
+      -0.9143454946381395,
+      0.04336107633266222,
+      0.0255368218332838,
+      0.7220792861432722,
+      0.025536821833284533,
+      0.04336107633266109
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 104804,
+      "edge_min_a": 4.145845036508666e-05,
+      "edge_median_a": 0.015926371485934638,
+      "edge_max_a": 0.020374366553341926,
+      "min_elements_across_wall": 7,
+      "median_elements_across_wall": 8.0
+    },
+    "operator": {
+      "pec_elements": 43476,
+      "pec_active_dofs_pinned": 16050,
+      "empty_rows_pinned": 16050,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 104804,
+    "n_metal_tris": 43476
+  },
+  {
+    "kind": "quartz",
+    "level": "FEM-VH",
+    "n_nodes": 890959,
+    "n_tris": 1776414,
+    "mesh_s": 7.343974136048928,
+    "material_s": 5.627037115977146,
+    "assemble_s": 12.979620062047616,
+    "factor_s": 36.91269542090595,
+    "solve_s": 1.134896236937493,
+    "residual": 4.720917173942196e-13,
+    "P_inc": 1.4752630250344203,
+    "normalized": [
+      -0.8935772443698254,
+      0.04274241915361525,
+      0.024891831882606,
+      0.7052574665021643,
+      0.02489183188260749,
+      0.042742419153612064
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 248084,
+      "edge_min_a": 1.7471044082546982e-05,
+      "edge_median_a": 0.00997294195443764,
+      "edge_max_a": 0.013062974471726711,
+      "min_elements_across_wall": 9,
+      "median_elements_across_wall": 11.5
+    },
+    "operator": {
+      "pec_elements": 78440,
+      "pec_active_dofs_pinned": 30142,
+      "empty_rows_pinned": 30142,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 248084,
+    "n_metal_tris": 78440
+  },
+  {
+    "kind": "quartz",
+    "level": "FEM-QF",
+    "n_nodes": 1107918,
+    "n_tris": 2210332,
+    "mesh_s": 7.950467769987881,
+    "material_s": 11.959260859992355,
+    "assemble_s": 21.770300053060055,
+    "factor_s": 42.9320327519672,
+    "solve_s": 1.3593242010101676,
+    "residual": 5.165898170472802e-13,
+    "P_inc": 1.4752251578527764,
+    "normalized": [
+      -0.89364132336388,
+      0.04280161807933079,
+      0.024882607679123835,
+      0.7053064129640931,
+      0.024882607679123796,
+      0.042801618079325275
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 610238,
+      "edge_min_a": 7.806251798395119e-06,
+      "edge_median_a": 0.005996450701747377,
+      "edge_max_a": 0.008190481512931592,
+      "min_elements_across_wall": 17,
+      "median_elements_across_wall": 17.0
+    },
+    "operator": {
+      "pec_elements": 80176,
+      "pec_active_dofs_pinned": 30706,
+      "empty_rows_pinned": 30706,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 610238,
+    "n_metal_tris": 80176
+  },
+  {
+    "kind": "quartz",
+    "level": "FEM-VB",
+    "n_nodes": 1417429,
+    "n_tris": 2827990,
+    "mesh_s": 11.118231912958436,
+    "material_s": 15.037828946951777,
+    "assemble_s": 25.94507422100287,
+    "factor_s": 105.59152049594559,
+    "solve_s": 2.958649677922949,
+    "residual": 6.030882032659439e-13,
+    "P_inc": 1.4747626080090763,
+    "normalized": [
+      -0.8928025905471414,
+      0.042758468940500644,
+      0.024826150896784027,
+      0.7045656126640901,
+      0.02482615089678742,
+      0.04275846894050666
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 247922,
+      "edge_min_a": 1.7236579490946032e-05,
+      "edge_median_a": 0.009972942131044453,
+      "edge_max_a": 0.013062974471726711,
+      "min_elements_across_wall": 9,
+      "median_elements_across_wall": 11.5
+    },
+    "operator": {
+      "pec_elements": 123412,
+      "pec_active_dofs_pinned": 50008,
+      "empty_rows_pinned": 50008,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 247922,
+    "n_metal_tris": 123412
+  }
+]

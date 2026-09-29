@@ -1,0 +1,119 @@
+{
+  "all_pass": true,
+  "checks": [
+    {
+      "name": "B0_isotropic",
+      "pass": true,
+      "eps_perp": [
+        -3.317759870618328,
+        0.001121496070290476
+      ],
+      "eta": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "B_reversal_offdiag",
+      "pass": true,
+      "eps_xy_plus": [
+        -0.00047171987668800724,
+        -0.8736483083355954
+      ],
+      "eps_xy_minus": [
+        0.00047171987668800724,
+        0.8736483083355954
+      ],
+      "rho_xy_plus": [
+        -1.2038941906861886e-05,
+        0.07662425684690898
+      ],
+      "rho_xy_minus": [
+        1.2038941906861886e-05,
+        -0.07662425684690898
+      ]
+    },
+    {
+      "name": "faraday_kappa_B_reversal",
+      "pass": true,
+      "kappa_plusB": [
+        -0.00013798363119638156,
+        -0.3805115457795989
+      ],
+      "kappa_minusB": [
+        0.00013798363119638156,
+        0.3805115457795989
+      ],
+      "abs_kappa": 0.3805115707978698,
+      "faraday_reference": {
+        "file": "/home/daq_user/PlasMEEP/outputs/validation/faraday_res64.json",
+        "keys": [
+          "commit",
+          "meep_version",
+          "parameters",
+          "gates",
+          "theory",
+          "results",
+          "diagnostics",
+          "status"
+        ],
+        "results": {
+          "B=0": {
+            "kappa_rad_per_a": 0.0,
+            "kappa_deg_per_a": 0.0,
+            "fit_intercept_rad": 0.0,
+            "fit_rmse_rad": 0.0,
+            "fit_r2": NaN,
+            "psi_span_rad": 0.0,
+            "z_fit_span_a": [
+              -7.4765625,
+              8.4765625
+            ],
+            "n_fit_points": 1022,
+            "Bz_T": 0.0
+          },
+          "+B": {
+            "kappa_rad_per_a": -0.07847925391296001,
+            "kappa_deg_per_a": -4.49653002854816,
+            "fit_intercept_rad": -0.6674478245685073,
+            "fit_rmse_rad": 9.76299164573407e-05,
+            "fit_r2": 0.999999927172418,
+            "psi_span_rad": 1.2517766127028296,
+            "z_fit_span_a": [
+              -7.4765625,
+              8.4765625
+            ],
+            "n_fit_points": 1022,
+            "Bz_T": 0.05
+          },
+          "-B": {
+            "kappa_rad_per_a": 0.07847925391296001,
+            "kappa_deg_per_a": 4.49653002854816,
+            "fit_intercept_rad": 0.6674478245685073,
+            "fit_rmse_rad": 9.76299164573407e-05,
+            "fit_r2": 0.999999927172418,
+            "psi_span_rad": 1.2517766127028296,
+            "z_fit_span_a": [
+              -7.4765625,
+              8.4765625
+            ],
+            "n_fit_points": 1022,
+            "Bz_T": -0.05
+          }
+        }
+      }
+    },
+    {
+      "name": "meep_tensor_signs",
+      "pass": true,
+      "eta": [
+        0.8736483083355954,
+        -0.00047171987668800724
+      ]
+    }
+  ],
+  "fs_a": 0.25684435330257704,
+  "fp_a": 0.5337025523170433,
+  "gamma_a": 6.671281903963041e-05,
+  "bias_test": 0.05
+}

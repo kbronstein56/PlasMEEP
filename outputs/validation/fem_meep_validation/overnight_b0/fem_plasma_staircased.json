@@ -1,0 +1,90 @@
+[
+  {
+    "kind": "plasma",
+    "level": "FEM-VH",
+    "n_nodes": 890959,
+    "n_tris": 1776414,
+    "mesh_s": 10.6005804319866,
+    "material_s": 25.079740906017832,
+    "assemble_s": 21.582917106105015,
+    "factor_s": 45.21803191793151,
+    "solve_s": 1.0933865630067885,
+    "residual": 4.4941702414022337e-13,
+    "P_inc": 1.4752630250344203,
+    "normalized": [
+      -0.3751222837696343,
+      0.009404967395984768,
+      0.0747881360917513,
+      0.0296994498435793,
+      0.07492094777876987,
+      0.007571721323595677
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 248084,
+      "edge_min_a": 1.7471044082546982e-05,
+      "edge_median_a": 0.00997294195443764,
+      "edge_max_a": 0.013062974471726711,
+      "min_elements_across_wall": 9,
+      "median_elements_across_wall": 11.5
+    },
+    "operator": {
+      "pec_elements": 78440,
+      "pec_active_dofs_pinned": 30142,
+      "empty_rows_pinned": 30142,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 248084,
+    "n_metal_tris": 78440
+  },
+  {
+    "kind": "plasma",
+    "level": "FEM-VB",
+    "n_nodes": 1417429,
+    "n_tris": 2827990,
+    "mesh_s": 11.23892435990274,
+    "material_s": 31.79271986905951,
+    "assemble_s": 25.536158159957267,
+    "factor_s": 102.64360882807523,
+    "solve_s": 2.778001271071844,
+    "residual": 9.032787057357e-13,
+    "P_inc": 1.4747626080090763,
+    "normalized": [
+      -0.6819505215455255,
+      0.021729189144726893,
+      0.08939944173358526,
+      0.029841624011413274,
+      0.08939944173359948,
+      0.021729189144717276
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 247922,
+      "edge_min_a": 1.7236579490946032e-05,
+      "edge_median_a": 0.009972942131044453,
+      "edge_max_a": 0.013062974471726711,
+      "min_elements_across_wall": 9,
+      "median_elements_across_wall": 11.5
+    },
+    "operator": {
+      "pec_elements": 123412,
+      "pec_active_dofs_pinned": 50008,
+      "empty_rows_pinned": 50008,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 247922,
+    "n_metal_tris": 123412
+  }
+]

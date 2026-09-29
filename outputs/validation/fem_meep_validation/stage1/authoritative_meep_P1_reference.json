@@ -1,0 +1,78 @@
+{
+  "label": "authoritative_meep_P1_column_ppc25_df0.10_B0",
+  "timestamp_utc": "2026-09-27T00:30:26.956689+00:00",
+  "sources": {
+    "transmission_P2_to_P6": "outputs/validation/fem_meep_validation/phase2/meep_P1_all6_ppc25_df0.10.json (device run 2026-09-22; P1->P2 bit-matches prior study)",
+    "P11": "outputs/validation/hires_ports/full_num_mode_guide_normal_P1P2_ppc25_rt20.json (flux subtraction worked; this run's pickled FluxData was all zeros so P11 was not remeasured)",
+    "incident_power": "scripts/validation/.cache/norm_num_mode_guide_normal_full_prism_rot0_pec_g0_0_m0_0_ppc25_res50_rt20_p0.pkl",
+    "mode": "outputs/validation/fem_meep_validation/phase2/numerical_mode_P1_res50.json"
+  },
+  "settings": {
+    "points_per_cm": 25.0,
+    "res": 50,
+    "run_time": 20.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      0,
+      1
+    ],
+    "nx_ports": 30,
+    "ny_ports": 28,
+    "dpml_ports": 2.0,
+    "a": 0.02,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "num_mode_guide_normal",
+    "device_mode": "full",
+    "grid_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "monitor_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "wall_mode": "pec",
+    "horn_walls": "prism",
+    "coord_rotation_deg": 0.0,
+    "flare_steps": 4,
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_guide_normal_full_prism_rot0_pec_g0_0_m0_0_ppc25_res50_rt20_p01.pkl"
+  },
+  "incident_power_P1": 2909.7210690501206,
+  "normalized_power": {
+    "P11": 0.16826699269846146,
+    "P1_to_P2": 0.013729682,
+    "P1_to_P3": 0.00220668062,
+    "P1_to_P4": 0.318803961,
+    "P1_to_P5": 0.00220668062,
+    "P1_to_P6": 0.013729682
+  },
+  "source_center_origin_a": [
+    11.25512701892219,
+    0.0
+  ],
+  "source_tangent": [
+    0.0,
+    1.0
+  ],
+  "source_outward": [
+    1.0,
+    -0.0
+  ],
+  "monitor_center_P1_origin_a": [
+    10.05512701892219,
+    0.0
+  ],
+  "clear_width_a": 2.0,
+  "span_factor": 0.96,
+  "n_mode_samples": 64,
+  "fs_a": 0.25684435330257704,
+  "source_df": 0.025684435330257705,
+  "caveat": "P11 is from the prior two-port study, not recomputed in the all-six run, because load_minus_flux_data saw zero FluxData. P2 matches that study to 1e-12 relative."
+}

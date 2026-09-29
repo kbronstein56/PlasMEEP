@@ -1,0 +1,64 @@
+{
+  "meep_file": "outputs/validation/fem_meep_validation/phase2/meep_P1_all6_ppc25_df0.10.json",
+  "fem_file": "outputs/validation/fem_meep_validation/phase6/femH_B0_best_field_sub.json",
+  "rows": [
+    {
+      "port": "P1->P1",
+      "meep_power": 0.16826699269846146,
+      "fem_power": 0.09835627111486987,
+      "meep_dB": -7.740010669997956,
+      "fem_dB": -10.0719794460324,
+      "FEM_minus_Meep_dB": -2.3319687760344436,
+      "relative_power_error": -0.4154749571644945
+    },
+    {
+      "port": "P1->P2",
+      "meep_power": 0.013729682,
+      "fem_power": 0.026025811455445278,
+      "meep_dB": -18.623395215574618,
+      "fem_dB": -15.845957207942465,
+      "FEM_minus_Meep_dB": 2.7774380076321528,
+      "relative_power_error": 0.8955873453911953
+    },
+    {
+      "port": "P1->P3",
+      "meep_power": 0.00220668062,
+      "fem_power": 0.018481227300428463,
+      "meep_dB": -26.562605191304858,
+      "fem_dB": -17.332691915517735,
+      "FEM_minus_Meep_dB": 9.229913275787123,
+      "relative_power_error": 7.375125576817031
+    },
+    {
+      "port": "P1->P4",
+      "meep_power": 0.318803961,
+      "fem_power": 0.36079219045087935,
+      "meep_dB": -4.964762913231143,
+      "fem_dB": -4.42742871575761,
+      "FEM_minus_Meep_dB": 0.5373341974735322,
+      "relative_power_error": 0.13170548232579618
+    },
+    {
+      "port": "P1->P5",
+      "meep_power": 0.00220668062,
+      "fem_power": 0.018848168973950523,
+      "meep_dB": -26.562605191304858,
+      "fem_dB": -17.247308334228443,
+      "FEM_minus_Meep_dB": 9.315296857076415,
+      "relative_power_error": 7.541412292799547
+    },
+    {
+      "port": "P1->P6",
+      "meep_power": 0.013729682,
+      "fem_power": 0.025314961091729635,
+      "meep_dB": -18.623395215574618,
+      "fem_dB": -15.966227357730954,
+      "FEM_minus_Meep_dB": 2.657167857843664,
+      "relative_power_error": 0.8438126310376042
+    }
+  ],
+  "max_abs_dB_error": 9.315296857076415,
+  "rms_dB_error": 5.663737928511823,
+  "transmitted_ports_P2_P6_max_abs_dB": 9.315296857076415,
+  "verdict_band": "inconsistent (>1 dB)"
+}

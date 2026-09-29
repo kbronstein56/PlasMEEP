@@ -1,0 +1,72 @@
+{
+  "scale": {
+    "real": 0.5693111967749922,
+    "imag": 31.884982886550674,
+    "abs": 31.89006505033194,
+    "n_feed": 19
+  },
+  "P1_axis": {
+    "n_air": 900,
+    "complex_rel_l2": 0.0877233675017521,
+    "magnitude_rel_l2": 0.031323638990675584,
+    "mean_phase_offset_rad": -0.06744173662796268,
+    "mean_phase_offset_deg": -3.864126871815118,
+    "phase_slope_fem": 1.5653128888216379,
+    "phase_slope_meep": 1.287032671005783,
+    "phase_slope_difference": 0.278280217815855,
+    "feed_window_rel_l2": 0.018300786659604013,
+    "diverge_s_a": 6.145194890955638,
+    "local_gradient": {
+      "median_dphi_ds_fem": 1.2905555266908633,
+      "median_dphi_ds_meep": 1.2972121082092691
+    }
+  },
+  "diag_plus60_P2": {
+    "n_air": 700,
+    "complex_rel_l2": 0.08671791862410125,
+    "magnitude_rel_l2": 0.04313124927407033,
+    "mean_phase_offset_rad": -0.0627528178668917,
+    "mean_phase_offset_deg": -3.59547161632604,
+    "phase_slope_fem": -0.6573479042111672,
+    "phase_slope_meep": -0.6561286596618539,
+    "phase_slope_difference": -0.0012192445493133253,
+    "feed_window_rel_l2": 0.18368372659429194,
+    "diverge_s_a": 13.848354792560801,
+    "local_gradient": {
+      "median_dphi_ds_fem": -0.5425121972129716,
+      "median_dphi_ds_meep": -0.552727924744687
+    }
+  },
+  "diag_minus60_P6": {
+    "n_air": 700,
+    "complex_rel_l2": 0.08671791862410873,
+    "magnitude_rel_l2": 0.04313124927406827,
+    "mean_phase_offset_rad": -0.06275281786690641,
+    "mean_phase_offset_deg": -3.5954716163268827,
+    "phase_slope_fem": -0.6573479042111573,
+    "phase_slope_meep": -0.6561286596618537,
+    "phase_slope_difference": -0.0012192445493035553,
+    "feed_window_rel_l2": 0.18368372659443133,
+    "diverge_s_a": 13.848354792560801,
+    "local_gradient": {
+      "median_dphi_ds_fem": -0.5425121972129929,
+      "median_dphi_ds_meep": -0.552727924744687
+    }
+  },
+  "transverse_x0": {
+    "n_air": 500,
+    "complex_rel_l2": 0.11085481278565769,
+    "magnitude_rel_l2": 0.05335222085321977,
+    "mean_phase_offset_rad": -0.09251961535821507,
+    "mean_phase_offset_deg": -5.3009834821994755,
+    "phase_slope_fem": -1.9261485452320744e-16,
+    "phase_slope_meep": -3.693803056102322e-16,
+    "phase_slope_difference": 1.7676545108702478e-16,
+    "feed_window_rel_l2": 0.16321688734234188,
+    "diverge_s_a": null,
+    "local_gradient": {
+      "median_dphi_ds_fem": -5.773159728050814e-14,
+      "median_dphi_ds_meep": 7.993605777301127e-15
+    }
+  }
+}

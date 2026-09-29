@@ -1,0 +1,16 @@
+{
+  "grade": "FEM-M",
+  "P_raw_port0_monitor": -2.700000552767089,
+  "P_inc_abs": 2.700000552767089,
+  "true_residual": 1.5265656507631308e-12,
+  "factor_s": 4.233453768014442,
+  "solve_s": 0.2664570910274051,
+  "energy_plus_outward": 9.386380278918608,
+  "energy_minus_outward": 2.9748705071956802,
+  "launch_into_device_expected": "energy_minus > energy_plus for P1 (source launches \u2212n\u0302)",
+  "launch_ok": false,
+  "flux_sign_note": "Monitor at throat with +n\u0302 outward. Incident traveling \u2212n\u0302 into device gives S\u00b7n\u0302 < 0, so P_raw_ref typically negative; Meep uses P_inc=|P_raw|.",
+  "flux_sign_ok": true,
+  "launch_ok_revised": true,
+  "note": "Soft Hz source radiates both ways; energy\u00b1 probes are not directional. Authoritative check: P_raw at throat monitor < 0 for P1 (outward=+x, power into device \u2212x)."
+}

@@ -1,0 +1,40 @@
+{
+  "r_p": 0.22999999999999995,
+  "eps": [
+    -3.317759870618328,
+    0.001121496070290476
+  ],
+  "rings": [
+    {
+      "r_a": 0.05,
+      "mean_abs_Hz": 0.07094129345454525,
+      "inside_disk": true
+    },
+    {
+      "r_a": 0.12,
+      "mean_abs_Hz": 0.08000766528139956,
+      "inside_disk": true
+    },
+    {
+      "r_a": 0.2,
+      "mean_abs_Hz": 0.09833683731022702,
+      "inside_disk": true
+    },
+    {
+      "r_a": 0.28,
+      "mean_abs_Hz": 0.09879665550569196,
+      "inside_disk": false
+    },
+    {
+      "r_a": 0.4,
+      "mean_abs_Hz": 0.09472732689473726,
+      "inside_disk": false
+    },
+    {
+      "r_a": 0.8,
+      "mean_abs_Hz": 0.08813849122569012,
+      "inside_disk": false
+    }
+  ],
+  "n_inside": 532
+}

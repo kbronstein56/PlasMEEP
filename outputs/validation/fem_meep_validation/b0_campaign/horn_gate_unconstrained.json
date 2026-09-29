@@ -1,0 +1,11 @@
+{
+  "horn_gate_pass": false,
+  "worst_dB": 0.22894245220398157,
+  "symmetry_dB": 1.3389686873094455e-12,
+  "levels": [
+    "FEM-M",
+    "FEM-H",
+    "FEM-H+",
+    "FEM-VH"
+  ]
+}

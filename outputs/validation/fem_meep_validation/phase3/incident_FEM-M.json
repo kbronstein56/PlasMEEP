@@ -1,0 +1,9 @@
+{
+  "P_raw_ref": -2.700000552767089,
+  "P_inc": 2.700000552767089,
+  "true_residual": 1.5265656507631308e-12,
+  "factor_s": 1.505672826024238,
+  "solve_s": 0.0572514189989306,
+  "pec_frac": 0.04969121707844836,
+  "sign_note": "P_inc=|P_raw_ref|; device source port uses raw - P_raw_ref then /P_inc"
+}

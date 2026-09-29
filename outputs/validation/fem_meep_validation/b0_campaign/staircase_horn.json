@@ -1,0 +1,38 @@
+{
+  "model": "meep_res50_pixel_staircase",
+  "n_nodes": 147682,
+  "n_tris": 291974,
+  "metal_pixels": 44708,
+  "pixel_dx": 0.02,
+  "factor_s": 1.4487871469464153,
+  "residual": 1.0698661940455068e-13,
+  "P_inc": 1.4702999138654531,
+  "normalized": [
+    -0.9836707987361166,
+    0.034964779965682,
+    0.0834492022778535,
+    0.6977759774722109,
+    0.0834492022778512,
+    0.03496477996568435
+  ],
+  "delta_dB": [
+    null,
+    -0.3192193794171064,
+    -0.10742743031602824,
+    0.006799914292638324,
+    -0.10742743031614142,
+    -0.3192193794168179
+  ],
+  "operator": {
+    "pec_elements": 15538,
+    "pec_active_dofs_pinned": 3558,
+    "empty_rows_pinned": 3558,
+    "pml_thickness_a": 2.0,
+    "sigma_max": 25.904082296183013,
+    "domain_nx": 30.0,
+    "domain_ny": 28.0,
+    "pml_profile": "meep_quadratic_R1e-15",
+    "pec_model": "excised_neumann_no_mass"
+  },
+  "sampler_misses": 0
+}

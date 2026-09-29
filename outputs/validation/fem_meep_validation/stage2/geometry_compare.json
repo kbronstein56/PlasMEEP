@@ -1,0 +1,144 @@
+{
+  "a_m": 0.02,
+  "n_bulbs": 91,
+  "bulb_centers_match_note": "FEM assign_rho uses the same Rod_Array centers and radii as PlasMEEP Add_Bulb (OD, ID, plasma=4.6/6.5*ID). Center delta = 0 by construction.",
+  "max_bulb_center_delta_m": 0.0,
+  "quartz_od_m": 0.015,
+  "quartz_id_m": 0.012999999999999998,
+  "quartz_wall_thickness_m": 0.0010000000000000009,
+  "plasma_diameter_m": 0.009199999999999998,
+  "eps_quartz": 3.8,
+  "domain_m": [
+    0.6,
+    0.56
+  ],
+  "pml_thickness_m": 0.04,
+  "horn_wall_model_gap_m": 0.00020000000000000017,
+  "fem_wall_capture_radius_m": 0.0022,
+  "meep_wall_half_thickness_m": 0.002,
+  "ports": [
+    {
+      "port": 1,
+      "source_center_cell_m": [
+        0.5251025403784437,
+        0.28
+      ],
+      "monitor_center_cell_m": [
+        0.5011025403784438,
+        0.28
+      ],
+      "outward": [
+        1.0,
+        -0.0
+      ],
+      "tangent": [
+        0.0,
+        1.0
+      ],
+      "span_m": 0.0384
+    },
+    {
+      "port": 2,
+      "source_center_cell_m": [
+        0.4125512701892219,
+        0.47494451842414476
+      ],
+      "monitor_center_cell_m": [
+        0.40055127018922193,
+        0.45415990873331824
+      ],
+      "outward": [
+        0.5000000000000001,
+        0.8660254037844387
+      ],
+      "tangent": [
+        -0.8660254037844387,
+        0.5000000000000001
+      ],
+      "span_m": 0.0384
+    },
+    {
+      "port": 3,
+      "source_center_cell_m": [
+        0.18744872981077806,
+        0.47494451842414476
+      ],
+      "monitor_center_cell_m": [
+        0.19944872981077807,
+        0.45415990873331824
+      ],
+      "outward": [
+        -0.5000000000000001,
+        0.8660254037844387
+      ],
+      "tangent": [
+        -0.8660254037844387,
+        -0.5000000000000001
+      ],
+      "span_m": 0.0384
+    },
+    {
+      "port": 4,
+      "source_center_cell_m": [
+        0.07489745962155613,
+        0.28
+      ],
+      "monitor_center_cell_m": [
+        0.09889745962155612,
+        0.28
+      ],
+      "outward": [
+        -1.0,
+        -0.0
+      ],
+      "tangent": [
+        0.0,
+        -1.0
+      ],
+      "span_m": 0.0384
+    },
+    {
+      "port": 5,
+      "source_center_cell_m": [
+        0.18744872981077806,
+        0.08505548157585527
+      ],
+      "monitor_center_cell_m": [
+        0.19944872981077807,
+        0.10584009126668179
+      ],
+      "outward": [
+        -0.5000000000000001,
+        -0.8660254037844387
+      ],
+      "tangent": [
+        0.8660254037844387,
+        -0.5000000000000001
+      ],
+      "span_m": 0.0384
+    },
+    {
+      "port": 6,
+      "source_center_cell_m": [
+        0.4125512701892219,
+        0.08505548157585527
+      ],
+      "monitor_center_cell_m": [
+        0.40055127018922193,
+        0.10584009126668179
+      ],
+      "outward": [
+        0.5000000000000001,
+        -0.8660254037844387
+      ],
+      "tangent": [
+        0.8660254037844387,
+        0.5000000000000001
+      ],
+      "span_m": 0.0384
+    }
+  ],
+  "geometry_identical_by_construction": true,
+  "known_representation_difference": "Meep horns are solid prisms of thickness wall_thickness. FEM marks triangles whose centroids lie within 0.55*wall_thickness of the prism boundary polylines and sets rho=0. That is an approximation of the solid wall; capture-radius vs half-thickness differs by 0.200 mm.",
+  "overlay_png": "/home/daq_user/PlasMEEP/outputs/validation/fem_meep_validation/stage2/geometry_overlay.png"
+}

@@ -1,0 +1,45 @@
+{
+  "polygons": "/home/daq_user/PlasMEEP/outputs/validation/fem_meep_validation/horn_localization/meep_horn_polygons.json",
+  "why_jaccard_0.32": {
+    "pitch_a": 0.015,
+    "jaccard_polyline_tube_vs_filled_prism": 0.44419826904416015,
+    "filled_area_a2": 17.818424999999998,
+    "tube_area_a2": 40.113675,
+    "symmetric_difference_a2": 22.29525,
+    "capture_radius_a": 0.11000000000000001
+  },
+  "same_polygon_jaccard": 1.0,
+  "fem": {
+    "n_nodes": 94986,
+    "metal_tri_frac": 0.019704772804340454,
+    "factor_s": 1.5757469580275938,
+    "P_monitor_outward": -0.803603318638636,
+    "P_inner_outward_normal": -0.6076900265832614,
+    "P_outer_outward_normal": 0.8822206895008694,
+    "inner_center_a": [
+      6.249999999999998,
+      5.6
+    ],
+    "h_a": 0.04
+  },
+  "meep": {
+    "P_monitor_outward": -1396.9439253610662,
+    "P_inner_outward_normal": -1048.7312944026353,
+    "P_outer_outward_normal": 1212.3450527601192,
+    "wall_s": 30.412048827041872,
+    "res": 40,
+    "inner_center_a": [
+      7.95512701892219,
+      0.0
+    ]
+  },
+  "ratio_inner_over_monitor": {
+    "fem_ratio": 0.7562064671568725,
+    "meep_ratio": 0.7507325636793697,
+    "delta_dB": 0.03155132997589697
+  },
+  "sign_monitor": {
+    "fem": -0.803603318638636,
+    "meep": -1396.9439253610662
+  }
+}

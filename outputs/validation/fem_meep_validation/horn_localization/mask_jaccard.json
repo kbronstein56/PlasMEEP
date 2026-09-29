@@ -1,0 +1,17 @@
+{
+  "polyline_vs_fill": {
+    "pitch_a": 0.015,
+    "jaccard_polyline_tube_vs_filled_prism": 0.44419826904416015,
+    "filled_area_a2": 17.818424999999998,
+    "tube_area_a2": 40.113675,
+    "symmetric_difference_a2": 22.29525,
+    "capture_radius_a": 0.11000000000000001
+  },
+  "identical": {
+    "pitch_a": 0.02,
+    "intersection_area_a2": 17.8736,
+    "union_area_a2": 17.8736,
+    "jaccard": 1.0,
+    "symmetric_difference_area_a2": 0.0
+  }
+}

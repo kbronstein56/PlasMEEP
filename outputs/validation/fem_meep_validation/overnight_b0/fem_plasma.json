@@ -1,0 +1,134 @@
+[
+  {
+    "kind": "plasma",
+    "level": "FEM-VH",
+    "n_nodes": 916818,
+    "n_tris": 1828132,
+    "mesh_s": 10.478363041998819,
+    "material_s": 21.22426228004042,
+    "assemble_s": 20.451119337929413,
+    "factor_s": 49.05938365100883,
+    "solve_s": 1.5769526030635461,
+    "residual": 8.355512252041121e-13,
+    "P_inc": 1.4752103714272748,
+    "normalized": [
+      -0.7790713847714025,
+      0.1302181910392924,
+      0.0693415476708742,
+      0.2659041167640267,
+      0.06934154767088423,
+      0.1302181910393137
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 248092,
+      "edge_min_a": 1.7471044082546982e-05,
+      "edge_median_a": 0.00997294195443764,
+      "edge_max_a": 0.013062974471726711,
+      "min_elements_across_wall": 9,
+      "median_elements_across_wall": 11.5
+    },
+    "operator": {
+      "pec_elements": 78364,
+      "pec_active_dofs_pinned": 30100,
+      "empty_rows_pinned": 30100,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 248092,
+    "n_metal_tris": 78364
+  },
+  {
+    "kind": "plasma",
+    "level": "FEM-VB",
+    "n_nodes": 1447959,
+    "n_tris": 2889050,
+    "mesh_s": 13.085296825971454,
+    "material_s": 39.150212564039975,
+    "assemble_s": 27.046575138927437,
+    "factor_s": 92.24072828900535,
+    "solve_s": 2.3026703010546044,
+    "residual": 1.1213251882955459e-12,
+    "P_inc": 1.474817800419839,
+    "normalized": [
+      -0.7963950573772879,
+      0.1258293350085541,
+      0.06294921751470123,
+      0.3040545245502064,
+      0.0629492175147296,
+      0.12582933500852167
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 247924,
+      "edge_min_a": 1.7236579490946032e-05,
+      "edge_median_a": 0.009972942131044453,
+      "edge_max_a": 0.013062974471726711,
+      "min_elements_across_wall": 9,
+      "median_elements_across_wall": 11.5
+    },
+    "operator": {
+      "pec_elements": 123428,
+      "pec_active_dofs_pinned": 50016,
+      "empty_rows_pinned": 50016,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 247924,
+    "n_metal_tris": 123428
+  },
+  {
+    "kind": "plasma",
+    "level": "FEM-VC",
+    "n_nodes": 2114448,
+    "n_tris": 4224064,
+    "mesh_s": 21.98667087999638,
+    "material_s": 51.38103599799797,
+    "assemble_s": 46.1471863159677,
+    "factor_s": 240.97516919102054,
+    "solve_s": 5.177647323929705,
+    "residual": 1.5357874728778797e-12,
+    "P_inc": 1.463136166542316,
+    "normalized": [
+      -0.8121640484978306,
+      0.12405172760957589,
+      0.05937658882509529,
+      0.32992569402460314,
+      0.059376588825096735,
+      0.12405172760956647
+    ],
+    "quartz": {
+      "wall_thickness_a": 0.050000000000000044,
+      "wall_thickness_mm": 1.0000000000000009,
+      "n_quartz_tris": 362560,
+      "edge_min_a": 3.3973699617063747e-06,
+      "edge_median_a": 0.007991029197950122,
+      "edge_max_a": 0.010726350606711862,
+      "min_elements_across_wall": 13,
+      "median_elements_across_wall": 14.0
+    },
+    "operator": {
+      "pec_elements": 171186,
+      "pec_active_dofs_pinned": 71014,
+      "empty_rows_pinned": 71014,
+      "pml_thickness_a": 2.0,
+      "sigma_max": 25.904082296183013,
+      "domain_nx": 30.0,
+      "domain_ny": 28.0,
+      "pml_profile": "meep_quadratic_R1e-15",
+      "pec_model": "excised_neumann_no_mass"
+    },
+    "n_quartz_tris": 362560,
+    "n_metal_tris": 171186
+  }
+]

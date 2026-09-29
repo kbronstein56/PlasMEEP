@@ -1,0 +1,67 @@
+{
+  "task": "dft",
+  "kind": "disk",
+  "resolution": {
+    "points_per_cm": 50.0,
+    "dx_mm": 0.2,
+    "meep_resolution": 100.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.01,
+    "grid_spacing_mm": 0.2,
+    "pixels_per_lattice_20mm": 100.0,
+    "pixels_per_free_space_lambda0": 389.3408545454546,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 50.0,
+    "meaning": "points_per_cm is the physical grid density. dx_mm = 10/points_per_cm. meep_resolution = a_m/dx_m = 2*points_per_cm when a_m=0.020 m. pixels_per_free_space_lambda0 is cells per vacuum wavelength at 3.85 GHz, and is not the 25/35/50 label."
+  },
+  "offset_cells": [
+    0.25,
+    0.0
+  ],
+  "shift_a": [
+    0.0025,
+    0.0
+  ],
+  "until_after_sources": 200.0,
+  "probes": {
+    "center": [
+      0.0025,
+      0.0
+    ],
+    "inside": [
+      0.21249999999999997,
+      0.0
+    ],
+    "outside": [
+      0.25249999999999995,
+      0.0
+    ],
+    "outside_far": [
+      0.2924999999999999,
+      0.0
+    ],
+    "forward": [
+      3.0025,
+      0.0
+    ],
+    "vacuum": [
+      0.0025,
+      2.0
+    ],
+    "inside_hot": [
+      -0.18803522737209397,
+      -0.08829681268462893
+    ],
+    "outside_hot": [
+      -0.22432765163344517,
+      -0.1051152531959868
+    ]
+  },
+  "fwidth_a": 0.05136887066051541,
+  "fs_GHz": 3.849999999999999,
+  "fp_GHz": 8.000000000000002,
+  "wall_disk_s": 957.6303197119851,
+  "modes": {},
+  "wall_vac_s": 263.5624112120131
+}

@@ -36,7 +36,7 @@ def to_mesh(xy):
     return np.asarray(xy, float) + np.array([LX / 2.0, LY / 2.0])
 
 
-def mesh_circles(centers, radii, h, h_edge):
+def mesh_circles(centers, radii, h, h_edge, h_near=None, r_near=None):
     tr = _tri()
     verts = []
     segs = []
@@ -78,10 +78,27 @@ def mesh_circles(centers, radii, h, h_edge):
         if len(rads) == 3:
             mid = 0.5 * (rads[1] + rads[2])
             regions.append([mc[0] + mid, mc[1], 2, 0.45 * h_edge * h_edge])
-    amax = 0.45 * h * h
+        if h_near is not None and r_near is not None:
+            m = max(64, int(np.ceil(2 * np.pi * r_near / h_near)))
+            ang = np.linspace(0.0, 2 * np.pi, m, endpoint=False)
+            ring = mc + r_near * np.column_stack([np.cos(ang), np.sin(ang)])
+            add_chain(ring, closed=True)
+            outer = float(rads[-1])
+            air_r = 0.5 * (outer + r_near)
+            regions.append([mc[0] + air_r, mc[1], 3, 0.45 * h_near * h_near])
+            if len(rads) == 3:
+                gap_r = 0.5 * (float(rads[0]) + float(rads[1]))
+                regions.append([mc[0] + gap_r, mc[1], 4, 0.45 * h_near * h_near])
+    if h_near is None:
+        amax = 0.45 * h * h
+        opts = f"pq20a{amax:.8f}A"
+    else:
+        # A numeric area after -a makes Triangle ignore the per-region areas.
+        regions.append([0.25, 0.25, 5, 0.45 * h * h])
+        opts = "pq20aA"
     mesh = tr.triangulate(
         {"vertices": np.asarray(verts, float), "segments": np.asarray(segs, np.int32), "regions": np.asarray(regions, float)},
-        f"pq20a{amax:.8f}A",
+        opts,
     )
     return np.asarray(mesh["vertices"], float), np.asarray(mesh["triangles"], int)
 
@@ -148,9 +165,32 @@ def solve_case(name, centers, radius, material, coated, levels):
     xy = np.array(list(probe.values()), float)
     radii = [ (R_CORE, R_GAP, R_SHELL) if coated else (radius,) ]
     rad_list = [radii[0] for _ in centers]
-    for h, h_edge in levels:
-        print(f"=== {name} h={h} ===", flush=True)
-        pts, tris = mesh_circles(centers, rad_list, h, h_edge)
+    for spec in levels:
+        h, h_edge = spec[0], spec[1]
+        h_near = spec[2] if len(spec) > 2 else None
+        r_near = spec[3] if len(spec) > 3 else None
+        print(f"=== {name} h={h} h_near={h_near} r_near={r_near} ===", flush=True)
+        pts, tris = mesh_circles(centers, rad_list, h, h_edge, h_near, r_near)
+        h_stats = {}
+        if h_near is not None:
+            cents = pts[tris].mean(1) - np.array([LX / 2.0, LY / 2.0])
+            edges = np.stack(
+                [
+                    np.linalg.norm(pts[tris[:, 1]] - pts[tris[:, 0]], axis=1),
+                    np.linalg.norm(pts[tris[:, 2]] - pts[tris[:, 1]], axis=1),
+                    np.linalg.norm(pts[tris[:, 0]] - pts[tris[:, 2]], axis=1),
+                ],
+                axis=1,
+            ).mean(1)
+            rad = np.linalg.norm(cents, axis=1)
+            quartz = (rad > R_GAP) & (rad <= R_SHELL)
+            h_stats = {
+                "h_plasma_median": float(np.median(edges[rad <= radius])),
+                "h_quartz_median": float(np.median(edges[quartz])) if np.any(quartz) else None,
+                "h_near_median": float(np.median(edges[(rad > R_SHELL) & (rad < r_near)])),
+                "h_far_median": float(np.median(edges[rad > r_near + 0.5])) if np.any(rad > r_near + 0.5) else None,
+                "quartz_elements_across": float((R_SHELL - R_GAP) / np.median(edges[quartz])) if np.any(quartz) else None,
+            }
         print(f"  nodes {len(pts)} tris {len(tris)}", flush=True)
         areas = {}
         rho_obj = assign(pts, tris, centers, radius, material, coated, areas)
@@ -198,10 +238,21 @@ def solve_case(name, centers, radius, material, coated, levels):
             a = complex(*per["side_p60"]["fem"])
             c = complex(*per["side_m60"]["fem"])
             mirror = float(abs(a - c))
+        ang_r = np.linspace(0.0, 2 * np.pi, 96, endpoint=False)
+        ring = np.column_stack([np.cos(ang_r), np.sin(ang_r)])
+        hz_obj = sampler.fields(fields["obj"][3], *rho_obj, k0, to_mesh(ring))[0]
+        hz_vac = sampler.fields(fields["vac"][3], *rho_vac, k0, to_mesh(ring))[0]
+        ratio_r = hz_obj / hz_vac
+        b_ring = cluster_field(ring, centers, k0, outer, complex(material), SRC, bcoef, 12)
+        vac_r = hankel1(0, k0 * np.linalg.norm(ring - SRC, axis=1))
+        ar_r = b_ring / vac_r
+        ring_l2 = float(np.linalg.norm(ratio_r - ar_r) / np.linalg.norm(ar_r))
         rec = {
             "case": name,
             "h": h,
             "h_edge": h_edge,
+            "h_near": h_near,
+            "r_near": r_near,
             "dofs": int(len(pts)),
             "n_tris": int(len(tris)),
             "areas": areas,
@@ -209,6 +260,8 @@ def solve_case(name, centers, radius, material, coated, levels):
             "probes": per,
             "mirror_side_abs": mirror,
             "quartz_cells_across_wall": (R_SHELL - R_GAP) / h_edge if coated else None,
+            "mesh_stats": h_stats,
+            "ring_l2": ring_l2,
         }
         rows.append(rec)
         fwd = per.get("forward")

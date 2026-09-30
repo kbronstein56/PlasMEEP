@@ -1,0 +1,11 @@
+{
+  "guide_dofs": 4131,
+  "guide_residual": 3.188530181258146e-14,
+  "guide_reorder_rel": 1.2220161898491573e-13,
+  "guide_repeat_rel": 0.0,
+  "guide_cond_1": 20564.101774236748,
+  "disk_dofs": 97156,
+  "disk_cond_1": 1035838.7263219791,
+  "disk_repeat_rel": 0.0,
+  "disk_residual": 1.7821199284922207e-14
+}

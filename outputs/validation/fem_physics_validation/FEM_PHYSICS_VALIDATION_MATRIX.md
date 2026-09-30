@@ -3,8 +3,9 @@
 Status: **B0_FEM_PARTIALLY_VALIDATED**.
 
 The row-by-row completeness record is `VALIDATION_COMPLETENESS_AUDIT.md`
-(144 rows: 110 PASS, 10 FAIL, 24 UNRESOLVED). This file is the numeric
-benchmark table. Thresholds are frozen in `PASS_CRITERIA.md`.
+(144 rows: 128 PASS, 16 FAIL, 0 UNRESOLVED). This file is the numeric
+benchmark table. Thresholds are frozen in `PASS_CRITERIA.md`. The closeout
+that produced those counts is `B0_VALIDATION_CLOSEOUT.md`.
 
 Analytic results are the reference. A Meep disagreement is not charged
 against an FEM row that already matches that analytic result.
@@ -64,3 +65,13 @@ Hz ratios, unless the row says otherwise. No global complex scale was fitted.
 The earlier plasma Meep campaign is not included in the Meep count. It is the evidence for the FAIL rows, and those registrations were not averaged.
 
 Prior production-domain FEM-C, FEM-F, and FEM-X factorizations for the seven-bulb cluster are additional to the 187. FEM-X is 3,028,995 nodes.
+
+## Closeout addition
+
+| Kind | Added | Running total |
+|---|---|---|
+| Analytic evaluations | 92 | 367 |
+| FEM solves | 77 | 264 |
+| Meep simulations | 36 | 44 |
+
+The 36 Meep simulations are 2 guide runs and 17 scatter cases × (vacuum + object). They are not averaged across grid registrations. Plasma Meep remains outside the frozen tolerances. The FEM failures that keep the package at `B0_FEM_PARTIALLY_VALIDATED` are the guide gradient at h=0.0008 (L2 0.105%), the coated cylinder at 5.30 GHz (−4.73°), and the oblique PML harness.

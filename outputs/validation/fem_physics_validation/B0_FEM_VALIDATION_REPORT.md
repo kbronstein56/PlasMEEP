@@ -4,15 +4,17 @@
 
 **B0_FEM_PARTIALLY_VALIDATED**
 
-The earlier `B0_FEM_VERIFIED_AND_VALIDATED` label is withdrawn. The item-by-item
-record is `VALIDATION_COMPLETENESS_AUDIT.md`: 144 required rows, 110 PASS,
-10 FAIL, 24 UNRESOLVED. A related test was not used to pass a missing one.
+The earlier `B0_FEM_VERIFIED_AND_VALIDATED` label stays withdrawn. The
+item-by-item record is `VALIDATION_COMPLETENESS_AUDIT.md`, recomputed by
+`reaudit_closeout.py`: 144 required rows, 128 PASS, 16 FAIL, 0 UNRESOLVED.
 
-The ten FAIL rows are the E/H point samples (0.34% vacuum and 0.60% plasma
-at h=0.0125; guide E/H 0.30% to 3.3% at h=0.01) and the Meep plasma
-comparisons. Completed FEM field and power comparisons against Mie,
-transfer matrices, and the T-matrix are inside the frozen thresholds.
-The twenty-four UNRESOLVED rows are listed at the end of this report.
+The homogeneous E/H sample now meets 0.1% (vacuum 0.084% at h=0.003125,
+plasma 0.077% at h=0.0015625). The guide gradient does not: at h=0.0008
+the element median is 0.0987%, the element max is 0.115%, and the gradient
+L2 is 0.105%. The coated cylinder at 5.30 GHz is −0.102 dB and −4.73° at
+h=0.012. The oblique PML box does not isolate reflection. Those three are
+the FEM failures. The other thirteen FAIL rows are Meep against the analytic
+continuum. Details are in `B0_VALIDATION_CLOSEOUT.md`.
 
 The frequency-domain P1 operator solves the intended B = 0 Hz Maxwell problem
 on the analytic tests in this campaign. Manufactured solutions converge at the
@@ -140,30 +142,25 @@ previous checkpoint, about 6.9×10⁻⁵ dB, was not repeated. Cylinder ratios
 use Hz(object)/Hz(vacuum), so the point-source amplitude cancels. No extra
 complex scale was fitted.
 
-## What is still open
+## Closeout
 
-FAIL:
+Reaudit counts: 128 PASS, 16 FAIL, 0 UNRESOLVED.
 
-- E/H point sample, homogeneous wave, 0.34% (vacuum) and 0.60% (plasma) at h=0.0125
-- E/H on the guide at h=0.01, 0.30% to 3.3% depending on the mode
-- Meep plasma disk versus Mie: resolution and registration, from the earlier campaign
-- Meep seven coated bulbs versus the T-matrix: about 0.6 dB and 15° on the original grid
+FEM FAIL rows:
 
-UNRESOLVED:
+- 3d, guide E/H. h=0.0008, element max 0.115%, gradient L2 0.105%. Class C.
+- 7f, coated cylinder at 5.30 GHz. Forward −0.102 dB, −4.73° at h=0.012. Class C.
+- 13b, oblique PML box. rel L2 about 2.4%, insensitive to the PML knobs. Class F.
 
-- Meep parallel-plate guide, coated cylinder, two cylinders, three cylinders, bare seven cylinders
-- FEM frequency sweep of the bare and coated cylinders (analytic sweep exists)
-- rotated-pair and coated-pair mesh sequences (one mesh each, already inside 0.10 dB and 1°)
-- seven-coated near-probe mesh uncertainty (h=0.02 is inside 1°, last step 0.77°)
-- oblique, cylinder, and multi-cylinder PML sweeps
-- lossless-cluster contour and a volume absorption integral
-- guide-port Sij, horns-only reciprocity, and seven-bulb reciprocity
-- a second factorization of one FEM matrix, and an FEM condition estimate
-- a scaled T-matrix (the forward probe is stable; the raw 2-norm condition is not)
+Meep FAIL rows, not charged to the FEM: 6m, 6n, 7h, 7i, 9c, 10c, 11c, 12g, 20g, 20h, 20i, 20j, 20k.
+
+Bare-cylinder frequency sweep, coated frequencies other than 5.30 GHz, pair orientations, the locally refined seven-bulb probes, cylinder and pair PML sweeps, lossless contour power, the absorption identity, Green reciprocity, and the repeated factorizations pass.
+
+Solve counts. The pre-closeout package stored 275 analytic evaluations, 187 FEM solves, and 8 Meep simulations. This closeout added 77 recorded FEM factorizations, 45 T-matrix condition solves plus the cluster solves paired with the new scatter meshes (about 92 analytic evaluations), and 36 Meep simulations (2 guide resolutions and 17 scatter cases, each with a vacuum run and an object run). Totals for the B=0 package: about 367 analytic evaluations, 264 FEM solves, and 44 Meep simulations. The earlier plasma-ring campaign is additional evidence for the Meep FAIL rows and is not in the 44.
 
 ## Exact next step
 
-Do not start B ≠ 0, adjoints, optimization, or a 91-bulb run. The gyrotropic
-file is a plan only. The B = 0 package stays partial until the unresolved
-rows are run and the failed rows either meet the frozen thresholds or are
-explicitly accepted as known limits.
+Do not start B ≠ 0, adjoints, optimization, or a 91-bulb run. The label stays
+`B0_FEM_PARTIALLY_VALIDATED` until 3d and 7f meet the frozen thresholds on a
+finer mesh, and until the oblique PML test is replaced by a measurement that
+actually tracks the PML. Meep plasma agreement is a separate cross-code item.

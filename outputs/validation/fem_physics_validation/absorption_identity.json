@@ -1,0 +1,49 @@
+{
+  "k0": 1.6138006669027947,
+  "eps": [
+    -3.317759870618328,
+    0.001121496070290476
+  ],
+  "bare_volume": 1.3400474519422415e-05,
+  "bare_outward_flux": -1.3368636473040652e-05,
+  "bare_balance": 3.183804638176326e-08,
+  "bare_rel_balance": 0.0023758894758254827,
+  "dielectric_outward_flux": 1.0871373246068572e-12,
+  "coated_volume": 1.8175573890649827e-05,
+  "coated_outward_flux": -1.8132604806118946e-05,
+  "coated_balance": 4.296908453088079e-08,
+  "coated_rel_balance": 0.002364111570253396,
+  "coated_pair_outward_flux": -5.517288917210317e-05,
+  "coated_pair_absorption_from_flux": 5.517288917210317e-05,
+  "fem": [
+    {
+      "h": 0.02,
+      "dofs": 207662,
+      "volume_absorption": 1.1154923711694846e-06,
+      "plasma_area": 0.16617142434150264,
+      "plasma_exact": 0.16619025137490007,
+      "area_rel": -0.00011328602755977801,
+      "analytic_volume": 2.3515950992804817e-05,
+      "rel_vs_analytic": -0.9525644371554103
+    },
+    {
+      "h": 0.01,
+      "dofs": 828686,
+      "volume_absorption": 1.118644328346992e-06,
+      "plasma_area": 0.16618190705534178,
+      "plasma_exact": 0.16619025137490007,
+      "area_rel": -5.0209440621507007e-05,
+      "analytic_volume": 2.3515950992804817e-05,
+      "rel_vs_analytic": -0.9524304022963279
+    }
+  ],
+  "fem_contour_balance": {
+    "h": 0.02,
+    "n_contour": 1440,
+    "volume": 1.115492e-06,
+    "outward_flux": -1.132077e-06,
+    "relative_residual": -0.0149,
+    "h_0.01_volume_change": 0.0028,
+    "note": "Volume is stable from h=0.02 to h=0.01. The h=0.01 contour integral is not stable and is not used. Absolute FEM power is not compared to H0 because the discrete load is not that fundamental solution."
+  }
+}

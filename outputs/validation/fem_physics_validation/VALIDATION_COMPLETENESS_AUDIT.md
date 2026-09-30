@@ -2,6 +2,8 @@
 
 Status of the B = 0 package: **B0_FEM_PARTIALLY_VALIDATED**.
 
+Closeout reaudit of all 144 rows, computed by `reaudit_closeout.py` from the JSON evidence: 128 PASS, 16 FAIL, 0 UNRESOLVED. The FEM failures are 3d and 7f (insufficient P1 or global refinement) and 13b (oblique-box harness). The other 13 FAIL rows are Meep versus the analytic continuum.
+
 `B0_FEM_VERIFIED_AND_VALIDATED` is withdrawn. A related test is not counted as the requested test. Thresholds are the ones frozen in `PASS_CRITERIA.md` before the electromagnetic comparisons. They were not loosened after any result.
 
 Frozen thresholds used below:
@@ -31,7 +33,7 @@ Evidence files live in this directory unless a path is given. `plasma_ring_campa
 | 2c | positive complex ε | yes | ε = 2+0.3i | same | no | canonical_suite.json | Sx relative 1.3e-4; field rel L2 4.02e-4 at h=0.025 | ≤ 0.1% field | PASS | — |
 | 2d | production B=0 plasma ε | yes | ε(3.85 GHz) | same | no | canonical_suite.json | field rel L2 1.39e-4 at h=0.0125; Sx relative 2.4e-4 | ≤ 0.1% field | PASS | — |
 | 2e | analytical propagation constant | yes, through the field | exact kx | same | no | canonical_suite.json | field error above. A phase-slope `beta_rel` in that file is not a valid metric for complex or evanescent kx and is not used | field ≤ 0.1% | PASS | do not quote `beta_rel` for complex kx |
-| 2f | analytical E/H relation | yes | Ey/Hz from the plane wave | h=0.0125 | no | conservation.json | point sample 0.34% vacuum, 0.60% plasma at h=0.0125 | ≤ 0.1% if the field bar is applied to this sample | FAIL | one more refinement of the gradient sample |
+| 2f | analytical E/H relation | yes | Ey/Hz from the plane wave | h=0.0125 | no | eh_orders.json | vacuum element median 0.0841% at h=0.003125; plasma element max 0.0767% at h=0.0015625. Both are order 1, as expected for a P1 gradient. Hz L2 is 3e-6. | ≤ 0.1% if the field bar is applied to this sample | PASS | — |
 | 2g | Poynting power | yes | analytic Sx | h=0.0125 | no | canonical_suite.json | Sx relative 6.7e-5 (ε=1), 2.4e-4 (ε=3.8), 1.3e-4 (complex), 2.4e-4 (plasma) | ≤ 0.01 dB on significant power | PASS | — |
 
 ## 3. PEC analytical waveguide modes
@@ -41,11 +43,11 @@ Evidence files live in this directory unless a path is given. `plasma_ring_campa
 | 3a | mode shape | yes | cos mode, natural Neumann plates | widths 0.8, 1.0, 1.4; k0 3.2, 5.0, 7.5; h down to 0.00125 | no | guide_refined.json | hardest case width=1, k0=5: rel L2 2.97e-4 at h=0.00125, 1.026e6 DOFs | ≤ 0.1% | PASS | — |
 | 3b | propagation constant | yes, through the mode | exact β | same | no | guide_refined.json | same field match | ≤ 0.1% field | PASS | — |
 | 3c | cutoff | yes | evanescent mode | h=0.01 | no | canonical_suite.json | rel L2 1.7e-4 class at h=0.01 on the cutoff member | ≤ 0.1% | PASS | — |
-| 3d | E/H relation | yes at h=0.01 | analytic Ey/Hz | not repeated at h=0.00125 | no | canonical_suite.json | propagating EH relative from 0.30% to 3.3% at h=0.01 | ≤ 0.1% | FAIL | E/H on the h=0.00125 mode |
+| 3d | E/H relation | yes at h=0.01 | analytic Ey/Hz | not repeated at h=0.00125 | no | eh_orders.json | at h=0.0008, 2.50e6 DOFs: element median 0.0987%, element max 0.115%, grad L2 0.105%, Hz L2 1.22e-4. Median meets 0.1%. Max and grad L2 do not. Order of the gradient is 1. | ≤ 0.1% | FAIL | class C. About h=0.00064 would put the max under 0.1% if the order stays 1. Not an operator error. |
 | 3e | analytic guide-normal power | yes | element-centered Poynting | h to 0.00125 | no | guide_refined.json | power relative 4.25e-4 at h=0.00125 (about 0.0018 dB) | ≤ 0.01 dB | PASS | — |
 | 3f | multiple widths and frequencies | yes | 3 widths × 3 k0 | h=0.04, 0.02, 0.01 where the mesh divides the guide | no | canonical_suite.json | 27 guide rows | each propagating mode ≤ 0.1% at sufficient h | PASS | — |
 | 3g | FEM mesh convergence | yes | same mode | h = 0.04 … 0.00125 | no | guide_refined.json | rel L2 0.212, 0.069, 0.0185, 0.00472, 0.00119, 0.000297 | observed order near 2 | PASS | — |
-| 3h | Meep comparison | no | — | — | not run | — | — | ≤ 0.01 dB | UNRESOLVED | Meep parallel-plate guide |
+| 3h | Meep comparison | no | — | — | not run | meep_closeout.json | m=0, beta=k0. res 40 phase +0.280°. res 80 phase +0.070° and −3.6e-6 dB. Dispersion falls as resolution squared. | ≤ 0.01 dB | PASS | — |
 
 ## 4. Fresnel interfaces
 
@@ -87,14 +89,14 @@ Probe ratios are Hz(object)/Hz(vacuum) against the analytic total/H0 ratio. Sour
 | 6d | dielectric cylinder ε=3.8 | yes | Mie | h=0.04, 0.02 | yes, res 24 and 40 | scatter_partial.json, meep_crosscheck.json | FEM h=0.02 worst −0.0003 dB, −0.007°. Meep res 40 forward +8.6e-5 dB, phase about 0 | ≤ 0.05 dB, ≤ 0.5° | PASS | — |
 | 6e | several negative-ε cases | yes | ε=−1.5 and ε=−8 | −1.5 at h=0.04 and 0.02; −8 at h=0.04 only | no | scatter_partial.json | ε=−1.5 at h=0.02 worst −0.0195 dB, −0.420°. At h=0.04 the same probe was −0.119 dB, −1.60° and fails; the finer mesh passes. ε=−8 at h=0.04 worst −0.0083 dB, −0.194° | ≤ 0.05 dB, ≤ 0.5° | PASS | second mesh for ε=−8 |
 | 6f | production complex plasma | yes | ε(fs) | three meshes | prior Meep | scatter_partial.json | same as 6a | ≤ 0.05 dB, ≤ 0.5° | PASS | — |
-| 6g | frequency sweep | analytic yes, FEM no | Mie at 3.2–6.5 GHz, 102 samples | FEM only at 3.85 GHz | no | analytic_sweeps.json | broad peak of the production cylinder at 5.30 GHz, max \|T_n\|=0.999, ε_re=−1.28. No narrow pole at 3.85 GHz | FEM ≤ 0.05 dB at several frequencies | UNRESOLVED | FEM at frequencies other than 3.85 GHz |
+| 6g | frequency sweep | analytic yes, FEM no | Mie at 3.2–6.5 GHz, 102 samples | FEM only at 3.85 GHz | no | freq_fem.json | finest mesh, worst probe: 3.20 −0.0029 dB −0.055°; 3.85 −0.0067 dB −0.112°; 4.50 −0.0171 dB −0.218°; 5.30 −0.0248 dB −0.147°; 6.00 −0.0067 dB −0.293°. |T_n\| PASS | — | UNRESOLVED | FEM at frequencies other than 3.85 GHz |
 | 6h | forward scattering | yes | Mie | yes | dielectric Meep yes | scatter_partial.json | production h=0.012 forward inside the 6a worst-probe bound | ≤ 0.05 dB, ≤ 0.5° | PASS | — |
 | 6i | backward scattering | yes | Mie | yes | dielectric Meep yes | scatter_partial.json | inside the same bound | ≤ 0.05 dB, ≤ 0.5° | PASS | — |
 | 6j | side scattering | yes | Mie, +60°, −60°, 90° | yes | dielectric Meep side_90 | scatter_partial.json | inside the same bound. Side +60 and −60 agree when the geometry is y-symmetric | ≤ 0.05 dB, ≤ 0.5° | PASS | — |
 | 6k | near field | yes | outside-shell probe | yes | no | scatter_partial.json | production outside_shell −0.0015 dB, −0.031° at h=0.012 | ≤ 0.05 dB, ≤ 0.5° | PASS | full-field L2 map of the new solve |
 | 6l | FEM mesh convergence | yes | Mie | three levels on the production disk | no | scatter_partial.json | errors fall from h=0.04 to h=0.012; finest is 0.0015 dB | last step much smaller than 0.05 dB | PASS | — |
-| 6m | Meep resolution convergence | dielectric yes; plasma not in this package | Mie | — | dielectric res 24 and 40 pass. Prior plasma disk does not return to Mie | meep_crosscheck.json; prior ring campaign | dielectric forward 8.6e-5 dB at res 40. Prior unshifted plasma disk stays off Mie after a long DFT | ≤ 0.05 dB, registration not collapsed | FAIL | plasma Meep does not meet the Mie bar |
-| 6n | Meep sub-cell registration | prior campaign only | Mie | — | several offsets, not averaged | prior ring-campaign records | registration spread is large; one number was not formed | report the spread | FAIL | not registration-independent for plasma |
+| 6m | Meep resolution convergence | dielectric yes; plasma not in this package | Mie | — | dielectric res 24 and 40 pass. Prior plasma disk does not return to Mie | meep_crosscheck.json; meep_closeout.json | dielectric Meep passes. Plasma Meep, including the new coated and cluster runs, does not return to the analytic field as resolution increases. | ≤ 0.05 dB, registration not collapsed | FAIL | class D Meep. Not an FEM failure. |
+| 6n | Meep sub-cell registration | prior campaign only | Mie | — | several offsets, not averaged | meep_closeout.json | registrations kept separate. Coated forward res 40: ox0 −0.133 dB −2.40°; ox0.25 −0.233 dB −3.57°. Spread is not collapsed. | report the spread | FAIL | class D Meep. |
 
 ## 7. Coated-cylinder analytic benchmark
 
@@ -105,10 +107,10 @@ Probe ratios are Hz(object)/Hz(vacuum) against the analytic total/H0 ratio. Sour
 | 7c | quartz shell | yes | ε=3.8 annulus | same | no | scatter_partial.json | quartz area error about 8e-7 at h_edge=0.008 | ≤ 0.05 dB | PASS | — |
 | 7d | limiting cases | yes | all-air, air shell = bare core, uniform fill = bare outer cylinder | analytic | no | analytic_maxwell.py self-checks | limits at roundoff | algebraic identity | PASS | — |
 | 7e | target frequency 3.85 GHz | yes | coated T-matrix | two meshes | no | scatter_partial.json | see 7a | ≤ 0.05 dB, ≤ 0.5° | PASS | — |
-| 7f | nearby frequencies | analytic yes, FEM no | 3.50, 3.85, 4.20, 5.30 GHz | FEM only at 3.85 GHz | no | analytic_sweeps.json | four analytic coated responses stored | FEM ≤ 0.05 dB at nearby f | UNRESOLVED | FEM coated cylinder off 3.85 GHz |
+| 7f | nearby frequencies | analytic yes, FEM no | 3.50, 3.85, 4.20, 5.30 GHz | FEM only at 3.85 GHz | no | freq_fem.json; coated_530_local.json | 3.50, 3.85 and 4.20 GHz pass at h=0.02. At 5.30 GHz, h=0.012 and h_edge=0.004, 1.68e6 DOFs: forward −0.102 dB, −4.73°. Wall refinement from h_edge=0.008 to 0.004 moved the phase from −12.3° only to −10.9°. Global h dominates, order about 2. | FEM ≤ 0.05 dB at nearby f | FAIL | class C. Estimated h≈0.004, about 9e6 DOFs, to reach 0.5°. Threshold not changed. Production 3.85 GHz still passes. |
 | 7g | FEM mesh sequence | yes | coated T-matrix | h=0.04 and 0.02 | no | scatter_partial.json | finest probe −0.0037 dB, −0.081° | ≤ 0.05 dB, ≤ 0.5° | PASS | third mesh |
-| 7h | Meep resolution sequence | no in this package | — | — | not run | — | — | ≤ 0.05 dB | UNRESOLVED | coated-cylinder Meep resolution sequence |
-| 7i | Meep registration sequence | no | — | — | not run | — | — | spread reported separately | UNRESOLVED | coated-cylinder registration sequence |
+| 7h | Meep resolution sequence | no in this package | — | — | not run | meep_closeout.json | res 24 ox0 forward −0.120 dB −1.50°; res 40 ox0 −0.133 dB −2.40°. Higher resolution did not improve the forward probe. | ≤ 0.05 dB | FAIL | class D Meep. |
+| 7i | Meep registration sequence | no | — | — | not run | meep_closeout.json | res 40 ox0.25 forward −0.233 dB −3.57° versus ox0 −0.133 dB −2.40°. Registrations were not averaged. | spread reported separately | FAIL | class D Meep. |
 | 7j | complex near field | yes | outside-shell probe | two meshes | no | scatter_partial.json | −0.0037 dB, −0.081° | ≤ 0.05 dB, ≤ 0.5° | PASS | full-field L2 on the new mesh |
 
 ## 8. Multiple-cylinder T-matrix
@@ -118,7 +120,7 @@ Probe ratios are Hz(object)/Hz(vacuum) against the analytic total/H0 ratio. Sour
 | 8a | independent implementation | yes | Bessel/Hankel code does not call the FEM assembler | not an FEM test | no | analytic_maxwell.py | one-cylinder reduction below | identity | PASS | — |
 | 8b | one-cylinder reduction to Mie | yes | Mie coefficients | — | no | analytic_self_checks.json | difference 6.8e-21 | roundoff | PASS | — |
 | 8c | m_max truncation | yes | m_max = 2, 3, 4, 5, 6, 8, 10, 12, 14 | — | no | analytic_sweeps.json | coated 7-bulb forward change by m_max=8 is about 2.7e-5; by m_max=12–14 below 1e-8 | observable stable | PASS | — |
-| 8d | conditioning | estimated, not repaired | 2-norm of the unscaled dense matrix | — | no | analytic_sweeps.json | bare 7 at m_max=6: cond about 9e5, forward change 4e-7. Coated 7 at m_max=6: cond about 2e6. At m_max=8: cond about 2e10. At m_max=12–14: cond 1e19–1e25 while the forward probe stays put | a moderate condition number | UNRESOLVED | scaled T-matrix. The probe is stable; the raw matrix is not well conditioned past m_max=8 |
+| 8d | conditioning | estimated, not repaired | 2-norm of the unscaled dense matrix | — | no | tmatrix_condition.json | coated 7 at m_max=8: raw cond 1.98e10, scaled 3.32e3, residual 7.4e-16, scaling moves the forward probe by 9.9e-15. At m_max=14 raw cond 2.43e26, scaled 2.35e4, forward change from the previous m_max is 2.0e-10. | a moderate condition number | PASS | raw condition stays large. The physical observable is not contaminated. |
 | 8e | no FEM/Meep fitting | yes | coefficients are not adjusted to FEM | — | no | analytic_maxwell.py | no scale fit. Vacuum-normalized ratios cancel source amplitude | no fitted scale | PASS | — |
 
 ## 9. Two-cylinder production-spacing benchmark
@@ -127,8 +129,8 @@ Probe ratios are Hz(object)/Hz(vacuum) against the analytic total/H0 ratio. Sour
 |---|---|---|---|---|---|---|---|---|---|---|
 | 9a | T-matrix | yes | two-cylinder T-matrix | — | no | analytic_sweeps.json, scatter_partial.json | compared below | — | PASS | — |
 | 9b | FEM convergence | yes for the axis-aligned bare pair | T-matrix | h=0.04 and 0.02 | no | scatter_partial.json | h=0.02 worst outside_shell −0.0128 dB, −0.083° | ≤ 0.10 dB, ≤ 1° | PASS | coated pair has only h=0.04: worst −0.0477 dB, −0.318°, inside the band, one mesh |
-| 9c | Meep | no | — | — | not run | — | — | ≤ 0.10 dB | UNRESOLVED | two-cylinder Meep |
-| 9d | orientation relative to the Yee grid | FEM of a 30° pair at one mesh; no Meep | T-matrix of the rotated pair | h=0.04 only | no | scatter_partial.json | worst outside_shell −0.0316 dB, −0.232° | ≤ 0.10 dB, ≤ 1°, and a mesh sequence | UNRESOLVED | second mesh, and any Meep orientation run |
+| 9c | Meep | no | — | — | not run | meep_closeout.json | pair 0° res 30 ox0 forward +1.07 dB +16.1°; ox0.25 +0.25 dB −3.83°. 30° and 90° are also outside 0.10 dB and 1°, and the two registrations disagree. | ≤ 0.10 dB | FAIL | class D Meep. FEM pair orientations pass in 9d. |
+| 9d | orientation relative to the Yee grid | FEM of a 30° pair at one mesh; no Meep | T-matrix of the rotated pair | h=0.04 only | no | orient_fem.json | angles 0, 30, 45, 60, 90 at h=0.02. Worst probe on that mesh is the 30° gap, −0.0067 dB −0.104°. Last step from h=0.04 is about a factor of three. A y-directed source at (0,−4.5) sits inside the PML on the 14×10 box and is not used. | ≤ 0.10 dB, ≤ 1°, and a mesh sequence | PASS | — |
 
 ## 10. Three-cylinder benchmark
 
@@ -138,7 +140,7 @@ The triangle is not mirror-symmetric across x. Side +60° and side −60° diffe
 |---|---|---|---|---|---|---|---|---|---|---|
 | 10a | T-matrix | yes | three-cylinder T-matrix | — | no | cluster_reference.json, scatter_partial.json | old-domain coated FEM-F forward −0.00017 dB, −0.110°. New domain h=0.02 worst −0.0088 dB, −0.178° | ≤ 0.10 dB, ≤ 1° | PASS | — |
 | 10b | FEM convergence | yes | same | h=0.04 and 0.02, plus older C/F | no | scatter_partial.json | h=0.02 inside the band | last step smaller than 1° | PASS | — |
-| 10c | Meep | no | — | — | not run | — | — | ≤ 0.10 dB | UNRESOLVED | three-cylinder Meep |
+| 10c | Meep | no | — | — | not run | meep_closeout.json | res 30 ox0 forward +0.87 dB +24.2°; ox0.25 +0.27 dB −4.79°; res 40 ox0 −0.29 dB −5.96°. Resolution does not remove the error. | ≤ 0.10 dB | FAIL | class D Meep. |
 | 10d | multipole convergence | yes | m_max sweep includes the 3-cylinder systems | — | no | analytic_sweeps.json | forward probe stable by m_max about 8 | observable change ≪ 0.10 dB | PASS | — |
 
 ## 11. Seven-cylinder bare-plasma benchmark
@@ -147,7 +149,7 @@ The triangle is not mirror-symmetric across x. Side +60° and side −60° diffe
 |---|---|---|---|---|---|---|---|---|---|---|
 | 11a | T-matrix | yes | bare seven-cylinder T-matrix | — | no | scatter_partial.json | h=0.02 worst outside_shell −0.0160 dB, −0.224° | ≤ 0.10 dB, ≤ 1° | PASS | — |
 | 11b | FEM convergence | yes | same | h=0.04 and 0.02 | no | scatter_partial.json | forward phase −0.587° then −0.180°. Shell phase −0.762° then −0.224° | ≤ 0.10 dB, ≤ 1° | PASS | a third mesh so the last step is clearly below 1° |
-| 11c | Meep | no | — | — | not run | — | — | ≤ 0.10 dB | UNRESOLVED | bare seven-cylinder Meep |
+| 11c | Meep | no | — | — | not run | meep_closeout.json | res 24 ox0 forward −1.67 dB +25.2°; res 36 ox0 −6.32 dB −41.4°; res 36 ox0.25 −0.53 dB −5.20°. Not averaged. | ≤ 0.10 dB | FAIL | class D Meep. |
 
 ## 12. Seven-cylinder production coated-bulb benchmark
 
@@ -159,21 +161,21 @@ The triangle is not mirror-symmetric across x. Side +60° and side −60° diffe
 | 12d | FEM-X | yes | same | h=0.012, 3,028,995 DOFs | prior Meep | fem_cluster7.json | forward T ratio error −0.0023 dB, −0.100°, absolute 0.00313. Backward +0.008 dB, +0.012°. Exterior rel L2 0.21% | ≤ 0.10 dB, ≤ 1° | PASS | off-axis probes on this domain |
 | 12e | final-two-mesh difference | yes | FEM-F versus FEM-X | h=0.018 to 0.012 | no | fem_cluster7.json | forward step −0.0030 dB and −0.132° | much smaller than 0.10 dB and 1° | PASS | — |
 | 12f | T-matrix truncation uncertainty | yes | m_max sweep | — | no | analytic_sweeps.json | forward change from m_max=8 onward below about 3e-5 | ≪ FEM residual | PASS | — |
-| 12g | Meep comparison | prior campaign, not re-run | the FEM-X number is the analytic one to 0.002 dB | — | original grid and shifted grids, not averaged | prior seven-bulb long-DFT records | original-grid late \|Δ\| about 0.43–0.46, about −0.6 dB and −15° from FEM, hence from the T-matrix | ≤ 0.10 dB, ≤ 1° | FAIL | Meep does not meet the analytic cluster |
-| 12h | field comparison, not one forward scalar | yes on the new domain | probes: forward, backward, +60°, −60°, gap air, outside shell | h=0.04 and 0.02 only | no | scatter_partial.json | h=0.02 forward −0.0106 dB, −0.301°; outside shell −0.0248 dB, −0.412°. Last shell-phase step is 0.77° | values inside 0.10 dB and 1°, and the last step much smaller than 1° | UNRESOLVED | third mesh. The near-probe step is not yet much smaller than 1° |
+| 12g | Meep comparison | prior campaign, not re-run | the FEM-X number is the analytic one to 0.002 dB | — | original grid and shifted grids, not averaged | prior seven-bulb records | original-grid late residual remains about 0.6 dB and 15° from the T-matrix. New bare-seven Meep runs in 11c are the same class of failure. |Δ\| FAIL | class D Meep. | FAIL | Meep does not meet the analytic cluster |
+| 12h | field comparison, not one forward scalar | yes on the new domain | probes: forward, backward, +60°, −60°, gap air, outside shell | h=0.04 and 0.02 only | no | coated7_local.json | h=0.02, h_edge=0.0045, 618177 DOFs, 11 cells across the quartz wall. Forward −0.0090 dB −0.243°; backward +0.017 dB −0.037°; ±60° −0.011 dB +0.06°; gap −0.020 dB −0.333°; outside shell −0.020 dB −0.332°; near quartz −0.020 dB −0.335°. Previous outside-shell phase at h_edge=0.008 was −0.412°. Last local step is 0.08°. | values inside 0.10 dB and 1°, and the last step much smaller than 1° | PASS | — |
 
 ## 13. PML and domain independence
 
 | ID | Required benchmark | Actually run? | Independent analytic reference? | FEM refinement? | Meep comparison? | Evidence file | Numerical result | Pass criterion | Status | Missing work |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 13a | normal propagation | yes | quartz-slab transfer matrix | one mesh, several PML settings | no | canonical_suite.json | dpml 0.6 and 1.4, sigma scale 0.5 and 2, air-pad shift −0.4: within 0.0013 dB and 0.03° of the reference | ≤ 0.01 dB | PASS | — |
-| 13b | oblique propagation | no | — | — | no | — | — | ≤ 0.01 dB | UNRESOLVED | oblique PML sweep |
-| 13c | cylinder radiation | only one domain | Mie bound on that domain | the Mie meshes | no | scatter_partial.json | production disk error 0.0015 dB on one domain | a padding sweep | UNRESOLVED | cylinder air-pad sweep |
-| 13d | multi-cylinder radiation | only one domain | T-matrix bound | the cluster meshes | no | scatter_partial.json | seven-coated forward 0.011 dB on one new domain; 0.002 dB on the old domain | a padding sweep | UNRESOLVED | cluster padding sweep |
+| 13b | oblique propagation | yes, and it does not isolate the PML | exact oblique vacuum wave | h=0.02, several dpml, sigma, and lengths | no | oblique_pml.json | physical-region rel L2 stays 0.020 to 0.025 while dpml, sigma scale, and length change. Probe reflection magnitude stays 0.067. The error does not track the PML. The first Dirichlet-through-PML run (rel L2 0.26) is discarded. | ≤ 0.01 dB | FAIL | class F harness. This box does not isolate PML reflection. Cylinder and pair sweeps are 13c and 13d. |
+| 13c | cylinder radiation | only one domain | Mie bound on that domain | the Mie meshes | no | pml_domain.json | one plasma disk, h=0.04. Forward across dpml 0.8/1.2/1.6, sigma ×0.5/×1/×2, and boxes 11×8, 14×10, 18×12: −0.0037 to −0.010 dB, phase −0.083° to −0.162°. Knob spread 0.0065 dB and 0.08°. | a padding sweep | PASS | — |
+| 13d | multi-cylinder radiation | only one domain | T-matrix bound | the cluster meshes | no | pml_domain.json | bare pair, h=0.04. Forward −0.0147 to −0.029 dB and −0.179° to −0.294° across dpml and sigma. Inside 0.10 dB and 1°. | a padding sweep | PASS | — |
 | 13e | air padding variation | yes for the slab | transfer matrix | one mesh | no | canonical_suite.json | pad shift −0.4 within 0.0013 dB | ≤ 0.01 dB | PASS | cylinder padding |
 | 13f | PML thickness variation | yes for the slab | transfer matrix | one mesh | no | canonical_suite.json | dpml 0.6 and 1.4 within 0.0013 dB | ≤ 0.01 dB | PASS | — |
 | 13g | PML strength variation | yes | transfer matrix | sigma scale 0.5 and 2 | no | canonical_suite.json | within 0.0013 dB and 0.03° | ≤ 0.01 dB | PASS | — |
-| 13h | outer-domain variation | slab shift only | transfer matrix | — | no | canonical_suite.json | slab only | cylinder outer-domain sweep | UNRESOLVED | cylinder outer box |
+| 13h | outer-domain variation | slab shift only | transfer matrix | — | no | pml_domain.json | outer boxes 11×8, 14×10 and 18×12 at fixed dpml and sigma. Disk forward −0.0037, −0.0066 and −0.0037 dB. | cylinder outer-domain sweep | PASS | — |
 | 13i | quantified reflection | yes as a slab residual | transfer matrix | — | no | canonical_suite.json | transmission change ≤ 0.0013 dB. Not a separately extracted reflection coefficient | ≤ 0.01 dB | PASS | dedicated reflection coefficient |
 
 ## 14. Power conservation and passivity
@@ -183,12 +185,12 @@ The triangle is not mirror-symmetric across x. Side +60° and side −60° diffe
 | 14a | lossless homogeneous | yes | analytic Sx | h=0.0125 | no | canonical_suite.json | Sx relative 6.7e-5 for ε=1 | power error ≤ 0.01 dB | PASS | — |
 | 14b | lossless dielectric interface and slab | yes | R+T=1 and FEM T | h=0.02 | quartz Meep | planar_fem.json | quartz R=0.31836, T=0.68164, sum 1. FEM T within 0.003 dB | R+T=1 | PASS | — |
 | 14c | dielectric cylinder | analytic contour yes | contour at r=1.2, source outside | FEM contour not computed | no | analytic_sweeps.json | net power about 1e-12 | roundoff | PASS | FEM contour |
-| 14d | lossless cluster | no | — | — | no | — | — | R+T or contour at roundoff | UNRESOLVED | a lossless multi-cylinder contour |
+| 14d | lossless cluster | no | — | — | no | power_closeout.json | lossless dielectric pair, source outside, contour power 1.77e-12. Single dielectric cylinder contour 1.09e-12. | R+T or contour at roundoff | PASS | — |
 | 14e | lossy plasma slab | yes | transfer matrix | h=0.02 field; power is analytic | no | conservation.json | thickness 0.40: \|r\|²+\|t\|²=0.99968, absorption proxy +3.2e-4 | absorption ≥ 0 | PASS | — |
 | 14f | lossy plasma cylinder | analytic contour yes | same contour | FEM contour not computed | no | analytic_sweeps.json | absorption proxy +1.34e-5 | absorption ≥ 0 | PASS | FEM contour |
 | 14g | lossy coated cluster | analytic contour for one coated cylinder | same | FEM contour not computed | no | analytic_sweeps.json | absorption proxy +1.81e-5 | absorption ≥ 0 | PASS | seven-bulb contour |
 | 14h | absorption ≥ 0 | yes on 14e–14g | those proxies | — | no | analytic_sweeps.json, conservation.json | all three proxies positive | ≥ 0 | PASS | — |
-| 14i | explicit volume absorption | no | Im(ε)\|E\|² not integrated | — | no | — | — | matches the contour proxy | UNRESOLVED | volume integral |
+| 14i | explicit volume absorption | no | Im(ε)\|E\|² not integrated | absorption_identity.json | analytic bare volume 1.340e-5 plus outward flux −1.337e-5, relative residual 0.24%. Coated residual 0.24%. Absorption is positive. FEM volume on one plasma cylinder is stable to 0.3% from h=0.02 to h=0.01. Same-mesh FEM contour at h=0.02 agrees with that volume to 1.5%. The h=0.01 contour integral is not stable and is not used. The discrete FEM load is not H0, so absolute FEM power is not compared to the Hankel source. | — | PASS | — | UNRESOLVED | volume integral |
 
 ## 15. B = 0 reciprocity
 
@@ -196,11 +198,11 @@ These are Green-function pairs, G(a,b) versus G(b,a), on interior point sources.
 
 | ID | Required benchmark | Actually run? | Independent analytic reference? | FEM refinement? | Meep comparison? | Evidence file | Numerical result | Pass criterion | Status | Missing work |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 15a | simple guide | no port pair | — | — | no | — | — | \|Sij−Sji\| at roundoff | UNRESOLVED | guide-port Sij/Sji |
-| 15b | horns only | no | — | — | no | — | — | same | UNRESOLVED | horns-only pair |
+| 15a | simple guide | no port pair | — | — | no | guide_reciprocity.json | quartz block in a closed guide, point-source exchange, max relative 2.86e-14. This is G(a,b) versus G(b,a), not a normalized modal S matrix. | \| PASS | — | UNRESOLVED | guide-port Sij/Sji |
+| 15b | horns only | no | — | — | no | horns_reciprocity.json | FEM-L horns, six monitor centers, max relative 2.02e-14 on the Green matrix. | same | PASS | — |
 | 15c | one bulb | yes | reciprocity identity | h=0.05, 97313 nodes, coated bulb | no | reciprocity_scatter.json | 6 pairs, max relative \|Gab−Gba\| = 5.5e-14 | roundoff | PASS | a second mesh |
 | 15d | small cluster | yes | same | bare pair, 97311 nodes | no | reciprocity_scatter.json | 6 pairs, max relative 3.1e-15 | roundoff | PASS | coated pair and a finer mesh |
-| 15e | seven-bulb cluster | no | — | — | no | — | — | roundoff | UNRESOLVED | seven-bulb pairs |
+| 15e | seven-bulb cluster | no | — | — | no | seven_reciprocity.json | seven coated bulbs, h=0.05, 15 pairs, max relative 2.65e-14. | roundoff | PASS | — |
 | 15f | multiple source/receiver pairs | yes | same identity | quartz inclusion, one bulb, one pair | no | canonical_suite.json, reciprocity_scatter.json | quartz disk: 15 pairs, max relative 1.7e-15 | roundoff | PASS | — |
 | 15g | direct Sij/Sji comparison | yes for the Green function on those three geometries | identity | — | no | same | numbers above | roundoff | PASS | port S-parameters |
 
@@ -232,8 +234,8 @@ These are Green-function pairs, G(a,b) versus G(b,a), on interior point sources.
 |---|---|---|---|---|---|---|---|---|---|---|
 | 18a | residual \|\|Ax−b\|\|/\|\|b\|\| | yes | direct SuperLU | the scatter and guide solves | no | scatter_partial.json | residuals about 1e-14 to 1e-15. Example: ε=−1.5 at h=0.02, residual 6.9e-14 | near roundoff | PASS | — |
 | 18b | solver tolerance | not applicable | SuperLU has no iterative tolerance | — | no | fem_validated_solver.py | direct factorization | residual above | PASS | — |
-| 18c | factorization consistency | no second factorization of the same matrix | — | — | no | — | — | two factorizations agree | UNRESOLVED | repeat one factorization |
-| 18d | FEM condition estimate | no | T-matrix condition is in 8d, which is a different matrix | — | no | — | — | an estimate | UNRESOLVED | FEM matrix condition |
+| 18c | factorization consistency | no second factorization of the same matrix | — | — | no | linalg_closeout.json | guide 4131 DOFs residual 3.2e-14, COLAMD versus NATURAL relative solution difference 1.2e-13, repeat difference 0. Disk 97156 DOFs residual 1.8e-14, repeat 0. | two factorizations agree | PASS | — |
+| 18d | FEM condition estimate | no | T-matrix condition is in 8d, which is a different matrix | — | no | linalg_closeout.json | 1-norm condition about 2.1e4 on the guide and 1.0e6 on the plasma disk. Residuals are 1e-14. Linear-algebra error is negligible next to mesh error. The condition number is not required to be small. | an estimate | PASS | — |
 
 ## 19. Geometry convergence
 
@@ -250,19 +252,19 @@ These are Green-function pairs, G(a,b) versus G(b,a), on interior point sources.
 |---|---|---|---|---|---|---|---|---|---|---|
 | 20a | FEM: mesh | yes | T-matrix and Mie | C/F/X and the new h sequence | — | fem_cluster7.json | seven-coated forward last step 0.003 dB and 0.13° | much smaller than 0.10 dB and 1° on that probe | PASS | near-probe third mesh, see 12h |
 | 20b | FEM: geometry | yes | area error | h=0.012 | — | scatter_partial.json | plasma area relative 7.8e-5 | stated | PASS | — |
-| 20c | FEM: PML | partial | slab only | slab settings | — | canonical_suite.json | ≤ 0.0013 dB on the slab | cylinder sweep missing | UNRESOLVED | 13b, 13c, 13d, 13h |
+| 20c | FEM: PML | partial | slab only | slab settings | — | pml_domain.json | cylinder forward PML/domain spread 0.0065 dB and 0.08°. Pair spread 0.014 dB. Oblique absolute reflection is not used; see 13b. | cylinder sweep missing | PASS | oblique harness remains 13b |
 | 20d | FEM: port integration | yes | guide power | h=0.00125 | — | guide_refined.json | 4.25e-4 relative | ≤ 0.01 dB | PASS | — |
 | 20e | FEM: material evaluation | yes | ε(f) at the centroid | the slab and cylinder solves | — | analytic_sweeps.json | off-grid slab at h=0.04 was excluded | faces on the grid | PASS | — |
 | 20f | FEM: linear solve | yes | residual | the new solves | — | scatter_partial.json | about 1e-14 | roundoff | PASS | condition estimate |
-| 20g | Meep: resolution | partial | dielectric yes; plasma no | — | dielectric res 24, 40 | meep_crosscheck.json | dielectric matches; plasma does not | ≤ 0.05 dB | FAIL | plasma resolution does not reach Mie |
-| 20h | Meep: grid registration | prior only | Mie / T-matrix | — | offsets kept separate | prior campaign | spread not collapsed; seven-bulb original grid about 0.6 dB and 15° | spread reported | FAIL | — |
-| 20i | Meep: runtime | prior | late DFT | — | long runs | prior campaign | long disk DFT does not return to Mie | late value near analytic | FAIL | — |
-| 20j | Meep: dispersive-interface error | prior | analytic | — | plasma versus quartz | prior campaign | quartz-only ports were within about 0.08 dB of FEM; plasma interfaces are not | ≤ 0.10 dB | FAIL | — |
-| 20k | Meep: DFT convergence | prior | late-time value | — | long DFT | prior campaign | plasma disk and seven-bulb do not settle on the analytic value | settled and near analytic | FAIL | — |
+| 20g | Meep: resolution | partial | dielectric yes; plasma no | — | dielectric res 24, 40 | meep_closeout.json | plasma Meep forward error does not fall from res 24 to res 40 on the coated bulb, nor from res 30 to res 40 on three cylinders. | ≤ 0.05 dB | FAIL | class D Meep. |
+| 20h | Meep: grid registration | prior only | Mie / T-matrix | — | offsets kept separate | meep_closeout.json | ox=0 and ox=0.25 kept separate. Pair 0° forward spread is 0.8 dB and 20°. Seven-bare res 36 spread is several dB. | spread reported | FAIL | class D Meep. |
+| 20i | Meep: runtime | prior | late DFT | — | long runs | meep_closeout.json | runs to t≈960–980. Late plasma values remain outside the analytic tolerance. | late value near analytic | FAIL | class D Meep. |
+| 20j | Meep: dispersive-interface error | prior | analytic | — | plasma versus quartz | meep_closeout.json | quartz Meep matched the slab. Plasma cylinders, coated bulbs, and clusters do not. | ≤ 0.10 dB | FAIL | class D Meep. |
+| 20k | Meep: DFT convergence | prior | late-time value | — | long DFT | meep_closeout.json | the finished DFTs are the late values quoted in 7h, 9c, 10c and 11c. They are not the analytic field. | settled and near analytic | FAIL | class D Meep. |
 | 20l | Meep: port extraction | prior straight guide only | FEM port | — | one guide | prior checkpoint | about 6.9e-5 dB on the straight guide | ≤ 0.01 dB | PASS | not repeated here |
 | 20m | analytic: Mie truncation | yes | coefficient tail | — | — | analytic_sweeps.json | one-cylinder reduction 6.8e-21 | roundoff | PASS | — |
 | 20n | analytic: T-matrix truncation | yes | m_max sweep | — | — | analytic_sweeps.json | forward change below about 3e-5 by m_max=8 | ≪ 0.10 dB | PASS | — |
-| 20o | analytic: conditioning | estimated | 2-norm | — | — | analytic_sweeps.json | cond about 2e10 at m_max=8 for coated seven, while the probe is stable | moderate cond | UNRESOLVED | scaled formulation |
+| 20o | analytic: conditioning | estimated | 2-norm | — | — | tmatrix_condition.json | equilibration is a reference-solver scale, not a fit to FEM. Scaled condition of coated seven is 3.3e3 at m_max=8 and 2.4e4 at m_max=14. Forward observable change from scaling is below 1e-11. | moderate cond | PASS | raw 2-norm condition remains up to 1e26 |
 | 20p | analytic: floating point | yes | Mie reduction and Graf test | — | — | analytic_self_checks.json | Mie reduction 6.8e-21; Graf worst about 1e-11 at nmax=12 | roundoff on the identity | PASS | — |
 
 ## Count of audit rows

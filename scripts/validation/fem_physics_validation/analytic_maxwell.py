@@ -197,11 +197,12 @@ def coated_T(k0: float, radii: list[float], eps: list[complex], nmax: int) -> np
     ns = np.arange(-nmax, nmax + 1)
     T = np.zeros(len(ns), dtype=np.complex128)
     for i, n in enumerate(ns):
-        T[i] = _coated_one(k0, radii, eps, int(n))
+        T[i] = _coated_one(k0, radii, eps, int(n))[0]
     return T
 
 
-def _coated_one(k0: float, radii: list[float], eps: list[complex], n: int) -> complex:
+def _coated_one(k0: float, radii: list[float], eps: list[complex], n: int):
+    """Return (T_n, solution). solution[0] is the core Bessel amplitude for a unit incident J_n."""
     """Solve multilayer matching for one azimuthal order. Returns the exterior T_n."""
     # Regions: 0..M-1 shells, plus exterior air. Unknowns: core A, then (B,C) per shell after core, plus S.
     # Region 0: A J only. Regions 1..M-1: B J + C H. Exterior: J + S H.
@@ -262,7 +263,7 @@ def _coated_one(k0: float, radii: list[float], eps: list[complex], n: int) -> co
                     mat[row, j_i + 1] -= (k_r / eps_r) * h1vp(n, zr, 1)
             row += 1
     sol = np.linalg.solve(mat, rhs)
-    return complex(sol[-1])
+    return complex(sol[-1]), sol
 
 
 def addition_check(k0: float = 1.3, nmax: int = 12) -> float:
@@ -332,7 +333,10 @@ def solve_clusters(centers: np.ndarray, k0: float, radius: float, eps: complex, 
                     G = hankel1(int(m - n), k0 * R) * np.exp(-1j * int(m - n) * phi)
                     M[row, j * n_mode + inn] -= T[im] * G
     solve_clusters.last_cond = float(np.linalg.cond(M))
+    solve_clusters.last_M = M
+    solve_clusters.last_rhs = rhs
     b = np.linalg.solve(M, rhs).reshape(n_obj, n_mode)
+    solve_clusters.last_residual = float(np.linalg.norm(M @ b.ravel() - rhs) / (np.linalg.norm(rhs) + 1e-30))
     return b
 
 

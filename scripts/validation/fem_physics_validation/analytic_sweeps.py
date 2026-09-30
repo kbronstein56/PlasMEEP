@@ -47,6 +47,7 @@ def probes(outer: float) -> dict[str, tuple[float, float]]:
         "side_90": (0.0, 2.8),
         "gap_air": (0.55, 0.0),
         "outside_shell": (outer + 0.06, 0.0),
+        "near_quartz": (outer + 0.02, 0.03),
     }
 
 

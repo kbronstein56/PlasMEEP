@@ -1,8 +1,8 @@
 {
   "n": 144,
-  "pass": 110,
-  "fail": 10,
-  "unresolved": 24,
+  "pass": 128,
+  "fail": 16,
+  "unresolved": 0,
   "rows": [
     {
       "id": "1a",
@@ -61,8 +61,10 @@
     {
       "id": "2f",
       "benchmark": "analytical E/H relation",
-      "status": "FAIL",
-      "missing": "one more refinement of the gradient sample"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "eh_orders.json",
+      "result": "vacuum element median 0.0841% at h=0.003125; plasma element max 0.0767% at h=0.0015625. Both are order 1, as expected for a P1 gradient. Hz L2 is 3e-6."
     },
     {
       "id": "2g",
@@ -92,7 +94,9 @@
       "id": "3d",
       "benchmark": "E/H relation",
       "status": "FAIL",
-      "missing": "E/H on the h=0.00125 mode"
+      "missing": "class C. About h=0.00064 would put the max under 0.1% if the order stays 1. Not an operator error.",
+      "evidence": "eh_orders.json",
+      "result": "at h=0.0008, 2.50e6 DOFs: element median 0.0987%, element max 0.115%, grad L2 0.105%, Hz L2 1.22e-4. Median meets 0.1%. Max and grad L2 do not. Order of the gradient is 1."
     },
     {
       "id": "3e",
@@ -115,8 +119,10 @@
     {
       "id": "3h",
       "benchmark": "Meep comparison",
-      "status": "UNRESOLVED",
-      "missing": "Meep parallel-plate guide"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "meep_closeout.json",
+      "result": "m=0, beta=k0. res 40 phase +0.280\u00b0. res 80 phase +0.070\u00b0 and \u22123.6e-6 dB. Dispersion falls as resolution squared."
     },
     {
       "id": "4a",
@@ -253,8 +259,10 @@
     {
       "id": "6g",
       "benchmark": "frequency sweep",
-      "status": "UNRESOLVED",
-      "missing": "FEM at frequencies other than 3.85 GHz"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "freq_fem.json",
+      "result": "finest mesh, worst probe: 3.20 \u22120.0029 dB \u22120.055\u00b0; 3.85 \u22120.0067 dB \u22120.112\u00b0; 4.50 \u22120.0171 dB \u22120.218\u00b0; 5.30 \u22120.0248 dB \u22120.147\u00b0; 6.00 \u22120.0067 dB \u22120.293\u00b0."
     },
     {
       "id": "6h",
@@ -290,13 +298,17 @@
       "id": "6m",
       "benchmark": "Meep resolution convergence",
       "status": "FAIL",
-      "missing": "plasma Meep does not meet the Mie bar"
+      "missing": "class D Meep. Not an FEM failure.",
+      "evidence": "meep_crosscheck.json; meep_closeout.json",
+      "result": "dielectric Meep passes. Plasma Meep, including the new coated and cluster runs, does not return to the analytic field as resolution increases."
     },
     {
       "id": "6n",
       "benchmark": "Meep sub-cell registration",
       "status": "FAIL",
-      "missing": "not registration-independent for plasma"
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "registrations kept separate. Coated forward res 40: ox0 \u22120.133 dB \u22122.40\u00b0; ox0.25 \u22120.233 dB \u22123.57\u00b0. Spread is not collapsed."
     },
     {
       "id": "7a",
@@ -331,8 +343,10 @@
     {
       "id": "7f",
       "benchmark": "nearby frequencies",
-      "status": "UNRESOLVED",
-      "missing": "FEM coated cylinder off 3.85 GHz"
+      "status": "FAIL",
+      "missing": "class C. Estimated h\u22480.004, about 9e6 DOFs, to reach 0.5\u00b0. Threshold not changed. Production 3.85 GHz still passes.",
+      "evidence": "freq_fem.json; coated_530_local.json",
+      "result": "3.50, 3.85 and 4.20 GHz pass at h=0.02. At 5.30 GHz, h=0.012 and h_edge=0.004, 1.68e6 DOFs: forward \u22120.102 dB, \u22124.73\u00b0. Wall refinement from h_edge=0.008 to 0.004 moved the phase from \u221212.3\u00b0 only to \u221210.9\u00b0. Global h dominates, order about 2."
     },
     {
       "id": "7g",
@@ -343,14 +357,18 @@
     {
       "id": "7h",
       "benchmark": "Meep resolution sequence",
-      "status": "UNRESOLVED",
-      "missing": "coated-cylinder Meep resolution sequence"
+      "status": "FAIL",
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "res 24 ox0 forward \u22120.120 dB \u22121.50\u00b0; res 40 ox0 \u22120.133 dB \u22122.40\u00b0. Higher resolution did not improve the forward probe."
     },
     {
       "id": "7i",
       "benchmark": "Meep registration sequence",
-      "status": "UNRESOLVED",
-      "missing": "coated-cylinder registration sequence"
+      "status": "FAIL",
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "res 40 ox0.25 forward \u22120.233 dB \u22123.57\u00b0 versus ox0 \u22120.133 dB \u22122.40\u00b0. Registrations were not averaged."
     },
     {
       "id": "7j",
@@ -379,8 +397,10 @@
     {
       "id": "8d",
       "benchmark": "conditioning",
-      "status": "UNRESOLVED",
-      "missing": "scaled T-matrix. The probe is stable; the raw matrix is not well conditioned past m_max=8"
+      "status": "PASS",
+      "missing": "raw condition stays large. The physical observable is not contaminated.",
+      "evidence": "tmatrix_condition.json",
+      "result": "coated 7 at m_max=8: raw cond 1.98e10, scaled 3.32e3, residual 7.4e-16, scaling moves the forward probe by 9.9e-15. At m_max=14 raw cond 2.43e26, scaled 2.35e4, forward change from the previous m_max is 2.0e-10."
     },
     {
       "id": "8e",
@@ -403,14 +423,18 @@
     {
       "id": "9c",
       "benchmark": "Meep",
-      "status": "UNRESOLVED",
-      "missing": "two-cylinder Meep"
+      "status": "FAIL",
+      "missing": "class D Meep. FEM pair orientations pass in 9d.",
+      "evidence": "meep_closeout.json",
+      "result": "pair 0\u00b0 res 30 ox0 forward +1.07 dB +16.1\u00b0; ox0.25 +0.25 dB \u22123.83\u00b0. 30\u00b0 and 90\u00b0 are also outside 0.10 dB and 1\u00b0, and the two registrations disagree."
     },
     {
       "id": "9d",
       "benchmark": "orientation relative to the Yee grid",
-      "status": "UNRESOLVED",
-      "missing": "second mesh, and any Meep orientation run"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "orient_fem.json",
+      "result": "angles 0, 30, 45, 60, 90 at h=0.02. Worst probe on that mesh is the 30\u00b0 gap, \u22120.0067 dB \u22120.104\u00b0. Last step from h=0.04 is about a factor of three. A y-directed source at (0,\u22124.5) sits inside the PML on the 14\u00d710 box and is not used."
     },
     {
       "id": "10a",
@@ -427,8 +451,10 @@
     {
       "id": "10c",
       "benchmark": "Meep",
-      "status": "UNRESOLVED",
-      "missing": "three-cylinder Meep"
+      "status": "FAIL",
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "res 30 ox0 forward +0.87 dB +24.2\u00b0; ox0.25 +0.27 dB \u22124.79\u00b0; res 40 ox0 \u22120.29 dB \u22125.96\u00b0. Resolution does not remove the error."
     },
     {
       "id": "10d",
@@ -451,8 +477,10 @@
     {
       "id": "11c",
       "benchmark": "Meep",
-      "status": "UNRESOLVED",
-      "missing": "bare seven-cylinder Meep"
+      "status": "FAIL",
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "res 24 ox0 forward \u22121.67 dB +25.2\u00b0; res 36 ox0 \u22126.32 dB \u221241.4\u00b0; res 36 ox0.25 \u22120.53 dB \u22125.20\u00b0. Not averaged."
     },
     {
       "id": "12a",
@@ -494,13 +522,17 @@
       "id": "12g",
       "benchmark": "Meep comparison",
       "status": "FAIL",
-      "missing": "Meep does not meet the analytic cluster"
+      "missing": "class D Meep.",
+      "evidence": "prior seven-bulb records",
+      "result": "original-grid late residual remains about 0.6 dB and 15\u00b0 from the T-matrix. New bare-seven Meep runs in 11c are the same class of failure."
     },
     {
       "id": "12h",
       "benchmark": "field comparison, not one forward scalar",
-      "status": "UNRESOLVED",
-      "missing": "third mesh. The near-probe step is not yet much smaller than 1\u00b0"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "coated7_local.json",
+      "result": "h=0.02, h_edge=0.0045, 618177 DOFs, 11 cells across the quartz wall. Forward \u22120.0090 dB \u22120.243\u00b0; backward +0.017 dB \u22120.037\u00b0; \u00b160\u00b0 \u22120.011 dB +0.06\u00b0; gap \u22120.020 dB \u22120.333\u00b0; outside shell \u22120.020 dB \u22120.332\u00b0; near quartz \u22120.020 dB \u22120.335\u00b0. Previous outside-shell phase at h_edge=0.008 was \u22120.412\u00b0. Last local step is 0.08\u00b0."
     },
     {
       "id": "13a",
@@ -511,20 +543,26 @@
     {
       "id": "13b",
       "benchmark": "oblique propagation",
-      "status": "UNRESOLVED",
-      "missing": "oblique PML sweep"
+      "status": "FAIL",
+      "missing": "class F harness. This box does not isolate PML reflection. Cylinder and pair sweeps are 13c and 13d.",
+      "evidence": "oblique_pml.json",
+      "result": "physical-region rel L2 stays 0.020 to 0.025 while dpml, sigma scale, and length change. Probe reflection magnitude stays 0.067. The error does not track the PML. The first Dirichlet-through-PML run (rel L2 0.26) is discarded."
     },
     {
       "id": "13c",
       "benchmark": "cylinder radiation",
-      "status": "UNRESOLVED",
-      "missing": "cylinder air-pad sweep"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "pml_domain.json",
+      "result": "one plasma disk, h=0.04. Forward across dpml 0.8/1.2/1.6, sigma \u00d70.5/\u00d71/\u00d72, and boxes 11\u00d78, 14\u00d710, 18\u00d712: \u22120.0037 to \u22120.010 dB, phase \u22120.083\u00b0 to \u22120.162\u00b0. Knob spread 0.0065 dB and 0.08\u00b0."
     },
     {
       "id": "13d",
       "benchmark": "multi-cylinder radiation",
-      "status": "UNRESOLVED",
-      "missing": "cluster padding sweep"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "pml_domain.json",
+      "result": "bare pair, h=0.04. Forward \u22120.0147 to \u22120.029 dB and \u22120.179\u00b0 to \u22120.294\u00b0 across dpml and sigma. Inside 0.10 dB and 1\u00b0."
     },
     {
       "id": "13e",
@@ -547,8 +585,10 @@
     {
       "id": "13h",
       "benchmark": "outer-domain variation",
-      "status": "UNRESOLVED",
-      "missing": "cylinder outer box"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "pml_domain.json",
+      "result": "outer boxes 11\u00d78, 14\u00d710 and 18\u00d712 at fixed dpml and sigma. Disk forward \u22120.0037, \u22120.0066 and \u22120.0037 dB."
     },
     {
       "id": "13i",
@@ -577,8 +617,10 @@
     {
       "id": "14d",
       "benchmark": "lossless cluster",
-      "status": "UNRESOLVED",
-      "missing": "a lossless multi-cylinder contour"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "power_closeout.json",
+      "result": "lossless dielectric pair, source outside, contour power 1.77e-12. Single dielectric cylinder contour 1.09e-12."
     },
     {
       "id": "14e",
@@ -607,20 +649,26 @@
     {
       "id": "14i",
       "benchmark": "explicit volume absorption",
-      "status": "UNRESOLVED",
-      "missing": "volume integral"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "absorption_identity.json",
+      "result": "analytic bare volume 1.340e-5 plus outward flux \u22121.337e-5, relative residual 0.24%. Coated residual 0.24%. Absorption is positive. FEM volume on one plasma cylinder is stable to 0.3% from h=0.02 to h=0.01. Same-mesh FEM contour at h=0.02 agrees with that volume to 1.5%. The h=0.01 contour integral is not stable and is not used. The discrete FEM load is not H0, so absolute FEM power is not compared to the Hankel source."
     },
     {
       "id": "15a",
       "benchmark": "simple guide",
-      "status": "UNRESOLVED",
-      "missing": "guide-port Sij/Sji"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "guide_reciprocity.json",
+      "result": "quartz block in a closed guide, point-source exchange, max relative 2.86e-14. This is G(a,b) versus G(b,a), not a normalized modal S matrix."
     },
     {
       "id": "15b",
       "benchmark": "horns only",
-      "status": "UNRESOLVED",
-      "missing": "horns-only pair"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "horns_reciprocity.json",
+      "result": "FEM-L horns, six monitor centers, max relative 2.02e-14 on the Green matrix."
     },
     {
       "id": "15c",
@@ -637,8 +685,10 @@
     {
       "id": "15e",
       "benchmark": "seven-bulb cluster",
-      "status": "UNRESOLVED",
-      "missing": "seven-bulb pairs"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "seven_reciprocity.json",
+      "result": "seven coated bulbs, h=0.05, 15 pairs, max relative 2.65e-14."
     },
     {
       "id": "15f",
@@ -739,14 +789,18 @@
     {
       "id": "18c",
       "benchmark": "factorization consistency",
-      "status": "UNRESOLVED",
-      "missing": "repeat one factorization"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "linalg_closeout.json",
+      "result": "guide 4131 DOFs residual 3.2e-14, COLAMD versus NATURAL relative solution difference 1.2e-13, repeat difference 0. Disk 97156 DOFs residual 1.8e-14, repeat 0."
     },
     {
       "id": "18d",
       "benchmark": "FEM condition estimate",
-      "status": "UNRESOLVED",
-      "missing": "FEM matrix condition"
+      "status": "PASS",
+      "missing": "\u2014",
+      "evidence": "linalg_closeout.json",
+      "result": "1-norm condition about 2.1e4 on the guide and 1.0e6 on the plasma disk. Residuals are 1e-14. Linear-algebra error is negligible next to mesh error. The condition number is not required to be small."
     },
     {
       "id": "19a",
@@ -787,8 +841,10 @@
     {
       "id": "20c",
       "benchmark": "FEM: PML",
-      "status": "UNRESOLVED",
-      "missing": "13b, 13c, 13d, 13h"
+      "status": "PASS",
+      "missing": "oblique harness remains 13b",
+      "evidence": "pml_domain.json",
+      "result": "cylinder forward PML/domain spread 0.0065 dB and 0.08\u00b0. Pair spread 0.014 dB. Oblique absolute reflection is not used; see 13b."
     },
     {
       "id": "20d",
@@ -812,31 +868,41 @@
       "id": "20g",
       "benchmark": "Meep: resolution",
       "status": "FAIL",
-      "missing": "plasma resolution does not reach Mie"
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "plasma Meep forward error does not fall from res 24 to res 40 on the coated bulb, nor from res 30 to res 40 on three cylinders."
     },
     {
       "id": "20h",
       "benchmark": "Meep: grid registration",
       "status": "FAIL",
-      "missing": "\u2014"
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "ox=0 and ox=0.25 kept separate. Pair 0\u00b0 forward spread is 0.8 dB and 20\u00b0. Seven-bare res 36 spread is several dB."
     },
     {
       "id": "20i",
       "benchmark": "Meep: runtime",
       "status": "FAIL",
-      "missing": "\u2014"
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "runs to t\u2248960\u2013980. Late plasma values remain outside the analytic tolerance."
     },
     {
       "id": "20j",
       "benchmark": "Meep: dispersive-interface error",
       "status": "FAIL",
-      "missing": "\u2014"
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "quartz Meep matched the slab. Plasma cylinders, coated bulbs, and clusters do not."
     },
     {
       "id": "20k",
       "benchmark": "Meep: DFT convergence",
       "status": "FAIL",
-      "missing": "\u2014"
+      "missing": "class D Meep.",
+      "evidence": "meep_closeout.json",
+      "result": "the finished DFTs are the late values quoted in 7h, 9c, 10c and 11c. They are not the analytic field."
     },
     {
       "id": "20l",
@@ -859,8 +925,10 @@
     {
       "id": "20o",
       "benchmark": "analytic: conditioning",
-      "status": "UNRESOLVED",
-      "missing": "scaled formulation"
+      "status": "PASS",
+      "missing": "raw 2-norm condition remains up to 1e26",
+      "evidence": "tmatrix_condition.json",
+      "result": "equilibration is a reference-solver scale, not a fit to FEM. Scaled condition of coated seven is 3.3e3 at m_max=8 and 2.4e4 at m_max=14. Forward observable change from scaling is below 1e-11."
     },
     {
       "id": "20p",
@@ -868,5 +936,6 @@
       "status": "PASS",
       "missing": "\u2014"
     }
-  ]
+  ],
+  "b0_status": "B0_FEM_PARTIALLY_VALIDATED"
 }

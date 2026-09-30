@@ -1,0 +1,13 @@
+{
+  "lossless_pair_contour_power": 1.7676832220203664e-12,
+  "fem_plasma_volume_absorption": 1.5889470109705655e-06,
+  "fem_plasma_outward_flux": -1.542630900629497e-05,
+  "fem_balance_out_plus_abs": -1.3837361995324404e-05,
+  "absorption_nonnegative": true,
+  "plasma_slab_power_deficit": 0.0003221557965392696,
+  "fresnel_power_sum": 1.0,
+  "dofs": 268957,
+  "coated_note": "pair contour is two dielectric cylinders, source outside",
+  "coated_analytic_flux": -1.8132604084744597e-05,
+  "coated_absorption_proxy_sign": 1.8132604084744597e-05
+}

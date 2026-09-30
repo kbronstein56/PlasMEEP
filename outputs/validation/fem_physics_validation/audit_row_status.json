@@ -1,0 +1,872 @@
+{
+  "n": 144,
+  "pass": 110,
+  "fail": 10,
+  "unresolved": 24,
+  "rows": [
+    {
+      "id": "1a",
+      "benchmark": "scalar real \u03c1",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "1b",
+      "benchmark": "scalar complex \u03c1",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "1c",
+      "benchmark": "diagonal anisotropic complex \u03c1",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "1d",
+      "benchmark": "full complex tensor, off-diagonal",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "2a",
+      "benchmark": "\u03b5 = 1",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "2b",
+      "benchmark": "\u03b5 = 3.8",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "2c",
+      "benchmark": "positive complex \u03b5",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "2d",
+      "benchmark": "production B=0 plasma \u03b5",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "2e",
+      "benchmark": "analytical propagation constant",
+      "status": "PASS",
+      "missing": "do not quote `beta_rel` for complex kx"
+    },
+    {
+      "id": "2f",
+      "benchmark": "analytical E/H relation",
+      "status": "FAIL",
+      "missing": "one more refinement of the gradient sample"
+    },
+    {
+      "id": "2g",
+      "benchmark": "Poynting power",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "3a",
+      "benchmark": "mode shape",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "3b",
+      "benchmark": "propagation constant",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "3c",
+      "benchmark": "cutoff",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "3d",
+      "benchmark": "E/H relation",
+      "status": "FAIL",
+      "missing": "E/H on the h=0.00125 mode"
+    },
+    {
+      "id": "3e",
+      "benchmark": "analytic guide-normal power",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "3f",
+      "benchmark": "multiple widths and frequencies",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "3g",
+      "benchmark": "FEM mesh convergence",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "3h",
+      "benchmark": "Meep comparison",
+      "status": "UNRESOLVED",
+      "missing": "Meep parallel-plate guide"
+    },
+    {
+      "id": "4a",
+      "benchmark": "air/quartz",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4b",
+      "benchmark": "quartz/air",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4c",
+      "benchmark": "positive complex material",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4d",
+      "benchmark": "negative-\u03b5 production plasma",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4e",
+      "benchmark": "normal incidence",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4f",
+      "benchmark": "at least two oblique angles",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4g",
+      "benchmark": "complex r",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4h",
+      "benchmark": "complex t",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "4i",
+      "benchmark": "power coefficients",
+      "status": "PASS",
+      "missing": "FEM surface integral on the oblique box"
+    },
+    {
+      "id": "5a",
+      "benchmark": "quartz slab",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "5b",
+      "benchmark": "plasma slab",
+      "status": "PASS",
+      "missing": "Meep plasma slab in this package"
+    },
+    {
+      "id": "5c",
+      "benchmark": "quartz/plasma/quartz",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "5d",
+      "benchmark": "multiple thicknesses",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "5e",
+      "benchmark": "multiple frequencies",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "5f",
+      "benchmark": "complex R and T",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "5g",
+      "benchmark": "mesh-conforming interface convergence",
+      "status": "PASS",
+      "missing": "a third slab mesh"
+    },
+    {
+      "id": "6a",
+      "benchmark": "production radius 0.230",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6b",
+      "benchmark": "smaller radius 0.12",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6c",
+      "benchmark": "larger radius 0.40",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6d",
+      "benchmark": "dielectric cylinder \u03b5=3.8",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6e",
+      "benchmark": "several negative-\u03b5 cases",
+      "status": "PASS",
+      "missing": "second mesh for \u03b5=\u22128"
+    },
+    {
+      "id": "6f",
+      "benchmark": "production complex plasma",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6g",
+      "benchmark": "frequency sweep",
+      "status": "UNRESOLVED",
+      "missing": "FEM at frequencies other than 3.85 GHz"
+    },
+    {
+      "id": "6h",
+      "benchmark": "forward scattering",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6i",
+      "benchmark": "backward scattering",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6j",
+      "benchmark": "side scattering",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6k",
+      "benchmark": "near field",
+      "status": "PASS",
+      "missing": "full-field L2 map of the new solve"
+    },
+    {
+      "id": "6l",
+      "benchmark": "FEM mesh convergence",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "6m",
+      "benchmark": "Meep resolution convergence",
+      "status": "FAIL",
+      "missing": "plasma Meep does not meet the Mie bar"
+    },
+    {
+      "id": "6n",
+      "benchmark": "Meep sub-cell registration",
+      "status": "FAIL",
+      "missing": "not registration-independent for plasma"
+    },
+    {
+      "id": "7a",
+      "benchmark": "production plasma radius",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "7b",
+      "benchmark": "vacuum gap",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "7c",
+      "benchmark": "quartz shell",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "7d",
+      "benchmark": "limiting cases",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "7e",
+      "benchmark": "target frequency 3.85 GHz",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "7f",
+      "benchmark": "nearby frequencies",
+      "status": "UNRESOLVED",
+      "missing": "FEM coated cylinder off 3.85 GHz"
+    },
+    {
+      "id": "7g",
+      "benchmark": "FEM mesh sequence",
+      "status": "PASS",
+      "missing": "third mesh"
+    },
+    {
+      "id": "7h",
+      "benchmark": "Meep resolution sequence",
+      "status": "UNRESOLVED",
+      "missing": "coated-cylinder Meep resolution sequence"
+    },
+    {
+      "id": "7i",
+      "benchmark": "Meep registration sequence",
+      "status": "UNRESOLVED",
+      "missing": "coated-cylinder registration sequence"
+    },
+    {
+      "id": "7j",
+      "benchmark": "complex near field",
+      "status": "PASS",
+      "missing": "full-field L2 on the new mesh"
+    },
+    {
+      "id": "8a",
+      "benchmark": "independent implementation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "8b",
+      "benchmark": "one-cylinder reduction to Mie",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "8c",
+      "benchmark": "m_max truncation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "8d",
+      "benchmark": "conditioning",
+      "status": "UNRESOLVED",
+      "missing": "scaled T-matrix. The probe is stable; the raw matrix is not well conditioned past m_max=8"
+    },
+    {
+      "id": "8e",
+      "benchmark": "no FEM/Meep fitting",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "9a",
+      "benchmark": "T-matrix",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "9b",
+      "benchmark": "FEM convergence",
+      "status": "PASS",
+      "missing": "coated pair has only h=0.04: worst \u22120.0477 dB, \u22120.318\u00b0, inside the band, one mesh"
+    },
+    {
+      "id": "9c",
+      "benchmark": "Meep",
+      "status": "UNRESOLVED",
+      "missing": "two-cylinder Meep"
+    },
+    {
+      "id": "9d",
+      "benchmark": "orientation relative to the Yee grid",
+      "status": "UNRESOLVED",
+      "missing": "second mesh, and any Meep orientation run"
+    },
+    {
+      "id": "10a",
+      "benchmark": "T-matrix",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "10b",
+      "benchmark": "FEM convergence",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "10c",
+      "benchmark": "Meep",
+      "status": "UNRESOLVED",
+      "missing": "three-cylinder Meep"
+    },
+    {
+      "id": "10d",
+      "benchmark": "multipole convergence",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "11a",
+      "benchmark": "T-matrix",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "11b",
+      "benchmark": "FEM convergence",
+      "status": "PASS",
+      "missing": "a third mesh so the last step is clearly below 1\u00b0"
+    },
+    {
+      "id": "11c",
+      "benchmark": "Meep",
+      "status": "UNRESOLVED",
+      "missing": "bare seven-cylinder Meep"
+    },
+    {
+      "id": "12a",
+      "benchmark": "multilayer T-matrix",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "12b",
+      "benchmark": "FEM-C",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "12c",
+      "benchmark": "FEM-F",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "12d",
+      "benchmark": "FEM-X",
+      "status": "PASS",
+      "missing": "off-axis probes on this domain"
+    },
+    {
+      "id": "12e",
+      "benchmark": "final-two-mesh difference",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "12f",
+      "benchmark": "T-matrix truncation uncertainty",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "12g",
+      "benchmark": "Meep comparison",
+      "status": "FAIL",
+      "missing": "Meep does not meet the analytic cluster"
+    },
+    {
+      "id": "12h",
+      "benchmark": "field comparison, not one forward scalar",
+      "status": "UNRESOLVED",
+      "missing": "third mesh. The near-probe step is not yet much smaller than 1\u00b0"
+    },
+    {
+      "id": "13a",
+      "benchmark": "normal propagation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "13b",
+      "benchmark": "oblique propagation",
+      "status": "UNRESOLVED",
+      "missing": "oblique PML sweep"
+    },
+    {
+      "id": "13c",
+      "benchmark": "cylinder radiation",
+      "status": "UNRESOLVED",
+      "missing": "cylinder air-pad sweep"
+    },
+    {
+      "id": "13d",
+      "benchmark": "multi-cylinder radiation",
+      "status": "UNRESOLVED",
+      "missing": "cluster padding sweep"
+    },
+    {
+      "id": "13e",
+      "benchmark": "air padding variation",
+      "status": "PASS",
+      "missing": "cylinder padding"
+    },
+    {
+      "id": "13f",
+      "benchmark": "PML thickness variation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "13g",
+      "benchmark": "PML strength variation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "13h",
+      "benchmark": "outer-domain variation",
+      "status": "UNRESOLVED",
+      "missing": "cylinder outer box"
+    },
+    {
+      "id": "13i",
+      "benchmark": "quantified reflection",
+      "status": "PASS",
+      "missing": "dedicated reflection coefficient"
+    },
+    {
+      "id": "14a",
+      "benchmark": "lossless homogeneous",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "14b",
+      "benchmark": "lossless dielectric interface and slab",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "14c",
+      "benchmark": "dielectric cylinder",
+      "status": "PASS",
+      "missing": "FEM contour"
+    },
+    {
+      "id": "14d",
+      "benchmark": "lossless cluster",
+      "status": "UNRESOLVED",
+      "missing": "a lossless multi-cylinder contour"
+    },
+    {
+      "id": "14e",
+      "benchmark": "lossy plasma slab",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "14f",
+      "benchmark": "lossy plasma cylinder",
+      "status": "PASS",
+      "missing": "FEM contour"
+    },
+    {
+      "id": "14g",
+      "benchmark": "lossy coated cluster",
+      "status": "PASS",
+      "missing": "seven-bulb contour"
+    },
+    {
+      "id": "14h",
+      "benchmark": "absorption \u2265 0",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "14i",
+      "benchmark": "explicit volume absorption",
+      "status": "UNRESOLVED",
+      "missing": "volume integral"
+    },
+    {
+      "id": "15a",
+      "benchmark": "simple guide",
+      "status": "UNRESOLVED",
+      "missing": "guide-port Sij/Sji"
+    },
+    {
+      "id": "15b",
+      "benchmark": "horns only",
+      "status": "UNRESOLVED",
+      "missing": "horns-only pair"
+    },
+    {
+      "id": "15c",
+      "benchmark": "one bulb",
+      "status": "PASS",
+      "missing": "a second mesh"
+    },
+    {
+      "id": "15d",
+      "benchmark": "small cluster",
+      "status": "PASS",
+      "missing": "coated pair and a finer mesh"
+    },
+    {
+      "id": "15e",
+      "benchmark": "seven-bulb cluster",
+      "status": "UNRESOLVED",
+      "missing": "seven-bulb pairs"
+    },
+    {
+      "id": "15f",
+      "benchmark": "multiple source/receiver pairs",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "15g",
+      "benchmark": "direct Sij/Sji comparison",
+      "status": "PASS",
+      "missing": "port S-parameters"
+    },
+    {
+      "id": "16a",
+      "benchmark": "mirror",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "16b",
+      "benchmark": "rotation",
+      "status": "PASS",
+      "missing": "second mesh"
+    },
+    {
+      "id": "16c",
+      "benchmark": "transformed observables",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "16d",
+      "benchmark": "no averaging used to manufacture symmetry",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "17a",
+      "benchmark": "exact analytic guide-mode power",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "17b",
+      "benchmark": "reconstructed FEM Poynting",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "17c",
+      "benchmark": "normalization",
+      "status": "PASS",
+      "missing": "repeat of the straight-guide Meep port"
+    },
+    {
+      "id": "17d",
+      "benchmark": "forward/backward sign",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "17e",
+      "benchmark": "monitor orientation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "17f",
+      "benchmark": "mesh-density independence",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "17g",
+      "benchmark": "monitor-sampling independence",
+      "status": "PASS",
+      "missing": "the absolute one-sided power at this h is still 1.5% high; the element flux is the converged number"
+    },
+    {
+      "id": "17h",
+      "benchmark": "monitor-location independence",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "18a",
+      "benchmark": "residual \\",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "18b",
+      "benchmark": "solver tolerance",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "18c",
+      "benchmark": "factorization consistency",
+      "status": "UNRESOLVED",
+      "missing": "repeat one factorization"
+    },
+    {
+      "id": "18d",
+      "benchmark": "FEM condition estimate",
+      "status": "UNRESOLVED",
+      "missing": "FEM matrix condition"
+    },
+    {
+      "id": "19a",
+      "benchmark": "body-fitted circles",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "19b",
+      "benchmark": "thin quartz wall",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "19c",
+      "benchmark": "cluster interfaces",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "19d",
+      "benchmark": "geometric error separate from field error",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20a",
+      "benchmark": "FEM: mesh",
+      "status": "PASS",
+      "missing": "near-probe third mesh, see 12h"
+    },
+    {
+      "id": "20b",
+      "benchmark": "FEM: geometry",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20c",
+      "benchmark": "FEM: PML",
+      "status": "UNRESOLVED",
+      "missing": "13b, 13c, 13d, 13h"
+    },
+    {
+      "id": "20d",
+      "benchmark": "FEM: port integration",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20e",
+      "benchmark": "FEM: material evaluation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20f",
+      "benchmark": "FEM: linear solve",
+      "status": "PASS",
+      "missing": "condition estimate"
+    },
+    {
+      "id": "20g",
+      "benchmark": "Meep: resolution",
+      "status": "FAIL",
+      "missing": "plasma resolution does not reach Mie"
+    },
+    {
+      "id": "20h",
+      "benchmark": "Meep: grid registration",
+      "status": "FAIL",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20i",
+      "benchmark": "Meep: runtime",
+      "status": "FAIL",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20j",
+      "benchmark": "Meep: dispersive-interface error",
+      "status": "FAIL",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20k",
+      "benchmark": "Meep: DFT convergence",
+      "status": "FAIL",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20l",
+      "benchmark": "Meep: port extraction",
+      "status": "PASS",
+      "missing": "not repeated here"
+    },
+    {
+      "id": "20m",
+      "benchmark": "analytic: Mie truncation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20n",
+      "benchmark": "analytic: T-matrix truncation",
+      "status": "PASS",
+      "missing": "\u2014"
+    },
+    {
+      "id": "20o",
+      "benchmark": "analytic: conditioning",
+      "status": "UNRESOLVED",
+      "missing": "scaled formulation"
+    },
+    {
+      "id": "20p",
+      "benchmark": "analytic: floating point",
+      "status": "PASS",
+      "missing": "\u2014"
+    }
+  ]
+}

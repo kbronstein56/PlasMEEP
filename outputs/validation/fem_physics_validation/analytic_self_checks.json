@@ -1,0 +1,13 @@
+{
+  "fresnel_air_r": 0.0,
+  "fresnel_dielectric_power_sum": 1.0,
+  "fresnel_plasma_r_abs": 0.9998693867453983,
+  "air_slab_r": 0.0,
+  "air_slab_t": 0.0,
+  "bare_air_T": 1.929602051262794e-17,
+  "coated_air_T": 8.513710679343254e-17,
+  "coated_equals_bare_outer": 5.551115123125783e-17,
+  "coated_air_shell_equals_core": 1.1102230246251565e-16,
+  "graf_error": 1.176644327081082e-11,
+  "cluster_reduces_to_mie": 6.776263578034403e-21
+}

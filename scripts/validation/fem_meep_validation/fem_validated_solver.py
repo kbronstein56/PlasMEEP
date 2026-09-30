@@ -116,6 +116,9 @@ def assign_rho(
 # Meep quadratic PML, R_asymptotic=1e-15. σ(u)=[-ln R /(2 d ∫u² du)] u², ∫u²=1/3.
 # The retired validation profile used σ_max=2 and must not come back.
 PML_R_ASYMPTOTIC = 1e-15
+# Validation hook. Production calls leave this at 1. Tests may set it to
+# compare PML strength without changing the quadratic Meep shape.
+PML_SIGMA_SCALE = 1.0
 LAST_OPERATOR: Dict[str, Any] = {}
 
 
@@ -129,7 +132,7 @@ def meep_sigma_max(thickness: float) -> float:
 def pml_sx_sy(xy: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     nx, ny, dp = sc.nx_ports, sc.ny_ports, sc.dpml_ports
     omega = 2 * np.pi * sc.fs_a
-    sigma_max = meep_sigma_max(dp)
+    sigma_max = meep_sigma_max(dp) * float(PML_SIGMA_SCALE)
     x, y = xy[:, 0], xy[:, 1]
     sigx = np.zeros_like(x)
     sigy = np.zeros_like(y)

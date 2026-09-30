@@ -1,0 +1,15 @@
+{
+  "sx": [
+    1.0,
+    0.35
+  ],
+  "sy": [
+    1.0,
+    0.15
+  ],
+  "angle_deg": 35.0,
+  "interior_residual_stretched_wave": 3.514333671640488e-06,
+  "interior_residual_unstretched_wave": 0.04422318093315468,
+  "interior_fraction_stretched": 4.367245798404553e-05,
+  "interior_fraction_unstretched": 0.1131789289753677
+}

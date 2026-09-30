@@ -168,11 +168,12 @@ def main():
         if len(parts) >= 12 and parts[1].strip() in updates:
             rid = parts[1].strip()
             evidence, result, status, missing = updates[rid]
+            parts = parts[:12]
             parts[7] = f" {evidence} "
             parts[8] = f" {result} "
             parts[10] = f" {status} "
             parts[11] = f" {missing} "
-            line = "|".join(parts)
+            line = "|".join(parts) + "|"
             seen.add(rid)
         new_lines.append(line)
     missing_ids = set(updates) - seen

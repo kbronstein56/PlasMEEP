@@ -1,0 +1,46 @@
+{
+  "eps_3.85": [
+    -3.3177598706183264,
+    0.0011214960702904744
+  ],
+  "eps_stored": [
+    -3.317759870618328,
+    0.001121496070290476
+  ],
+  "eps_abs_diff": 1.7763574879097324e-15,
+  "eps_5.30": [
+    -1.2783908053260666,
+    0.00042988505760869176
+  ],
+  "fs_a": 0.2568443533025771,
+  "slab_R": 0.750966514327339,
+  "slab_T": 0.24871132987612177,
+  "slab_vs_stack_R": 2.220446049250313e-16,
+  "slab_vs_stack_T": 5.551115123125783e-17,
+  "note": "A first slab transfer used cos+sin instead of cos+i sin. The corrected transfer is the one reported.",
+  "graf_abs_err": 6.733539255069017e-14,
+  "mie_vector_len_mine": 17,
+  "mie_vector_len_library": 17,
+  "hz_library": [
+    0.044319803026724613,
+    -0.2528477325906475
+  ],
+  "hz_independent": [
+    0.044319803026724613,
+    -0.25284773259064747
+  ],
+  "hz_abs_diff": 5.551115123125783e-17,
+  "coated_T_n0_library_vs_transfer": null,
+  "coated_T_shape": [
+    9
+  ],
+  "coated_n0_transfer": [
+    -6.104805779162911e-05,
+    0.007688847177810004
+  ],
+  "coated_T_n0_abs_diff": 6.939105658912966e-18,
+  "coated_T_n0_library": [
+    -6.104805779162906e-05,
+    0.007688847177809997
+  ]
+}

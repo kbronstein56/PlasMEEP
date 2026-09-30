@@ -1,0 +1,20 @@
+{
+  "guide_dofs": 525,
+  "colamd_vs_exact": 0.02268223700638714,
+  "natural_vs_colamd": 5.269326786311698e-15,
+  "opposite_diagonal_vs_exact": 0.022682237006396235,
+  "opposite_diagonal_vs_first": 0.03216263199748881,
+  "reversed_local_nodes_vs_first": 1.2295155380459465e-15,
+  "source_phase_scale_error": 1.1714928735233949e-15,
+  "translation_vs_unshifted": 0.0,
+  "mirror_sign_flip_error": 1.7430989576567757e-15,
+  "monitor_point_ratio_abs_diff": 0.0480643143752244,
+  "monitor_node_rel_a": 0.018576197476526047,
+  "monitor_node_rel_b": 0.03299446196846858,
+  "hex_rotate_source_and_sample_abs_diff": 1.1697748610254586e-15,
+  "hex_center_reorder_abs_diff": 1.9298110615968595e-15,
+  "beta": [
+    3.889780919140645,
+    0.0
+  ]
+}

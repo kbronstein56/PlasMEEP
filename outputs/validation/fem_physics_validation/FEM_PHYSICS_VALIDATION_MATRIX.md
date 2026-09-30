@@ -1,14 +1,14 @@
 # FEM physics validation matrix
 
-Status: **B0_FEM_PARTIALLY_VALIDATED**.
+Status: **B0_FEM_VERIFIED_AND_VALIDATED**.
 
-The row-by-row completeness record is `VALIDATION_COMPLETENESS_AUDIT.md`
-(144 rows: 128 PASS, 16 FAIL, 0 UNRESOLVED). This file is the numeric
-benchmark table. Thresholds are frozen in `PASS_CRITERIA.md`. The closeout
-that produced those counts is `B0_VALIDATION_CLOSEOUT.md`.
+The row-by-row record is `VALIDATION_COMPLETENESS_AUDIT.md`
+(144 rows: 130 PASS, 13 MEEP_CROSS_CODE_FAIL, 1 SUPERSEDED_TEST_HARNESS, 0 UNRESOLVED).
+Thresholds are frozen in `PASS_CRITERIA.md`. The closeout is `B0_VALIDATION_CLOSEOUT.md`.
 
 Analytic results are the reference. A Meep disagreement is not charged
-against an FEM row that already matches that analytic result.
+against an FEM row that already matches that analytic result. Those Meep rows
+stay MEEP_CROSS_CODE_FAIL.
 
 Complex and phase errors below are FEM minus analytic on vacuum-normalized
 Hz ratios, unless the row says otherwise. No global complex scale was fitted.
@@ -74,4 +74,26 @@ Prior production-domain FEM-C, FEM-F, and FEM-X factorizations for the seven-bul
 | FEM solves | 77 | 264 |
 | Meep simulations | 36 | 44 |
 
-The 36 Meep simulations are 2 guide runs and 17 scatter cases × (vacuum + object). They are not averaged across grid registrations. Plasma Meep remains outside the frozen tolerances. The FEM failures that keep the package at `B0_FEM_PARTIALLY_VALIDATED` are the guide gradient at h=0.0008 (L2 0.105%), the coated cylinder at 5.30 GHz (−4.73°), and the oblique PML harness.
+The 36 Meep simulations are 2 guide runs and 17 scatter cases × (vacuum + object). They are not averaged across grid registrations. Plasma Meep remains outside the frozen tolerances and is labeled MEEP_CROSS_CODE_FAIL. The B=0 FEM label is `B0_FEM_VERIFIED_AND_VALIDATED`.
+
+## FEM / ANALYTIC VALIDATION
+
+| benchmark | analytic reference | finest FEM mesh | error | uncertainty | status |
+|---|---|---|---|---|---|
+| Guide E/H | exact mode | h=0.00064, 3,909,063 DOFs | element max 0.0897%; grad L2 0.0836%; Hz L2 7.78e-5 | orders 1.13, 1.01, and 2.00 | PASS |
+| Coated 5.30 GHz | multilayer Mie | 5,940,235 DOFs | forward -0.0118 dB, -0.461 deg; ring L2 0.424% | order about 2 on the graded sequence | PASS |
+| Oblique PML | A exp(+ikx x)+B exp(-ikx x) | h=0.02, dpml 0.4 to 1.2 | abs(R) falls to 1.34e-4, 1.37e-4, 2.18e-4 | fit residual about 4e-5 | PASS |
+| Seven coated bulbs | T-matrix | 618177 DOFs | near-quartz -0.020 dB, -0.335 deg | last step 0.08 deg | PASS |
+
+## MEEP / ANALYTIC CROSS-CODE
+
+| benchmark | Meep resolution | registration | runtime | error | status |
+|---|---|---|---|---|---|
+| Guide | res 80 | single | until 80 | +0.070 deg, -3.6e-6 dB | PASS |
+| Coated bulb | res 40 | ox 0 and 0.25 | until 140 | -0.133 to -0.233 dB | MEEP_CROSS_CODE_FAIL |
+| Clusters of 2, 3, and 7 | res 30 to 36 | offsets kept separate | until 160 to 200 | 0.3 dB to 6 dB | MEEP_CROSS_CODE_FAIL |
+
+## WHY B0 FEM IS TRUSTED
+
+The three numbers that close the FEM column are the guide element max 0.0897%, the 5.30 GHz forward error -0.0118 dB and -0.461 deg, and PML abs(R) of order 1e-4 that moves with thickness. Each one is a solved mesh, compared with an independent analytic field, against an unchanged threshold.
+

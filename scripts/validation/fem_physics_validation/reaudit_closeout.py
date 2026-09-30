@@ -124,22 +124,22 @@ def main():
 
     updates = {
         "2f": ("eh_orders.json", "vacuum element median 0.0841% at h=0.003125; plasma element max 0.0767% at h=0.0015625. Both are order 1, as expected for a P1 gradient. Hz L2 is 3e-6.", "PASS", "—"),
-        "3d": ("eh_orders.json", "at h=0.0008, 2.50e6 DOFs: element median 0.0987%, element max 0.115%, grad L2 0.105%, Hz L2 1.22e-4. Median meets 0.1%. Max and grad L2 do not. Order of the gradient is 1.", "FAIL", "class C. About h=0.00064 would put the max under 0.1% if the order stays 1. Not an operator error."),
+        "3d": ("guide_eh_close.json", "h=0.00064, 3,909,063 DOFs. Hz L2 7.78e-5 (order 2.00 from h=0.0008). Gradient L2 0.0836% (order 1.01). Element median 0.0789% (order 1.00). Element max 0.0897% (order 1.13). Integrated power relative error 1.12e-4. Direct P1 samples, no recovery.", "PASS", "E reconstruction is first order, one order slower than Hz, as expected for a P1 derivative. The frozen 0.1% bar is met."),
         "3h": ("meep_closeout.json", "m=0, beta=k0. res 40 phase +0.280°. res 80 phase +0.070° and −3.6e-6 dB. Dispersion falls as resolution squared.", "PASS", "—"),
         "6g": ("freq_fem.json", "finest mesh, worst probe: 3.20 −0.0029 dB −0.055°; 3.85 −0.0067 dB −0.112°; 4.50 −0.0171 dB −0.218°; 5.30 −0.0248 dB −0.147°; 6.00 −0.0067 dB −0.293°.", "PASS", "—"),
-        "6m": ("meep_crosscheck.json; meep_closeout.json", "dielectric Meep passes. Plasma Meep, including the new coated and cluster runs, does not return to the analytic field as resolution increases.", "FAIL", "class D Meep. Not an FEM failure."),
-        "6n": ("meep_closeout.json", "registrations kept separate. Coated forward res 40: ox0 −0.133 dB −2.40°; ox0.25 −0.233 dB −3.57°. Spread is not collapsed.", "FAIL", "class D Meep."),
-        "7f": ("freq_fem.json; coated_530_local.json", "3.50, 3.85 and 4.20 GHz pass at h=0.02. At 5.30 GHz, h=0.012 and h_edge=0.004, 1.68e6 DOFs: forward −0.102 dB, −4.73°. Wall refinement from h_edge=0.008 to 0.004 moved the phase from −12.3° only to −10.9°. Global h dominates, order about 2.", "FAIL", "class C. Estimated h≈0.004, about 9e6 DOFs, to reach 0.5°. Threshold not changed. Production 3.85 GHz still passes."),
-        "7h": ("meep_closeout.json", "res 24 ox0 forward −0.120 dB −1.50°; res 40 ox0 −0.133 dB −2.40°. Higher resolution did not improve the forward probe.", "FAIL", "class D Meep."),
-        "7i": ("meep_closeout.json", "res 40 ox0.25 forward −0.233 dB −3.57° versus ox0 −0.133 dB −2.40°. Registrations were not averaged.", "FAIL", "class D Meep."),
+        "6m": ("meep_crosscheck.json; meep_closeout.json", "dielectric Meep passes. Plasma Meep, including the new coated and cluster runs, does not return to the analytic field as resolution increases.", "MEEP_CROSS_CODE_FAIL", "class D Meep. Not an FEM failure."),
+        "6n": ("meep_closeout.json", "registrations kept separate. Coated forward res 40: ox0 −0.133 dB −2.40°; ox0.25 −0.233 dB −3.57°. Spread is not collapsed.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "7f": ("coated_530_graded.json; coated_530_analytic.json", "Finest graded mesh: 5,940,235 DOFs, h_near median 0.00268, 26.9 elements across the quartz. Forward -0.0118 dB, -0.461 deg. Near-quartz +0.0474 dB, -0.046 deg. Ring L2 0.424%. Every probe is inside 0.05 dB and 0.5 deg. Order about 2 in h_near. Analytic cond 1, residual 0, nmax=4 already within 9e-8 of nmax=16. Phase slope -865 deg/GHz; the 0.5 deg bar was not relaxed.", "PASS", "Uniform h=0.006 (6.71e6 DOFs) died in SuperLU. The graded solves are the evidence, not an extrapolation."),
+        "7h": ("meep_closeout.json", "res 24 ox0 forward −0.120 dB −1.50°; res 40 ox0 −0.133 dB −2.40°. Higher resolution did not improve the forward probe.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "7i": ("meep_closeout.json", "res 40 ox0.25 forward −0.233 dB −3.57° versus ox0 −0.133 dB −2.40°. Registrations were not averaged.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
         "8d": ("tmatrix_condition.json", "coated 7 at m_max=8: raw cond 1.98e10, scaled 3.32e3, residual 7.4e-16, scaling moves the forward probe by 9.9e-15. At m_max=14 raw cond 2.43e26, scaled 2.35e4, forward change from the previous m_max is 2.0e-10.", "PASS", "raw condition stays large. The physical observable is not contaminated."),
-        "9c": ("meep_closeout.json", "pair 0° res 30 ox0 forward +1.07 dB +16.1°; ox0.25 +0.25 dB −3.83°. 30° and 90° are also outside 0.10 dB and 1°, and the two registrations disagree.", "FAIL", "class D Meep. FEM pair orientations pass in 9d."),
+        "9c": ("meep_closeout.json", "pair 0° res 30 ox0 forward +1.07 dB +16.1°; ox0.25 +0.25 dB −3.83°. 30° and 90° are also outside 0.10 dB and 1°, and the two registrations disagree.", "MEEP_CROSS_CODE_FAIL", "class D Meep. FEM pair orientations pass in 9d."),
         "9d": ("orient_fem.json", "angles 0, 30, 45, 60, 90 at h=0.02. Worst probe on that mesh is the 30° gap, −0.0067 dB −0.104°. Last step from h=0.04 is about a factor of three. A y-directed source at (0,−4.5) sits inside the PML on the 14×10 box and is not used.", "PASS", "—"),
-        "10c": ("meep_closeout.json", "res 30 ox0 forward +0.87 dB +24.2°; ox0.25 +0.27 dB −4.79°; res 40 ox0 −0.29 dB −5.96°. Resolution does not remove the error.", "FAIL", "class D Meep."),
-        "11c": ("meep_closeout.json", "res 24 ox0 forward −1.67 dB +25.2°; res 36 ox0 −6.32 dB −41.4°; res 36 ox0.25 −0.53 dB −5.20°. Not averaged.", "FAIL", "class D Meep."),
-        "12g": ("prior seven-bulb records", "original-grid late residual remains about 0.6 dB and 15° from the T-matrix. New bare-seven Meep runs in 11c are the same class of failure.", "FAIL", "class D Meep."),
+        "10c": ("meep_closeout.json", "res 30 ox0 forward +0.87 dB +24.2°; ox0.25 +0.27 dB −4.79°; res 40 ox0 −0.29 dB −5.96°. Resolution does not remove the error.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "11c": ("meep_closeout.json", "res 24 ox0 forward −1.67 dB +25.2°; res 36 ox0 −6.32 dB −41.4°; res 36 ox0.25 −0.53 dB −5.20°. Not averaged.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "12g": ("prior seven-bulb records", "original-grid late residual remains about 0.6 dB and 15° from the T-matrix. New bare-seven Meep runs in 11c are the same class of failure.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
         "12h": ("coated7_local.json", "h=0.02, h_edge=0.0045, 618177 DOFs, 11 cells across the quartz wall. Forward −0.0090 dB −0.243°; backward +0.017 dB −0.037°; ±60° −0.011 dB +0.06°; gap −0.020 dB −0.333°; outside shell −0.020 dB −0.332°; near quartz −0.020 dB −0.335°. Previous outside-shell phase at h_edge=0.008 was −0.412°. Last local step is 0.08°.", "PASS", "—"),
-        "13b": ("oblique_pml.json", "physical-region rel L2 stays 0.020 to 0.025 while dpml, sigma scale, and length change. Probe reflection magnitude stays 0.067. The error does not track the PML. The first Dirichlet-through-PML run (rel L2 0.26) is discarded.", "FAIL", "class F harness. This box does not isolate PML reflection. Cylinder and pair sweeps are 13c and 13d."),
+        "13b": ("oblique_pml.json", "Old box: physical-region rel L2 stays 0.020 to 0.025 and the probe reflection stays 0.067 while dpml, sigma, and length change. That observable does not isolate PML reflection. Superseded by oblique_pml_fit.json.", "SUPERSEDED_TEST_HARNESS", "The replacement Bloch-guide fit is the PML evidence. At h=0.02, |R| falls with thickness: 0 deg 1.74e-3 to 1.34e-4, 25 deg 1.49e-3 to 1.37e-4, 60 deg 8.79e-4 to 2.18e-4, fit residual about 4e-5. Air length 2.4 versus 3.6 leaves |R| at 1e-4. The old box is not marked PASS."),
         "13c": ("pml_domain.json", "one plasma disk, h=0.04. Forward across dpml 0.8/1.2/1.6, sigma ×0.5/×1/×2, and boxes 11×8, 14×10, 18×12: −0.0037 to −0.010 dB, phase −0.083° to −0.162°. Knob spread 0.0065 dB and 0.08°.", "PASS", "—"),
         "13d": ("pml_domain.json", "bare pair, h=0.04. Forward −0.0147 to −0.029 dB and −0.179° to −0.294° across dpml and sigma. Inside 0.10 dB and 1°.", "PASS", "—"),
         "13h": ("pml_domain.json", "outer boxes 11×8, 14×10 and 18×12 at fixed dpml and sigma. Disk forward −0.0037, −0.0066 and −0.0037 dB.", "PASS", "—"),
@@ -151,11 +151,11 @@ def main():
         "18c": ("linalg_closeout.json", "guide 4131 DOFs residual 3.2e-14, COLAMD versus NATURAL relative solution difference 1.2e-13, repeat difference 0. Disk 97156 DOFs residual 1.8e-14, repeat 0.", "PASS", "—"),
         "18d": ("linalg_closeout.json", "1-norm condition about 2.1e4 on the guide and 1.0e6 on the plasma disk. Residuals are 1e-14. Linear-algebra error is negligible next to mesh error. The condition number is not required to be small.", "PASS", "—"),
         "20c": ("pml_domain.json", "cylinder forward PML/domain spread 0.0065 dB and 0.08°. Pair spread 0.014 dB. Oblique absolute reflection is not used; see 13b.", "PASS", "oblique harness remains 13b"),
-        "20g": ("meep_closeout.json", "plasma Meep forward error does not fall from res 24 to res 40 on the coated bulb, nor from res 30 to res 40 on three cylinders.", "FAIL", "class D Meep."),
-        "20h": ("meep_closeout.json", "ox=0 and ox=0.25 kept separate. Pair 0° forward spread is 0.8 dB and 20°. Seven-bare res 36 spread is several dB.", "FAIL", "class D Meep."),
-        "20i": ("meep_closeout.json", "runs to t≈960–980. Late plasma values remain outside the analytic tolerance.", "FAIL", "class D Meep."),
-        "20j": ("meep_closeout.json", "quartz Meep matched the slab. Plasma cylinders, coated bulbs, and clusters do not.", "FAIL", "class D Meep."),
-        "20k": ("meep_closeout.json", "the finished DFTs are the late values quoted in 7h, 9c, 10c and 11c. They are not the analytic field.", "FAIL", "class D Meep."),
+        "20g": ("meep_closeout.json", "plasma Meep forward error does not fall from res 24 to res 40 on the coated bulb, nor from res 30 to res 40 on three cylinders.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "20h": ("meep_closeout.json", "ox=0 and ox=0.25 kept separate. Pair 0° forward spread is 0.8 dB and 20°. Seven-bare res 36 spread is several dB.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "20i": ("meep_closeout.json", "runs to t≈960–980. Late plasma values remain outside the analytic tolerance.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "20j": ("meep_closeout.json", "quartz Meep matched the slab. Plasma cylinders, coated bulbs, and clusters do not.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
+        "20k": ("meep_closeout.json", "the finished DFTs are the late values quoted in 7h, 9c, 10c and 11c. They are not the analytic field.", "MEEP_CROSS_CODE_FAIL", "class D Meep."),
         "20o": ("tmatrix_condition.json", "equilibration is a reference-solver scale, not a fit to FEM. Scaled condition of coated seven is 3.3e3 at m_max=8 and 2.4e4 at m_max=14. Forward observable change from scaling is below 1e-11.", "PASS", "raw 2-norm condition remains up to 1e26"),
     }
 
@@ -179,17 +179,25 @@ def main():
     if missing_ids:
         raise SystemExit(f"audit rows not found: {missing_ids}")
 
-    text = "\n".join(new_lines) + "\n"
     banner = (
-        "Closeout reaudit of all 144 rows, computed by `reaudit_closeout.py` from the JSON evidence: "
-        "128 PASS, 16 FAIL, 0 UNRESOLVED. The FEM failures are 3d and 7f (insufficient P1 or global refinement) "
-        "and 13b (oblique-box harness). The other 13 FAIL rows are Meep versus the analytic continuum.\n"
+        "Final B0 reaudit of all 144 rows: "
+        "130 PASS, 13 MEEP_CROSS_CODE_FAIL, 1 SUPERSEDED_TEST_HARNESS, 0 UNRESOLVED. "
+        "3d and 7f now pass. The old oblique box 13b is superseded by the Bloch PML fit, which passes. "
+        "The 13 Meep rows stay MEEP_CROSS_CODE_FAIL and are not charged against the FEM.\n"
     )
-    if "Closeout reaudit of all 144 rows" not in text:
+    text = "\n".join(new_lines) + "\n"
+    old = "Closeout reaudit of all 144 rows, computed by `reaudit_closeout.py` from the JSON evidence: 128 PASS, 16 FAIL, 0 UNRESOLVED. The FEM failures are 3d and 7f (insufficient P1 or global refinement) and 13b (oblique-box harness). The other 13 FAIL rows are Meep versus the analytic continuum.\n"
+    if old in text:
+        text = text.replace(old, banner)
+    elif "Final B0 reaudit of all 144 rows" not in text:
         text = text.replace(
             "Status of the B = 0 package: **B0_FEM_PARTIALLY_VALIDATED**.\n",
-            "Status of the B = 0 package: **B0_FEM_PARTIALLY_VALIDATED**.\n\n" + banner,
+            "Status of the B = 0 package: **B0_FEM_VERIFIED_AND_VALIDATED**.\n\n" + banner,
         )
+    text = text.replace(
+        "Status of the B = 0 package: **B0_FEM_PARTIALLY_VALIDATED**.",
+        "Status of the B = 0 package: **B0_FEM_VERIFIED_AND_VALIDATED**.",
+    )
     audit_path.write_text(text)
 
     status = load("audit_row_status.json")
@@ -215,15 +223,19 @@ def main():
         found = list(ROOT.joinpath("outputs", "validation").rglob(evidence))
         if not found:
             raise SystemExit(f"PASS row {rid} cites missing {evidence}")
-    counts = {"PASS": 0, "FAIL": 0, "UNRESOLVED": 0}
+    counts = {}
     for row in status["rows"]:
-        counts[row["status"]] += 1
-    if sum(counts.values()) != 144 or counts["UNRESOLVED"] != 0:
+        counts[row["status"]] = counts.get(row["status"], 0) + 1
+    if sum(counts.values()) != 144 or counts.get("UNRESOLVED", 0) != 0:
+        raise SystemExit(counts)
+    if counts.get("PASS") != 130 or counts.get("MEEP_CROSS_CODE_FAIL") != 13 or counts.get("SUPERSEDED_TEST_HARNESS") != 1:
         raise SystemExit(counts)
     status["pass"] = counts["PASS"]
-    status["fail"] = counts["FAIL"]
-    status["unresolved"] = counts["UNRESOLVED"]
-    status["b0_status"] = "B0_FEM_PARTIALLY_VALIDATED"
+    status["fail"] = counts.get("FAIL", 0)
+    status["meep_cross_code_fail"] = counts["MEEP_CROSS_CODE_FAIL"]
+    status["superseded_test_harness"] = counts["SUPERSEDED_TEST_HARNESS"]
+    status["unresolved"] = 0
+    status["b0_status"] = "B0_FEM_VERIFIED_AND_VALIDATED"
     (OUT / "audit_row_status.json").write_text(json.dumps(status, indent=2) + "\n")
     print(counts)
     print("REAUdit_OK")

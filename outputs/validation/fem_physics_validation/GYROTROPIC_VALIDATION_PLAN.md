@@ -3,7 +3,7 @@
 This is a plan for B ≠ 0. It is not a result, and it is not an authorization
 to run the production magnetized device or any adjoint.
 
-The B = 0 package is `B0_FEM_PARTIALLY_VALIDATED`. The earlier verified label was withdrawn. Do not start this ladder until that package is accepted. Each rung below uses an analytic or algebraic reference first. Meep is a later comparison, after that reference exists.
+The B = 0 FEM package is `B0_FEM_VERIFIED_AND_VALIDATED`. Do not start this ladder until that step is explicitly approved. Each rung below uses an analytic or algebraic reference first. Meep is a later comparison, after that reference exists. The 13 Meep rows remain `MEEP_CROSS_CODE_FAIL` and are not part of the FEM acceptance.
 
 ## Ladder
 

@@ -2,19 +2,11 @@
 
 ## Decision
 
-**B0_FEM_PARTIALLY_VALIDATED**
+**B0_FEM_VERIFIED_AND_VALIDATED**
 
-The earlier `B0_FEM_VERIFIED_AND_VALIDATED` label stays withdrawn. The
-item-by-item record is `VALIDATION_COMPLETENESS_AUDIT.md`, recomputed by
-`reaudit_closeout.py`: 144 required rows, 128 PASS, 16 FAIL, 0 UNRESOLVED.
+144 required rows: 130 PASS, 13 MEEP_CROSS_CODE_FAIL, 1 SUPERSEDED_TEST_HARNESS, 0 UNRESOLVED. Thresholds in `PASS_CRITERIA.md` were not changed.
 
-The homogeneous E/H sample now meets 0.1% (vacuum 0.084% at h=0.003125,
-plasma 0.077% at h=0.0015625). The guide gradient does not: at h=0.0008
-the element median is 0.0987%, the element max is 0.115%, and the gradient
-L2 is 0.105%. The coated cylinder at 5.30 GHz is −0.102 dB and −4.73° at
-h=0.012. The oblique PML box does not isolate reflection. Those three are
-the FEM failures. The other thirteen FAIL rows are Meep against the analytic
-continuum. Details are in `B0_VALIDATION_CLOSEOUT.md`.
+The guide E/H sample at h=0.00064 meets 0.1% on the direct P1 derivative (element max 0.0897%, gradient L2 0.0836%). The coated cylinder at 5.30 GHz meets 0.05 dB and 0.5 deg on the 5,940,235-DOF graded mesh (forward -0.0118 dB, -0.461 deg). The old oblique box is superseded. The Bloch-guide reflection falls with PML thickness at 0, 25, and 60 deg. The thirteen Meep rows stay MEEP_CROSS_CODE_FAIL.
 
 The frequency-domain P1 operator solves the intended B = 0 Hz Maxwell problem
 on the analytic tests in this campaign. Manufactured solutions converge at the
@@ -144,23 +136,38 @@ complex scale was fitted.
 
 ## Closeout
 
-Reaudit counts: 128 PASS, 16 FAIL, 0 UNRESOLVED.
+Reaudit counts: 130 PASS, 13 MEEP_CROSS_CODE_FAIL, 1 SUPERSEDED_TEST_HARNESS, 0 UNRESOLVED.
 
-FEM FAIL rows:
+FEM items that were open and are now closed:
 
-- 3d, guide E/H. h=0.0008, element max 0.115%, gradient L2 0.105%. Class C.
-- 7f, coated cylinder at 5.30 GHz. Forward −0.102 dB, −4.73° at h=0.012. Class C.
-- 13b, oblique PML box. rel L2 about 2.4%, insensitive to the PML knobs. Class F.
+- 3d, guide E/H. h=0.00064, 3,909,063 DOFs. Element max 0.0897%, gradient L2 0.0836%, Hz L2 7.78e-5, power rel 1.12e-4. Gradient order 1.01, Hz order 2.00.
+- 7f, coated cylinder at 5.30 GHz. 5,940,235 DOFs. Forward -0.0118 dB, -0.461 deg. Near-quartz +0.0474 dB, -0.046 deg. Ring L2 0.424%.
+- 13b, old oblique box, SUPERSEDED_TEST_HARNESS. Replacement abs(R) at dpml=1.2 is 1.34e-4, 1.37e-4, and 2.18e-4 at 0, 25, and 60 deg.
 
-Meep FAIL rows, not charged to the FEM: 6m, 6n, 7h, 7i, 9c, 10c, 11c, 12g, 20g, 20h, 20i, 20j, 20k.
-
-Bare-cylinder frequency sweep, coated frequencies other than 5.30 GHz, pair orientations, the locally refined seven-bulb probes, cylinder and pair PML sweeps, lossless contour power, the absorption identity, Green reciprocity, and the repeated factorizations pass.
-
-Solve counts. The pre-closeout package stored 275 analytic evaluations, 187 FEM solves, and 8 Meep simulations. This closeout added 77 recorded FEM factorizations, 45 T-matrix condition solves plus the cluster solves paired with the new scatter meshes (about 92 analytic evaluations), and 36 Meep simulations (2 guide resolutions and 17 scatter cases, each with a vacuum run and an object run). Totals for the B=0 package: about 367 analytic evaluations, 264 FEM solves, and 44 Meep simulations. The earlier plasma-ring campaign is additional evidence for the Meep FAIL rows and is not in the 44.
+Meep rows, not charged to the FEM: 6m, 6n, 7h, 7i, 9c, 10c, 11c, 12g, 20g, 20h, 20i, 20j, 20k. Status MEEP_CROSS_CODE_FAIL.
 
 ## Exact next step
 
-Do not start B ≠ 0, adjoints, optimization, or a 91-bulb run. The label stays
-`B0_FEM_PARTIALLY_VALIDATED` until 3d and 7f meet the frozen thresholds on a
-finer mesh, and until the oblique PML test is replaced by a measurement that
-actually tracks the PML. Meep plasma agreement is a separate cross-code item.
+Do not start B ≠ 0, adjoints, optimization, or a 91-bulb run until that work is separately approved. The B=0 FEM label is `B0_FEM_VERIFIED_AND_VALIDATED`.
+
+## FEM / ANALYTIC VALIDATION
+
+| benchmark | analytic reference | finest FEM mesh | error | uncertainty | status |
+|---|---|---|---|---|---|
+| MMS, four tensors | imposed Hz | n=64 | L2 4.25e-4, order 1.998 | H1 order 0.999 | PASS |
+| Guide E/H, direct P1 sample | exact Ey/Hz | h=0.00064, 3,909,063 DOFs | grad L2 0.0836%; element max 0.0897% | order 1.01 and Hz order 2.00 | PASS |
+| Coated cylinder at 5.30 GHz | multilayer Mie, cond 1 | 5,940,235 DOFs | forward -0.0118 dB, -0.461 deg; ring L2 0.424% | order about 2; bar not relaxed | PASS |
+| Oblique PML | Bloch decomposition before the PML | h=0.02, dpml=1.2 | abs(R) 1.34e-4 / 1.37e-4 / 2.18e-4 | fit residual about 4e-5 | PASS |
+| Seven coated bulbs | T-matrix | 618177 DOFs | near-quartz -0.020 dB, -0.335 deg | last step 0.08 deg | PASS |
+
+## MEEP / ANALYTIC CROSS-CODE
+
+| benchmark | Meep resolution | registration | runtime | error | status |
+|---|---|---|---|---|---|
+| Guide | res 80 | single | until 80 | +0.070 deg | PASS |
+| Coated, pair, three, seven | res 24 to 40 | ox 0 and 0.25 kept separate | until 140 to 200 | tenths of a dB to several dB | MEEP_CROSS_CODE_FAIL |
+
+## WHY B0 FEM IS TRUSTED
+
+Guide element max 0.0897% and gradient L2 0.0836% are under the frozen 0.1% bar, at orders 1.13 and 1.01. Hz on the same mesh is 7.78e-5, order 2.00. The 5.30 GHz coated forward error is -0.0118 dB and -0.461 deg on a mesh that was solved, and the step from 5.04e6 to 5.94e6 DOFs is order 2. PML abs(R) drops by about an order of magnitude when the thickness goes from 0.4 to 1.2 at 0 deg and at 25 deg. Those three numbers are the reason the FEM label changed. The Meep discrepancies were not removed and were not used.
+

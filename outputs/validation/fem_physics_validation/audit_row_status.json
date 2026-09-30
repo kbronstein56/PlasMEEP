@@ -1,7 +1,7 @@
 {
   "n": 144,
-  "pass": 128,
-  "fail": 16,
+  "pass": 130,
+  "fail": 0,
   "unresolved": 0,
   "rows": [
     {
@@ -93,10 +93,10 @@
     {
       "id": "3d",
       "benchmark": "E/H relation",
-      "status": "FAIL",
-      "missing": "class C. About h=0.00064 would put the max under 0.1% if the order stays 1. Not an operator error.",
-      "evidence": "eh_orders.json",
-      "result": "at h=0.0008, 2.50e6 DOFs: element median 0.0987%, element max 0.115%, grad L2 0.105%, Hz L2 1.22e-4. Median meets 0.1%. Max and grad L2 do not. Order of the gradient is 1."
+      "status": "PASS",
+      "missing": "E reconstruction is first order, one order slower than Hz, as expected for a P1 derivative. The frozen 0.1% bar is met.",
+      "evidence": "guide_eh_close.json",
+      "result": "h=0.00064, 3,909,063 DOFs. Hz L2 7.78e-5 (order 2.00 from h=0.0008). Gradient L2 0.0836% (order 1.01). Element median 0.0789% (order 1.00). Element max 0.0897% (order 1.13). Integrated power relative error 1.12e-4. Direct P1 samples, no recovery."
     },
     {
       "id": "3e",
@@ -297,7 +297,7 @@
     {
       "id": "6m",
       "benchmark": "Meep resolution convergence",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep. Not an FEM failure.",
       "evidence": "meep_crosscheck.json; meep_closeout.json",
       "result": "dielectric Meep passes. Plasma Meep, including the new coated and cluster runs, does not return to the analytic field as resolution increases."
@@ -305,7 +305,7 @@
     {
       "id": "6n",
       "benchmark": "Meep sub-cell registration",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "registrations kept separate. Coated forward res 40: ox0 \u22120.133 dB \u22122.40\u00b0; ox0.25 \u22120.233 dB \u22123.57\u00b0. Spread is not collapsed."
@@ -343,10 +343,10 @@
     {
       "id": "7f",
       "benchmark": "nearby frequencies",
-      "status": "FAIL",
-      "missing": "class C. Estimated h\u22480.004, about 9e6 DOFs, to reach 0.5\u00b0. Threshold not changed. Production 3.85 GHz still passes.",
-      "evidence": "freq_fem.json; coated_530_local.json",
-      "result": "3.50, 3.85 and 4.20 GHz pass at h=0.02. At 5.30 GHz, h=0.012 and h_edge=0.004, 1.68e6 DOFs: forward \u22120.102 dB, \u22124.73\u00b0. Wall refinement from h_edge=0.008 to 0.004 moved the phase from \u221212.3\u00b0 only to \u221210.9\u00b0. Global h dominates, order about 2."
+      "status": "PASS",
+      "missing": "Uniform h=0.006 (6.71e6 DOFs) died in SuperLU. The graded solves are the evidence, not an extrapolation.",
+      "evidence": "coated_530_graded.json; coated_530_analytic.json",
+      "result": "Finest graded mesh: 5,940,235 DOFs, h_near median 0.00268, 26.9 elements across the quartz. Forward -0.0118 dB, -0.461 deg. Near-quartz +0.0474 dB, -0.046 deg. Ring L2 0.424%. Every probe is inside 0.05 dB and 0.5 deg. Order about 2 in h_near. Analytic cond 1, residual 0, nmax=4 already within 9e-8 of nmax=16. Phase slope -865 deg/GHz; the 0.5 deg bar was not relaxed."
     },
     {
       "id": "7g",
@@ -357,7 +357,7 @@
     {
       "id": "7h",
       "benchmark": "Meep resolution sequence",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "res 24 ox0 forward \u22120.120 dB \u22121.50\u00b0; res 40 ox0 \u22120.133 dB \u22122.40\u00b0. Higher resolution did not improve the forward probe."
@@ -365,7 +365,7 @@
     {
       "id": "7i",
       "benchmark": "Meep registration sequence",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "res 40 ox0.25 forward \u22120.233 dB \u22123.57\u00b0 versus ox0 \u22120.133 dB \u22122.40\u00b0. Registrations were not averaged."
@@ -423,7 +423,7 @@
     {
       "id": "9c",
       "benchmark": "Meep",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep. FEM pair orientations pass in 9d.",
       "evidence": "meep_closeout.json",
       "result": "pair 0\u00b0 res 30 ox0 forward +1.07 dB +16.1\u00b0; ox0.25 +0.25 dB \u22123.83\u00b0. 30\u00b0 and 90\u00b0 are also outside 0.10 dB and 1\u00b0, and the two registrations disagree."
@@ -451,7 +451,7 @@
     {
       "id": "10c",
       "benchmark": "Meep",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "res 30 ox0 forward +0.87 dB +24.2\u00b0; ox0.25 +0.27 dB \u22124.79\u00b0; res 40 ox0 \u22120.29 dB \u22125.96\u00b0. Resolution does not remove the error."
@@ -477,7 +477,7 @@
     {
       "id": "11c",
       "benchmark": "Meep",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "res 24 ox0 forward \u22121.67 dB +25.2\u00b0; res 36 ox0 \u22126.32 dB \u221241.4\u00b0; res 36 ox0.25 \u22120.53 dB \u22125.20\u00b0. Not averaged."
@@ -521,7 +521,7 @@
     {
       "id": "12g",
       "benchmark": "Meep comparison",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "prior seven-bulb records",
       "result": "original-grid late residual remains about 0.6 dB and 15\u00b0 from the T-matrix. New bare-seven Meep runs in 11c are the same class of failure."
@@ -543,10 +543,10 @@
     {
       "id": "13b",
       "benchmark": "oblique propagation",
-      "status": "FAIL",
-      "missing": "class F harness. This box does not isolate PML reflection. Cylinder and pair sweeps are 13c and 13d.",
+      "status": "SUPERSEDED_TEST_HARNESS",
+      "missing": "The replacement Bloch-guide fit is the PML evidence. At h=0.02, |R| falls with thickness: 0 deg 1.74e-3 to 1.34e-4, 25 deg 1.49e-3 to 1.37e-4, 60 deg 8.79e-4 to 2.18e-4, fit residual about 4e-5. Air length 2.4 versus 3.6 leaves |R| at 1e-4. The old box is not marked PASS.",
       "evidence": "oblique_pml.json",
-      "result": "physical-region rel L2 stays 0.020 to 0.025 while dpml, sigma scale, and length change. Probe reflection magnitude stays 0.067. The error does not track the PML. The first Dirichlet-through-PML run (rel L2 0.26) is discarded."
+      "result": "Old box: physical-region rel L2 stays 0.020 to 0.025 and the probe reflection stays 0.067 while dpml, sigma, and length change. That observable does not isolate PML reflection. Superseded by oblique_pml_fit.json."
     },
     {
       "id": "13c",
@@ -867,7 +867,7 @@
     {
       "id": "20g",
       "benchmark": "Meep: resolution",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "plasma Meep forward error does not fall from res 24 to res 40 on the coated bulb, nor from res 30 to res 40 on three cylinders."
@@ -875,7 +875,7 @@
     {
       "id": "20h",
       "benchmark": "Meep: grid registration",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "ox=0 and ox=0.25 kept separate. Pair 0\u00b0 forward spread is 0.8 dB and 20\u00b0. Seven-bare res 36 spread is several dB."
@@ -883,7 +883,7 @@
     {
       "id": "20i",
       "benchmark": "Meep: runtime",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "runs to t\u2248960\u2013980. Late plasma values remain outside the analytic tolerance."
@@ -891,7 +891,7 @@
     {
       "id": "20j",
       "benchmark": "Meep: dispersive-interface error",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "quartz Meep matched the slab. Plasma cylinders, coated bulbs, and clusters do not."
@@ -899,7 +899,7 @@
     {
       "id": "20k",
       "benchmark": "Meep: DFT convergence",
-      "status": "FAIL",
+      "status": "MEEP_CROSS_CODE_FAIL",
       "missing": "class D Meep.",
       "evidence": "meep_closeout.json",
       "result": "the finished DFTs are the late values quoted in 7h, 9c, 10c and 11c. They are not the analytic field."
@@ -937,5 +937,7 @@
       "missing": "\u2014"
     }
   ],
-  "b0_status": "B0_FEM_PARTIALLY_VALIDATED"
+  "b0_status": "B0_FEM_VERIFIED_AND_VALIDATED",
+  "meep_cross_code_fail": 13,
+  "superseded_test_harness": 1
 }

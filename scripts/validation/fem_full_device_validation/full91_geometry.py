@@ -24,9 +24,11 @@ OUT = ROOT / "outputs" / "validation" / "fem_full_device_validation"
 
 # Locally refined grades. Quartz wall is 0.050 a thick.
 GRADES = {
-    "C": dict(h_iface=0.012, h_horn=0.040, h_air=0.12, h_pml=0.20),
-    "M": dict(h_iface=0.008, h_horn=0.025, h_air=0.08, h_pml=0.14),
-    "F": dict(h_iface=0.005, h_horn=0.016, h_air=0.055, h_pml=0.11),
+    "C": dict(h_iface=0.012, h_horn=0.040, h_air=0.060, h_pml=0.12),
+    "M": dict(h_iface=0.008, h_horn=0.025, h_air=0.040, h_pml=0.08),
+    "F": dict(h_iface=0.005, h_horn=0.016, h_air=0.030, h_pml=0.06),
+    # Plasma and quartz only, air held at the F far-field size.
+    "S": dict(h_iface=0.0035, h_horn=0.012, h_air=0.030, h_pml=0.06),
 }
 
 
@@ -233,10 +235,18 @@ def mesh_full91(grade: str) -> tuple[np.ndarray, np.ndarray, dict]:
         add_circle(c, r_out, cfg["h_iface"])
         add_circle(c, r_in, cfg["h_iface"])
         add_circle(c, r_p, cfg["h_iface"])
-    for horn in sc.full_horns:
+    for ip, horn in enumerate(sc.full_horns):
         for name in ("left_flare", "right_flare", "left_feed", "right_feed"):
             poly = np.asarray(horn[name], float)[:, :2] + shift
             add_chain(poly, True, cfg["h_horn"])
+        # Constrain the source and monitor transects so those lines are refined.
+        n_hat = np.asarray(sc.port_dirs[ip], float)
+        n_hat /= np.linalg.norm(n_hat)
+        tang = np.array([-n_hat[1], n_hat[0]])
+        half = 0.90 * sc.clear_width / 2.0
+        for key in ("source_center", "monitor_center"):
+            c = np.asarray(horn[key], float) + shift
+            add_chain([c - half * tang, c + half * tang], False, cfg["h_iface"])
 
     regions = []
     marker = 1
@@ -254,9 +264,10 @@ def mesh_full91(grade: str) -> tuple[np.ndarray, np.ndarray, dict]:
             poly = np.asarray(horn[name], float)[:, :2] + shift
             regions.append([float(poly[:, 0].mean()), float(poly[:, 1].mean()), marker, area_horn])
             marker += 1
-    # Interior air, away from the center bulb and the horns.
-    air_pt = np.array([nx / 2.0 + 3.2, ny / 2.0 + 0.15])
-    regions.append([air_pt[0], air_pt[1], marker, 0.45 * cfg["h_air"] ** 2])
+    # The previous seed at the array center + 3.2 a fell inside a bulb, so the
+    # connected air region had no area constraint. The port-0 source is in the feed.
+    air_pt = np.asarray(sc.full_horns[0]["source_center"], float) + shift
+    regions.append([float(air_pt[0]), float(air_pt[1]), marker, 0.45 * cfg["h_air"] ** 2])
     marker += 1
     regions.append([0.5 * dp, 0.5 * dp, marker, 0.45 * cfg["h_pml"] ** 2])
 
@@ -273,6 +284,15 @@ def mesh_full91(grade: str) -> tuple[np.ndarray, np.ndarray, dict]:
     elapsed = time.perf_counter() - t0
     pts = np.asarray(mesh["vertices"], float)
     tris = np.asarray(mesh["triangles"], int)
+    edges = pts[tris]
+    longest = np.maximum.reduce([
+        np.linalg.norm(edges[:, 0] - edges[:, 1], axis=1),
+        np.linalg.norm(edges[:, 1] - edges[:, 2], axis=1),
+        np.linalg.norm(edges[:, 2] - edges[:, 0], axis=1),
+    ])
+    max_edge = float(longest.max())
+    if max_edge > 8.0 * max(cfg["h_air"], cfg["h_pml"]):
+        raise RuntimeError(f"mesh {grade} still has an edge of length {max_edge}")
     stats = {
         "grade": grade,
         "nodes": int(len(pts)),
@@ -281,6 +301,7 @@ def mesh_full91(grade: str) -> tuple[np.ndarray, np.ndarray, dict]:
         **cfg,
         "quartz_thickness_a": r_out - r_in,
         "elements_across_quartz_requested": (r_out - r_in) / cfg["h_iface"],
+        "max_edge": max_edge,
     }
     print("MESH", stats, flush=True)
     dest = OUT / "meshes"

@@ -1,0 +1,16 @@
+[
+  {
+    "h": 0.02,
+    "dofs": 12221,
+    "volume_absorption": 4.371688155925497e-08,
+    "contour_outward_flux": -4.534827552557432e-08,
+    "balance": -1.631393966319346e-09
+  },
+  {
+    "h": 0.01,
+    "dofs": 48441,
+    "volume_absorption": 4.3949175004387106e-08,
+    "contour_outward_flux": -6.3631936098617e-08,
+    "balance": -1.96827610942299e-08
+  }
+]

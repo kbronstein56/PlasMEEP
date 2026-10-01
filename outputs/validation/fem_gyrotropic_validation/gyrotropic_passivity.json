@@ -1,0 +1,83 @@
+[
+  {
+    "gamma": 0.0001,
+    "fc": 0.05,
+    "diss_min_eig": 1.9999999200000026e-05,
+    "volume_absorption": 4.371688155925497e-08,
+    "contour_outward_flux": -4.942524150750136e-08,
+    "flux_balance": -5.708359948246389e-09,
+    "balance_rel": 0.13057564365631005
+  },
+  {
+    "gamma": 0.0001,
+    "fc": -0.05,
+    "diss_min_eig": 1.9999999200000026e-05,
+    "volume_absorption": 4.371688155925421e-08,
+    "contour_outward_flux": -3.7919294007890103e-08,
+    "flux_balance": 5.797587551364107e-09,
+    "balance_rel": 0.13261667677521807
+  },
+  {
+    "gamma": 0.0001,
+    "fc": 0.0,
+    "diss_min_eig": 2.4691356805365088e-05,
+    "volume_absorption": 4.187560001429276e-08,
+    "contour_outward_flux": -4.183292853714211e-08,
+    "flux_balance": 4.267147715065292e-11,
+    "balance_rel": 0.0010190057488391453
+  },
+  {
+    "gamma": 0.01,
+    "fc": 0.05,
+    "diss_min_eig": 0.0019992003198720516,
+    "volume_absorption": 4.3692663731901374e-06,
+    "contour_outward_flux": -4.370551146745026e-06,
+    "flux_balance": -1.2847735548887675e-09,
+    "balance_rel": 0.0002940478893143597
+  },
+  {
+    "gamma": 0.01,
+    "fc": -0.05,
+    "diss_min_eig": 0.0019992003198720516,
+    "volume_absorption": 4.3692663731901425e-06,
+    "contour_outward_flux": -4.359063699246819e-06,
+    "flux_balance": 1.0202673943323845e-08,
+    "balance_rel": 0.0023351000080763084
+  },
+  {
+    "gamma": 0.01,
+    "fc": 0.0,
+    "diss_min_eig": 0.0024679170779861796,
+    "volume_absorption": 4.185475766342125e-06,
+    "contour_outward_flux": -4.18121068829615e-06,
+    "flux_balance": 4.265078045974259e-09,
+    "balance_rel": 0.0010190186932325024
+  },
+  {
+    "gamma": 1e-08,
+    "fc": 0.05,
+    "diss_min_eig": 2e-09,
+    "volume_absorption": 4.371688398269681e-12,
+    "contour_outward_flux": -5.7573419023752835e-09,
+    "flux_balance": -5.752970213977014e-09,
+    "balance_rel": 1315.9607204058839
+  },
+  {
+    "gamma": 1e-08,
+    "fc": -0.05,
+    "diss_min_eig": 2e-09,
+    "volume_absorption": 4.3716883982696664e-12,
+    "contour_outward_flux": 5.748607447801369e-09,
+    "flux_balance": 5.752979136199639e-09,
+    "balance_rel": 1315.9627613159012
+  },
+  {
+    "gamma": 1e-08,
+    "fc": 0.0,
+    "diss_min_eig": 2.4691358024691353e-09,
+    "volume_absorption": 4.187560209976977e-12,
+    "contour_outward_flux": -4.183293062061066e-12,
+    "flux_balance": 4.2671479159106834e-15,
+    "balance_rel": 0.0010190057460532954
+  }
+]

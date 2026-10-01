@@ -1,0 +1,84 @@
+{
+  "rows": [
+    {
+      "fs_GHz": 5.0,
+      "fp_GHz": 2.0,
+      "gamma_Hz": 1000000.0,
+      "B_T": 0.05,
+      "length_a": 20,
+      "kappa_real": -0.07846030919119462,
+      "rotation_deg": -89.90889151893906
+    },
+    {
+      "fs_GHz": 5.0,
+      "fp_GHz": 2.0,
+      "gamma_Hz": 1000000.0,
+      "B_T": -0.05,
+      "length_a": 20,
+      "kappa_real": 0.07846030919119462,
+      "rotation_deg": 89.90889151893906
+    },
+    {
+      "fs_GHz": 5.0,
+      "fp_GHz": 2.0,
+      "gamma_Hz": 1000000.0,
+      "B_T": 0.0,
+      "length_a": 20,
+      "kappa_real": 0.0,
+      "rotation_deg": 0.0
+    },
+    {
+      "fs_GHz": 5.0,
+      "fp_GHz": 2.0,
+      "gamma_Hz": 1000000.0,
+      "B_T": 0.02,
+      "length_a": 20,
+      "kappa_real": -0.029078334306357423,
+      "rotation_deg": -33.32131662049505
+    },
+    {
+      "fs_GHz": 5.0,
+      "fp_GHz": 2.0,
+      "gamma_Hz": 1000000.0,
+      "B_T": 0.1,
+      "length_a": 20,
+      "kappa_real": -0.21936518303704844,
+      "rotation_deg": -251.37398320275346
+    },
+    {
+      "fs_GHz": 6.0,
+      "fp_GHz": 2.0,
+      "gamma_Hz": 1000000.0,
+      "B_T": 0.05,
+      "length_a": 10,
+      "kappa_real": -0.05137502292475671,
+      "rotation_deg": -29.435719859764102
+    },
+    {
+      "fs_GHz": 5.0,
+      "fp_GHz": 1.5,
+      "gamma_Hz": 1000000.0,
+      "B_T": 0.05,
+      "length_a": 20,
+      "kappa_real": -0.042222277134189135,
+      "rotation_deg": -48.38316562441516
+    },
+    {
+      "fs_GHz": 5.0,
+      "fp_GHz": 2.0,
+      "gamma_Hz": 100000000.0,
+      "B_T": 0.05,
+      "length_a": 20,
+      "kappa_real": -0.07833248715682406,
+      "rotation_deg": -89.76241825697488
+    }
+  ],
+  "meep_res64": {
+    "kappa_plus": -0.078479,
+    "kappa_minus": 0.078479,
+    "kappa_zero": 0.0,
+    "source": "faraday_res64.json"
+  },
+  "lorentz_vs_meep_plus": 1.869080880537166e-05,
+  "note": "z-invariant Hz FEM cannot propagate k parallel to B. kappa is constitutive, compared with the stored Meep run, not with the Hz solver."
+}

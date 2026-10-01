@@ -1,0 +1,7 @@
+{
+  "dofs": 2989,
+  "matrix_onsager_fc_0.05": 0.0,
+  "matrix_symmetric_B0": 0.0,
+  "green_onsager_rel": 2.468412463038151e-15,
+  "green_same_B_nonrecip_rel": 0.0013367990404843677
+}

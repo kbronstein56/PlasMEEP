@@ -1,13 +1,32 @@
 # Full 91-bulb gyrotropic forward model
 
-Label: **FULL91_GYROTROPIC_FORWARD_PARTIALLY_VALIDATED**
+Label: **FULL91_GYROTROPIC_FORWARD_VALIDATED**
 
-Reference: mesh FULL91-F, `f = 3.85 GHz`, `a = 0.020 m`, `fp = 8.00 GHz`,
-`gamma = 1.00 MHz`, production `|B| = 0.05 T`. Time convention `e^{-iωt}`.
-Tensor convention is the validated Lorentz tensor: `ω_c = e B_z / m > 0`
-for `B_z > 0`, `ε_xx = ε_yy = ε_⊥`, `ε_xy = +iη`, `ε_yx = -iη`.
+Reference: mesh FULL91-Q for the final continuum estimate (6,052,164 nodes);
+FULL91-F remains the archived six-port magnetized matrix. Operating point
+`f = 3.85 GHz`, `a = 0.020 m`, `fp = 8.00 GHz`, `gamma = 1.00 MHz`,
+production `|B| = 0.05 T`. Time convention `e^{-iωt}`. Tensor convention is
+the validated Lorentz tensor: `ω_c = e B_z / m > 0` for `B_z > 0`,
+`ε_xx = ε_yy = ε_⊥`, `ε_xy = +iη`, `ε_yx = -iη`.
 P1 in the port list below is code port 0: the horn whose outward normal
 is nearest `+x`. Ports then increase counterclockwise.
+
+## Closeout addendum (air refinement and closed balance)
+
+The earlier M→F B = 0 step (`+0.226 dB` through) is retained as a failed
+pair. Holding plasma/quartz at the F size and refining cavity air produced
+meshes A then Q. A→Q receiving-port changes are at most `0.060 dB` and
+`0.35°`, inside the frozen `0.10 dB / 1°` gate. Magnetized F→Q is inside
+`0.047 dB / 0.53°`.
+
+Closed control volume (PML-inner rectangle with the source slot excised):
+on mesh F, max relative residual `|F_rect + F_slot + P_abs| /
+(|F_rect|+|F_slot|+|P_abs|) = 8.36e-3` against the frozen `0.02` at
+B = 0 and both production signs, all six sources.
+
+Port-station flux uncertainty at the production span is `≤ 0.023 dB`.
+The Hamid ellipse paper reproduction remains FAIL and is not used as
+continuum evidence.
 
 Machine-readable solves:
 
@@ -239,11 +258,10 @@ mesh, not the production field.
 
 ## Open items
 
-- B = 0 port convergence is outside 0.10 dB / 1 deg between the last two
-  factorable meshes. FULL91-S cannot be factored here.
-- Horn power plus absorption does not close. A control surface that
-  excludes the source and includes every radiative path was not built.
-- The 3.85 GHz, 0.05 T operating point is on a steep part of both the B
-  sweep and the frequency sweep. Denser sampling was not required to see
-  that, and was not run.
+- FULL91-S cannot be factored on this SuperLU build. Continuity evidence
+  uses A→Q instead.
+- The 3.85 GHz, 0.05 T operating point remains steep; dense samples are
+  recorded and are physical structure, not a solver failure.
+- Hamid & Cooray ellipse echo-width reproduction is FAIL under the frozen
+  criteria and is not used as continuum evidence.
 - No full-device magnetized Meep comparison exists in the saved results.

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "vacuum",
+    "ok": false,
+    "error": "RuntimeError: meep: solve_cw is incompatible with use_real_fields()",
+    "wall_s": null,
+    "solve_cw_return": null,
+    "traceback": "Traceback (most recent call last):\n  File \"/home/daq_user/PlasMEEP/outputs/validation/performance_campaign/phase2/cw_compat_probe.py\", line 44, in try_case\n    ret = sim.solve_cw(tol=1e-6, maxiters=2000, L=10)\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/simulation.py\", line 3759, in solve_cw\n    return self.fields.solve_cw(tol, maxiters, L)\n           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/__init__.py\", line 3050, in solve_cw\n    return _meep.fields_solve_cw(self, *args)\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\nRuntimeError: meep: solve_cw is incompatible with use_real_fields()\n"
+  },
+  {
+    "name": "drude",
+    "ok": false,
+    "error": "RuntimeError: meep: solve_cw is incompatible with use_real_fields()",
+    "wall_s": null,
+    "solve_cw_return": null,
+    "traceback": "Traceback (most recent call last):\n  File \"/home/daq_user/PlasMEEP/outputs/validation/performance_campaign/phase2/cw_compat_probe.py\", line 44, in try_case\n    ret = sim.solve_cw(tol=1e-6, maxiters=2000, L=10)\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/simulation.py\", line 3759, in solve_cw\n    return self.fields.solve_cw(tol, maxiters, L)\n           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/__init__.py\", line 3050, in solve_cw\n    return _meep.fields_solve_cw(self, *args)\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\nRuntimeError: meep: solve_cw is incompatible with use_real_fields()\n"
+  },
+  {
+    "name": "gyrotropic_drude",
+    "ok": false,
+    "error": "RuntimeError: meep: solve_cw is incompatible with use_real_fields()",
+    "wall_s": null,
+    "solve_cw_return": null,
+    "traceback": "Traceback (most recent call last):\n  File \"/home/daq_user/PlasMEEP/outputs/validation/performance_campaign/phase2/cw_compat_probe.py\", line 44, in try_case\n    ret = sim.solve_cw(tol=1e-6, maxiters=2000, L=10)\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/simulation.py\", line 3759, in solve_cw\n    return self.fields.solve_cw(tol, maxiters, L)\n           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/__init__.py\", line 3050, in solve_cw\n    return _meep.fields_solve_cw(self, *args)\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\nRuntimeError: meep: solve_cw is incompatible with use_real_fields()\n"
+  }
+]

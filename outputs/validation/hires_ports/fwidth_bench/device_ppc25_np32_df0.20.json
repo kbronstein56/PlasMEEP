@@ -1,0 +1,102 @@
+{
+  "label": "fwidth_ppc25_df0.20",
+  "timestamp_utc": "2026-09-12T16:23:12.783935+00:00",
+  "benchmark": "fwidth_stage1",
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "df_frac": 0.2,
+  "source_df": 0.05136887066051541,
+  "fs_a": 0.25684435330257704,
+  "fs_Hz": 3850000000.0,
+  "source_timing": {
+    "gaussian_cutoff": 5.0,
+    "gaussian_width": 19.46704272727273,
+    "T_src": 194.6704272727273,
+    "post_source_run_time": 20.0,
+    "T_end_expected": 214.6704272727273,
+    "dt_expected": 0.01,
+    "timesteps_expected": 21467.04272727273
+  },
+  "settings": {
+    "points_per_cm": 25.0,
+    "res": 50,
+    "run_time": 20.0,
+    "a": 0.02,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "num_mode_guide_normal",
+    "device_mode": "full",
+    "horn_walls": "prism",
+    "grid_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "coord_rotation_deg": 0.0,
+    "source_port": 0,
+    "receive_ports": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "measurement_note": "One Meep solve: source P1 only; flux monitors on P1..P6. Production simulate_circulator uses the same list for sources and receivers; this harness separates them without changing production."
+  },
+  "physical_resolution": {
+    "points_per_cm": 25.0,
+    "dx_mm": 0.4,
+    "meep_resolution": 50.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.02,
+    "grid_spacing_mm": 0.4,
+    "pixels_per_lattice_20mm": 50.0,
+    "pixels_per_free_space_lambda0": 194.6704272727273,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 25.0
+  },
+  "norm_cache_path": "/home/daq_user/PlasMEEP/outputs/validation/hires_ports/fwidth_bench/norm_cache/norm_num_mode_guide_normal_full_prism_rot0_pec_g0_0_m0_0_ppc25_res50_rt20_p0_df0.20.pkl",
+  "timings_s": {
+    "normalization_build_or_load": 36.36788624097244,
+    "normalization_build_stored": 36.367598114011344,
+    "device": 194.93028478100314,
+    "total": 232.4312218480045
+  },
+  "incident_power": 727.4301401625223,
+  "normalized_power_by_port": {
+    "0": 0.1256483158734696,
+    "1": 0.0020855390919424606,
+    "2": 0.003528904881222764,
+    "3": 0.15168069880383186,
+    "4": 0.0035289048812229508,
+    "5": 0.002085539091942619
+  },
+  "raw_signed_flux_by_port": {
+    "0": 91.40037202702288,
+    "1": 1.5170839939661236,
+    "2": 2.567031772368084,
+    "3": 110.33711199082074,
+    "4": 2.56703177236822,
+    "5": 1.5170839939662386
+  },
+  "P11": 0.1256483158734696,
+  "P1_to_P2": 0.0020855390919424606,
+  "P1_to_P3": 0.003528904881222764,
+  "P1_to_P4": 0.15168069880383186,
+  "P1_to_P5": 0.0035289048812229508,
+  "P1_to_P6": 0.002085539091942619,
+  "meep_time_actual": 214.68,
+  "nsteps_guess": 21468
+}

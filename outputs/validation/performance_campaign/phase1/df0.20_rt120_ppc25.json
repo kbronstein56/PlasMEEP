@@ -1,0 +1,52 @@
+{
+  "label": "phase1_df0.20_rt120_ppc25",
+  "timestamp_utc": "2026-09-13T22:03:31.350907+00:00",
+  "phase": 1,
+  "df_frac": 0.2,
+  "source_df": 0.05136887066051541,
+  "run_time": 120.0,
+  "T_src": 194.6704272727273,
+  "T_end_expected": 314.6704272727273,
+  "timesteps_expected": 31467.04272727273,
+  "timings_s": {
+    "normalization": 71.59803891199408,
+    "device": 277.50749938900117,
+    "total": 349.10553830099525
+  },
+  "incident_power": 727.4300542193398,
+  "normalized_power_by_port": {
+    "0": 0.19070884227264898,
+    "1": 0.013844159497383705,
+    "2": 0.0024730637209581553,
+    "3": 0.33383378303122,
+    "4": 0.002473063720958436,
+    "5": 0.013844159497384946
+  },
+  "P11": 0.19070884227264898,
+  "P1_to_P2": 0.013844159497383705,
+  "P1_to_P3": 0.0024730637209581553,
+  "P1_to_P4": 0.33383378303122,
+  "P1_to_P5": 0.002473063720958436,
+  "P1_to_P6": 0.013844159497384946,
+  "settings": {
+    "points_per_cm": 25.0,
+    "res": 50,
+    "formulation": "num_mode_guide_normal",
+    "device_mode": "full",
+    "horn_walls": "prism"
+  },
+  "physical_resolution": {
+    "points_per_cm": 25.0,
+    "dx_mm": 0.4,
+    "meep_resolution": 50.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.02,
+    "grid_spacing_mm": 0.4,
+    "pixels_per_lattice_20mm": 50.0,
+    "pixels_per_free_space_lambda0": 194.6704272727273,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 25.0
+  },
+  "norm_cache_path": "/home/daq_user/PlasMEEP/outputs/validation/performance_campaign/phase1/norm_cache/norm_num_mode_guide_normal_full_prism_ppc25_res50_rt120_p0_df0.20.pkl"
+}

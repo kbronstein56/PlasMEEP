@@ -1,0 +1,138 @@
+{
+  "physics": {
+    "convention": "Meep / Faraday benchmark e^{-i\u03c9t}; gyrotropic_drude_eps_eta",
+    "fs_Hz": 3850000000.0,
+    "fs_a": 0.25684435330257704,
+    "fp_a": 0.5337025523170433,
+    "gamma_a": 6.671281903963041e-05,
+    "B0": {
+      "eps_perp": {
+        "re": -3.317759870618328,
+        "im": 0.001121496070290476
+      },
+      "eta": {
+        "re": 0.0,
+        "im": 0.0
+      }
+    },
+    "tensor_in_plane": {
+      "eps_xx": "eps_perp",
+      "eps_yy": "eps_perp",
+      "eps_xy": "-1j * eta",
+      "eps_yx": "+1j * eta",
+      "note": "eta from gyrotropic_drude_eps_eta; circular eps\u00b1 = eps_perp \u00b1 eta"
+    },
+    "scalar_Hz_reduction": {
+      "possible": true,
+      "polarization": "TM: Hz, Ex, Ey; d/dz=0; \u03bc=\u03bc0",
+      "operator": "From \u2207\u00d7H = -i\u03c9\u03b50 \u03b5 E  =>  E = (i/(\u03c9\u03b50)) \u03b5^{-1} (\u2207\u00d7H). With H=(0,0,Hz): (\u2207\u00d7H)=(\u2202y Hz, -\u2202x Hz, 0). From (\u2207\u00d7E)_z = i\u03c9\u03bc0 Hz:  \u2202x Ey - \u2202y Ex = i\u03c9\u03bc0 Hz. Substituting Ex,Ey yields scalar anisotropic Helmholtz: \u2207 \u00b7 (\u03c1 \u2207 Hz) + \u03c9\u00b2/c\u00b2 Hz = 0  (plus PML), where \u03c1 = (1/det \u03b5) * [[\u03b5_yy, -\u03b5_xy],[-\u03b5_yx, \u03b5_xx]] = \u03b5_2D^{-1} (more precisely the 2\u00d72 block inverse). At B=0, \u03b5=\u03b5I => \u03c1=1/\u03b5 I => \u2207\u00b7((1/\u03b5)\u2207Hz) + k0\u00b2 Hz = 0."
+    },
+    "sample_bias_0.05": {
+      "eps_perp": {
+        "re": -3.4878333247621836,
+        "im": 0.0012575009033926156
+      },
+      "eta": {
+        "re": 0.8736483083355954,
+        "im": -0.00047171987668800724
+      }
+    }
+  },
+  "sizes": [
+    {
+      "ppc": 25,
+      "res": 50,
+      "Nx": 1500,
+      "Ny": 1400,
+      "unknowns_scalar_Hz": 2100000,
+      "unknowns_coupled_ExEyHz": 6300000,
+      "nnz_scalar_est": 18900000,
+      "memory_GiB": {
+        "field_vectors_GiB": 0.03129243850708008,
+        "krylov_20_GiB": 0.6258487701416016,
+        "CSR_GiB": 0.4380941390991211,
+        "ILU_same_order_GiB": 0.4380941390991211,
+        "total_iterative_est_GiB": 1.627206802368164
+      },
+      "direct_LU_fill_nnz_est": 709752633,
+      "direct_LU_GiB_est": 10.576138392090797
+    },
+    {
+      "ppc": 35,
+      "res": 70,
+      "Nx": 2100,
+      "Ny": 1960,
+      "unknowns_scalar_Hz": 4116000,
+      "unknowns_coupled_ExEyHz": 12348000,
+      "nnz_scalar_est": 37044000,
+      "memory_GiB": {
+        "field_vectors_GiB": 0.06133317947387695,
+        "krylov_20_GiB": 1.226663589477539,
+        "CSR_GiB": 0.8586645126342773,
+        "ILU_same_order_GiB": 0.8586645126342773,
+        "total_iterative_est_GiB": 3.1893253326416016
+      },
+      "direct_LU_fill_nnz_est": 1820813700,
+      "direct_LU_GiB_est": 27.132238447666168
+    },
+    {
+      "ppc": 50,
+      "res": 100,
+      "Nx": 3000,
+      "Ny": 2800,
+      "unknowns_scalar_Hz": 8400000,
+      "unknowns_coupled_ExEyHz": 25200000,
+      "nnz_scalar_est": 75600000,
+      "memory_GiB": {
+        "field_vectors_GiB": 0.1251697540283203,
+        "krylov_20_GiB": 2.5033950805664062,
+        "CSR_GiB": 1.7523765563964844,
+        "ILU_same_order_GiB": 1.7523765563964844,
+        "total_iterative_est_GiB": 6.508827209472656
+      },
+      "direct_LU_fill_nnz_est": 4943004439,
+      "direct_LU_GiB_est": 73.6565059274435
+    },
+    {
+      "ppc": 60,
+      "res": 120,
+      "Nx": 3600,
+      "Ny": 3360,
+      "unknowns_scalar_Hz": 12096000,
+      "unknowns_coupled_ExEyHz": 36288000,
+      "nnz_scalar_est": 108864000,
+      "memory_GiB": {
+        "field_vectors_GiB": 0.18024444580078125,
+        "krylov_20_GiB": 3.604888916015625,
+        "CSR_GiB": 2.5234222412109375,
+        "ILU_same_order_GiB": 2.5234222412109375,
+        "total_iterative_est_GiB": 9.372711181640625
+      },
+      "direct_LU_fill_nnz_est": 8235661525,
+      "direct_LU_GiB_est": 122.72091992199421
+    }
+  ],
+  "WSL_RAM_GiB": 251,
+  "direct_50ppc_realistic": false,
+  "solvers_available": [
+    "scipy.sparse.linalg.gmres",
+    "bicgstab",
+    "spsolve",
+    "splu",
+    "spilu"
+  ],
+  "solvers_missing": [
+    "PETSc",
+    "PyAMG",
+    "CuPy",
+    "MUMPS",
+    "GPU"
+  ],
+  "gpu_present": false,
+  "direct_50ppc_memory_fits_252GiB": true,
+  "direct_50ppc_time_realistic_for_3to5min": false,
+  "direct_50ppc_time_projection_note": "From measured SuperLU 10ppc (336k) ~274s level1 / ~146s level3; N^1.5 => 50ppc ~ hours, not minutes.",
+  "iterative_scipy_converges": false,
+  "iterative_note": "GMRES/BiCGSTAB + Jacobi/ILU0: preconditioned residual drops but true residual stalls ~0.05-0.2 (Helmholtz).",
+  "nproc": 128
+}

@@ -1,0 +1,115 @@
+{
+  "label": "scale_ppc25_np32",
+  "timestamp_utc": "2026-09-11T19:46:56.262417+00:00",
+  "mpi_note": "scaling_bench np=32 bind-to=core map-by=core OMP=1",
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "settings": {
+    "points_per_cm": 25.0,
+    "res": 50,
+    "run_time": 20.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      0
+    ],
+    "nx_ports": 30,
+    "ny_ports": 28,
+    "dpml_ports": 2.0,
+    "a": 0.02,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "num_mode_guide_normal",
+    "device_mode": "full",
+    "grid_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "monitor_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "wall_mode": "pec",
+    "horn_walls": "prism",
+    "coord_rotation_deg": 0.0,
+    "flare_steps": 4,
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_guide_normal_full_prism_rot0_pec_g0_0_m0_0_ppc25_res50_rt20_p0.pkl"
+  },
+  "physical_resolution": {
+    "points_per_cm": 25.0,
+    "dx_mm": 0.4,
+    "meep_resolution": 50.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.02,
+    "grid_spacing_mm": 0.4,
+    "pixels_per_lattice_20mm": 50.0,
+    "pixels_per_free_space_lambda0": 194.6704272727273,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 25.0
+  },
+  "timings_s": {
+    "normalization": 0.0001269359781872481,
+    "device": 366.64898489398183,
+    "total": 366.6491309159901
+  },
+  "incident_power_by_port": {
+    "0": 2909.7210690501206,
+    "1": 2787.942138765489
+  },
+  "incident_power_mismatch": {
+    "max_over_min": 1.043680580235627,
+    "rel_spread": 0.0427469739234797,
+    "min": 2787.942138765489,
+    "max": 2909.7210690501206,
+    "mean": 2848.8316039078045
+  },
+  "power_matrix": [
+    [
+      -0.8599892573131439
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      NaN
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": NaN,
+    "max_abs_diff_dB": NaN,
+    "worst_pairs": [],
+    "all_pairs": [],
+    "error_matrix_dB": [
+      [
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [
+    [
+      0,
+      0
+    ]
+  ],
+  "flux_subtraction": {
+    "diagonal_normalized_power": {
+      "P1": -0.8599892573131439
+    },
+    "positive_reflection_count": 0,
+    "healthy": true
+  },
+  "objective": null,
+  "discrete_control": null
+}

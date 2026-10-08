@@ -1,0 +1,20 @@
+{
+  "grade": "FEM-M",
+  "device_mode": "full",
+  "generator": "Delaunay_light",
+  "n_nodes": 234307,
+  "n_triangles": 467932,
+  "scalar_unknowns_cg1": 234307,
+  "min_edge_mm": 0.0009616652223973954,
+  "median_edge_mm": 0.400000000000027,
+  "max_edge_mm": 4.949747468305853,
+  "vs_uniform_50ppc_8_4M": 0.027893690476190475,
+  "memory_est_GiB_csr": 0.041897356510162354,
+  "wall_s": 19.320260090986267,
+  "h_crit_mm": 0.4,
+  "h_air_mm": 3.5,
+  "h_crit_a": 0.02,
+  "h_air_a": 0.175,
+  "n_crit_samples": 45810,
+  "n_points_raw": 234307
+}

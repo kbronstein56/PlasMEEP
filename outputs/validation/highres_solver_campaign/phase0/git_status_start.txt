@@ -1,0 +1,21 @@
+# Campaign start git snapshot
+## agent/eigenmode-ports...origin/agent/eigenmode-ports
+?? outputs/validation/fdfd_feasibility/
+?? outputs/validation/highres_solver_campaign/
+?? outputs/validation/hires_ports/full_num_mode_guide_normal_P1P2_ppc25_rt20.json
+?? outputs/validation/hires_ports/full_num_mode_guide_normal_P1P2_ppc35_rt20.json
+?? outputs/validation/hires_ports/full_num_mode_guide_normal_P1P2_ppc60_rt20.json
+?? outputs/validation/hires_ports/fwidth_bench/
+?? outputs/validation/hires_ports/jesse_reciprocity_vs_ppc_stage1.png
+?? outputs/validation/hires_ports/scaling_bench/
+?? outputs/validation/mode_profiles/mode_profiles_ppc25_res50.json
+?? outputs/validation/mode_profiles/mode_profiles_ppc25_res50.png
+?? outputs/validation/mode_profiles/mode_profiles_ppc35_res70.json
+?? outputs/validation/mode_profiles/mode_profiles_ppc35_res70.png
+?? outputs/validation/mode_profiles/mode_profiles_ppc60_res120.json
+?? outputs/validation/mode_profiles/mode_profiles_ppc60_res120.png
+?? outputs/validation/mode_profiles/res120/
+?? outputs/validation/mode_profiles/res50/
+?? outputs/validation/mode_profiles/res70/
+?? outputs/validation/performance_campaign/
+agent/eigenmode-ports

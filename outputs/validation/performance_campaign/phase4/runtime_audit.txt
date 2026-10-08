@@ -1,0 +1,8 @@
+meep: pymeep 1.30.1 mpi_mpich
+mpich: 4.3.2
+fftw: 3.3.10 mpi_mpich
+NUMA nodes in WSL: 1 (numactl unavailable)
+CPU: 3995WX 64c/128t AVX2 yes
+WSL MemTotal: ~252 GiB
+np32 bind-to core map-by core is current best
+CUP/s drops 25->50 ppc (0.68x) suggesting communication/cache pressure, not idle cores

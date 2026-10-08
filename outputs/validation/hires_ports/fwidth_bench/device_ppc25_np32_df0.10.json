@@ -1,0 +1,38 @@
+{
+  "label": "fwidth_ppc25_df0.10_REUSED",
+  "benchmark": "fwidth_stage1",
+  "df_frac": 0.1,
+  "source_df": 0.025684435330257705,
+  "fs_a": 0.25684435330257704,
+  "reused": true,
+  "timing_baseline_source": "scaling_bench/device_ppc25_np32.json",
+  "accuracy_baseline_source": "full_num_mode_guide_normal_P1P2_ppc25_rt20.json",
+  "note": "Timing from one-source scaling bench (ports=[0]). Accuracy P11 and P1\u2192P2 from P1-column of identical 0.10 fs P1P2 study (monitors on P1,P2; same formulation/geometry/res). Scaling-bench P11 is negative one-monitor diagnostic and is NOT used for \u0394dB.",
+  "source_timing": {
+    "gaussian_cutoff": 5.0,
+    "T_src": 389.3408545454546,
+    "post_source_run_time": 20.0,
+    "T_end_expected": 409.3408545454546,
+    "dt_expected": 0.01,
+    "timesteps_expected": 40934.08545454546
+  },
+  "timings_s": {
+    "normalization_build_or_load": 0.0,
+    "device": 366.64898489398183,
+    "total": 366.64898489398183
+  },
+  "incident_power": 2909.7210690501206,
+  "P11": 0.16826699269846146,
+  "P1_to_P2": 0.013729681958625567,
+  "normalized_power_by_port": {
+    "0": 0.16826699269846146,
+    "1": 0.013729681958625567
+  },
+  "settings": {
+    "points_per_cm": 25.0,
+    "res": 50,
+    "run_time": 20.0,
+    "port_formulation": "num_mode_guide_normal",
+    "device_mode": "full"
+  }
+}

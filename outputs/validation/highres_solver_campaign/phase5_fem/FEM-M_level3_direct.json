@@ -1,0 +1,34 @@
+{
+  "grade": "FEM-M",
+  "level": "level3",
+  "method": "direct",
+  "bias_a": 0.0,
+  "n_nodes": 234307,
+  "n_triangles": 467932,
+  "nnz": 1638783,
+  "true_residual": 0.0,
+  "iterations": -1,
+  "info": 0,
+  "timings_s": {
+    "material": 0.3161091399961151,
+    "assemble": 0.5393081150250509,
+    "setup": 34.9139171349816,
+    "solve": 0.09941538999555632,
+    "wall_first_rhs": 35.868749779998325,
+    "estimated_six_source_s": 36.37943881005049
+  },
+  "normalized_power_proxy": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.0
+  },
+  "rss_gib": 0.817352294921875,
+  "converged": true,
+  "second_rhs": {
+    "wall_s": 0.10213780601043254,
+    "true_residual": 2.650251752020612e-13
+  }
+}

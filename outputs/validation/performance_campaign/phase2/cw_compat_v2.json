@@ -1,0 +1,38 @@
+[
+  {
+    "name": "vacuum",
+    "method": "solve_cw",
+    "ok": true,
+    "wall_s": 2.63816360803321,
+    "flux": 2.55004087751418e-06,
+    "ret": "True"
+  },
+  {
+    "name": "drude",
+    "method": "solve_cw",
+    "ok": false,
+    "error": "RuntimeError: meep: dispersive materials are not yet implemented for solve_cw",
+    "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 24, in try_solve_cw\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/simulation.py\", line 3759, in solve_cw\n    return self.fields.solve_cw(tol, maxiters, L)\n           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/__init__.py\", line 3050, in solve_cw\n    return _meep.fields_solve_cw(self, *args)\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\nRuntimeError: meep: dispersive materials are not yet implemented for solve_cw\n"
+  },
+  {
+    "name": "gyrotropic_drude",
+    "method": "solve_cw",
+    "ok": false,
+    "error": "RuntimeError: meep: dispersive materials are not yet implemented for solve_cw",
+    "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 24, in try_solve_cw\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/simulation.py\", line 3759, in solve_cw\n    return self.fields.solve_cw(tol, maxiters, L)\n           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/home/daq_user/miniconda3/envs/plasmeep_mpi/lib/python3.13/site-packages/meep/__init__.py\", line 3050, in solve_cw\n    return _meep.fields_solve_cw(self, *args)\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\nRuntimeError: meep: dispersive materials are not yet implemented for solve_cw\n"
+  },
+  {
+    "name": "drude",
+    "method": "ContinuousSource_until_40",
+    "ok": true,
+    "wall_s": 0.21039261703845114,
+    "flux": 1.0051290275335492
+  },
+  {
+    "name": "gyrotropic_drude",
+    "method": "ContinuousSource_until_40",
+    "ok": true,
+    "wall_s": 0.2674572929972783,
+    "flux": 0.35909374736046273
+  }
+]

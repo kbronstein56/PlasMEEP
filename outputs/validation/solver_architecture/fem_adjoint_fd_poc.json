@@ -1,0 +1,24 @@
+{
+  "grade": "FEM-M",
+  "probe_node": 117370,
+  "J": 0.2200781071424162,
+  "dJ_fd": 0.051794714898134586,
+  "candidates": {
+    "f1_m2Re_vdot": 0.05179471470143998,
+    "f2_p2Re_vdot": -0.05179471470143998,
+    "f4_m2Re_conjrhs": 0.09336516477444301,
+    "f5_p2Re_conjrhs": -0.09336516477444301
+  },
+  "rel_err": {
+    "f1_m2Re_vdot": 3.797580610972588e-09,
+    "f2_p2Re_vdot": 1.9999999962024193,
+    "f4_m2Re_conjrhs": 0.802600225873733,
+    "f5_p2Re_conjrhs": 2.802600225873733
+  },
+  "best": "f1_m2Re_vdot",
+  "best_rel_err": 3.797580610972588e-09,
+  "note": "PoC objective |Hz|^2 at center; parameter=scale of one bulb plasma rho",
+  "factor_s": null,
+  "adjoint_solve_s": 0.07300212408881634,
+  "dA_matvec_full_s": 0.00040791009087115526
+}

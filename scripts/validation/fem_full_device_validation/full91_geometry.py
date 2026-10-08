@@ -28,7 +28,17 @@ GRADES = {
     "M": dict(h_iface=0.008, h_horn=0.025, h_air=0.040, h_pml=0.08),
     "F": dict(h_iface=0.005, h_horn=0.016, h_air=0.030, h_pml=0.06),
     # Plasma and quartz only, air held at the F far-field size.
+    # 7.15e6 nodes: SuperLU aborts. Do not factor this grade.
     "S": dict(h_iface=0.0035, h_horn=0.012, h_air=0.030, h_pml=0.06),
+    # Finer plasma/quartz than F, coarser empty air and PML than F.
+    # Aimed under the SuperLU index limit that stopped S.
+    "R": dict(h_iface=0.004, h_horn=0.016, h_air=0.055, h_pml=0.11),
+    # Same plasma/quartz/horn size as F. Finer cavity air. Mesh R showed
+    # that coarsening the air moved the ports back toward mesh M.
+    "A": dict(h_iface=0.005, h_horn=0.016, h_air=0.022, h_pml=0.06),
+    # One more air refinement. Do not factor if the node count reaches the
+    # SuperLU failure band near 6.7e6.
+    "Q": dict(h_iface=0.005, h_horn=0.016, h_air=0.018, h_pml=0.06),
 }
 
 

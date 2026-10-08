@@ -1,0 +1,25 @@
+{
+  "grade": "FEM-L",
+  "level": "level1",
+  "method": "direct",
+  "bias_a": 0.0,
+  "n_nodes": 89062,
+  "n_triangles": 177726,
+  "nnz": 622636,
+  "true_residual": 3.6271535493481114e-13,
+  "iterations": -1,
+  "info": 0,
+  "timings_s": {
+    "material": 0.01706642098724842,
+    "assemble": 0.22833944001467898,
+    "setup": 27.338062478986103,
+    "solve": 0.044861354981549084,
+    "wall_first_rhs": 27.62832969496958
+  },
+  "normalized_power_proxy": {
+    "0": 1.0
+  },
+  "rss_gib": 0.48101043701171875,
+  "converged": true,
+  "level1_R_over_L": 1.0022023401998024
+}

@@ -1,0 +1,87 @@
+{
+  "a_m": 0.02,
+  "nx_ny_dpml_a": [
+    30,
+    28,
+    2.0
+  ],
+  "domain_mm": [
+    600.0,
+    560.0
+  ],
+  "dpml_mm": 40.0,
+  "air_buffer_code_a": 0.5,
+  "air_buffer_mm": 10.0,
+  "radii_a": {
+    "PMM_plus_bulb": 5.375,
+    "horn_walls_max": 12.214217651824136,
+    "sources_max": 11.255127018922193,
+    "monitors_max": 10.055127018922194
+  },
+  "boundaries_a": {
+    "half_domain": [
+      15.0,
+      14.0
+    ],
+    "pml_inner": [
+      13.0,
+      12.0
+    ],
+    "computational_edge": [
+      15.0,
+      14.0
+    ]
+  },
+  "slack_a": {
+    "from_horn_wall_to_pml_inner_x": 0.7857823481758643,
+    "from_source_to_pml_inner": 1.7448729810778065,
+    "from_horn_to_domain_edge": 2.7857823481758643
+  },
+  "area_fractions_approx": {
+    "PMM": 0.10805068483049715,
+    "horn_feed": 0.44990781246436085,
+    "empty_air_interior": 0.1848986455622849,
+    "PML": 0.2571428571428571
+  },
+  "theoretical_runtime_vs_area_cut": {
+    "cut_10%": 0.9,
+    "cut_20%": 0.8,
+    "cut_30%": 0.7,
+    "cut_40%": 0.6
+  },
+  "candidate_trims": [
+    {
+      "air_buffer_a": 0.1,
+      "dpml_a": 2.0,
+      "nx_ny": [
+        29,
+        27
+      ],
+      "cell_ratio_vs_current": 0.9321428571428572,
+      "est_speedup": 1.0727969348659003,
+      "notes": "geometry-only trim; must validate S-params at 25ppc before hi-res"
+    },
+    {
+      "air_buffer_a": 0.5,
+      "dpml_a": 1.5,
+      "nx_ny": [
+        29,
+        27
+      ],
+      "cell_ratio_vs_current": 0.9321428571428572,
+      "est_speedup": 1.0727969348659003,
+      "notes": "geometry-only trim; must validate S-params at 25ppc before hi-res"
+    },
+    {
+      "air_buffer_a": 0.1,
+      "dpml_a": 1.5,
+      "nx_ny": [
+        28,
+        26
+      ],
+      "cell_ratio_vs_current": 0.8666666666666667,
+      "est_speedup": 1.1538461538461537,
+      "notes": "geometry-only trim; must validate S-params at 25ppc before hi-res"
+    }
+  ]
+}

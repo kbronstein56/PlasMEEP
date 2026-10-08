@@ -1,0 +1,145 @@
+{
+  "label": "jesse_ppc35_P1P2",
+  "timestamp_utc": "2026-09-10T00:23:41.205514+00:00",
+  "mpi_note": "np=32 OMP=1 Stage1 jesse convergence",
+  "mpi": {
+    "ranks": 32,
+    "rank": 0,
+    "omp_num_threads": "1",
+    "fi_provider": "tcp",
+    "mpich_ch4_netmod": "ofi",
+    "mpirun": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/mpirun",
+    "python": "/home/daq_user/miniconda3/envs/plasmeep_mpi/bin/python"
+  },
+  "settings": {
+    "points_per_cm": 35.0,
+    "res": 70,
+    "run_time": 20.0,
+    "B": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ports": [
+      0,
+      1
+    ],
+    "nx_ports": 30,
+    "ny_ports": 28,
+    "dpml_ports": 2.0,
+    "a": 0.02,
+    "fs_Hz": 3850000000.0,
+    "fp_Hz": 8000000000.0,
+    "rho": "uniform_fp_8GHz",
+    "port_formulation": "num_mode_guide_normal",
+    "device_mode": "full",
+    "grid_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "monitor_offset_cells": [
+      0.0,
+      0.0
+    ],
+    "wall_mode": "pec",
+    "horn_walls": "prism",
+    "coord_rotation_deg": 0.0,
+    "flare_steps": 4,
+    "skip_norm_if_cached": true,
+    "norm_cache_path": "/home/daq_user/PlasMEEP/scripts/validation/.cache/norm_num_mode_guide_normal_full_prism_rot0_pec_g0_0_m0_0_ppc35_res70_rt20_p01.pkl"
+  },
+  "physical_resolution": {
+    "points_per_cm": 35.0,
+    "dx_mm": 0.2857142857142857,
+    "meep_resolution": 70.0,
+    "a_m": 0.02,
+    "a_cm": 2.0,
+    "grid_spacing_a": 0.014285714285714285,
+    "grid_spacing_mm": 0.2857142857142857,
+    "pixels_per_lattice_20mm": 70.0,
+    "pixels_per_free_space_lambda0": 272.53859818181826,
+    "lambda0_mm": 77.86817090909092,
+    "pixels_per_cm": 35.0
+  },
+  "timings_s": {
+    "normalization": 1369.6433042459994,
+    "device": 2586.072264291999,
+    "total": 3955.7155988350005
+  },
+  "incident_power_by_port": {
+    "0": 2909.78841893798,
+    "1": 2837.7408896351985
+  },
+  "incident_power_mismatch": {
+    "max_over_min": 1.0253890443507137,
+    "rel_spread": 0.025070782743226203,
+    "min": 2837.7408896351985,
+    "max": 2909.78841893798,
+    "mean": 2873.7646542865896
+  },
+  "power_matrix": [
+    [
+      0.22131058813381044,
+      0.0072172165900840106
+    ],
+    [
+      0.00552307414327076,
+      0.2211414991132294
+    ]
+  ],
+  "power_matrix_dB": [
+    [
+      -6.5499780768102855,
+      -21.416302612441598
+    ],
+    [
+      -22.578191266482712,
+      -6.553297506609823
+    ]
+  ],
+  "reciprocity": {
+    "mean_abs_diff_dB": 1.161888654041114,
+    "max_abs_diff_dB": 1.161888654041114,
+    "worst_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 1.161888654041114,
+        "T_ji_dB": -21.416302612441598,
+        "T_ij_dB": -22.578191266482712
+      }
+    ],
+    "all_pairs": [
+      {
+        "i": 0,
+        "j": 1,
+        "label": "P1<->P2",
+        "abs_diff_dB": 1.161888654041114,
+        "T_ji_dB": -21.416302612441598,
+        "T_ij_dB": -22.578191266482712
+      }
+    ],
+    "error_matrix_dB": [
+      [
+        NaN,
+        1.161888654041114
+      ],
+      [
+        1.161888654041114,
+        NaN
+      ]
+    ]
+  },
+  "negative_entries": [],
+  "flux_subtraction": {
+    "diagonal_normalized_power": {
+      "P1": 0.22131058813381044,
+      "P2": 0.2211414991132294
+    },
+    "positive_reflection_count": 2,
+    "healthy": false
+  },
+  "objective": null,
+  "discrete_control": null
+}

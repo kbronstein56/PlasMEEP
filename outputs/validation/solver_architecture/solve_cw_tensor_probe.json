@@ -1,0 +1,44 @@
+[
+  {
+    "name": "vacuum",
+    "ok": false,
+    "error": "RuntimeError: meep: solve_cw is incompatible with use_real_fields()",
+    "wall_s": null,
+    "flux": null
+  },
+  {
+    "name": "eps_diag_real",
+    "ok": false,
+    "error": "RuntimeError: meep: solve_cw is incompatible with use_real_fields()",
+    "wall_s": null,
+    "flux": null
+  },
+  {
+    "name": "complex_or_conductivity",
+    "ok": false,
+    "error": "TypeError: '<' not supported between instances of 'complex' and 'int'",
+    "wall_s": null,
+    "flux": null
+  },
+  {
+    "name": "eps_offdiag_real",
+    "ok": false,
+    "error": "RuntimeError: meep: solve_cw is incompatible with use_real_fields()",
+    "wall_s": null,
+    "flux": null
+  },
+  {
+    "name": "gyro_like_tensor",
+    "ok": false,
+    "error": "RuntimeError: meep: Found non-zero imaginary part of epsilon or mu offdiag.\n",
+    "wall_s": null,
+    "flux": null
+  },
+  {
+    "name": "drude",
+    "ok": false,
+    "error": "RuntimeError: meep: solve_cw is incompatible with use_real_fields()",
+    "wall_s": null,
+    "flux": null
+  }
+]

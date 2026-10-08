@@ -211,7 +211,8 @@ def pec_mask_horns(points: np.ndarray) -> np.ndarray:
 
 
 def assemble_anisotropic(
-    points, tris, rho_xx, rho_xy, rho_yx, rho_yy, k0: float, pec: np.ndarray
+    points, tris, rho_xx, rho_xy, rho_yx, rho_yy, k0: float, pec: np.ndarray,
+    mass_scale: float = 1.0, pin_empty: bool = True,
 ) -> sparse.csr_matrix:
     """
     Stretched anisotropic weak form (e^{-iωt}):
@@ -229,7 +230,7 @@ def assemble_anisotropic(
     good = area > 1e-18
     bx = np.stack([y[:, 1] - y[:, 2], y[:, 2] - y[:, 0], y[:, 0] - y[:, 1]], axis=1) / twice[:, None]
     by = np.stack([x[:, 2] - x[:, 1], x[:, 0] - x[:, 2], x[:, 1] - x[:, 0]], axis=1) / twice[:, None]
-    mass = (k0**2) * sx * sy
+    mass = mass_scale * (k0**2) * sx * sy
     ax = (sy / sx)  # stretch factor for xx
     ay = (sx / sy)
     # PEC elements leave the physical domain: no stiffness and no mass.
@@ -261,7 +262,7 @@ def assemble_anisotropic(
     ).tocsr()
     row_sum = np.abs(A).sum(axis=1).A1
     empty = row_sum < 1e-14
-    if np.any(empty):
+    if pin_empty and np.any(empty):
         A = A.tolil()
         for i in np.flatnonzero(empty):
             A.rows[i] = [i]

@@ -1,0 +1,45 @@
+[
+  {
+    "name": "vacuum_complex",
+    "ok": true,
+    "error": null,
+    "wall_s": 0.29726339399348944,
+    "flux": 3.982084230308789e-06
+  },
+  {
+    "name": "eps_diag",
+    "ok": true,
+    "error": null,
+    "wall_s": 0.3136214690748602,
+    "flux": 4.890954590345122e-06
+  },
+  {
+    "name": "eps_offdiag_real",
+    "ok": true,
+    "error": null,
+    "wall_s": 0.2829008949920535,
+    "flux": 4.544923024297291e-06
+  },
+  {
+    "name": "eps_offdiag_imag",
+    "ok": false,
+    "error": "RuntimeError: meep: Found non-zero imaginary part of epsilon or mu offdiag.\n"
+  },
+  {
+    "name": "drude",
+    "ok": false,
+    "error": "RuntimeError: meep: dispersive materials are not yet implemented for solve_cw"
+  },
+  {
+    "name": "gyro_drude",
+    "ok": false,
+    "error": "RuntimeError: meep: dispersive materials are not yet implemented for solve_cw"
+  },
+  {
+    "name": "D_conductivity",
+    "ok": true,
+    "error": null,
+    "wall_s": 0.31359264196362346,
+    "flux": 4.455652852952036e-06
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "level": "level1",
+  "points_per_cm": 10.0,
+  "res": 20,
+  "Nx": 600,
+  "Ny": 560,
+  "unknowns": 336000,
+  "nnz": 1658944,
+  "bias_a": 0.0,
+  "precond": "jacobi",
+  "krylov_solver": "direct",
+  "matvec_s": 0.002928769999994074,
+  "tensor": {
+    "eps_perp_re": -3.317759870618328,
+    "eps_perp_im": 0.001121496070290476,
+    "eta_re": 0.0,
+    "eta_im": 0.0,
+    "eps_xy": "-1j*eta",
+    "eps_yx": "+1j*eta"
+  },
+  "timings_s": {
+    "material": 0.024167382000086945,
+    "operator": 0.2508588749997216,
+    "preconditioner": 0.01605562699978691,
+    "solve": 273.6943674840004,
+    "wall_total_first_rhs": 273.985449368
+  },
+  "solver": {
+    "info": 0,
+    "residual": 3.633693277903769e-14,
+    "iterations": -1,
+    "residual_history": []
+  },
+  "normalized_power_proxy_by_port": {
+    "0": 1.0
+  },
+  "peak_rss_gib": 1.0542984008789062,
+  "pec_fraction": 0.012380952380952381,
+  "level1_energy_left": 0.0001961229577071704,
+  "level1_energy_right": 0.0002241726789133554,
+  "level1_right_over_left": 1.1430211003041562
+}

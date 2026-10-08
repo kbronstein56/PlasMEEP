@@ -1,0 +1,92 @@
+{
+  "case": "full PMM one-source port0 ppc25 num_mode_guide_normal",
+  "binding": "-bind-to core -map-by core",
+  "rows": [
+    {
+      "NP": 16,
+      "ranks_json": 16,
+      "ranks_log": 16,
+      "chunks": 16,
+      "device_s": 407.6024181160028,
+      "norm_s": 9.780199616216123e-05,
+      "total_s": 407.6025297929882,
+      "gnu_wall": "6:49.31",
+      "rss_kb": 214160,
+      "P11": -0.8599892573131439,
+      "P11_dB": NaN,
+      "loaded_norm": true,
+      "ran_reference": false,
+      "last_progress_s": 404.5,
+      "power_matrix": [
+        [
+          -0.8599892573131439
+        ]
+      ]
+    },
+    {
+      "NP": 32,
+      "ranks_json": 32,
+      "ranks_log": 32,
+      "chunks": 32,
+      "device_s": 366.64898489398183,
+      "norm_s": 0.0001269359781872481,
+      "total_s": 366.6491309159901,
+      "gnu_wall": "6:08.67",
+      "rss_kb": 208044,
+      "P11": -0.8599892573131439,
+      "P11_dB": NaN,
+      "loaded_norm": true,
+      "ran_reference": false,
+      "last_progress_s": 364.4,
+      "power_matrix": [
+        [
+          -0.8599892573131439
+        ]
+      ]
+    },
+    {
+      "NP": 48,
+      "ranks_json": 48,
+      "ranks_log": 48,
+      "chunks": 48,
+      "device_s": 369.8696305170015,
+      "norm_s": 0.00016394499107263982,
+      "total_s": 369.8698188569979,
+      "gnu_wall": "6:12.49",
+      "rss_kb": 210944,
+      "P11": -0.8599892573131439,
+      "P11_dB": NaN,
+      "loaded_norm": true,
+      "ran_reference": false,
+      "last_progress_s": 368.4,
+      "power_matrix": [
+        [
+          -0.8599892573131439
+        ]
+      ]
+    },
+    {
+      "NP": 64,
+      "ranks_json": 64,
+      "ranks_log": 64,
+      "chunks": 64,
+      "device_s": 387.3709046540025,
+      "norm_s": 0.00018305997946299613,
+      "total_s": 387.37110970399226,
+      "gnu_wall": "6:30.81",
+      "rss_kb": 208064,
+      "P11": -0.8599892573131439,
+      "P11_dB": NaN,
+      "loaded_norm": true,
+      "ran_reference": false,
+      "last_progress_s": 384.5,
+      "power_matrix": [
+        [
+          -0.8599892573131439
+        ]
+      ]
+    }
+  ],
+  "speedup_32_to_64": 0.9465062566365706,
+  "pct_reduction_32_to_64": -5.6517052040966425
+}

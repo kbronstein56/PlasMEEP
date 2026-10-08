@@ -1,0 +1,19 @@
+{
+  "solve_cw": "FAIL: dispersive materials (Drude/gyrotropic) not implemented for solve_cw",
+  "ContinuousSource_FDTD": {
+    "cyc40": {
+      "dP11_dB": -2.73,
+      "P12_sign_issue": true,
+      "est_50ppc_min": 10.6,
+      "accurate": false
+    },
+    "cyc80": {
+      "dP11_dB": -1.2,
+      "dP12_dB": -5.28,
+      "est_50ppc_min": 41.9,
+      "accurate": false
+    }
+  },
+  "promote_to_50ppc": false,
+  "reason": "No CW path is both accurate and projected <=10 min at 50 ppc"
+}

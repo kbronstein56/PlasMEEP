@@ -1,0 +1,334 @@
+{
+  "criteria_rel": 0.0001,
+  "cases": [
+    {
+      "B_T": 0.0,
+      "nodes": 6362,
+      "n_params": 3,
+      "columns": [
+        {
+          "rod": 0,
+          "minimum_field_rel": 2.930718849951796e-08,
+          "h_at_minimum": 0.0001,
+          "truncation_visible": true,
+          "index_ok": true,
+          "pass": true,
+          "sweep": [
+            {
+              "h": 0.1,
+              "field_rel": 0.029940308582896608,
+              "sample_rel_max": 0.029884817838792214,
+              "cross_min_field_rel": 0.8419214228221228
+            },
+            {
+              "h": 0.03,
+              "field_rel": 0.0026423762963191572,
+              "sample_rel_max": 0.002638522382282576,
+              "cross_min_field_rel": 0.8280459789970783
+            },
+            {
+              "h": 0.01,
+              "field_rel": 0.00029309292449726916,
+              "sample_rel_max": 0.0002926752373256272,
+              "cross_min_field_rel": 0.8268795154158692
+            },
+            {
+              "h": 0.003,
+              "field_rel": 2.6373203657605614e-05,
+              "sample_rel_max": 2.6335719562473067e-05,
+              "cross_min_field_rel": 0.8267473686969894
+            },
+            {
+              "h": 0.001,
+              "field_rel": 2.9303099877413906e-06,
+              "sample_rel_max": 2.926145196683434e-06,
+              "cross_min_field_rel": 0.8267357566611719
+            },
+            {
+              "h": 0.0003,
+              "field_rel": 2.6373235430884776e-07,
+              "sample_rel_max": 2.633632036159388e-07,
+              "cross_min_field_rel": 0.8267344358463935
+            },
+            {
+              "h": 0.0001,
+              "field_rel": 2.930718849951796e-08,
+              "sample_rel_max": 2.9261203205996207e-08,
+              "cross_min_field_rel": 0.8267343197269278
+            }
+          ]
+        },
+        {
+          "rod": 1,
+          "minimum_field_rel": 2.2311445377060267e-08,
+          "h_at_minimum": 0.0001,
+          "truncation_visible": true,
+          "index_ok": true,
+          "pass": true,
+          "sweep": [
+            {
+              "h": 0.1,
+              "field_rel": 0.022672574949464,
+              "sample_rel_max": 0.022752543638947444,
+              "cross_min_field_rel": 0.6439433494081397
+            },
+            {
+              "h": 0.03,
+              "field_rel": 0.002012951617244502,
+              "sample_rel_max": 0.0020192118632977253,
+              "cross_min_field_rel": 0.6420878616419738
+            },
+            {
+              "h": 0.01,
+              "field_rel": 0.00022339334914989566,
+              "sample_rel_max": 0.0002240802022216615,
+              "cross_min_field_rel": 0.6419476051284135
+            },
+            {
+              "h": 0.003,
+              "field_rel": 2.0102660410023537e-05,
+              "sample_rel_max": 2.0164388505762516e-05,
+              "cross_min_field_rel": 0.6419318793739393
+            },
+            {
+              "h": 0.001,
+              "field_rel": 2.233605178053985e-06,
+              "sample_rel_max": 2.240463086709989e-06,
+              "cross_min_field_rel": 0.6419304991157494
+            },
+            {
+              "h": 0.0003,
+              "field_rel": 2.0102212739526144e-07,
+              "sample_rel_max": 2.01641990153489e-07,
+              "cross_min_field_rel": 0.6419303421338789
+            },
+            {
+              "h": 0.0001,
+              "field_rel": 2.2311445377060267e-08,
+              "sample_rel_max": 2.2377236867969747e-08,
+              "cross_min_field_rel": 0.6419303283371035
+            }
+          ]
+        },
+        {
+          "rod": 2,
+          "minimum_field_rel": 2.980445949921264e-08,
+          "h_at_minimum": 0.0001,
+          "truncation_visible": true,
+          "index_ok": true,
+          "pass": true,
+          "sweep": [
+            {
+              "h": 0.1,
+              "field_rel": 0.030459159482289187,
+              "sample_rel_max": 0.03049038289933348,
+              "cross_min_field_rel": 0.7561013477092184
+            },
+            {
+              "h": 0.03,
+              "field_rel": 0.0026861688448448803,
+              "sample_rel_max": 0.002688050100324636,
+              "cross_min_field_rel": 0.76283181180344
+            },
+            {
+              "h": 0.01,
+              "field_rel": 0.0002979315112282236,
+              "sample_rel_max": 0.0002981319584590695,
+              "cross_min_field_rel": 0.7634148952805455
+            },
+            {
+              "h": 0.003,
+              "field_rel": 2.6808401343365407e-05,
+              "sample_rel_max": 2.6826354952893497e-05,
+              "cross_min_field_rel": 0.7634811310763538
+            },
+            {
+              "h": 0.001,
+              "field_rel": 2.9786582695427966e-06,
+              "sample_rel_max": 2.980652079081201e-06,
+              "cross_min_field_rel": 0.7634869531243019
+            },
+            {
+              "h": 0.0003,
+              "field_rel": 2.680771183319103e-07,
+              "sample_rel_max": 2.682571767028792e-07,
+              "cross_min_field_rel": 0.7634876153744318
+            },
+            {
+              "h": 0.0001,
+              "field_rel": 2.980445949921264e-08,
+              "sample_rel_max": 2.983497609950964e-08,
+              "cross_min_field_rel": 0.7634876735844305
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "B_T": 0.05,
+      "nodes": 6362,
+      "n_params": 3,
+      "columns": [
+        {
+          "rod": 0,
+          "minimum_field_rel": 5.2849701445970345e-08,
+          "h_at_minimum": 0.0001,
+          "truncation_visible": true,
+          "index_ok": true,
+          "pass": true,
+          "sweep": [
+            {
+              "h": 0.1,
+              "field_rel": 0.05399073158386151,
+              "sample_rel_max": 0.049806944613785945,
+              "cross_min_field_rel": 1.1481004272026216
+            },
+            {
+              "h": 0.03,
+              "field_rel": 0.004764999045319404,
+              "sample_rel_max": 0.004408233300743425,
+              "cross_min_field_rel": 1.1327167085483765
+            },
+            {
+              "h": 0.01,
+              "field_rel": 0.0005284927358362841,
+              "sample_rel_max": 0.0004890389000285462,
+              "cross_min_field_rel": 1.1313719385842416
+            },
+            {
+              "h": 0.003,
+              "field_rel": 4.755457752005705e-05,
+              "sample_rel_max": 4.400563894503804e-05,
+              "cross_min_field_rel": 1.1312190837220055
+            },
+            {
+              "h": 0.001,
+              "field_rel": 5.283746669730423e-06,
+              "sample_rel_max": 4.889438660772355e-06,
+              "cross_min_field_rel": 1.1312056470634708
+            },
+            {
+              "h": 0.0003,
+              "field_rel": 4.755384688402161e-07,
+              "sample_rel_max": 4.400418528068737e-07,
+              "cross_min_field_rel": 1.1312041186543835
+            },
+            {
+              "h": 0.0001,
+              "field_rel": 5.2849701445970345e-08,
+              "sample_rel_max": 4.888689058924856e-08,
+              "cross_min_field_rel": 1.131203984312267
+            }
+          ]
+        },
+        {
+          "rod": 1,
+          "minimum_field_rel": 3.99070050440967e-08,
+          "h_at_minimum": 0.0001,
+          "truncation_visible": true,
+          "index_ok": true,
+          "pass": true,
+          "sweep": [
+            {
+              "h": 0.1,
+              "field_rel": 0.040612383167921505,
+              "sample_rel_max": 0.03963569634304466,
+              "cross_min_field_rel": 0.8293852446877915
+            },
+            {
+              "h": 0.03,
+              "field_rel": 0.00359776585618977,
+              "sample_rel_max": 0.003508385181159853,
+              "cross_min_field_rel": 0.8248943446289939
+            },
+            {
+              "h": 0.01,
+              "field_rel": 0.00039918012844120267,
+              "sample_rel_max": 0.0003892390963174737,
+              "cross_min_field_rel": 0.824531013905521
+            },
+            {
+              "h": 0.003,
+              "field_rel": 3.5920349752387074e-05,
+              "sample_rel_max": 3.502555988652613e-05,
+              "cross_min_field_rel": 0.824490004889008
+            },
+            {
+              "h": 0.001,
+              "field_rel": 3.991092872288192e-06,
+              "sample_rel_max": 3.891670149916683e-06,
+              "cross_min_field_rel": 0.8244864028225475
+            },
+            {
+              "h": 0.0003,
+              "field_rel": 3.591974350396768e-07,
+              "sample_rel_max": 3.5025015533209275e-07,
+              "cross_min_field_rel": 0.8244859931204294
+            },
+            {
+              "h": 0.0001,
+              "field_rel": 3.99070050440967e-08,
+              "sample_rel_max": 3.891537034833517e-08,
+              "cross_min_field_rel": 0.8244859571043872
+            }
+          ]
+        },
+        {
+          "rod": 2,
+          "minimum_field_rel": 5.5144081190760326e-08,
+          "h_at_minimum": 0.0001,
+          "truncation_visible": true,
+          "index_ok": true,
+          "pass": true,
+          "sweep": [
+            {
+              "h": 0.1,
+              "field_rel": 0.0564858233735572,
+              "sample_rel_max": 0.05525959213231703,
+              "cross_min_field_rel": 0.8677186298493977
+            },
+            {
+              "h": 0.03,
+              "field_rel": 0.004973263380353545,
+              "sample_rel_max": 0.004861909388388057,
+              "cross_min_field_rel": 0.8736218958237196
+            },
+            {
+              "h": 0.01,
+              "field_rel": 0.0005514788567803762,
+              "sample_rel_max": 0.0005391017165639348,
+              "cross_min_field_rel": 0.8741471960134511
+            },
+            {
+              "h": 0.003,
+              "field_rel": 4.962175264294579e-05,
+              "sample_rel_max": 4.8507768553784804e-05,
+              "cross_min_field_rel": 0.8742069930286301
+            },
+            {
+              "h": 0.001,
+              "field_rel": 5.513416412625584e-06,
+              "sample_rel_max": 5.389637046238819e-06,
+              "cross_min_field_rel": 0.8742122503234134
+            },
+            {
+              "h": 0.0003,
+              "field_rel": 4.962043179016163e-07,
+              "sample_rel_max": 4.850595260102183e-07,
+              "cross_min_field_rel": 0.8742128483462785
+            },
+            {
+              "h": 0.0001,
+              "field_rel": 5.5144081190760326e-08,
+              "sample_rel_max": 5.3922615344295334e-08,
+              "cross_min_field_rel": 0.8742129009141945
+            }
+          ]
+        }
+      ],
+      "pass": true
+    }
+  ],
+  "overall_pass": true
+}

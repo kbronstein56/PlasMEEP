@@ -51,8 +51,9 @@ Frozen port target for a significant channel, carried from the full-device campa
 | B=0 reaction symmetry | S = S^T | max \|S−S^T\| | roundoff | 2.5e-14 on F | 4.14e6 nodes | PASS |
 | B=0 port convergence (superseded pair) | mesh F versus mesh M | normalized port power and monitor phase | ≤ 0.10 dB, ≤ 1° | through +0.226 dB and +1.03° | M 1.85e6, F 4.14e6 | FAIL on that pair |
 | B=0 port convergence (final air-refined pair) | mesh Q versus mesh A | same | ≤ 0.10 dB, ≤ 1° | max `|ΔdB| = 0.060`, max `|Δphase| = 0.35°` on receiving ports | A 5.06e6, Q 6.05e6 | PASS |
+| B=0 crossed interface (adversarial) | mesh X2 versus A and Q | same | ≤ 0.10 dB, ≤ 1° | X2 vs A: 0.022 dB / 0.12°; X2 vs Q: 0.038 dB / 0.22°. Air fixed at A; `h_iface=0.0042 a` (beyond F). Preferred X at 0.004 aborted | X2 6.23e6 | PASS |
 | Air-versus-interface diagnostic | mesh R versus F | same ports | not a pass gate | R refines quartz to 0.004 a and coarsens air to 0.055 a. Through power moves from 0.424 back to 0.388, toward mesh M | R 4.90e6 | diagnostic |
-| B≠0 port convergence | F versus M, then Q versus F at +0.05 T | same | ≤ 0.10 dB, ≤ 1° | M→F ≤ 0.083 dB / 0.87°; F→Q ≤ 0.047 dB / 0.53° | M, F, Q | PASS |
+| B≠0 port convergence | F/M/Q/X2 at +0.05 T | same | ≤ 0.10 dB, ≤ 1° | M→F ≤ 0.083 dB / 0.87°; F→Q ≤ 0.047 dB / 0.53°; X2→Q ≤ 0.010 dB / 0.12° | M, F, Q, X2 | PASS |
 | Reaction Onsager | S_ij(+B)−S_ji(−B) | max and RMS | discretization, not 0.1 dB | max 1.17e-13 on F; < 8e-14 on M at four \|B\| | F 4.14e6 | PASS |
 | Same-B nonreciprocity | S−S^T at +B | relative size | a nonzero result is the physics | 0.108 of the largest reaction entry | F | PASS |
 | Absorption sign | (ε−ε†)/(2i) | P_abs | ≥ 0 | 1.865e-3 at B=0; 6.997e-4 at both ±0.05 T | F | PASS |

@@ -11,13 +11,32 @@ the validated Lorentz tensor: `ω_c = e B_z / m > 0` for `B_z > 0`,
 P1 in the port list below is code port 0: the horn whose outward normal
 is nearest `+x`. Ports then increase counterclockwise.
 
-## Closeout addendum (air refinement and closed balance)
+## Closeout addendum (air, interface, and closed balance)
 
 The earlier M→F B = 0 step (`+0.226 dB` through) is retained as a failed
 pair. Holding plasma/quartz at the F size and refining cavity air produced
 meshes A then Q. A→Q receiving-port changes are at most `0.060 dB` and
 `0.35°`, inside the frozen `0.10 dB / 1°` gate. Magnetized F→Q is inside
 `0.047 dB / 0.53°`.
+
+Crossed refinement (adversarial check of the VALIDATED label): mesh **X2**
+keeps cavity air at the A size (`h_air = 0.022 a`, `h_pml = 0.06 a`) and
+refines plasma/quartz beyond F (`h_iface = 0.0042 a`, 11.9 elements across
+the quartz wall; F used `0.005 a`). Preferred X at `h_iface = 0.004 a`
+reached 6.64e6 nodes and aborted in SuperLU; X2 at 6,233,120 nodes
+factored. At B = 0, source P1:
+
+| Comparison | max \|ΔdB\| | max \|Δphase\| |
+|------------|------------:|---------------:|
+| X2 vs A (iface only) | 0.022 | 0.12° |
+| X2 vs Q (crossed) | 0.038 | 0.22° |
+| A vs Q (air only) | 0.060 | 0.35° |
+
+All three are inside `0.10 dB / 1°`. Through power: F `0.4237`, A `0.4327`,
+X2 `0.4341`, Q `0.4366`. At `+0.05 T`, X2 versus Q is `0.010 dB` /
+`0.12°` over all six sources. Observables are therefore independently
+converged under cavity-air refinement and under plasma/quartz-interface
+refinement, not only within a one-parameter family.
 
 Closed control volume (PML-inner rectangle with the source slot excised):
 on mesh F, max relative residual `|F_rect + F_slot + P_abs| /
@@ -74,9 +93,11 @@ Absolute driven-port flux: C `0.061364`, M `0.062837`, F `0.063355`.
 Absorption, source P1: C `1.903e-3`, M `1.880e-3`, F `1.865e-3`.
 Sixfold symmetry of the power matrix is at the `4e-4` relative level on F.
 The M→F step is outside `0.10 dB / 1 deg`. C→M→F is monotone on every
-channel above. FULL91-S (`h = 0.0035 a` on the plasma and quartz, 7,154,769
-nodes) aborted in SuperLU with memory still available, so it was not rerun.
-This is the convergence failure that keeps the label partial.
+channel above. That pair is superseded by the air-refined A→Q sequence and
+by the independent crossed interface mesh X2 (below). FULL91-S
+(`h_iface = 0.0035 a`, 7,154,769 nodes) and the preferred crossed mesh X
+(`h_iface = 0.004 a` with A air, 6,641,826 nodes) aborted in SuperLU and
+were not repeated.
 
 ## Production field, mesh F
 

@@ -39,6 +39,11 @@ GRADES = {
     # One more air refinement. Do not factor if the node count reaches the
     # SuperLU failure band near 6.7e6.
     "Q": dict(h_iface=0.005, h_horn=0.016, h_air=0.018, h_pml=0.06),
+    # Crossed refinement: plasma/quartz finer than F, cavity air held at A.
+    # Preferred X (h_iface=0.004) reached 6.64e6 nodes and SuperLU aborted.
+    # X2 is the finest factorable crossed grade under that limit.
+    "X": dict(h_iface=0.004, h_horn=0.016, h_air=0.022, h_pml=0.06),
+    "X2": dict(h_iface=0.0042, h_horn=0.016, h_air=0.022, h_pml=0.06),
 }
 
 

@@ -1,0 +1,42 @@
+{
+  "purpose": "Adversarial crossed refinement: plasma/quartz beyond F with cavity air held at A, independent of the A→Q air family.",
+  "frozen_gate_dB": 0.10,
+  "frozen_gate_deg": 1.0,
+  "preferred_X": {
+    "h_iface": 0.004,
+    "h_horn": 0.016,
+    "h_air": 0.022,
+    "h_pml": 0.06,
+    "nodes": 6641826,
+    "status": "SuperLU aborted (malloc fails for local dworkptr); not rerun"
+  },
+  "X2": {
+    "h_iface": 0.0042,
+    "h_horn": 0.016,
+    "h_air": 0.022,
+    "h_pml": 0.06,
+    "nodes": 6233120,
+    "triangles": 12464304,
+    "elements_across_quartz_requested": 11.904761904761916
+  },
+  "B0_source_P1": {
+    "X2_vs_A_max_abs_dB": 0.0218,
+    "X2_vs_A_max_abs_phase_deg": 0.1240,
+    "X2_vs_Q_max_abs_dB": 0.0382,
+    "X2_vs_Q_max_abs_phase_deg": 0.2238,
+    "A_vs_Q_max_abs_dB": 0.0600,
+    "A_vs_Q_max_abs_phase_deg": 0.3472,
+    "through_normalized": {"F": 0.423715, "A": 0.432723, "X2": 0.434122, "Q": 0.436567},
+    "gate": "PASS"
+  },
+  "Bp0p05": {
+    "X2_vs_Q_all_sources_max_abs_dB": 0.00986,
+    "X2_vs_Q_all_sources_max_abs_phase_deg": 0.1195,
+    "X2_vs_F_source0_max_abs_dB": 0.0415,
+    "X2_vs_F_source0_max_abs_phase_deg": 0.429,
+    "gate": "PASS"
+  },
+  "label": "FULL91_GYROTROPIC_FORWARD_VALIDATED",
+  "ready_for_goal_B": true,
+  "jacobian_started": false
+}

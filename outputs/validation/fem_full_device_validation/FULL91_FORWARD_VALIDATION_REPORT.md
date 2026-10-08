@@ -242,13 +242,9 @@ layout.
 The earlier body-fitted B = 0 snapshot `fem_plasma.json` level FEM-VH
 (916,818 nodes) has outgoing/driven ratios through `0.341`, adjacent
 `0.167`, next `0.089`. Those sit next to FULL91-C (`0.352`, `0.165`,
-`0.086`), while FULL91-F has moved to `0.424`, `0.149`, `0.069`. The
-operator check on this campaign’s mesh is exact. The port ratios were not
-inside 0.1 dB on either the earlier FEM-VH mesh or the meshes built here.
-The FEM side of that gap is the open B = 0 convergence item. The Meep
-side remains the finite-grid dispersive-interface disagreement already
-separated in the frozen B = 0 campaign. This FEM was not adjusted toward
-the Meep numbers.
+`0.086`). FULL91-Q through/driven is `0.437`. The Meep side remains the
+finite-grid dispersive-interface disagreement already separated in the
+frozen B = 0 campaign. This FEM was not adjusted toward the Meep numbers.
 
 ## Field plot
 

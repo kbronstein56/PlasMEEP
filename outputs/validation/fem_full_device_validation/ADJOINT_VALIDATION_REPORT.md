@@ -30,8 +30,17 @@ Data: `adjoint_validation.json`
 
 Large `h` shows truncation; intermediate `h` forms the agreement plateau.
 
+## Full91 spot check (grade M)
+
+Objective `J = |a₃|²` for source port 0. Three rods (center, near_horn0,
+outer). Forward vs adjoint ≤ 1.2e-13. FD vs adjoint minima ≤ 2.2e-5 with
+truncation visible at `B = 0` and `B = +0.05 T`.
+
+Data: `adjoint_full91_spot_M_Bp0.0000.json`, `adjoint_full91_spot_M_Bp0.0500.json`
+
 ## Verdict
 
-**ADJOINT: PASS** on the one-cylinder problem for `B ∈ {0, +0.05, −0.05}`.
+**ADJOINT: PASS** on the one-cylinder problem for `B ∈ {0, +0.05, −0.05}`
+and on full91-M selected rods for `B ∈ {0, +0.05}`.
 The conjugate-transpose adjoint matches the forward Jacobian to machine
 precision and both match centered FD inside the frozen gate.

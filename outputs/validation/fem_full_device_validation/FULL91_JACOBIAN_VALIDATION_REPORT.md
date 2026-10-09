@@ -38,13 +38,22 @@ All receiving ports (1–5) were checked. Symmetry-related pair `sym_a` /
 
 One LU; 91 sensitivity solves; no per-parameter refactorization.
 
-## Magnetized FD
+## Magnetized FD (B = +0.05 T, grade F)
 
-`B = +0.05 T` selected-rod FD is recorded separately when the companion
-run finishes (`full91_jacobian_fd_selected` updated / tagged in the
-summary). Thresholds are not loosened.
+Same six rods and frozen gate. Worst minimum relative errors:
+
+| label | min field rel | min amp rel | pass |
+|-------|---------------|-------------|------|
+| center | 2.19e-7 | 2.37e-7 | yes |
+| inner | 1.30e-6 | 1.65e-6 | yes |
+| outer | 1.60e-6 | 1.66e-6 | yes |
+| near_horn0 | 1.33e-6 | 1.94e-6 | yes |
+| sym_a | 8.37e-7 | 9.49e-7 | yes |
+| sym_b | 8.19e-7 | 9.29e-7 | yes |
+
+Data: `full91_jacobian_fd_selected_F_Bp0.0500.json` (and tagged summary).
 
 ## Verdict
 
-**FULL91_JACOBIAN: PASS** at `B = 0` on grade F for selected rods and the
-complete 5×91 complex monitor Jacobian.
+**FULL91_JACOBIAN: PASS** at `B = 0` and `B = +0.05 T` on grade F for
+selected rods; complete 5×91 complex monitor Jacobian at `B = 0`.

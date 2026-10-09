@@ -319,9 +319,11 @@ def main():
         ids_u.append(k)
 
     summary = {"selection": {k: int(v) for k, v in sel.items()}, "grade": grade, "B_T": b_tesla}
+    tag = f"{grade}_B{b_tesla:+.4f}".replace("+", "p").replace("-", "m")
     if do_fd:
         fd = fd_rod_check(grade, b_tesla, ids_u, labs_u)
         summary["fd_rods"] = fd
+        (OUT / f"full91_jacobian_fd_selected_{tag}.json").write_text(json.dumps(fd, indent=2) + "\n")
         (OUT / "full91_jacobian_fd_selected.json").write_text(json.dumps(fd, indent=2) + "\n")
         print("FD overall", fd["pass"], flush=True)
     if do_full:
@@ -336,6 +338,7 @@ def main():
             "J_abs_mean": fj["J_abs_mean"],
             "J_abs_max": fj["J_abs_max"],
         }
+    (OUT / f"full91_jacobian_summary_{tag}.json").write_text(json.dumps(summary, indent=2) + "\n")
     (OUT / "full91_jacobian_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     print("WROTE full91_jacobian_summary.json", flush=True)
 

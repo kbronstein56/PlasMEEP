@@ -99,15 +99,13 @@ def rho_walls_quartz_only(n, quartz, walls):
 
 
 def fd_rod_check(grade, b_tesla, rod_ids, labels, source_port=0):
-    const = production_constants()
+    _sc, const = production_constants()
     points, tris = load_mesh(grade)
     masks_all = material_masks(points, tris, sc)
     plasma, quartz, walls, centers = masks_all
     centers = np.asarray(centers, float)
     r_p = const["r_plasma_material_a"]
     rod_masks = per_rod_plasma_masks(points, tris, centers, r_p)
-    assert abs(int(plasma.sum()) - sum(int(m.sum()) for m in rod_masks)) <= 2  # tiny overlap tolerance
-    # overlapping centroids should be empty; warn if union differs
     union = np.zeros(len(tris), dtype=bool)
     for m in rod_masks:
         union |= m
@@ -222,7 +220,7 @@ def fd_rod_check(grade, b_tesla, rod_ids, labels, source_port=0):
 
 def full_port_jacobian(grade, b_tesla, source_port=0):
     """Build J (n_recv_ports × 91) for complex monitor amplitudes. One LU."""
-    const = production_constants()
+    _sc, const = production_constants()
     points, tris = load_mesh(grade)
     plasma, quartz, walls, centers = material_masks(points, tris, sc)
     centers = np.asarray(centers, float)

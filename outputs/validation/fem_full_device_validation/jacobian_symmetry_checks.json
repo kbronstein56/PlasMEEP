@@ -1,0 +1,24 @@
+{
+  "B0_mirror_grads": [
+    0.0003681970769411581,
+    0.000368197076941145
+  ],
+  "B0_mirror_rel": 3.5629957728239573e-14,
+  "B0_pass": true,
+  "Bp_grads": [
+    0.002212242945959417,
+    6.063064507588582e-05
+  ],
+  "Bm_grads": [
+    6.0630645075845056e-05,
+    0.002212242945959446
+  ],
+  "B_reversal_pair_rel": [
+    1.3134460785910613e-14,
+    6.723662866269294e-13
+  ],
+  "B_reversal_pass": true,
+  "criteria_rel": 0.0001,
+  "note": "Exact reflected mesh. Identity: axial FoM, mirror rods, B\u2192\u2212B swaps rod indices.",
+  "pass": true
+}

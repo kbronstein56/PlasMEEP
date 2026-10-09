@@ -5,65 +5,79 @@ Reference: Hughes, Williamson, Minkov, Fan,
 ACS Photonics 6, 3010–3016 (2019), DOI 10.1021/acsphotonics.9b01238,
 arXiv:1908.10507.
 
-This note is equation-level. The paper does not publish digit tables that
-can be reproduced as a numerical pass row.
+Equation-level comparison. The paper does not publish digit tables that can
+be reproduced as a numerical pass row. Our spatial discretization is P1 FEM,
+not Yee FDTD; the claim is mathematical equivalence of the *forward-mode
+differentiation framework*, not identical numerics.
 
-## What the paper does
+## Discretized Maxwell equation
 
-The paper differentiates an FDTD update. For a design variable `p` and a
-time-domain state, one additional forward-mode field is marched with the
-same linearized update. Cost scales with the number of design variables,
-not with the number of outputs. That is attractive when many field samples
-or spectral channels are differentiated with respect to a few parameters.
+| | Fan 2019 | This work |
+|-|----------|-----------|
+| Form | Time-domain Yee update (linearized FDTD) | Frequency-domain weak form for `Hz` |
+| Discrete equation | Linear update / effective `A x = b` in the paper’s notation | `A(p) x(p) = b` with anisotropic `ρ(ε(ω,B))` and PML stretch |
+| Time convention | Paper’s FDTD convention | `e^{-iωt}` Lorentz plasma |
 
-The two demonstrations are:
+## Differentiation of `A x = b`
 
-1. near-field intensity of a dielectric scatterer versus permittivity
-2. grating-coupler spectral power / efficiency versus fill factor
+Both differentiate the discrete linear system. With design parameter `p`:
 
-Neither demonstration supplies a mesh size, fill-factor table, or efficiency
-digit that can be matched here.
+    (∂A/∂p) x + A (∂x/∂p) = ∂b/∂p
 
-## What our discrete FEM does
+For material-only parameters and a fixed source, `∂b/∂p = 0`, so
 
-Frequency-domain P1 Helmholtz for `Hz`:
+    A (∂x/∂p) = − (∂A/∂p) x
 
-    A(p) x(p) = b(p)
+That is exactly the forward-mode sensitivity equation used here and the
+frequency-domain counterpart of the paper’s extra forward-mode field.
 
-With a fixed source and material-only `p = s` (density scale),
+## Parameter derivative
 
-    A dx/ds = − (dA/ds) x
-    db/ds = 0
+| | Fan 2019 | This work |
+|-|----------|-----------|
+| Typical `p` | permittivity or geometric fill | density scale `s` with `f_p² = s f_p,ref²` |
+| `∂A/∂p` | derivative of the FDTD update operators | stiffness assembly of `∂ρ/∂s = −ρ (∂ε/∂s) ρ` (`mass_scale=0`) |
 
-`dε/ds` and `dρ/ds = −ρ (dε) ρ` are analytic. `dA/ds` is the stiffness of
-`dρ` only. One factorization of `A` is reused for the primal solve and for
-every sensitivity RHS at that `(ω, B, mesh)`.
+## Reuse of the forward operator
 
-## Method-independent agreement
+Both reuse the same linearized forward operator for the sensitivity field:
+one extra forward-mode solve per parameter, not a new nonlinear model.
+Here that is literal factorization reuse: one `splu(A)` serves the primal
+solve and every sensitivity RHS at fixed `(ω, B, mesh, s_base)`.
 
-| Item | Fan 2019 (FDTD) | This FEM |
-|------|-----------------|----------|
-| Stationarity | linearized Maxwell update | `A dx = −(dA) x` |
-| Solves per design variable | one extra forward-mode field | one extra solve with the same `A` |
-| Scaling with N_outputs | one forward-mode field supplies all outputs | one `dx/dp` supplies all linear outputs of `x` |
-| Scaling with N_parameters | N_param forward-mode runs | N_param sensitivity RHS (same LU) |
-| Exact vs finite difference | exact discrete derivative | exact discrete derivative of this FEM |
+## One sensitivity RHS per parameter
 
-## What differs
+Yes, in both frameworks. Cost scales as `N_parameters` forward-mode solves
+after the base factorization / base forward run.
 
-- Discretization: Yee FDTD versus P1 FEM on triangles.
-- Time convention and constitutive model: their examples are reciprocal
-  dielectrics; ours is a cold-plasma Lorentz tensor with optional `B`.
-- Memory: FDTD stores time history or checkpointed fields; our direct
-  SuperLU stores one complex LU per `(mesh, f, B)`.
-- Suitability for ~91 plasma controls and six ports: forward mode needs
-  about 91 sensitivity solves after one factorization. An adjoint needs
-  one extra solve per real scalar objective. With many ports and one
-  scalar figure of merit, adjoint wins; with many field samples per rod
-  density, forward mode can still be competitive after the LU exists.
+## Scaling
+
+| Quantity | Fan FDTD forward-mode | This FEM forward-mode |
+|----------|----------------------|------------------------|
+| vs `N_parameters` | linear (one forward-mode field each) | linear (one RHS each, same LU) |
+| vs `N_outputs` | one forward-mode field yields all outputs of that field | one `dx/dp` yields all linear functionals of `x` |
+| vs adjoint | forward better when few params, many outputs | same tradeoff; ~91 rods and one scalar FoM favor adjoint |
+
+## What is independent of FDTD vs FEM
+
+- Stationarity of the discrete residual and its total derivative.
+- The identity `A dx = −(dA)x` when `db = 0`.
+- Exactness of the discrete derivative relative to finite differences on
+  *the same* discrete system.
+- The parameter/output scaling argument above.
+
+## What differs (and is not claimed equal)
+
+- Yee staggered grids vs P1 triangles.
+- Time-domain broadband updates vs single-frequency complex Helmholtz.
+- Reciprocal dielectric examples vs gyrotropic cold-plasma `ε(ω,B)`.
+- Memory: FDTD checkpoints vs one complex SuperLU factor.
 
 ## Claim
 
-The discrete sensitivity equation for our linear FEM is the
-frequency-domain counterpart of the paper’s forward-mode idea. It is not
-a numerical reproduction of their FDTD examples.
+Our implementation is **mathematically equivalent to the forward-mode
+differentiation framework** of Fan et al. (2019): same sensitivity equation
+for a linear discrete Maxwell operator, one sensitivity solve per design
+parameter, factorization/operator reuse, and exact discrete derivatives.
+It is **not** a numerical reproduction of their FDTD examples, and the
+spatial discretizations are not the same.

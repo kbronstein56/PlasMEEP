@@ -13,6 +13,7 @@ Branch: `agent/eigenmode-ports`
 | BROADBAND_OPT | **PASS** |
 | 91_VARIABLE_REFINEMENT | **PASS** (small gain; near-C6 retained) |
 | MODAL_SIXPORT_S_VALIDATED | **PASS** (see `modal_s/`) |
+| MODAL_S_ADJOINT_FD | **PASS** (selected rods; no new opt) |
 
 **Terminology:** Pref-campaign `insertion_avg_dB = 10 log10(P/P_ref)` is **not**
 conventional insertion loss. True modal IL for the sixfold peak is ≈1.3 dB

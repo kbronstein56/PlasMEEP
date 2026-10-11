@@ -234,7 +234,7 @@ def modal_J(dev, bun) -> float:
     return float(acc / 6.0)
 
 
-def fd_check(dev, s0, f_hz, B, rod_indices, eps=1e-4, freeze_a=True):
+def fd_check(dev, s0, f_hz, B, rod_indices, eps=1e-3, freeze_a=False):
     def J_of(s):
         bun = solve_six(dev, s, f_hz, B, P_ref=1.0)
         return modal_J(dev, bun)
@@ -262,7 +262,8 @@ def main() -> int:
     ap.add_argument("--f-hz", type=float, default=F_HZ)
     ap.add_argument("--B", type=float, default=B_PLUS)
     ap.add_argument("--rods", default="0,7,14")
-    ap.add_argument("--eps", type=float, default=1e-4)
+    ap.add_argument("--eps", type=float, default=1e-3)
+    ap.add_argument("--freeze-a", action="store_true", help="Omit da_j quotient terms (less accurate)")
     ap.add_argument("--require-validation", action="store_true", default=True)
     ap.add_argument("--no-require-validation", action="store_false", dest="require_validation")
     args = ap.parse_args()
@@ -283,20 +284,32 @@ def main() -> int:
     s0 = np.ones(91)
     print(f"FD check rods={rods}", flush=True)
     t0 = time.perf_counter()
-    adj, rows = fd_check(dev, s0, args.f_hz, args.B, rod_indices=rods, eps=args.eps)
+    freeze_a = bool(args.freeze_a)
+    adj, rows = fd_check(
+        dev, s0, args.f_hz, args.B, rod_indices=rods, eps=args.eps, freeze_a=freeze_a
+    )
     wall = time.perf_counter() - t0
     max_rel = max(r["rel_err"] for r in rows)
     out = {
         "grade": args.grade,
         "f_Hz": args.f_hz,
         "B_T": args.B,
-        "adjoint_meta": adj,
+        "freeze_a": freeze_a,
+        "eps": args.eps,
+        "adjoint_meta": {
+            "max_a_functional_err": adj["max_a_functional_err"],
+            "max_b_functional_err": adj["max_b_functional_err"],
+            "grads": adj["grads"],
+        },
         "fd_rows": rows,
         "max_rel_err": max_rel,
-        "PASS": bool(max_rel < 0.15),
-        "threshold_rel": 0.15,
+        "PASS": bool(max_rel < 0.05),
+        "threshold_rel": 0.05,
         "wall_s": wall,
-        "note": "No new 91-variable optimization launched.",
+        "note": (
+            "Full quotient rule (freeze_a=False) required for <1e-4 FD agreement. "
+            "No new 91-variable optimization launched."
+        ),
     }
     dump_json(OUT / f"modal_s_adjoint_fd_{args.grade}.json", out)
     print(json.dumps({k: out[k] for k in ("max_rel_err", "PASS", "fd_rows", "wall_s")}, indent=2), flush=True)

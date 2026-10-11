@@ -166,10 +166,11 @@ def material_absorption(points, tris, x, rho, k0) -> float:
     rxx, rxy, ryx, ryy = rho[0], rho[1], rho[2], rho[3]
     det = rxx * ryy - rxy * ryx
     good &= np.abs(det) > 1e-18
-    exx = ryy / det
-    exy = -rxy / det
-    eyx = -ryx / det
-    eyy = rxx / det
+    det_safe = np.where(good, det, 1.0)
+    exx = ryy / det_safe
+    exy = -rxy / det_safe
+    eyx = -ryx / det_safe
+    eyy = rxx / det_safe
     # Skip lossless elements
     lossy = good & (
         (np.abs(exx.imag) > 1e-18)

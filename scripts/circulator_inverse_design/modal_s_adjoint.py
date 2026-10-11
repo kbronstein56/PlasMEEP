@@ -120,147 +120,133 @@ def modal_a_functional(sampler, tris, line, k0: float) -> np.ndarray:
     return alpha
 
 
-def dJ_ds_selected(
-    dev,
-    bun,
-    j_src: int,
-    rod_indices: list[int],
-    *,
-    freeze_a: bool = True,
-) -> dict:
-    """Gradient of J_S = T_des - 2 T_rev - 1.5 T_thr - T_leak - 0.25 |S_jj|²
-    (modal analogue of the Pref objective weights) for selected rods.
+def _q_for_source(dev, bun, j_src: int, *, freeze_a: bool) -> tuple[np.ndarray, dict]:
+    """Build adjoint RHS q with dJ_src = Re(q† dx) for one driven port.
 
-    Uses quotient rule with optional freeze of a_j (vacuum-feed approximation).
+    J_src = Σ_p w_p |b_p / a_j|² with Pref-analogue weights.
+    With b = α·x and d(|b|²)=2 Re(conj(b) db):
+      q_i = Σ_p (2 w_p / |a|²) b_p conj(α_b_p,i)   [freeze_a]
+    plus quotient-rule terms in a_j when freeze_a is False.
     """
     from circulator_core import W_ACC, W_DES, W_LEAK, W_REV, W_THR, port_roles
 
     roles = port_roles(j_src)
     x = bun.fields[j_src]
     k0 = bun.k0
-    A = bun.A
-    # Functionals for each port's b and driven a
     alpha_b = [modal_b_functional(dev.sampler, dev.tris, line, k0) for line in dev.lines]
     alpha_a_j = modal_a_functional(dev.sampler, dev.tris, dev.lines[j_src], k0)
     b = np.array([alpha_b[i] @ x for i in range(6)], dtype=np.complex128)
     a_j = complex(alpha_a_j @ x)
-    # Verify against extract_ab
     m_chk = extract_ab(dev.sampler, x, bun.rho, k0, dev.lines[j_src])
-    # Metric weights on |S_pj|² = |b_p/a_j|²
     w_port = np.zeros(6, float)
     w_port[roles["desired"]] = W_DES
     w_port[roles["reverse"]] = -W_REV
     w_port[roles["through"]] = -W_THR
     w_port[roles["leak_a"]] = -W_LEAK
     w_port[roles["leak_b"]] = -W_LEAK
-    w_port[roles["source"]] = -W_ACC  # penalize |S_jj|² like return
-
-    # d(|b/a|²) = (2/|a|²) Re(b* db) - (2|b|²/|a|⁴) Re(a* da)
-    # Adjoint RHS for the combined linear form on dx:
-    # g† dx contributes to Σ w_p [ (2/|a|²) Re(b_p* (α_b_p·dx)) - ... ]
-    # For real objective J = Σ w_p |S_p|², dJ = 2 Re(λ† ... ) style:
-    # ∂J/∂x direction: for each p, contrib (w_p * 2 / |a|²) conj(b_p) α_b_p
-    # minus (if not freeze) Σ_p w_p * 2 |b_p|²/|a|⁴ * conj(a) α_a
+    w_port[roles["source"]] = -W_ACC
     inv_a2 = 1.0 / max(abs(a_j) ** 2, 1e-30)
-    rhs = np.zeros(len(x), dtype=np.complex128)
+    q = np.zeros(len(x), dtype=np.complex128)
     for p in range(6):
         if abs(w_port[p]) < 1e-30:
             continue
-        rhs += (w_port[p] * 2.0 * inv_a2 * np.conj(b[p])) * alpha_b[p]
+        # q_i = (2w/|a|²) b conj(α_i)  ⇒  vdot(q,dx)= (2w/|a|²) conj(b) (α·dx)
+        q += (w_port[p] * 2.0 * inv_a2 * b[p]) * np.conj(alpha_b[p])
         if not freeze_a:
-            rhs -= (w_port[p] * 2.0 * (abs(b[p]) ** 2) * (inv_a2**2) * np.conj(a_j)) * alpha_a_j
+            # − (2w |b|² / |a|⁴) Re(conj(a) da) → q -= (2w |b|²/|a|⁴) a conj(α_a)
+            q -= (w_port[p] * 2.0 * (abs(b[p]) ** 2) * (inv_a2**2) * a_j) * np.conj(alpha_a_j)
+    meta = {
+        "a_j": [a_j.real, a_j.imag],
+        "a_j_extract": [m_chk.a.real, m_chk.a.imag],
+        "a_functional_err": abs(a_j - m_chk.a) / max(abs(m_chk.a), 1e-30),
+        "b_functional_err": float(
+            max(abs(b[i] - extract_ab(dev.sampler, x, bun.rho, k0, dev.lines[i]).b) for i in range(6))
+            / max(abs(b[0]), 1e-30)
+        ),
+        "w_port": w_port.tolist(),
+    }
+    return q, meta
 
-    # Solve A† λ = rhs  (for dJ = 2 Re(λ† (-dA x))? )
-    # J is real; dJ = Re(rhs† dx) if rhs is built with the 2conj factors...
-    # We built rhs so that dJ = Re(rhs† dx) with the factor 2 absorbed in rhs? 
-    # |z|² differential: d(|z|²) = 2 Re(z* dz). We put (2 w /|a|²) conj(b) α into rhs,
-    # so dJ = Re(rhs† dx) only if we use  Re(conj(coeff)* ...) carefully.
-    # With rhs = Σ c_p α_p and c_p = (2w/|a|²) conj(b_p), then
-    # rhs† dx = Σ conj(c_p) (α·dx)? No — we want Σ 2w/|a|² Re(b* db) = Re( Σ (2w/|a|²) conj(b) db )? 
-    # 2 Re(b* db) = 2 Re(conj(b) db) wait: b* means conj(b).
-    # 2 Re(conj(b) db) = b* db + b (db)* ...
-    # Standard: dJ = Re(q† dx) with q = Σ (2w/|a|²) b α  if db=α·dx and we use
-    #   2 Re(conj(b) (α·dx)) = 2 Re( conj(b α†? ) )
-    # If db = α·dx (row vector), then 2 Re(conj(b) db) = 2 Re(conj(b) α · dx).
-    # For dJ = Re(q† dx), need q† dx = 2 conj(b) α · dx + c.c. handling.
-    # Equivalently q = 2 b α  (then q† dx = 2 conj(b) conj(α)·...? messy with complex α).
-    #
-    # Practical approach matching circulator_core: use forward FD on selected rods
-    # for the check, and adjoint via A^H λ = v with v chosen so
-    # dJ = −2 Re(λ† dA x) works for holomorphic |·|².
-    #
-    # Here: v := Σ_p (w_p / |a|²) conj(b_p) α_b_p   [and a-terms],
-    # solve A^H λ = v, then ∂J/∂s = −2 Re(λ† (∂A/∂s) x).
 
-    v = np.zeros(len(x), dtype=np.complex128)
-    for p in range(6):
-        if abs(w_port[p]) < 1e-30:
-            continue
-        v += (w_port[p] * inv_a2 * np.conj(b[p])) * alpha_b[p]
-        if not freeze_a:
-            v -= (w_port[p] * (abs(b[p]) ** 2) * (inv_a2**2) * np.conj(a_j)) * alpha_a_j
+def dJ_ds_selected(
+    dev,
+    bun,
+    rod_indices: list[int],
+    *,
+    freeze_a: bool = True,
+) -> dict:
+    """∂J/∂s for J = (1/6) Σ_j J_src(j), modal |S|² weights matching Pref FoM."""
+    from scipy.sparse.linalg import splu
 
-    # SuperLU on A^H: solve A^H λ = v  <=>  λ = (A^H)^{-1} v
-    # splu(A).solve(v, trans='H')
-    lu = bun.lu
-    lam = lu.solve(v, trans="H")
+    lams = []
+    metas = []
+    for j in range(6):
+        q, meta = _q_for_source(dev, bun, j, freeze_a=freeze_a)
+        metas.append(meta)
+        try:
+            lam = bun.lu.solve(q, trans="H")
+        except TypeError:
+            lam = splu(bun.A.conj().T.tocsc()).solve(q)
+        lams.append(lam)
 
     grads = {}
     for k in rod_indices:
         dA = assemble_dA_rod(
             dev.points,
             dev.tris,
-            bun.rho,
-            bun.k0,
+            dev.rod_masks[k],
             bun.f_ord,
+            bun.fp_ref_ord,
             bun.gamma,
             bun.fc,
-            bun.fp_ref_ord,
-            bun.s_vec[k],
-            dev.rod_masks[k],
+            bun.k0,
+            float(bun.s_vec[k]),
         )
-        # ∂J/∂s_k = −2 Re(λ† dA x)
-        grads[int(k)] = float(-2.0 * np.real(np.vdot(lam, dA @ x)))
+        acc = 0.0
+        for j in range(6):
+            acc += -np.real(np.vdot(lams[j], dA @ bun.fields[j]))
+        grads[int(k)] = float(acc / 6.0)
 
     return {
-        "j_src": j_src,
-        "a_j": [a_j.real, a_j.imag],
-        "a_j_extract": [m_chk.a.real, m_chk.a.imag],
-        "a_functional_err": abs(a_j - m_chk.a) / max(abs(m_chk.a), 1e-30),
-        "b": [[z.real, z.imag] for z in b],
         "freeze_a": freeze_a,
         "grads": grads,
-        "w_port": w_port.tolist(),
+        "per_source_meta": metas,
+        "max_a_functional_err": max(m["a_functional_err"] for m in metas),
+        "max_b_functional_err": max(m["b_functional_err"] for m in metas),
     }
 
 
-def fd_check(dev, s0, f_hz, B, j_src, rod_indices, eps=1e-4, freeze_a=True):
+def modal_J(dev, bun) -> float:
     from circulator_core import W_ACC, W_DES, W_LEAK, W_REV, W_THR, port_roles
 
-    def J_of(s):
-        bun = solve_six(dev, s, f_hz, B, P_ref=1.0)  # Pref irrelevant for modal J
-        A, Bmat, _ = modal_port_powers(dev.sampler, bun.fields, bun.rho, bun.k0, dev.lines)
-        S = scattering_matrix(A, Bmat)
-        r = port_roles(j_src)
-        return (
-            W_DES * abs(S[r["desired"], j_src]) ** 2
-            - W_REV * abs(S[r["reverse"], j_src]) ** 2
-            - W_THR * abs(S[r["through"], j_src]) ** 2
-            - W_LEAK * (abs(S[r["leak_a"], j_src]) ** 2 + abs(S[r["leak_b"], j_src]) ** 2)
-            - W_ACC * abs(S[r["source"], j_src]) ** 2
+    A, Bmat, _ = modal_port_powers(dev.sampler, bun.fields, bun.rho, bun.k0, dev.lines)
+    S = scattering_matrix(A, Bmat)
+    acc = 0.0
+    for j in range(6):
+        r = port_roles(j)
+        acc += (
+            W_DES * abs(S[r["desired"], j]) ** 2
+            - W_REV * abs(S[r["reverse"], j]) ** 2
+            - W_THR * abs(S[r["through"], j]) ** 2
+            - W_LEAK * (abs(S[r["leak_a"], j]) ** 2 + abs(S[r["leak_b"], j]) ** 2)
+            - W_ACC * abs(S[r["source"], j]) ** 2
         )
+    return float(acc / 6.0)
+
+
+def fd_check(dev, s0, f_hz, B, rod_indices, eps=1e-4, freeze_a=True):
+    def J_of(s):
+        bun = solve_six(dev, s, f_hz, B, P_ref=1.0)
+        return modal_J(dev, bun)
 
     bun0 = solve_six(dev, s0, f_hz, B, P_ref=1.0)
-    adj = dJ_ds_selected(dev, bun0, j_src, rod_indices, freeze_a=freeze_a)
+    adj = dJ_ds_selected(dev, bun0, rod_indices, freeze_a=freeze_a)
     rows = []
     for k in rod_indices:
         s_p = s0.copy()
         s_m = s0.copy()
-        s_p[k] += eps
-        s_m[k] -= eps
-        # Keep bounds soft
-        s_p[k] = float(np.clip(s_p[k], 0.05, 1.80))
-        s_m[k] = float(np.clip(s_m[k], 0.05, 1.80))
+        s_p[k] = float(np.clip(s0[k] + eps, 0.05, 1.80))
+        s_m[k] = float(np.clip(s0[k] - eps, 0.05, 1.80))
         Jp = J_of(s_p)
         Jm = J_of(s_m)
         fd = (Jp - Jm) / (s_p[k] - s_m[k])
@@ -297,7 +283,7 @@ def main() -> int:
     s0 = np.ones(91)
     print(f"FD check rods={rods}", flush=True)
     t0 = time.perf_counter()
-    adj, rows = fd_check(dev, s0, args.f_hz, args.B, j_src=0, rod_indices=rods, eps=args.eps)
+    adj, rows = fd_check(dev, s0, args.f_hz, args.B, rod_indices=rods, eps=args.eps)
     wall = time.perf_counter() - t0
     max_rel = max(r["rel_err"] for r in rows)
     out = {

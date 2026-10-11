@@ -12,6 +12,11 @@ Branch: `agent/eigenmode-ports`
 | B_REVERSAL | **PASS** |
 | BROADBAND_OPT | **PASS** |
 | 91_VARIABLE_REFINEMENT | **PASS** (small gain; near-C6 retained) |
+| MODAL_SIXPORT_S_VALIDATED | **PASS** (see `modal_s/`) |
+
+**Terminology:** Pref-campaign `insertion_avg_dB = 10 log10(P/P_ref)` is **not**
+conventional insertion loss. True modal IL for the sixfold peak is ≈1.3 dB
+(`T_des≈0.74`); see `modal_s/MODAL_S_DESIGN_EVAL_REPORT.md`.
 
 ## Primary peak design (sixfold, 3.85 GHz, +0.05 T)
 

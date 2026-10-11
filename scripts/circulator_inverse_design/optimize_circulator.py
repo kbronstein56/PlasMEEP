@@ -105,50 +105,52 @@ class OptState:
     def eval_broadband(self, q, freqs):
         s = self.s_from_q(q)
         Js = []
-        g_acc = np.zeros(len(self.orbits), float)
+        gs = []
+        buns = []
         metrics_band = []
         for f in freqs:
             bun = solve_six(self.dev, s, f, self.b_tesla, P_ref=self.P_ref)
             gq = gradient_q(self.dev, bun, self.orbits, self.o_masks)
             Js.append(bun.J)
-            g_acc += gq
-            metrics_band.append({"f_Hz": f, "J": bun.J, "desired_avg": bun.metrics["desired_avg"],
-                                 "isolation_avg_dB": bun.metrics["isolation_avg_dB"]})
-        # robust: mean + 0.5 * min (differentiable soft via exact min for now)
+            gs.append(gq)
+            buns.append(bun)
+            metrics_band.append({
+                "f_Hz": f,
+                "J": bun.J,
+                "desired_avg": bun.metrics["desired_avg"],
+                "reverse_avg": bun.metrics["reverse_avg"],
+                "through_avg": bun.metrics["through_avg"],
+                "isolation_avg_dB": bun.metrics["isolation_avg_dB"],
+            })
         Jmean = float(np.mean(Js))
         Jmin = float(np.min(Js))
-        # For gradient of min: use the active frequency only (subgradient)
         imin = int(np.argmin(Js))
-        # Recompute gradient properly: d(mean)/dq + 0.5 d(min)/dq
-        # We need per-freq gradients stored — redo cheaply
-        g_mean = g_acc / len(freqs)
-        # get g at imin
-        bun_min = solve_six(self.dev, s, freqs[imin], self.b_tesla, P_ref=self.P_ref)
-        g_min = gradient_q(self.dev, bun_min, self.orbits, self.o_masks)
+        g_mean = sum(gs) / len(freqs)
+        g = g_mean + 0.5 * gs[imin]
         J = Jmean + 0.5 * Jmin
-        g = g_mean + 0.5 * g_min
-        bun_min.J = J  # stash
-        bun_min.metrics = {
+        bun_ref = buns[imin]
+        bun_ref.J = J
+        bun_ref.metrics = {
             "J": J,
             "J_mean": Jmean,
             "J_min": Jmin,
             "band": metrics_band,
             "desired_avg": float(np.mean([m["desired_avg"] for m in metrics_band])),
             "isolation_avg_dB": float(np.mean([m["isolation_avg_dB"] for m in metrics_band])),
-            "per_source": bun_min.metrics["per_source"],
-            "reverse_avg": bun_min.metrics["reverse_avg"],
-            "through_avg": bun_min.metrics["through_avg"],
-            "leak_avg": bun_min.metrics["leak_avg"],
-            "accepted_avg": bun_min.metrics["accepted_avg"],
-            "desired_min": bun_min.metrics["desired_min"],
-            "insertion_avg_dB": bun_min.metrics["insertion_avg_dB"],
+            "per_source": bun_ref.metrics["per_source"],
+            "reverse_avg": float(np.mean([m["reverse_avg"] for m in metrics_band])),
+            "through_avg": float(np.mean([m["through_avg"] for m in metrics_band])),
+            "leak_avg": bun_ref.metrics["leak_avg"],
+            "accepted_avg": bun_ref.metrics["accepted_avg"],
+            "desired_min": float(min(m["desired_avg"] for m in metrics_band)),
+            "insertion_avg_dB": bun_ref.metrics["insertion_avg_dB"],
             "P_ref": self.P_ref,
-            "weights": bun_min.metrics["weights"],
+            "weights": bun_ref.metrics["weights"],
         }
-        return bun_min, g
+        return bun_ref, g
 
 
-def run_opt(grade="M", b_tesla=B_PLUS, f_hz=F_HZ, maxiter=40, q0=None, tag="single", freqs=None):
+def run_opt(grade="M", b_tesla=B_PLUS, f_hz=F_HZ, maxiter=40, q0=None, tag="single", freqs=None, P_ref_frozen=None):
     OUT.mkdir(parents=True, exist_ok=True)
     dev = load_device(grade)
     orbits, _ = build_orbits(dev.centers)
@@ -156,7 +158,10 @@ def run_opt(grade="M", b_tesla=B_PLUS, f_hz=F_HZ, maxiter=40, q0=None, tag="sing
     nq = len(orbits)
     # freeze P_ref at uniform s=1, production frequency (even for broadband, use center f)
     base = solve_six(dev, np.ones(len(dev.rod_masks)), f_hz if freqs is None else F_HZ, b_tesla, P_ref=None)
-    P_ref = base.P_ref
+    P_ref = float(P_ref_frozen) if P_ref_frozen is not None else base.P_ref
+    # re-evaluate baseline metrics with the frozen P_ref used for optimization
+    if P_ref_frozen is not None:
+        base = solve_six(dev, np.ones(len(dev.rod_masks)), f_hz if freqs is None else F_HZ, b_tesla, P_ref=P_ref)
     print(f"P_ref frozen={P_ref:.6e} J0={base.J:.6e} orbits={nq}", flush=True)
 
     if q0 is None:
@@ -283,12 +288,15 @@ def main():
         # warm start from best single if present
         cands = sorted(OUT.glob("opt_single_*_Bp0.0500.json"))
         q0 = None
+        P_ref_frozen = None
         if cands:
             best = max((json.loads(p.read_text()) for p in cands), key=lambda d: d["best"]["J"])
             q0 = best["best"]["q"]
-            print("warm start from J", best["best"]["J"], flush=True)
+            P_ref_frozen = best["P_ref"]
+            print("warm start from J", best["best"]["J"], "P_ref", P_ref_frozen, flush=True)
         freqs = [3.75e9, 3.80e9, 3.85e9, 3.90e9, 3.95e9]
-        run_opt(grade=grade, tag="broadband", maxiter=20, q0=q0, freqs=freqs)
+        # Prefer grade C for broadband search speed; validate on M/F afterward.
+        run_opt(grade=grade, tag="broadband", maxiter=12, q0=q0, freqs=freqs, P_ref_frozen=P_ref_frozen)
     elif mode == "free91":
         # release tying — separate script path using per-rod LBFGS would be heavy;
         # use tied warm start then a few free steps via finite orbits expansion

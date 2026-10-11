@@ -1,0 +1,15 @@
+{
+  "case": 0,
+  "name": "synthetic_bidirectional",
+  "err_a": 3.3422138886441676e-16,
+  "err_b": 0.0,
+  "err_power_identity": 6.066792484290478e-16,
+  "P_modal": -0.22874999999999981,
+  "P_poynting": -0.22874999999999995,
+  "PASS": true,
+  "threshold": {
+    "err_a": 1e-10,
+    "err_b": 1e-10,
+    "err_p": 1e-08
+  }
+}

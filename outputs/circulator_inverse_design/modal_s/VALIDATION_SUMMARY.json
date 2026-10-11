@@ -1,0 +1,43 @@
+{
+  "cases": [
+    {
+      "case": 0,
+      "name": "synthetic_bidirectional",
+      "PASS": true,
+      "err_a": 3.3422138886441676e-16
+    },
+    {
+      "case": 1,
+      "name": "straight_matched_guide",
+      "PASS": true,
+      "|S11|^2": 4.066186161344252e-05,
+      "|S21|^2": 1.004135503589895
+    },
+    {
+      "case": 2,
+      "name": "quarter_wave_slab_fresnel",
+      "PASS": true,
+      "FEM_R": 0.3369100801189878,
+      "analytic_R": 0.34027777777777785
+    },
+    {
+      "case": 3,
+      "name": "B0_reciprocity",
+      "PASS": true,
+      "reciprocity_rel_F": 0.0002491359237532571
+    },
+    {
+      "case": 4,
+      "name": "Onsager_S(+B)=S^T(-B)",
+      "PASS": true,
+      "onsager_rel_F": 0.000184001977707463
+    },
+    {
+      "case": 5,
+      "name": "passive_power_balance",
+      "PASS": true
+    }
+  ],
+  "all_PASS": true,
+  "finished": "2026-10-11T06:40:18Z"
+}

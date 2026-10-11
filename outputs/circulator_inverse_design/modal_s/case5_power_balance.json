@@ -1,0 +1,69 @@
+{
+  "case": 5,
+  "name": "passive_power_balance",
+  "grade": "C",
+  "f_Hz": 3850000000.0,
+  "B_T": 0.05,
+  "per_source": [
+    {
+      "source": 0,
+      "P_inc": 0.06326101381166487,
+      "P_out_sum": 0.059346694301067114,
+      "P_abs_modal": 0.003914319510597751,
+      "P_abs_material": 0.001623696338955216,
+      "rel_diff_over_Pinc": 0.03620908097461063,
+      "PASS": true
+    },
+    {
+      "source": 1,
+      "P_inc": 0.06324989823854124,
+      "P_out_sum": 0.059346058332655265,
+      "P_abs_modal": 0.0039038399058859766,
+      "P_abs_material": 0.0016230924779259267,
+      "rel_diff_over_Pinc": 0.036059305887867495,
+      "PASS": true
+    },
+    {
+      "source": 2,
+      "P_inc": 0.06328067852631966,
+      "P_out_sum": 0.059368720876658274,
+      "P_abs_modal": 0.003911957649661388,
+      "P_abs_material": 0.0016236237341436036,
+      "rel_diff_over_Pinc": 0.036161652637242525,
+      "PASS": true
+    },
+    {
+      "source": 3,
+      "P_inc": 0.06329699105020162,
+      "P_out_sum": 0.059393879717877796,
+      "P_abs_modal": 0.003903111332323822,
+      "P_abs_material": 0.0016237289071109812,
+      "rel_diff_over_Pinc": 0.036010912800026065,
+      "PASS": true
+    },
+    {
+      "source": 4,
+      "P_inc": 0.06330608746436225,
+      "P_out_sum": 0.0593983479635338,
+      "P_abs_modal": 0.0039077395008284554,
+      "P_abs_material": 0.0016235543340848136,
+      "rel_diff_over_Pinc": 0.03608160381147403,
+      "PASS": true
+    },
+    {
+      "source": 5,
+      "P_inc": 0.06325477592698459,
+      "P_out_sum": 0.05934590812194198,
+      "P_abs_modal": 0.003908867805042605,
+      "P_abs_material": 0.0016232894663189932,
+      "rel_diff_over_Pinc": 0.03613289755957512,
+      "PASS": true
+    }
+  ],
+  "PASS": true,
+  "threshold": {
+    "P_abs_modal_over_Pinc_min": -0.05,
+    "rel_diff_max": 0.25
+  },
+  "wall_s": 99.55144973198185
+}

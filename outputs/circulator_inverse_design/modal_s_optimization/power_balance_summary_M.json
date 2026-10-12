@@ -1,0 +1,30 @@
+{
+  "grade": "M",
+  "designs": {
+    "uniform": {
+      "PASS": true,
+      "mean_eng_residual": 2.220446049250313e-16,
+      "mean_sum_T": 0.9355928641803345,
+      "mean_P_mat_frac": 0.025947904330936872,
+      "mean_P_pml_frac": 0.03845923148872837,
+      "mean_T_des": 0.007298684163316298
+    },
+    "opt_single_uniform_M_Bp0.0500": {
+      "PASS": true,
+      "mean_eng_residual": 1.295260195396016e-16,
+      "mean_sum_T": 0.8313488493364662,
+      "mean_P_mat_frac": 0.04068779151350136,
+      "mean_P_pml_frac": 0.12796335915003246,
+      "mean_T_des": 0.7416651140140819
+    },
+    "opt_broadband_C_Bp0.0500": {
+      "PASS": true,
+      "mean_eng_residual": 2.0354088784794536e-16,
+      "mean_sum_T": 0.8078996854536561,
+      "mean_P_mat_frac": 0.04557697150719772,
+      "mean_P_pml_frac": 0.14652334303914605,
+      "mean_T_des": 0.7171348375555778
+    }
+  },
+  "PASS": true
+}

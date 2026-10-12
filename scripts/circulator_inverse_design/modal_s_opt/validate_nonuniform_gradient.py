@@ -95,7 +95,7 @@ def main():
     ap.add_argument("--f-hz", type=float, default=F_HZ)
     ap.add_argument("--B", type=float, default=B_PLUS)
     ap.add_argument("--designs", default="opt_single_uniform_M_Bp0.0500,opt_broadband_C_Bp0.0500")
-    ap.add_argument("--hs", default="1e-3,3e-4,1e-4")
+    ap.add_argument("--hs", default="1e-3,1e-4,1e-5,3e-6")
     args = ap.parse_args()
     hs = [float(x) for x in args.hs.split(",")]
     OUT.mkdir(parents=True, exist_ok=True)

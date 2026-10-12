@@ -136,42 +136,72 @@ def incident_rhs(b, port_structs, modes, drive_port: int, drive_mode: int):
     return add_modal_incident_rhs(b, ps["nodes"], ps["y"], ps["w"], phi, md["beta"], a_field, side="left")
 
 
-def extract_S(fields, port_structs, lines, sampler, tris, rho, k0, drive_col: int):
+def port_line_from_struct(ps: dict) -> dict:
+    """Monitor line colocated with the DtN outer-feed plane."""
+    center = np.asarray(ps["center"], float)
+    tang = np.asarray(ps["tangent"], float)
+    tang = tang / np.linalg.norm(tang)
+    y = np.asarray(ps["y"], float)
+    return {
+        "port": ps["port"],
+        "outward": np.asarray(ps["outward"], float),
+        "tangent": tang,
+        "monitor_xy": np.vstack([center + float(yi) * tang for yi in y]),
+        "weights": np.asarray(ps["w"], float),
+        "offsets": y,
+    }
+
+
+def extract_ab_column(hz, port_structs, sampler, tris, k0) -> tuple[np.ndarray, np.ndarray]:
+    """Power-normalized a,b for all 12 channels at DtN planes."""
     W = float(sc.clear_width)
-    n_ch = 12
-    S_col = np.zeros(n_ch, dtype=np.complex128)
-    a_in = None
-    for p, line in enumerate(lines):
+    a = np.zeros(12, dtype=np.complex128)
+    b = np.zeros(12, dtype=np.complex128)
+    for p, ps in enumerate(port_structs):
+        line = port_line_from_struct(ps)
         for m in (0, 1):
-            a, bb = extract_mode_m(sampler, fields, tris, line, k0, m, W)
-            ch = 2 * p + m
-            if ch == drive_col:
-                a_in = a
-            S_col[ch] = bb
-    if a_in is None or abs(a_in) < 1e-30:
-        return S_col, complex(np.nan)
-    return S_col / a_in, a_in
+            aa, bb = extract_mode_m(sampler, hz, tris, line, k0, m, W)
+            a[2 * p + m] = aa
+            b[2 * p + m] = bb
+    return a, b
 
 
 def full12_s(grade: str, s_vec: np.ndarray, f_hz: float = 3.85e9, b_tesla: float = 0.05):
     shift = np.array([sc.nx_ports / 2.0, sc.ny_ports / 2.0])
     points, tris, rho, A0, k0, f_ord = assemble_base(grade, f_hz, b_tesla, s_vec)
     port_structs, modes = build_port_structs(points, shift)
-    lines = port_lines_from_horns()
     sampler = ElementSampler(points, tris)
-    S = np.zeros((12, 12), dtype=np.complex128)
+    Ain = np.zeros((12, 12), dtype=np.complex128)
+    Bout = np.zeros((12, 12), dtype=np.complex128)
     port_counts = [ps["n_nodes"] for ps in port_structs]
+    # One factorization for all 12 RHS (Robin independent of drive)
+    A = add_all_robin(A0.copy(), port_structs, modes)
+    lu = splu(A.tocsc())
     for n in range(12):
         p, m = divmod(n, 2)
-        A = add_all_robin(A0.copy(), port_structs, modes)
         b = np.zeros(len(points), dtype=np.complex128)
         b = incident_rhs(b, port_structs, modes, p, m)
-        lu = splu(A.tocsc())
         x = lu.solve(b)
-        S[:, n], ain = extract_S(x, port_structs, lines, sampler, tris, rho, k0, n)
+        a_col, b_col = extract_ab_column(x, port_structs, sampler, tris, k0)
+        Ain[:, n] = a_col
+        Bout[:, n] = b_col
         if n == 0:
-            print(f"port nodes {port_counts} drive0 ain={abs(ain):.4f}", flush=True)
-    return S, {"port_nodes": port_counts, "k0": k0, "grade": grade}
+            print(
+                f"port nodes {port_counts} drive0 |a|={abs(a_col[0]):.4f} "
+                f"diag_dom={abs(a_col[0])/max(np.linalg.norm(a_col),1e-30):.3f}",
+                flush=True,
+            )
+    # Proper multimode S: outgoing = S @ incoming
+    S = Bout @ np.linalg.inv(Ain)
+    diag_dom = [float(abs(Ain[n, n]) / max(np.linalg.norm(Ain[:, n]), 1e-30)) for n in range(12)]
+    return S, {
+        "port_nodes": port_counts,
+        "k0": k0,
+        "grade": grade,
+        "diag_dominance_min": float(min(diag_dom)),
+        "diag_dominance_mean": float(np.mean(diag_dom)),
+        "cond_Ain": float(np.linalg.cond(Ain)),
+    }
 
 
 def onsager_residual(Sp, Sm):

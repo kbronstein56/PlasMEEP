@@ -84,6 +84,23 @@ def build_port_structs(points, shift):
     return structs, modes
 
 
+def exterior_beyond_ports_mask(points, tris, port_structs, margin: float = 1e-6) -> np.ndarray:
+    """Triangles outside the device∪feeds polyhedron (beyond all outer port planes).
+
+    Interior = ∩_p {(x−c_p)·n̂_p ≤ margin}. Excising exterior makes each port
+    plane a true ∂Ω segment so modal Robin is a boundary condition, not an
+    interior penalty on DOFs still coupled through PML.
+    """
+    cents = points[tris].mean(axis=1)
+    exterior = np.zeros(len(tris), dtype=bool)
+    for ps in port_structs:
+        c = np.asarray(ps["center"], float)
+        n = np.asarray(ps["outward"], float)
+        n = n / np.linalg.norm(n)
+        exterior |= (cents - c) @ n > margin
+    return exterior
+
+
 def assemble_base(grade: str, f_hz: float, b_tesla: float, s_vec: np.ndarray):
     points, tris = load_mesh(grade)
     masks = material_masks(points, tris, sc)
@@ -106,11 +123,17 @@ def assemble_base(grade: str, f_hz: float, b_tesla: float, s_vec: np.ndarray):
         sc.fp_Hz,
         sc.gamma_Hz,
     )
+    shift = np.array([sc.nx_ports / 2.0, sc.ny_ports / 2.0])
+    port_structs, _modes = build_port_structs(points, shift)
+    ext = exterior_beyond_ports_mask(points, tris, port_structs)
+    # Excise like PEC walls: ρ→0 drops stiffness+mass (natural Neumann on cut).
+    for arr in rho:
+        arr[ext] = 0.0
     pec = np.zeros(len(points), dtype=bool)
     # Assembly k0 from physical f_Hz (matches diff_fem_core.solve_forward), not fc.
     k0 = 2.0 * np.pi * (f_hz * sc.a / 299792458.0)
     A = assemble_anisotropic(points, tris, *rho, k0, pec)
-    return points, tris, rho, A, k0, f_ord
+    return points, tris, rho, A, k0, f_ord, {"n_exterior_tris": int(ext.sum()), "port_structs": port_structs}
 
 
 def add_all_robin(A, port_structs, modes, n_prop=2, n_evan=2):
@@ -167,9 +190,9 @@ def extract_ab_column(hz, port_structs, sampler, tris, k0) -> tuple[np.ndarray, 
 
 
 def full12_s(grade: str, s_vec: np.ndarray, f_hz: float = 3.85e9, b_tesla: float = 0.05):
-    shift = np.array([sc.nx_ports / 2.0, sc.ny_ports / 2.0])
-    points, tris, rho, A0, k0, f_ord = assemble_base(grade, f_hz, b_tesla, s_vec)
-    port_structs, modes = build_port_structs(points, shift)
+    points, tris, rho, A0, k0, f_ord, base_meta = assemble_base(grade, f_hz, b_tesla, s_vec)
+    port_structs = base_meta["port_structs"]
+    modes = mode_constants(k0, float(sc.clear_width), n_modes=4)
     sampler = ElementSampler(points, tris)
     Ain = np.zeros((12, 12), dtype=np.complex128)
     Bout = np.zeros((12, 12), dtype=np.complex128)
@@ -198,6 +221,7 @@ def full12_s(grade: str, s_vec: np.ndarray, f_hz: float = 3.85e9, b_tesla: float
         "port_nodes": port_counts,
         "k0": k0,
         "grade": grade,
+        "n_exterior_tris": base_meta["n_exterior_tris"],
         "diag_dominance_min": float(min(diag_dom)),
         "diag_dominance_mean": float(np.mean(diag_dom)),
         "cond_Ain": float(np.linalg.cond(Ain)),

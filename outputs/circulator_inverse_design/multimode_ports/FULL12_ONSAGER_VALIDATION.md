@@ -27,3 +27,18 @@ Artifact: `full12_dtn_probe.json`, `S_full12_B{p,m,0}.npz`.
    - TE1 phase / power normalization between DtN and monitor
 
 **FULL12_ONSAGER: FAIL** (extractor not frozen; diagnose before optimization).
+
+## Follow-up run (DtN plane + `S = B A⁻¹`)
+
+| Quantity | Value |
+|----------|-------|
+| `r_F` (+B/−B) | 0.108 |
+| `r_F` (B=0) | 0.134 |
+| TE0↔TE0 | 0.020 |
+| TE1 cross | ~0.62–0.69 |
+| `|a|` drive0 | ~0.29 (not unit) |
+| `cond(A_in)` | ~1.6 |
+
+Still FAIL. Diagnosis: outer-feed nodes are **interior** (domain/PML continues ~0.8–3a beyond ports). Robin on interior DOFs is not a true DtN boundary.
+
+Next: excise triangles outside the six port half-planes so each port plane is ∂Ω, then re-apply modal Robin.

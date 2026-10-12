@@ -101,6 +101,8 @@ class ModalAmplitudes:
     P_net_modal: float
     P_net_poynting: float
     overlap_quality: float  # |projected Hz|² / ∫|Hz|² ; ~1 for pure fundamental
+    te1_power_frac: float = 0.0  # |c_H1|² / ∫|Hz|² for odd TE1
+    te1_P_out: float = 0.0  # outgoing TE1 modal power (if propagating)
 
 
 def extract_ab(
@@ -110,6 +112,7 @@ def extract_ab(
     k0: float,
     line: dict,
     beta: Optional[float] = None,
+    report_te1: bool = True,
 ) -> ModalAmplitudes:
     """Extract power-normalized a,b at one port monitor line."""
     omega = float(k0)  # c=1 units: ω = k0
@@ -123,6 +126,8 @@ def extract_ab(
     if "offsets" in line:
         off = np.asarray(line["offsets"], float)
         span = float(off[-1] - off[0]) if len(off) > 1 else float(np.sum(weights))
+    else:
+        off = np.linspace(-span / 2.0, span / 2.0, len(weights))
     phi = np.full(len(weights), 1.0 / np.sqrt(max(span, 1e-30)), dtype=float)
 
     Hz, dn = sample_hz_dn(sampler, x, rho, omega, xy, n_hat)
@@ -150,6 +155,24 @@ def extract_ab(
     proj_pow = float(abs(c_H) ** 2)  # since ∫|φ|²=1, Parseval for one mode
     qual = proj_pow / max(hz_pow, 1e-30)
 
+    te1_frac = 0.0
+    te1_P_out = 0.0
+    if report_te1:
+        # Odd Neumann TE1 on clear width W (use production clear_width via span/0.92)
+        W = span / 0.92 if span > 0 else span
+        phi1 = np.sin(np.pi * off / max(W, 1e-30))
+        nrm = float(np.sqrt(max(np.sum(weights * phi1 * phi1), 1e-30)))
+        phi1 = phi1 / nrm
+        c_H1 = complex(np.sum(weights * phi1 * Hz))
+        c_d1 = complex(np.sum(weights * phi1 * dn))
+        te1_frac = float(abs(c_H1) ** 2 / max(hz_pow, 1e-30))
+        kc1 = np.pi / max(W, 1e-30)
+        disc = omega**2 - kc1**2
+        if disc > 0:
+            beta1 = float(np.sqrt(disc))
+            b1_f = 0.5 * (c_H1 + c_d1 / (1j * beta1))
+            te1_P_out = float(abs(b1_f * np.sqrt(beta1 / (2.0 * omega))) ** 2)
+
     return ModalAmplitudes(
         a=complex(a),
         b=complex(b),
@@ -160,6 +183,8 @@ def extract_ab(
         P_net_modal=P_out - P_inc,
         P_net_poynting=P_poynt,
         overlap_quality=qual,
+        te1_power_frac=te1_frac,
+        te1_P_out=te1_P_out,
     )
 
 
@@ -189,6 +214,8 @@ def modal_port_powers(
                 "P_net_modal": m.P_net_modal,
                 "P_net_poynting": m.P_net_poynting,
                 "overlap_quality": m.overlap_quality,
+                "te1_power_frac": m.te1_power_frac,
+                "te1_P_out": m.te1_P_out,
             })
         details.append(row)
     return A, B, details

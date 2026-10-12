@@ -54,13 +54,16 @@ def extract_mode_m(
     phi, _ = normalize_on_line(y, weights, m, W)
     n_hat = np.asarray(line["outward"], float)
     Hz, dn = sample_hz_dn(sampler, hz, tris, mon, n_hat)
-    beta = float(np.sqrt(max(k0**2 - (m * np.pi / W) ** 2, 0.0)))
-    if beta <= 0:
-        alpha = float(np.sqrt((m * np.pi / W) ** 2 - k0**2))
-        beta = 1j * alpha
+    disc = float(k0**2 - (m * np.pi / W) ** 2)
+    if disc > 0:
+        beta = complex(np.sqrt(disc))
+    else:
+        alpha = float(np.sqrt(max(-disc, 0.0)))
+        beta = 1j * max(alpha, 1e-30)
     c_H = complex(np.sum(weights * phi * Hz))
     c_d = complex(np.sum(weights * phi * dn))
-    a_f = 0.5 * (c_H - c_d / (1j * beta))
-    b_f = 0.5 * (c_H + c_d / (1j * beta))
+    denom = 1j * beta
+    a_f = 0.5 * (c_H - c_d / denom)
+    b_f = 0.5 * (c_H + c_d / denom)
     sc = power_scale(beta, k0)
     return a_f * sc, b_f * sc

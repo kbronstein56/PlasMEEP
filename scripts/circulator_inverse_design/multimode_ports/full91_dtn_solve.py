@@ -93,7 +93,8 @@ def assemble_base(grade: str, f_hz: float, b_tesla: float, s_vec: np.ndarray):
     centers = bulb_centers_device(sc)
     r_p = 4.6 * sc.r_bulb_inner / 6.5
     rod_masks = per_rod_plasma_masks(points, tris, centers, r_p)
-    rho, _, fc, f_ord = rho_from_scales(
+    # rho_from_scales returns (rho, f_ord, gamma, fc) — not (rho, _, fc, f_ord).
+    rho, f_ord, gamma, fc = rho_from_scales(
         len(tris),
         rod_masks,
         s_vec,
@@ -106,7 +107,8 @@ def assemble_base(grade: str, f_hz: float, b_tesla: float, s_vec: np.ndarray):
         sc.gamma_Hz,
     )
     pec = np.zeros(len(points), dtype=bool)
-    k0 = 2 * np.pi * f_ord
+    # Assembly k0 from physical f_Hz (matches diff_fem_core.solve_forward), not fc.
+    k0 = 2.0 * np.pi * (f_hz * sc.a / 299792458.0)
     A = assemble_anisotropic(points, tris, *rho, k0, pec)
     return points, tris, rho, A, k0, f_ord
 
@@ -190,18 +192,44 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     Sp, meta = full12_s(args.grade, s_vec, b_tesla=0.05)
+    np.savez_compressed(OUT / "S_full12_Bp.npz", S=Sp)
     Sm, _ = full12_s(args.grade, s_vec, b_tesla=-0.05)
+    np.savez_compressed(OUT / "S_full12_Bm.npz", S=Sm)
+    r_plus = onsager_residual(Sp, Sm)
     S0, _ = full12_s(args.grade, s_vec, b_tesla=0.0)
+    np.savez_compressed(OUT / "S_full12_B0.npz", S=S0)
     r = {
         "grade": args.grade,
-        "r_F_plus": onsager_residual(Sp, Sm),
-        "r_F_zero": onsager_residual(S0, S0.T),
+        "r_F_plus": r_plus,
+        "r_F_zero": onsager_residual(S0, S0),
+        "onsager_bar": 5e-3,
+        "FULL12_ONSAGER": "PASS" if r_plus <= 5e-3 else "FAIL",
         "meta": meta,
         "elapsed_s": time.time() - t0,
     }
+    # Block residuals: TE0↔TE0, TE0↔TE1, TE1↔TE1
+    def block(S, mi, mj):
+        return S[mi::2, mj::2] if False else S[np.ix_([2 * i + mi for i in range(6)], [2 * j + mj for j in range(6)])]
+
+    Sp00, Sm00 = block(Sp, 0, 0), block(Sm, 0, 0)
+    Sp01, Sm01 = block(Sp, 0, 1), block(Sm, 0, 1)
+    Sp10, Sm10 = block(Sp, 1, 0), block(Sm, 1, 0)
+    Sp11, Sm11 = block(Sp, 1, 1), block(Sm, 1, 1)
+    r["blocks"] = {
+        "r_TE0_TE0": onsager_residual(Sp00, Sm00),
+        "r_TE0_TE1_vs_TE1_TE0T": float(
+            np.linalg.norm(Sp01 - Sm10.T) / max(np.linalg.norm(Sp01), 1e-30)
+        ),
+        "r_TE1_TE0_vs_TE0_TE1T": float(
+            np.linalg.norm(Sp10 - Sm01.T) / max(np.linalg.norm(Sp10), 1e-30)
+        ),
+        "r_TE1_TE1": onsager_residual(Sp11, Sm11),
+        "mean_TE0_to_TE1_power": float(np.mean(np.abs(Sp01) ** 2)),
+        "mean_TE1_to_TE0_power": float(np.mean(np.abs(Sp10) ** 2)),
+    }
     args.json.write_text(json.dumps(r, indent=2) + "\n")
     print(json.dumps(r, indent=2))
-    return 0
+    return 0 if r["FULL12_ONSAGER"] == "PASS" else 1
 
 
 if __name__ == "__main__":

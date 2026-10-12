@@ -81,8 +81,16 @@ def assemble_device(grade: str, f_hz: float, b_tesla: float, s_vec: np.ndarray):
         tang = np.array([-n_hat[1], n_hat[0]])
         c = port_outer_center(sc.full_horns[p], n_hat) + shift
         ports.append(
-            build_port_from_boundary(
-                points, tris, rho, c, n_hat, tang, W=float(sc.clear_width), plane_tol=0.05, port=p
+                build_port_from_boundary(
+                points,
+                tris,
+                rho,
+                c,
+                n_hat,
+                tang,
+                W=float(sc.clear_width),
+                plane_tol=0.12,
+                port=p,
             )
         )
     modes = mode_constants(k0, float(sc.clear_width), n_modes=4)

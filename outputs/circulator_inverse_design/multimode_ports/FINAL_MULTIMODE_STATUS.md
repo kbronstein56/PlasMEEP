@@ -1,32 +1,24 @@
-# Final multimode port status (checkpoint)
+# Final multimode / DtN status
 
 ## Gates
 
 | Gate | Status |
 |------|--------|
-| MULTIMODE_PORT_VALIDATED (straight empty guide) | **PASS** |
-| FULL12_ONSAGER (FULL91 + DtN, 12×12) | **FAIL** (retracted false PASS from S≈I; inset extract `r_F≈0.16`) |
-| MULTIMODE_POWER_BALANCE | **PARTIAL** (Pref TE1 ≈10.6% of old ~13% PML bucket) |
-| MULTIMODE_ADJOINT_FD | **NOT_REACHED** |
-| MULTIMODE_CIRCULATOR_OPT | **NOT_REACHED** |
+| DTN_MATRIX_ONSAGER | **PASS** (\(\sim10^{-17}\)) |
+| TRUE_BOUNDARY_PORT_ASSEMBLY | **PASS** (y_span=W; staircase edges; empty-guide TE0/TE1 PASS) |
+| DIRECT_DTN_FULL12_ONSAGER | **PASS** (\(r_F\sim10^{-14}\) uniform + Pref peak + broadband) |
+| MULTIMODE_POWER_BALANCE | **FAIL** (TE0 PASS; 1/6 TE1 channels at 6.7% > 5%) |
+| DIRECT_DTN_ADJOINT_FD | **NOT_REACHED** |
+| MULTIMODE_OPT | **NOT_REACHED** |
 
-## Straight-guide DtN (frozen)
+## Cause of prior \(r_F\approx0.16\)–0.19
 
-- Robin stiffness: **−i β_m** Galerkin blocks on port DOFs
-- Incident RHS: **+2 i β a φ** (field amplitude for unit power)
-- Validation mesh: L=24, h=0.025, 2 propagating + 2 evanescent modes
-- See `MULTIMODE_PORT_VALIDATION.md`, `straight_dtn_validation.json`
+See `OLD_RF_FAILURE_EXPLANATION.md`: node-cloud Robin + inset Ain/Bout extract, **not** \(A(+B)\neq A(-B)^\top\).
 
-## FULL91 DtN probe (grade C, uniform s=1, B=+0.05 T)
+## Pref peak FoMs (direct DtN, TE0 mean)
 
-- Port boundary nodes per horn: ≈112–116 on outer feed plane
-- Unit TE0 drive at port 0: |a_in| ≈ 1.21 at monitor extractors (legacy monitor planes)
-- Full 12-column scattering + Onsager sweep: run `full91_dtn_solve.py`
-
-## Root cause (unchanged)
-
-Production clear width 2a supports **TE0 + TE1** at 3.85 GHz. Fundamental-only 6×6 S is an open subblock; 12×12 propagating S is required for Onsager with gyrotropic interior.
+- T_des ≈ 0.556, IL ≈ 2.6 dB, TE1 ≈ 0.317, material ≈ 0.037
 
 ## Commits
 
-Pending checkpoint commit on `agent/eigenmode-ports` (multimode DtN implementation + straight-guide PASS).
+`32da092` and follow-ups on `agent/eigenmode-ports`.

@@ -55,13 +55,13 @@ def select_port_boundary_edges(
         along = float((mid - c) @ u)
         cross = float((mid - c) @ t)
         if abs(along) <= plane_tol and abs(cross) <= 0.5 * W + 1e-8:
-            # Prefer edges roughly along the aperture (tangent), not along outward
             evec = points[j] - points[i]
             elen = float(np.linalg.norm(evec))
             if elen < 1e-14:
                 continue
-            # Reject edges that are mostly along the guide axis
-            if abs(float(evec @ u)) / elen > 0.5:
+            # Keep staircase edges on the cut; only drop edges almost parallel to
+            # the guide axis (feed sidewalls), which are not aperture-crossing.
+            if abs(float(evec @ u)) / elen > 0.92:
                 continue
             out.append((i, j))
     return out
@@ -164,10 +164,21 @@ def build_port_from_boundary(
     pedges = select_port_boundary_edges(
         points, all_bedges, center, outward, tangent, W=W, plane_tol=plane_tol
     )
-    nodes, ordered = order_port_polyline(points, pedges, center, tangent)
+    # Use ALL selected edges for P1 loads (staircase cut may be multi-component).
+    # Polyline ordering is only diagnostic.
+    nodes_ord, _ordered = order_port_polyline(points, pedges, center, tangent)
+    node_set = sorted({n for e in pedges for n in e})
+    nodes = np.asarray(node_set, dtype=int)
     t = tangent / np.linalg.norm(tangent)
     c0 = np.asarray(center, float)
     y = np.array([float((points[i] - c0) @ t) for i in nodes]) if len(nodes) else np.array([])
+    total_L = float(sum(np.linalg.norm(points[j] - points[i]) for i, j in pedges))
+    # Projected aperture span along tangent (should be ≈ W)
+    if len(nodes):
+        crosses = np.array([float((points[i] - c0) @ t) for i in nodes])
+        y_span = float(crosses.max() - crosses.min())
+    else:
+        y_span = 0.0
     return {
         "port": port,
         "outward": np.asarray(outward, float) / np.linalg.norm(outward),
@@ -175,12 +186,12 @@ def build_port_from_boundary(
         "center": c0,
         "nodes": nodes,
         "y": y,
-        "edges": ordered,
+        "edges": list(pedges),
         "n_nodes": int(len(nodes)),
-        "n_edges": int(len(ordered)),
-        "total_length": float(
-            sum(np.linalg.norm(points[j] - points[i]) for i, j in ordered)
-        ),
+        "n_edges": int(len(pedges)),
+        "total_length": total_L,
+        "y_span": y_span,
+        "polyline_nodes": nodes_ord,
     }
 
 

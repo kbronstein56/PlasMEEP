@@ -1,21 +1,23 @@
-# Multimode power balance (Phase 6)
+# Multimode power balance (direct DtN)
 
-## Soft-source Pref sixfold peak (grade C, +0.05 T)
+## Pref sixfold peak (grade C, +0.05 T)
 
-From `modal_s_core` TE1 report on soft-source solves:
+| Drive | Σ\|S\|² | TE0 out | TE1 out | material | rem (1−out−mat) |
+|-------|--------|---------|---------|----------|-----------------|
+| TE0 (mean) | 0.984 | 0.667 | **0.317** | 0.037 | −0.021 |
+| TE1 (mean) | 1.000 | 0.318 | 0.682 | 0.031 | −0.031 |
 
-| Term | Fraction of P_inc |
-|------|-------------------|
-| Fundamental modal outgoing (Σ\|b₀\|²) | ≈ 0.74 (des) + R + leak … |
-| **TE1 outgoing (all ports)** | **≈ 0.106** |
-| Prior “PML/higher-mode” bucket | ≈ 0.13–0.15 |
+Frozen bar: engineering residual ≤ 0.05.
 
-**Conclusion:** most of the previously reported ~13% PML/higher-mode term on the Pref peak is **outgoing TE1**, not material loss and not pure PML. Do not call TE1 absorption.
+- All **6 TE0** drive channels: **PASS**
+- **5/6 TE1** channels: PASS; channel 7 (port 3, TE1): residual **0.067** (column Σ\|S\|²=1.036)
 
-## DtN power identity
+Empty-guide direct S is unitary to \(10^{-10}\). Full91 staircase ports show ~few‑percent column-norm overshoot on some TE1 drives — numerical, not “PML hiding TE1”.
 
-With inset extract, smoke test on uniform: `P_out/P_inc ≈ 0.99` (propagating TE0+TE1). Remaining ≤ few % is material + discretization.
+**TE1 is explicit in S** (≈32% of TE0-incident power on Pref peak), matching the soft-source TE1≈11–32% story; it is **not** lumped into absorption.
 
-Frozen engineering bar (when extract trusted): `|1 − Σ|S|² − P_mat/P_inc − P_nonport/P_inc| ≤ 0.05`.
+## Soft-source Pref TE1 cross-check
 
-**MULTIMODE_POWER_BALANCE: PARTIAL** (soft-source TE1 split quantified; full DtN+material ledger pending trusted FULL12).
+Earlier soft-source extract: TE1 out / P_inc ≈ **0.106**. Direct DtN Pref TE1 ≈ **0.317**. Different port reference / normalization; both show TE1 is a major open channel.
+
+**MULTIMODE_POWER_BALANCE: FAIL** (strict: one TE1 channel over bar). TE0-driven balance **PASS**. Adjoint/opt gated off until TE1 column norms are tightened.

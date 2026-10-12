@@ -1,0 +1,82 @@
+{
+  "cutoffs": {
+    "f_Hz": 3850000000.0,
+    "W": 2.0,
+    "k0": 1.6138006669027951,
+    "modes": [
+      {
+        "m": 0,
+        "propagating": true,
+        "beta": [
+          1.6138006669027951,
+          0.0
+        ],
+        "f_cut_GHz": null
+      },
+      {
+        "m": 1,
+        "propagating": true,
+        "beta": [
+          0.37006957754396214,
+          0.0
+        ],
+        "f_cut_GHz": 3.7474057249999997
+      },
+      {
+        "m": 2,
+        "propagating": false,
+        "beta": [
+          0.0,
+          2.695413105368721
+        ],
+        "f_cut_GHz": 7.494811449999999
+      },
+      {
+        "m": 3,
+        "propagating": false,
+        "beta": [
+          0.0,
+          4.42744365406892
+        ],
+        "f_cut_GHz": 11.242217174999999
+      }
+    ]
+  },
+  "thresholds": {
+    "T_min": 0.995,
+    "R_max": 0.015,
+    "X_mode_max": 0.02,
+    "superposition_rel": 0.02,
+    "unitary_Fro": 0.05
+  },
+  "mesh": {
+    "L": 24.0,
+    "h": 0.025,
+    "n_evanescent": 2
+  },
+  "tests": {
+    "TE0_incidence": {
+      "T_right_m0": 1.0003393452024414,
+      "R_left_m0": 0.004407681533080393,
+      "X_left_m1": 0.011982708543888368,
+      "X_right_m1": 0.0073033036340220195,
+      "pass": true
+    },
+    "TE1_incidence": {
+      "T_right_m1": 0.9991993743943524,
+      "R_left_m1": 0.013661690817802802,
+      "X_left_m0": 0.012849378778960713,
+      "X_right_m0": 0.007548125344108214,
+      "pass": true
+    },
+    "mode_orthogonality": {
+      "note": "TE0/TE1 drives are independent columns; cross terms bounded by X_mode_max",
+      "pass": true
+    },
+    "lossless_partial": {
+      "Fro_norm_S0_cols": 1.0004474782638841,
+      "pass": true
+    }
+  },
+  "MULTIMODE_PORT_VALIDATED": "PASS"
+}

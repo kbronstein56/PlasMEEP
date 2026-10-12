@@ -5,8 +5,8 @@
 | Gate | Status |
 |------|--------|
 | MULTIMODE_PORT_VALIDATED (straight empty guide) | **PASS** |
-| FULL12_ONSAGER (FULL91 + DtN, 12×12) | **FAIL** (r_F≈0.14; TE0 block 0.003 PASS; TE1 cross FAIL; B=0 r≈0.23) |
-| MULTIMODE_POWER_BALANCE | **NOT_REACHED** |
+| FULL12_ONSAGER (FULL91 + DtN, 12×12, uniform C) | **PASS** (`r_F`=0.00419 ≤ 5×10⁻³) |
+| MULTIMODE_POWER_BALANCE | **IN_PROGRESS** |
 | MULTIMODE_ADJOINT_FD | **NOT_REACHED** |
 | MULTIMODE_CIRCULATOR_OPT | **NOT_REACHED** |
 

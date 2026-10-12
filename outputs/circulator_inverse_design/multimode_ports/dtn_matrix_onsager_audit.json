@@ -1,0 +1,105 @@
+{
+  "grade": "C",
+  "f_Hz": 3850000000.0,
+  "geometry": {
+    "ports": [
+      {
+        "port": 0,
+        "n_nodes": 112,
+        "n_unique_y_8dec": 109,
+        "y_span": 2.0,
+        "W_clear": 2.0,
+        "along_min": -0.059999998922190656,
+        "along_max": 0.05822150316763697,
+        "along_std": 0.03385639617504732,
+        "n_distinct_along_layers": 107,
+        "weight_sum": 2.0
+      },
+      {
+        "port": 1,
+        "n_nodes": 116,
+        "n_unique_y_8dec": 115,
+        "y_span": 1.9999999965208493,
+        "W_clear": 2.0,
+        "along_min": -0.05819656829735657,
+        "along_max": 0.05918704723919062,
+        "along_std": 0.03385495950158665,
+        "n_distinct_along_layers": 111,
+        "weight_sum": 1.9999999965208497
+      },
+      {
+        "port": 2,
+        "n_nodes": 113,
+        "n_unique_y_8dec": 112,
+        "y_span": 1.999999996520851,
+        "W_clear": 2.0,
+        "along_min": -0.059999996324855295,
+        "along_max": 0.05951792282952324,
+        "along_std": 0.034279384561301786,
+        "n_distinct_along_layers": 106,
+        "weight_sum": 1.999999996520851
+      },
+      {
+        "port": 3,
+        "n_nodes": 116,
+        "n_unique_y_8dec": 114,
+        "y_span": 2.0,
+        "W_clear": 2.0,
+        "along_min": -0.059999998922193765,
+        "along_max": 0.057961131565295254,
+        "along_std": 0.0342562548774613,
+        "n_distinct_along_layers": 111,
+        "weight_sum": 2.0
+      },
+      {
+        "port": 4,
+        "n_nodes": 115,
+        "n_unique_y_8dec": 114,
+        "y_span": 1.9999999966904207,
+        "W_clear": 2.0,
+        "along_min": -0.059637090654666235,
+        "along_max": 0.05925545791847698,
+        "along_std": 0.03542023554597636,
+        "n_distinct_along_layers": 110,
+        "weight_sum": 1.9999999966904207
+      },
+      {
+        "port": 5,
+        "n_nodes": 114,
+        "n_unique_y_8dec": 113,
+        "y_span": 1.9999999966904192,
+        "W_clear": 2.0,
+        "along_min": -0.05965671884714403,
+        "along_max": 0.05967395127569542,
+        "along_std": 0.033552602507558746,
+        "n_distinct_along_layers": 108,
+        "weight_sum": 1.9999999966904192
+      }
+    ],
+    "plane_tol_used": 0.06
+  },
+  "n_exterior_tris": 169988,
+  "k0": 1.6138006669027951,
+  "n_nodes": 823166,
+  "port_symmetry": {
+    "TE0": 0.0,
+    "TE1": 0.0,
+    "evanescent": 0.0,
+    "note": "||A-A^T||/||A||; reciprocal Robin must be complex-symmetric"
+  },
+  "bulk": {
+    "r_A_plus_minus": 1.4659169872391683e-17,
+    "r_A_zero": 1.3454287078682162e-17
+  },
+  "full_with_dtn": {
+    "r_A_plus_minus": 1.4659169817217208e-17,
+    "r_A_zero": 1.3454287027859807e-17,
+    "r_port_only_zero": 0.0
+  },
+  "max_abs_imag_c": 0.0,
+  "DTN_MATRIX_ONSAGER": "PASS",
+  "bars": {
+    "full_A_rel": 1e-08,
+    "port_sym": 1e-12
+  }
+}

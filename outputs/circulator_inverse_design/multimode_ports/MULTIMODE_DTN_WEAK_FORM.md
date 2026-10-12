@@ -1,49 +1,58 @@
 # Modal DtN / Robin port weak form
 
-Time convention: **e^{-iωt}**. Starting from the validated Hz weak form after integration by parts:
+Time convention: **e^{-iωt}**.
 
-    ∫_Ω ∇H_z·∇v − k₀² H_z v  +  ∫_{∂Ω} (∂_n H_z) v  = 0
+## Independent IBP (validated volume operator)
 
-## First-order absorbing (outgoing) condition
+From \(-\nabla\cdot(\rho\nabla H)-k_0^2 H=0\) (isotropic sketch \(\rho=1\)):
 
-For a single propagating mode m with outward normal **n̂** and real β_m > 0, an outgoing wave satisfies:
+\[
+\int_\Omega \nabla H\cdot\nabla v - k_0^2 H v
+\;-\;
+\int_{\partial\Omega}(\partial_n H)\,v
+\;=\;0.
+\]
 
-    ∂_n H_z − i β_m H_z = 0
+Natural Neumann omits the boundary integral. Robin \(\partial_n H=\lambda H\)
+contributes **\(-\lambda\)** to the Galerkin matrix.
 
-Moving to the left-hand side adds the boundary Galerkin term:
+## Outgoing first-order ABC
 
-    + ∫_Γ i β_m H_z v ds
+Outgoing w.r.t. outward \(\hat n\): \(\partial_n H = i\beta H\) (\(\lambda=i\beta\)).
 
-**Frozen implementation sign:** the code uses **−i β_m** on the stiffness (Robin) block:
+Matrix contribution:
 
-    + ∫_Γ (−i β_m) H_z v ds
+\[
+\boxed{\text{add }(-i\beta)\text{ on the port (modal rank-one }c c^\top\text{)}}
+\]
 
-This matches the straight-guide validation (TE0/TE1 transmission |S| ≈ 1, |R| ≲ 0.006) with the `fem_validated_solver` / local unity-stretch bulk operator.
+This is the **frozen** implementation sign (straight-guide validated). Comments
+that once wrote \(+i\beta\) as the matrix term contradicted IBP; the code sign
+is correct.
 
-Multi-mode port: sum over retained modes (propagating + optional evanescent):
+## Incident forcing
 
-    + Σ_m ∫_Γ (−i β_m) (H_z · φ_m)(v · φ_m) ds   (Galerkin rank-one blocks on port DOFs)
+\(\partial_n H = i\beta H - 2i\beta a_f\phi\) ⇒ with the same IBP, the known term
+appears as RHS \(+\int 2i\beta a_f\phi\,v\) when the Robin \((-i\beta)\) is on \(A\)
+**or** equivalently RHS \(-\int 2i\beta\ldots\) if the overall residual sign is
+flipped. The frozen FEM pair that matches empty-guide transmission is:
 
-## Prescribed incident mode
+- Robin: \((-i\beta)\,c c^\top\)
+- RHS: \(+2i\beta\, a_f\, c\)
 
-Prescribe a single mode m with **field** amplitude a_{m,f} and profile φ_m (L²-normalized on Γ).
+## Discrete direct \(S\)
 
-At the **left** end (x = 0, **n̂** = −x̂), incident wave travels **+x** into the domain: H_inc = a φ_m e^{+iβx}.
+With true P1 boundary edges and that frozen pair:
 
-The inhomogeneous boundary condition on the total field is equivalent to a weak-form RHS:
+\[
+S = I + 2i\,Q,
+\qquad
+Q_{mn}=\sqrt{\beta_m\beta_n}\,c_m^\top A^{-1} c_n.
+\]
 
-    b_p += ∫_Γ 2 i β_m a_{m,f} φ_m N_p ds
+See `DISCRETE_DTN_SCATTERING_DERIVATION.md`.
 
-At the **right** end (x = L, **n̂** = +x̂), incident travels **−x** into the domain with the same RHS coefficient pattern when the outward normal is used consistently.
+## Geometry
 
-**Unit power drive:** choose a_{m,f} = 1 / √(β_m/(2ω)) so |â_m|² = 1.
-
-## Relation to extraction
-
-Modal amplitudes are recovered with the same (H_z, ∂_n H_z) projection as `modal_s_core.extract_ab`, using φ_m instead of the flat fundamental profile.
-
-## Full91 placement
-
-Physical device unchanged. The DtN boundary is placed at the **outer end of the straight feed** (farther from the flare than the legacy monitor), optionally after a modest **numerical lead extension** documented separately from throat width.
-
-PML at domain edges may remain for non-port radiation; port modes are **not** terminated by thin feed PML alone.
+Assemble \(c\) on **exposed boundary edges** after exterior excision — not on a
+`plane_tol` node cloud.

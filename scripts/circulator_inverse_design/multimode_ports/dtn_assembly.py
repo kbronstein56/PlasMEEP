@@ -12,7 +12,7 @@ propagation constant β_m (>0 for propagating):
 
 moved to the left-hand side gives a boundary contribution
 
-    + ∫_Γ i β_m Hz v ds
+    + ∫_Γ (−i β_m) Hz v ds   (frozen sign; see MULTIMODE_DTN_WEAK_FORM.md)
 
 Modal Galerkin on a port segment Γ (piecewise-linear Hz):
 

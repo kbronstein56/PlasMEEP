@@ -175,13 +175,21 @@ def port_line_from_struct(ps: dict) -> dict:
     }
 
 
-def extract_ab_column(hz, port_structs, sampler, tris, k0) -> tuple[np.ndarray, np.ndarray]:
-    """Power-normalized a,b for all 12 channels at DtN planes."""
+def extract_ab_column(hz, port_structs, sampler, tris, k0, inset: float = 0.08):
+    """(Hz, ∂n) extract on a plane inset inward from the DtN cut.
+
+    Boundary-element gradients at the excised cut are ~0 and collapse a≈b.
+    Sampling inset·a into the feed restores the modal_s_core split.
+    """
     W = float(sc.clear_width)
     a = np.zeros(12, dtype=np.complex128)
     b = np.zeros(12, dtype=np.complex128)
     for p, ps in enumerate(port_structs):
         line = port_line_from_struct(ps)
+        n_hat = np.asarray(ps["outward"], float)
+        n_hat = n_hat / np.linalg.norm(n_hat)
+        line = dict(line)
+        line["monitor_xy"] = np.asarray(line["monitor_xy"], float) - inset * n_hat
         for m in (0, 1):
             aa, bb = extract_mode_m(sampler, hz, tris, line, k0, m, W)
             a[2 * p + m] = aa
@@ -197,24 +205,24 @@ def full12_s(grade: str, s_vec: np.ndarray, f_hz: float = 3.85e9, b_tesla: float
     Ain = np.zeros((12, 12), dtype=np.complex128)
     Bout = np.zeros((12, 12), dtype=np.complex128)
     port_counts = [ps["n_nodes"] for ps in port_structs]
-    # One factorization for all 12 RHS (Robin independent of drive)
     A = add_all_robin(A0.copy(), port_structs, modes)
     lu = splu(A.tocsc())
     for n in range(12):
         p, m = divmod(n, 2)
-        b = np.zeros(len(points), dtype=np.complex128)
-        b = incident_rhs(b, port_structs, modes, p, m)
-        x = lu.solve(b)
+        rhs = np.zeros(len(points), dtype=np.complex128)
+        rhs = incident_rhs(rhs, port_structs, modes, p, m)
+        x = lu.solve(rhs)
         a_col, b_col = extract_ab_column(x, port_structs, sampler, tris, k0)
         Ain[:, n] = a_col
         Bout[:, n] = b_col
         if n == 0:
             print(
-                f"port nodes {port_counts} drive0 |a|={abs(a_col[0]):.4f} "
-                f"diag_dom={abs(a_col[0])/max(np.linalg.norm(a_col),1e-30):.3f}",
+                f"port nodes {port_counts} drive0 |a0|={abs(a_col[0]):.4f} "
+                f"diag_dom={abs(a_col[0])/max(np.linalg.norm(a_col),1e-30):.3f} "
+                f"|b0|={abs(b_col[0]):.4f} |b_des|={abs(b_col[2]):.4f} "
+                f"Pout/Pinc={np.sum(np.abs(b_col)**2)/max(np.sum(np.abs(a_col)**2),1e-30):.4f}",
                 flush=True,
             )
-    # Proper multimode S: outgoing = S @ incoming
     S = Bout @ np.linalg.inv(Ain)
     diag_dom = [float(abs(Ain[n, n]) / max(np.linalg.norm(Ain[:, n]), 1e-30)) for n in range(12)]
     return S, {
@@ -222,6 +230,7 @@ def full12_s(grade: str, s_vec: np.ndarray, f_hz: float = 3.85e9, b_tesla: float
         "k0": k0,
         "grade": grade,
         "n_exterior_tris": base_meta["n_exterior_tris"],
+        "extract": "inset_Hz_dn",
         "diag_dominance_min": float(min(diag_dom)),
         "diag_dominance_mean": float(np.mean(diag_dom)),
         "cond_Ain": float(np.linalg.cond(Ain)),

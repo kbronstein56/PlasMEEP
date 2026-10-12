@@ -5,8 +5,8 @@
 | Gate | Status |
 |------|--------|
 | MULTIMODE_PORT_VALIDATED (straight empty guide) | **PASS** |
-| FULL12_ONSAGER (FULL91 + DtN, 12×12, uniform C) | **PASS** (`r_F`=0.00419 ≤ 5×10⁻³) |
-| MULTIMODE_POWER_BALANCE | **IN_PROGRESS** |
+| FULL12_ONSAGER (FULL91 + DtN, 12×12) | **FAIL** (retracted false PASS from S≈I; inset extract `r_F≈0.16`) |
+| MULTIMODE_POWER_BALANCE | **PARTIAL** (Pref TE1 ≈10.6% of old ~13% PML bucket) |
 | MULTIMODE_ADJOINT_FD | **NOT_REACHED** |
 | MULTIMODE_CIRCULATOR_OPT | **NOT_REACHED** |
 

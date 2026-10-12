@@ -2,7 +2,19 @@
 
 Frozen bar: **normalized residual ≤ 5×10⁻³** (not raised).
 
-## Result: **PASS** (uniform s=1, grade C, 3.85 GHz)
+## Result: **PASS retracted — false positive** (see below)
+
+### Retracted run (exterior excision, ∂n-on-cut extract)
+
+Reported `r_F=0.00419` but `|a|≈|b|` everywhere (∂n≈0 on cut) ⇒ **S≈I**. Trivially Onsager; **not valid**.
+
+### Current (inset extract 0.08a)
+
+Uniform smoke: `r_F≈0.16` **FAIL**; diag dominance ≈0.98; metrics align with soft-source fundamental S for uniform.
+
+**FULL12_ONSAGER: FAIL** until inset (or better) extract meets 5×10⁻³.
+
+## Historical table from retracted PASS (uniform s=1, grade C)
 
 | Quantity | Value | vs bar |
 |----------|-------|--------|

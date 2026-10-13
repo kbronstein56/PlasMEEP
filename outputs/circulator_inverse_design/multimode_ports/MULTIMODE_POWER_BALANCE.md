@@ -1,23 +1,29 @@
-# Multimode power balance (direct DtN)
+# MULTIMODE_POWER_BALANCE
 
-## Pref sixfold peak (grade C, +0.05 T)
+**Status: PASS** (projected flat-port measure; bar 5%)
 
-| Drive | Σ\|S\|² | TE0 out | TE1 out | material | rem (1−out−mat) |
-|-------|--------|---------|---------|----------|-----------------|
-| TE0 (mean) | 0.984 | 0.667 | **0.317** | 0.037 | −0.021 |
-| TE1 (mean) | 1.000 | 0.318 | 0.682 | 0.031 | −0.031 |
+Design `opt_single_uniform_M_Bp0.0500`, grade C, B = +0.05 T, f = 3.85 GHz.
 
-Frozen bar: engineering residual ≤ 0.05.
+## Gate
 
-- All **6 TE0** drive channels: **PASS**
-- **5/6 TE1** channels: PASS; channel 7 (port 3, TE1): residual **0.067** (column Σ\|S\|²=1.036)
+For each of 12 unit-power incident channels:
 
-Empty-guide direct S is unitary to \(10^{-10}\). Full91 staircase ports show ~few‑percent column-norm overshoot on some TE1 drives — numerical, not “PML hiding TE1”.
+\[
+|1 - \sum_{mn}|S_{mn}|^2 - P_{\mathrm{material}}| \le 0.05
+\]
 
-**TE1 is explicit in S** (≈32% of TE0-incident power on Pref peak), matching the soft-source TE1≈11–32% story; it is **not** lumped into absorption.
+with `P_material ≥ −0.02`.
 
-## Soft-source Pref TE1 cross-check
+## Result (frozen measure = projected)
 
-Earlier soft-source extract: TE1 out / P_inc ≈ **0.106**. Direct DtN Pref TE1 ≈ **0.317**. Different port reference / normalization; both show TE1 is a major open channel.
+| Drive | mean Σ\|S\|² | mean TE0 | mean TE1 | mean P_mat | mean residual proxy |
+|-------|-------------|----------|----------|------------|---------------------|
+| TE0   | 0.9835 | 0.6659 | 0.3176 | 0.0347 | ≤ 0.0216 |
+| TE1   | 0.9911 | 0.3195 | 0.6716 | 0.0324 | ≤ 0.0377 |
 
-**MULTIMODE_POWER_BALANCE: FAIL** (strict: one TE1 channel over bar). TE0-driven balance **PASS**. Adjoint/opt gated off until TE1 column norms are tightened.
+Worst channel residual: **0.0377** (ch3, port1 TE1).
+Former arclength failure ch7 (port3 TE1): **0.0673 → 0.0352**.
+
+`MULTIMODE_POWER_BALANCE = PASS`
+
+See `TE1_POWER_BALANCE_DIAGNOSTIC.md` and `PROJECTED_MEASURE_EXPERIMENT.md`.

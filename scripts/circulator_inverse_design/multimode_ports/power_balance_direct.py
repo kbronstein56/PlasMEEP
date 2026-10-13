@@ -36,12 +36,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--grade", default="C")
     ap.add_argument("--design", default="opt_single_uniform_M_Bp0.0500")
+    ap.add_argument("--measure", choices=("arclength", "projected"), default="projected")
+    ap.add_argument("--tag-suffix", default="")
     args = ap.parse_args()
     s = load_s(args.design)
-    points, tris, rho, A, k0, ports, modes, _ = assemble_device(args.grade, 3.85e9, 0.05, s)
+    points, tris, rho, A, k0, ports, modes, _ = assemble_device(
+        args.grade, 3.85e9, 0.05, s, measure=args.measure
+    )
     lu = splu(A.tocsc())
-    # Load direct S if present
-    Sp = np.load(OUT / f"S12_direct_{args.design}_Bp.npz")["S"]
+    Sp = np.load(OUT / f"S12_direct_{args.design}_Bp{args.tag_suffix}.npz")["S"]
     rows = []
     ok = True
     for n in range(12):
@@ -99,8 +102,18 @@ def main():
         "per_channel": rows,
         "MULTIMODE_POWER_BALANCE": "PASS" if ok else "FAIL",
     }
-    (OUT / f"power_balance_direct_{args.design}.json").write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({k: report[k] for k in ("MULTIMODE_POWER_BALANCE", "TE0_drive_mean", "TE1_drive_mean")}, indent=2))
+    report["measure"] = args.measure
+    outp = OUT / f"power_balance_direct_{args.design}{args.tag_suffix}.json"
+    outp.write_text(json.dumps(report, indent=2) + "\n")
+    print(
+        json.dumps(
+            {
+                k: report[k]
+                for k in ("MULTIMODE_POWER_BALANCE", "measure", "TE0_drive_mean", "TE1_drive_mean")
+            },
+            indent=2,
+        )
+    )
     return 0 if ok else 1
 
 

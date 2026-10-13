@@ -48,7 +48,14 @@ def load_s(tag: str) -> np.ndarray:
     return np.asarray(d["best"]["s"], float)
 
 
-def assemble_device(grade: str, f_hz: float, b_tesla: float, s_vec: np.ndarray):
+def assemble_device(
+    grade: str,
+    f_hz: float,
+    b_tesla: float,
+    s_vec: np.ndarray,
+    *,
+    measure: str = "projected",
+):
     points, tris = load_mesh(grade)
     masks = material_masks(points, tris, sc)
     plasma, quartz, walls, centers = masks
@@ -80,31 +87,40 @@ def assemble_device(grade: str, f_hz: float, b_tesla: float, s_vec: np.ndarray):
         n_hat /= np.linalg.norm(n_hat)
         tang = np.array([-n_hat[1], n_hat[0]])
         c = port_outer_center(sc.full_horns[p], n_hat) + shift
-        ports.append(
-                build_port_from_boundary(
-                points,
-                tris,
-                rho,
-                c,
-                n_hat,
-                tang,
-                W=float(sc.clear_width),
-                plane_tol=0.12,
-                port=p,
-            )
+        ps = build_port_from_boundary(
+            points,
+            tris,
+            rho,
+            c,
+            n_hat,
+            tang,
+            W=float(sc.clear_width),
+            plane_tol=0.12,
+            port=p,
         )
+        ps["measure"] = measure
+        ports.append(ps)
     modes = mode_constants(k0, float(sc.clear_width), n_modes=4)
     A = assemble_port_operator(A, points, ports, modes, n_prop=2, n_evan=2)
     return points, tris, rho, A, k0, ports, modes, int(ext.sum())
 
 
-def full12_direct(grade: str, s_vec: np.ndarray, b_tesla: float):
-    points, tris, rho, A, k0, ports, modes, n_ext = assemble_device(grade, 3.85e9, b_tesla, s_vec)
+def full12_direct(grade: str, s_vec: np.ndarray, b_tesla: float, measure: str = "projected"):
+    points, tris, rho, A, k0, ports, modes, n_ext = assemble_device(
+        grade, 3.85e9, b_tesla, s_vec, measure=measure
+    )
     lu = splu(A.tocsc())
     cols = build_Q_columns(points, ports, modes, n_prop=2)
     S = direct_S_from_factor(lu, len(points), cols)
     geo = [{"port": p["port"], "n_edges": p["n_edges"], "n_nodes": p["n_nodes"], "length": p["total_length"]} for p in ports]
-    return S, {"k0": k0, "n_exterior": n_ext, "ports": geo, "grade": grade, "B": b_tesla}
+    return S, {
+        "k0": k0,
+        "n_exterior": n_ext,
+        "ports": geo,
+        "grade": grade,
+        "B": b_tesla,
+        "measure": measure,
+    }
 
 
 def te0_summary(S: np.ndarray) -> dict:
@@ -141,20 +157,33 @@ def main():
         "--designs",
         default="uniform,opt_single_uniform_M_Bp0.0500,opt_broadband_C_Bp0.0500",
     )
+    ap.add_argument(
+        "--measure",
+        choices=("arclength", "projected"),
+        default="projected",
+        help="Boundary integration measure for modal c (frozen: projected flat-port dy).",
+    )
+    ap.add_argument("--tag-suffix", default="", help="Optional filename suffix, e.g. _proj")
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
-    report = {"grade": args.grade, "onsager_bar": ONSAGER_BAR, "designs": {}}
+    report = {
+        "grade": args.grade,
+        "onsager_bar": ONSAGER_BAR,
+        "measure": args.measure,
+        "designs": {},
+    }
     t0 = time.time()
     for tag in args.designs.split(","):
         tag = tag.strip()
-        print(f"=== {tag} ===", flush=True)
+        print(f"=== {tag} measure={args.measure} ===", flush=True)
         s = load_s(tag)
-        Sp, meta = full12_direct(args.grade, s, 0.05)
+        Sp, meta = full12_direct(args.grade, s, 0.05, measure=args.measure)
         print("  ports", meta["ports"], flush=True)
-        Sm, _ = full12_direct(args.grade, s, -0.05)
-        S0, _ = full12_direct(args.grade, s, 0.0)
-        np.savez_compressed(OUT / f"S12_direct_{tag}_Bp.npz", S=Sp)
-        np.savez_compressed(OUT / f"S12_direct_{tag}_Bm.npz", S=Sm)
+        Sm, _ = full12_direct(args.grade, s, -0.05, measure=args.measure)
+        S0, _ = full12_direct(args.grade, s, 0.0, measure=args.measure)
+        suf = args.tag_suffix
+        np.savez_compressed(OUT / f"S12_direct_{tag}_Bp{suf}.npz", S=Sp)
+        np.savez_compressed(OUT / f"S12_direct_{tag}_Bm{suf}.npz", S=Sm)
         m_pm = onsager_metrics(Sp, Sm)
         m_0 = onsager_metrics(S0, S0)
         mets = te0_summary(Sp)
@@ -177,8 +206,18 @@ def main():
     report["elapsed_s"] = time.time() - t0
     all_pass = all(d["FULL12_ONSAGER"] == "PASS" for d in report["designs"].values())
     report["DIRECT_DTN_FULL12_ONSAGER"] = "PASS" if all_pass else "FAIL"
-    (OUT / "direct_dtn_full12_report.json").write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({"DIRECT_DTN_FULL12_ONSAGER": report["DIRECT_DTN_FULL12_ONSAGER"], "elapsed_s": report["elapsed_s"]}, indent=2))
+    out_json = OUT / f"direct_dtn_full12_report{args.tag_suffix}.json"
+    out_json.write_text(json.dumps(report, indent=2) + "\n")
+    print(
+        json.dumps(
+            {
+                "DIRECT_DTN_FULL12_ONSAGER": report["DIRECT_DTN_FULL12_ONSAGER"],
+                "measure": args.measure,
+                "elapsed_s": report["elapsed_s"],
+            },
+            indent=2,
+        )
+    )
     return 0 if all_pass else 1
 
 

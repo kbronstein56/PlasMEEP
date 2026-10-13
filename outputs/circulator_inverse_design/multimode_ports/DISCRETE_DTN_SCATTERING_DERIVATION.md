@@ -45,12 +45,14 @@ b_p += \int_\Gamma 2i\beta\, a_f\,\phi\, N_p\,ds.
 
 ## Discrete channels
 
-P1 boundary loads (true edges):
+P1 boundary loads (true edges). Frozen integration measure is the
+**projected flat-port** weight \(d\ell=|e\cdot\hat t|\) (discrete \(dy\)),
+not staircase arclength \(|e|\):
 
 \[
-(c_m)_p = \int_\Gamma \phi_m N_p\,ds,
+(c_m)_p = \int_\Gamma \phi_m N_p\,d\ell,
 \qquad
-\int\phi_m\phi_n=\delta_{mn}.
+\int\phi_m\phi_n\,d\ell=\delta_{mn}.
 \]
 
 Drive channel \(n\) with field amplitude \(a_{f,n}\):

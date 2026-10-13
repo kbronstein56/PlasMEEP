@@ -117,26 +117,54 @@ def order_port_polyline(
     return np.asarray(ordered_nodes, dtype=int), ordered_edges
 
 
+def edge_measure(
+    points: np.ndarray,
+    i: int,
+    j: int,
+    tangent: np.ndarray | None,
+    measure: str,
+) -> float:
+    """Integration weight for one boundary edge.
+
+    measure='arclength': Euclidean |e| (staircase ds)
+    measure='projected': |e · tangent|  (flat-port dy)
+    """
+    evec = points[j] - points[i]
+    if measure == "arclength":
+        return float(np.linalg.norm(evec))
+    if measure == "projected":
+        if tangent is None:
+            raise ValueError("projected measure requires tangent")
+        t = tangent / np.linalg.norm(tangent)
+        return float(abs(evec @ t))
+    raise ValueError(f"unknown measure {measure}")
+
+
 def p1_edge_modal_load(
     points: np.ndarray,
     edges: Sequence[tuple[int, int]],
     phi_at_nodes: dict[int, float],
+    *,
+    tangent: np.ndarray | None = None,
+    measure: str = "projected",
 ) -> tuple[np.ndarray, np.ndarray, float]:
-    """Assemble c_i = Σ_edges ∫_e φ N_i ds for P1 hats on boundary edges.
+    """Assemble c_i = Σ_edges ∫_e φ N_i dℓ for P1 hats on boundary edges.
 
-    Returns (node_indices, c_values, total_length).
+    Default measure is projected |e·t̂| (flat-port dy). Arclength ds is
+    retained for diagnostics only.
+
+    Returns (node_indices, c_values, total_measure).
     """
     contrib: dict[int, complex] = {}
     total_L = 0.0
     for i, j in edges:
-        pi, pj = points[i], points[j]
-        L = float(np.linalg.norm(pj - pi))
+        L = edge_measure(points, i, j, tangent, measure)
         if L < 1e-18:
             continue
         total_L += L
         phi_i = float(phi_at_nodes[i])
         phi_j = float(phi_at_nodes[j])
-        # ∫_e φ N_i ds with φ linear, N_i linear: (L/6)*(2 φ_i + φ_j)
+        # ∫_e φ N_i dℓ with φ linear, N_i linear: (L/6)*(2 φ_i + φ_j)
         contrib[i] = contrib.get(i, 0.0) + (L / 6.0) * (2.0 * phi_i + phi_j)
         contrib[j] = contrib.get(j, 0.0) + (L / 6.0) * (2.0 * phi_j + phi_i)
     if not contrib:
@@ -200,29 +228,33 @@ def modal_c_vector(
     port: dict,
     m: int,
     W: float = clear_width,
+    measure: str | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Return (global_node_indices, c) for mode m on port boundary edges."""
+    """Return (global_node_indices, c) for mode m on port boundary edges.
+
+    measure: 'projected' (|e·t̂| flat-port dy, default) or 'arclength' (staircase ds).
+    Port dict may set port['measure'] to select the default.
+    """
     if port["n_edges"] == 0:
         return np.array([], dtype=int), np.array([], dtype=np.complex128)
-    # Unnormalized φ then L2-normalize using edge quadrature
+    measure = measure or port.get("measure", "projected")
     edges = port["edges"]
-    # First pass: compute ∫ φ_raw² for normalization
+    tang = np.asarray(port["tangent"], float)
     raw_at = {}
     for i, j in edges:
         for n in (i, j):
             if n not in raw_at:
-                y = float((points[n] - port["center"]) @ port["tangent"])
+                y = float((points[n] - port["center"]) @ tang)
                 raw_at[n] = float(transverse_mode(np.array([y]), m, W)[0])
-    # ∫ φ² ds with linear φ: on edge (L/6)*(φi²+φiφj+φj²)*2? 
-    # Exact for linear: ∫_0^L (φi(1-s)+φj s)² ds = L/3 (φi²+φiφj+φj²)
+    # Exact for linear φ: ∫_0^L (φi(1-s)+φj s)² dℓ = L/3 (φi²+φiφj+φj²)
     nrm2 = 0.0
     for i, j in edges:
-        L = float(np.linalg.norm(points[j] - points[i]))
+        L = edge_measure(points, i, j, tang, measure)
         a, b = raw_at[i], raw_at[j]
         nrm2 += (L / 3.0) * (a * a + a * b + b * b)
     nrm = float(np.sqrt(max(nrm2, 1e-30)))
     phi_at = {n: raw_at[n] / nrm for n in raw_at}
-    idx, c, _L = p1_edge_modal_load(points, edges, phi_at)
+    idx, c, _L = p1_edge_modal_load(points, edges, phi_at, tangent=tang, measure=measure)
     return idx, c
 
 

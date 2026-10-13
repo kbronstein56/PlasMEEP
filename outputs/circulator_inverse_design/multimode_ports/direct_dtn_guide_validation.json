@@ -4,6 +4,7 @@
     "R_max": 0.015,
     "X_max": 0.02
   },
+  "measure": "projected",
   "geometry": {
     "left": {
       "n_edges": 80,

@@ -27,7 +27,7 @@ from straight_guide_dtn import build_mesh, pec_wall_mask  # noqa: E402
 THRESH = {"T_min": 0.995, "R_max": 0.015, "X_max": 0.02}
 
 
-def solve_S(L=24.0, h=0.025, n_evan=2):
+def solve_S(L=24.0, h=0.025, n_evan=2, measure: str = "projected"):
     W = float(clear_width)
     wall = float(wall_thickness)
     k0 = 2 * np.pi * fs_a
@@ -48,6 +48,8 @@ def solve_S(L=24.0, h=0.025, n_evan=2):
         points, tris, rho, np.array([L, 0.0]), np.array([1.0, 0.0]), np.array([0.0, 1.0]),
         W=W, plane_tol=max(1.5 * h, 0.02), port=1,
     )
+    left["measure"] = measure
+    right["measure"] = measure
     ports = [left, right]
     A = assemble_port_operator(A0.copy(), points, ports, modes, n_prop=2, n_evan=n_evan)
     lu = splu(A.tocsc())
@@ -62,8 +64,14 @@ def solve_S(L=24.0, h=0.025, n_evan=2):
 
 
 def main():
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--measure", choices=("arclength", "projected"), default="projected")
+    ap.add_argument("--tag-suffix", default="")
+    args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
-    S, geo = solve_S()
+    S, geo = solve_S(measure=args.measure)
     # channels: (L,TE0),(L,TE1),(R,TE0),(R,TE1)
     tests = {
         "TE0_T": abs(S[2, 0]),
@@ -87,12 +95,14 @@ def main():
     )
     report = {
         "thresholds": THRESH,
+        "measure": args.measure,
         "geometry": geo,
         "tests": tests,
         "S_abs": np.abs(S).tolist(),
         "PASS": bool(ok),
     }
-    (OUT / "direct_dtn_guide_validation.json").write_text(json.dumps(report, indent=2) + "\n")
+    outj = OUT / f"direct_dtn_guide_validation{args.tag_suffix}.json"
+    outj.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))
     return 0 if ok else 1
 

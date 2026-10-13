@@ -1,0 +1,261 @@
+{
+  "design": "opt_single_uniform_M_Bp0.0500",
+  "measure": "projected",
+  "bar": 0.05,
+  "grades": {
+    "C": {
+      "grade": "C",
+      "n_nodes": 823166,
+      "n_exterior": 169988,
+      "elapsed_s": 92.8652126789093,
+      "channels": [
+        {
+          "channel": 0,
+          "port": 0,
+          "mode": 0,
+          "P_out": 0.9862549933721049,
+          "P_material": 0.034889473192049984,
+          "residual": 0.021144466564154855,
+          "PASS": true
+        },
+        {
+          "channel": 1,
+          "port": 0,
+          "mode": 1,
+          "P_out": 0.9865726285217472,
+          "P_material": 0.03194415068359784,
+          "residual": 0.01851677920534505,
+          "PASS": true
+        },
+        {
+          "channel": 2,
+          "port": 1,
+          "mode": 0,
+          "P_out": 0.981030997743912,
+          "P_material": 0.034836196852570306,
+          "residual": 0.01586719459648231,
+          "PASS": true
+        },
+        {
+          "channel": 3,
+          "port": 1,
+          "mode": 1,
+          "P_out": 1.0050901048342087,
+          "P_material": 0.03258739944467241,
+          "residual": 0.0376775042788811,
+          "PASS": true
+        },
+        {
+          "channel": 4,
+          "port": 2,
+          "mode": 0,
+          "P_out": 0.9836692694791593,
+          "P_material": 0.03465388849478114,
+          "residual": 0.018323157973940477,
+          "PASS": true
+        },
+        {
+          "channel": 5,
+          "port": 2,
+          "mode": 1,
+          "P_out": 0.9861421274258473,
+          "P_material": 0.03246606736239371,
+          "residual": 0.018608194788240988,
+          "PASS": true
+        },
+        {
+          "channel": 6,
+          "port": 3,
+          "mode": 0,
+          "P_out": 0.9867378600015105,
+          "P_material": 0.03484449309663769,
+          "residual": 0.021582353098148224,
+          "PASS": true
+        },
+        {
+          "channel": 7,
+          "port": 3,
+          "mode": 1,
+          "P_out": 1.0029184176120194,
+          "P_material": 0.03229919830147908,
+          "residual": 0.035217615913498465,
+          "PASS": true
+        },
+        {
+          "channel": 8,
+          "port": 4,
+          "mode": 0,
+          "P_out": 0.9811809303002251,
+          "P_material": 0.03401389020048092,
+          "residual": 0.01519482050070605,
+          "PASS": true
+        },
+        {
+          "channel": 9,
+          "port": 4,
+          "mode": 1,
+          "P_out": 0.977915204648906,
+          "P_material": 0.032492019913466556,
+          "residual": 0.010407224562372579,
+          "PASS": true
+        },
+        {
+          "channel": 10,
+          "port": 5,
+          "mode": 0,
+          "P_out": 0.982419554576123,
+          "P_material": 0.034775382314970155,
+          "residual": 0.01719493689109311,
+          "PASS": true
+        },
+        {
+          "channel": 11,
+          "port": 5,
+          "mode": 1,
+          "P_out": 0.98796897555967,
+          "P_material": 0.032628251207476554,
+          "residual": 0.020597226767146558,
+          "PASS": true
+        }
+      ],
+      "TE1_residuals": [
+        0.01851677920534505,
+        0.0376775042788811,
+        0.018608194788240988,
+        0.035217615913498465,
+        0.010407224562372579,
+        0.020597226767146558
+      ],
+      "max_residual": 0.0376775042788811,
+      "ch7_residual": 0.035217615913498465,
+      "MULTIMODE_POWER_BALANCE": "PASS"
+    },
+    "M": {
+      "grade": "M",
+      "n_nodes": 1846108,
+      "n_exterior": 382287,
+      "elapsed_s": 223.2257525920868,
+      "channels": [
+        {
+          "channel": 0,
+          "port": 0,
+          "mode": 0,
+          "P_out": 0.9848178741252753,
+          "P_material": 0.03716259542534178,
+          "residual": 0.02198046955061711,
+          "PASS": true
+        },
+        {
+          "channel": 1,
+          "port": 0,
+          "mode": 1,
+          "P_out": 0.9880307602859281,
+          "P_material": 0.03365531379611692,
+          "residual": 0.02168607408204499,
+          "PASS": true
+        },
+        {
+          "channel": 2,
+          "port": 1,
+          "mode": 0,
+          "P_out": 0.9810151646825889,
+          "P_material": 0.03654496373597544,
+          "residual": 0.01756012841856431,
+          "PASS": true
+        },
+        {
+          "channel": 3,
+          "port": 1,
+          "mode": 1,
+          "P_out": 0.9721064356763784,
+          "P_material": 0.03355475222695365,
+          "residual": 0.005661187903332095,
+          "PASS": true
+        },
+        {
+          "channel": 4,
+          "port": 2,
+          "mode": 0,
+          "P_out": 0.9825141572742638,
+          "P_material": 0.036939955987467035,
+          "residual": 0.019454113261730868,
+          "PASS": true
+        },
+        {
+          "channel": 5,
+          "port": 2,
+          "mode": 1,
+          "P_out": 0.9825167474465558,
+          "P_material": 0.0337939683239136,
+          "residual": 0.016310715770469414,
+          "PASS": true
+        },
+        {
+          "channel": 6,
+          "port": 3,
+          "mode": 0,
+          "P_out": 0.9849037946744915,
+          "P_material": 0.03696162827323632,
+          "residual": 0.021865422947727836,
+          "PASS": true
+        },
+        {
+          "channel": 7,
+          "port": 3,
+          "mode": 1,
+          "P_out": 0.9910470525563815,
+          "P_material": 0.034211939261525756,
+          "residual": 0.025258991817907236,
+          "PASS": true
+        },
+        {
+          "channel": 8,
+          "port": 4,
+          "mode": 0,
+          "P_out": 0.9789441172866546,
+          "P_material": 0.03638153536550939,
+          "residual": 0.01532565265216404,
+          "PASS": true
+        },
+        {
+          "channel": 9,
+          "port": 4,
+          "mode": 1,
+          "P_out": 0.9748674394681035,
+          "P_material": 0.03341352147072684,
+          "residual": 0.008280960938830344,
+          "PASS": true
+        },
+        {
+          "channel": 10,
+          "port": 5,
+          "mode": 0,
+          "P_out": 0.9813369316438281,
+          "P_material": 0.036606094425658646,
+          "residual": 0.017943026069486716,
+          "PASS": true
+        },
+        {
+          "channel": 11,
+          "port": 5,
+          "mode": 1,
+          "P_out": 0.9772368290813268,
+          "P_material": 0.03404205930158066,
+          "residual": 0.01127888838290747,
+          "PASS": true
+        }
+      ],
+      "TE1_residuals": [
+        0.02168607408204499,
+        0.005661187903332095,
+        0.016310715770469414,
+        0.025258991817907236,
+        0.008280960938830344,
+        0.01127888838290747
+      ],
+      "max_residual": 0.025258991817907236,
+      "ch7_residual": 0.025258991817907236,
+      "MULTIMODE_POWER_BALANCE": "PASS"
+    }
+  }
+}

@@ -65,7 +65,7 @@ def main():
     ap.add_argument("--grade", default="C")
     ap.add_argument("--design", default="opt_single_uniform_M_Bp0.0500")
     ap.add_argument("--orbits", default="0,1,5")  # center + two six-rod
-    ap.add_argument("--hs", default="1e-3,3e-4")
+    ap.add_argument("--hs", default="3e-4,1e-4")
     ap.add_argument("--B", type=float, default=B_PLUS)
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)

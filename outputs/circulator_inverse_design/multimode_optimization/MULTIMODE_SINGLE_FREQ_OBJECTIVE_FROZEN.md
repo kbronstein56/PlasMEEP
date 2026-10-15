@@ -12,7 +12,7 @@ Adjoint validation: `multimode_ports/DIRECT_DTN_ADJOINT_FD_VALIDATION.md`.
 |----------|-------|
 | Frequency | 3.85 GHz |
 | Bias | \(B_z = +0.05\) T |
-| Mesh (production) | FULL91-M preferred; FULL91-C for sanity |
+| Mesh (production) | FULL91-C (~7 min/eval+grad); M for transfer + short refine (M full opt not practical in budget) |
 | Port package | direct DtN 12×12, `measure=projected` |
 | Modes in S | TE0 + TE1 propagating (2 per port) |
 | Excitation | TE0 incidence on each of 6 horns |

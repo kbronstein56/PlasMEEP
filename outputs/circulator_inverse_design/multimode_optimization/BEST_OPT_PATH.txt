@@ -1,0 +1,1 @@
+outputs/circulator_inverse_design/multimode_optimization/opt_uniform_C.json

@@ -1,0 +1,32 @@
+{
+  "grade": "C",
+  "design": "opt_uniform_C",
+  "baseline_s": 1397.0287262710044,
+  "efficient_s": 1195.0099640759872,
+  "speedup": 1.169051947906747,
+  "timings_efficient": {
+    "assemble_s": 114.76346329401713,
+    "factor_lu": 1007.7950814549986,
+    "forward_te0_rhs": 2.2518637960019987,
+    "S_and_objective": 1.8204489639902022,
+    "adjoint_te0_rhs": 2.857271254004445,
+    "dA_contraction": 65.43635370300035,
+    "total": 1194.9244824660127
+  },
+  "J_baseline": 0.7081563609689226,
+  "J_efficient": 0.7081563609689202,
+  "dJ": 2.4424906541753444e-15,
+  "S_te0_col_max_abs_err": 6.351341422209673e-15,
+  "grad_rel_err": 8.69720058230222e-14,
+  "grad_abs_err": 2.6421154592641416e-12,
+  "fd_orbit": 1,
+  "fd_h": 0.0003,
+  "fd_grad": -0.05425181789143239,
+  "adj_grad": -0.054255551612917945,
+  "fd_rel_err": 6.881731683783378e-05,
+  "n_forward_rhs_eff": 6,
+  "n_adjoint_rhs_eff": 6,
+  "n_lu_eff": 1,
+  "PASS": true,
+  "rel_bar": 0.001
+}

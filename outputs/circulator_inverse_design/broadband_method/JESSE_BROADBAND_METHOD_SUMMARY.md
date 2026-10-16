@@ -55,20 +55,26 @@ Production already reuses one SuperLU factor via `lu.solve(..., trans="T")`
 
 ## 5. Most efficient implementation found?
 
-**Target (Phase 2):** per frequency
+**Measured on FULL91-C** (`opt_uniform_C`, `ADJOINT_EFFICIENCY_BENCHMARK.md`):
 
-| Step | Count |
-|------|------:|
-| LU factorization | 1 |
-| TE0 forward RHS | 6 |
-| Scalar-objective transpose RHS | 6 |
+| Step | Count | Time (s) |
+|------|------:|---------:|
+| Assembly | 1 | ~115 |
+| LU factorization | **1** | **~1008** (dominates) |
+| TE0 forward RHS | **6** | ~2.3 |
+| Scalar-objective transpose RHS | **6** | ~2.9 |
+| Orbit \(\partial A\) contractions | 16 | ~65 |
+| **Total efficient eval+grad** | | **~1195 s** |
+| Baseline (12+12 + duplicate S) | | ~1397 s |
+| Speedup | | **1.17×** |
+| Grad agreement vs frozen | | \(\|\Delta g\|/\|g\|\sim 9\times10^{-14}\) |
+| FD orbit spot check | | rel \(6.9\times10^{-5}\) → **PASS** |
 
-Eliminates TE1-incident solves during optimization (TE1 **outputs** remain in \(J\))
-and removes the duplicate solves inside `direct_S_from_factor`.
+Eliminates TE1-incident solves during opt (TE1 **outputs** remain in \(J\)) and
+removes duplicate `direct_S_from_factor` solves. Further gains require faster
+factorization or multi-frequency parallelism (LU still ~84% of runtime).
 
-Measured numbers: see `ADJOINT_EFFICIENCY_BENCHMARK.md` (filled by
-`profile_and_compare.py`). Parallel-frequency strategy: see
-`PARALLEL_FREQUENCY_STRATEGY.md`.
+Parallel-frequency strategy: see `PARALLEL_FREQUENCY_STRATEGY.md`.
 
 ## 6. How will broadband be validated?
 

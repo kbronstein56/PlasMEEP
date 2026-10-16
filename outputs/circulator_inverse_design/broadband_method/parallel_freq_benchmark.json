@@ -1,0 +1,35 @@
+{
+  "grade": "C",
+  "design": "outputs/circulator_inverse_design/multimode_optimization/opt_uniform_C.json",
+  "freqs_Hz": [
+    4000000000.0,
+    4200000000.0
+  ],
+  "note": "Each frequency: 1 LU + 6 TE0 fwd + 6 adj (efficient path). OMP_NUM_THREADS=1 per worker to avoid BLAS oversubscription. Peak aggregate RAM for multi-process is ~workers \u00d7 single-process footprint; parent VmRSS does not capture children.",
+  "runs": [
+    {
+      "workers": 1,
+      "n_freq": 2,
+      "wall_s": 3038.6567309400125,
+      "mean_per_freq_s": 1517.9887400699954,
+      "parent_rss_mb_before": 33.02734375,
+      "parent_rss_mb_after": 355.79296875,
+      "Js": [
+        -0.3338559276318827,
+        -0.3248686429269308
+      ]
+    },
+    {
+      "workers": 2,
+      "n_freq": 2,
+      "wall_s": 4010.349121784995,
+      "mean_per_freq_s": 4009.0277887999982,
+      "parent_rss_mb_before": 355.79296875,
+      "parent_rss_mb_after": 348.765625,
+      "Js": [
+        -0.3248686429269308,
+        -0.3338559276318827
+      ]
+    }
+  ]
+}

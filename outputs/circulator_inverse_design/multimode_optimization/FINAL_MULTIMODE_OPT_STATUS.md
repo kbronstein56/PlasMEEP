@@ -11,11 +11,12 @@ Campaign finish log: `campaign_finish.log` ended
 |------|--------|-------|
 | MULTIMODE_C6_OPT | **PASS** | Best = uniform warm start, J=0.708 on C |
 | OPTIMIZED_FULL12_ONSAGER | **PASS** | r_F = 1.98×10⁻¹³ on C |
-| OPTIMIZED_POWER_BALANCE | **FAIL** | max residual 0.136 on C (bar 0.05); **not run on M/F** |
-| MULTIMODE_FINE_MESH | **PASS** | C, M, F all evaluated; FoMs not converged |
-| FREE91_MULTIMODE | **FAILED** | Attempted; `IndexError` in singleton-orbit masks (`campaign_finish.log`) |
+| OPTIMIZED_POWER_BALANCE | **PASS** (post-fix) | Was FAIL 0.136 from buggy `Im(ε)` absorption; fixed to `(ε−ε†)/(2i)` → residual 0.0046 on C. See `OPTIMIZED_POWER_BALANCE_DIAGNOSTIC.md` |
+| MULTIMODE_FINE_MESH | **EVALUATION_COMPLETE** | C, M, F evaluated successfully (≠ mesh-converged) |
+| MESH_CONVERGENCE | **FAIL** | FoMs drift strongly C→M→F; continuum not achieved |
+| FREE91_MULTIMODE | **FAILED** | `IndexError` in singleton-orbit masks; deprioritized until power/M/F done |
 | C6_TIED_FD | **PASS** | |
-| BROADBAND_READY | **NEEDS_CUTOFF_DERIVATION** | From freq char (3.70–4.00 GHz crosses TE1 cutoff) |
+| BROADBAND_READY | **CHANNEL_OK_4_6GHZ** | Advisor 4–6 GHz: TE0+TE1 only; no TE1-cutoff derivation. Prior cutoff warning was for 3.70–4.00 GHz char only. |
 
 ## Why this file looked “missing” earlier
 

@@ -1,0 +1,140 @@
+{
+  "cases": [
+    {
+      "case": "homogeneous_lossy_Voigt_operator",
+      "dissipation_hermitian_resid": 0.0,
+      "dissipation_min_eig": 0.3932796375534863,
+      "Im_eps_vs_D_offdiag": 8.916019230762547,
+      "PASS": true,
+      "note": "PASS means D is PSD/Hermitian AND differs from elementwise Im off-diag (bug was real)"
+    },
+    {
+      "case": "uniform_FULL91_C",
+      "grade": "C",
+      "max_residual": 0.006705259086471292,
+      "P_out_mean": 0.9917395633277336,
+      "P_material_mean": 0.010449828929032907,
+      "Ax_eq_f_all": true,
+      "GATE": "PASS",
+      "elapsed_s": 2106.918718099594,
+      "per_TE0": [
+        {
+          "port": 0,
+          "P_out": 0.9898021505724943,
+          "P_material": 0.010386601239822598,
+          "residual": 0.00018875181231691948,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 1,
+          "P_out": 0.9962186016038406,
+          "P_material": 0.010486657482630722,
+          "residual": 0.006705259086471292,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 2,
+          "P_out": 0.9907873692341179,
+          "P_material": 0.010448769586932097,
+          "residual": 0.0012361388210500174,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 3,
+          "P_out": 0.9915638816245718,
+          "P_material": 0.010484007447155812,
+          "residual": 0.002047889071727576,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 4,
+          "P_out": 0.9897625247071775,
+          "P_material": 0.010353027006181518,
+          "residual": 0.0001155517133590335,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 5,
+          "P_out": 0.9923028522241993,
+          "P_material": 0.010539910811474701,
+          "residual": 0.00284276303567404,
+          "Ax_eq_f": true,
+          "PASS": true
+        }
+      ],
+      "BALANCE_BAR": 0.05
+    },
+    {
+      "case": "optimized_FULL91_C",
+      "grade": "C",
+      "max_residual": 0.004632797125813132,
+      "P_out_mean": 0.9053445698619322,
+      "P_material_mean": 0.09117095760522854,
+      "Ax_eq_f_all": true,
+      "GATE": "PASS",
+      "elapsed_s": 2020.7004742622375,
+      "per_TE0": [
+        {
+          "port": 0,
+          "P_out": 0.9058183236080991,
+          "P_material": 0.09166778837716962,
+          "residual": 0.0025138880147312775,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 1,
+          "P_out": 0.905830008150321,
+          "P_material": 0.09057482365646866,
+          "residual": 0.0035951681932103463,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 2,
+          "P_out": 0.9051535683401113,
+          "P_material": 0.09135384690476889,
+          "residual": 0.003492584755119821,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 3,
+          "P_out": 0.9047440843841186,
+          "P_material": 0.09190260528340226,
+          "residual": 0.0033533103324791674,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 4,
+          "P_out": 0.9059759720626549,
+          "P_material": 0.08939123081153197,
+          "residual": 0.004632797125813132,
+          "Ax_eq_f": true,
+          "PASS": true
+        },
+        {
+          "port": 5,
+          "P_out": 0.904545462626288,
+          "P_material": 0.09213545059802981,
+          "residual": 0.003319086775682198,
+          "Ax_eq_f": true,
+          "PASS": true
+        }
+      ],
+      "BALANCE_BAR": 0.05
+    },
+    {
+      "case": "one_cylinder",
+      "PASS": null,
+      "note": "Skipped in this pass \u2014 FULL91 device is multi-rod; Voigt + uniform + optimized cover the operator bug."
+    }
+  ],
+  "ABSORPTION_FIX": "PASS"
+}

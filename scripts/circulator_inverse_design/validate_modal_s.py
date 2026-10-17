@@ -147,10 +147,15 @@ def case2_slab() -> dict:
 
 
 def material_absorption(points, tris, x, rho, k0) -> float:
-    """Vectorized ∫ (ω/2) E† Im(ε) E with E=(i/ω) ρ curl H, ε=ρ⁻¹.
+    """Vectorized ∫ (ω/2) E† D E with E=(i/ω) ρ curl H, ε=ρ⁻¹, D=(ε−ε†)/(2i).
+
+    For gyrotropic / non-Hermitian ε, elementwise Im(ε) is **not** the correct
+    dissipation operator (off-diagonal Im ≠ ((ε−ε†)/(2i))_off). Use the
+    Hermitian anti-Hermitian part D = (ε − ε†)/(2i), matching
+    `gyrotropic_tensor.dissipation_matrix` and FULL91 `volume_absorption`.
 
     Counts only material loss (plasma/quartz). PML loss appears in the modal
-    balance P_inc−ΣP_out but not here.
+    balance P_inc−ΣP_out but not here. Convention: e^{-iωt}.
     """
     omega = float(k0)
     px = points[tris, 0]
@@ -171,12 +176,16 @@ def material_absorption(points, tris, x, rho, k0) -> float:
     exy = -rxy / det_safe
     eyx = -ryx / det_safe
     eyy = rxx / det_safe
-    # Skip lossless elements
+    # D = (ε − ε†)/(2i); ε†_ij = conj(ε_ji)
+    dxx = (exx - np.conj(exx)) / (2j)
+    dxy = (exy - np.conj(eyx)) / (2j)
+    dyx = (eyx - np.conj(exy)) / (2j)
+    dyy = (eyy - np.conj(eyy)) / (2j)
     lossy = good & (
-        (np.abs(exx.imag) > 1e-18)
-        | (np.abs(eyy.imag) > 1e-18)
-        | (np.abs(exy.imag) > 1e-18)
-        | (np.abs(eyx.imag) > 1e-18)
+        (np.abs(dxx) > 1e-18)
+        | (np.abs(dyy) > 1e-18)
+        | (np.abs(dxy) > 1e-18)
+        | (np.abs(dyx) > 1e-18)
     )
     if not np.any(lossy):
         return 0.0
@@ -184,9 +193,8 @@ def material_absorption(points, tris, x, rho, k0) -> float:
     cy = -gx[lossy]
     Ex = (1j / omega) * (rxx[lossy] * cx + rxy[lossy] * cy)
     Ey = (1j / omega) * (ryx[lossy] * cx + ryy[lossy] * cy)
-    # E† Im(ε) E
-    Ix = exx[lossy].imag * Ex + exy[lossy].imag * Ey
-    Iy = eyx[lossy].imag * Ex + eyy[lossy].imag * Ey
+    Ix = dxx[lossy] * Ex + dxy[lossy] * Ey
+    Iy = dyx[lossy] * Ex + dyy[lossy] * Ey
     dens = np.real(np.conj(Ex) * Ix + np.conj(Ey) * Iy)
     return float(np.sum(area[lossy] * (omega / 2.0) * dens))
 

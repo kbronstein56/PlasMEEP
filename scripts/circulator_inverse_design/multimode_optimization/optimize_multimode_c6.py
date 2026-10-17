@@ -25,7 +25,16 @@ from multimode_opt_core import (
     expand_tied,
     load_start,
     orbits_and_masks,
+    te0_absorption_mean,
 )
+
+# Efficient adjoint (1 LU + 6 TE0 fwd + 6 combined adjoint) — validated in broadband_method/
+sys_path_bb = Path(__file__).resolve().parents[1] / "broadband_method"
+import sys
+
+if str(sys_path_bb) not in sys.path:
+    sys.path.insert(0, str(sys_path_bb))
+from efficient_adjoint import eval_and_grad_efficient  # noqa: E402
 
 
 def history_row(it, J, gnorm, q, met, status):
@@ -64,6 +73,7 @@ def run_opt(
     f_hz: float = F_HZ,
     with_absorption: bool = True,
     tag_suffix: str = "",
+    efficient: bool = True,
 ):
     OUT.mkdir(parents=True, exist_ok=True)
     orbits, _, _ = orbits_and_masks()
@@ -71,7 +81,7 @@ def run_opt(
     run_id = f"{start_label}_{grade}{tag_suffix}"
     print(
         f"START run={run_id} orbits={len(orbits)} maxiter={maxiter} "
-        f"q0 range=[{q0.min():.4f},{q0.max():.4f}]",
+        f"efficient={efficient} q0 range=[{q0.min():.4f},{q0.max():.4f}]",
         flush=True,
     )
 
@@ -86,9 +96,19 @@ def run_opt(
         q = np.asarray(q, float)
         if cache["q"] is not None and np.allclose(q, cache["q"], rtol=0, atol=0):
             return cache["J"], cache["g"], cache["met"], cache["s"]
-        bun, gq, s = eval_and_grad(
-            grade, q, orbits, f_hz, b_tesla, with_absorption=with_absorption
-        )
+        if efficient:
+            bun, gq, s = eval_and_grad_efficient(
+                grade, q, orbits, f_hz=f_hz, b_tesla=b_tesla
+            )
+            met = dict(bun["metrics"])
+            if with_absorption:
+                met["P_material_avg"] = te0_absorption_mean(bun["st"], bun["lu"])
+                met["rem_avg"] = float(1.0 - met["P_out_avg"] - met["P_material_avg"])
+            bun = {**bun, "metrics": met, "J": met["J"]}
+        else:
+            bun, gq, s = eval_and_grad(
+                grade, q, orbits, f_hz, b_tesla, with_absorption=with_absorption
+            )
         cache["q"] = q.copy()
         cache["J"] = float(bun["J"])
         cache["g"] = np.asarray(gq, float)
@@ -144,7 +164,7 @@ def run_opt(
         method="L-BFGS-B",
         jac=jac,
         bounds=bounds,
-        options={"maxiter": maxiter, "ftol": 1e-9, "gtol": 1e-6, "disp": True},
+        options={"maxiter": maxiter, "ftol": 1e-9, "gtol": 1e-6},
     )
     elapsed = time.time() - t0
     q_final = np.asarray(res.x, float)
@@ -192,9 +212,18 @@ def run_opt(
         "S_at_best_saved": False,
     }
     # save S at best
-    bun_best, _, _ = eval_and_grad(
-        grade, best["q"], orbits, f_hz, b_tesla, with_absorption=True
-    )
+    if efficient:
+        bun_best, _, _ = eval_and_grad_efficient(
+            grade, best["q"], orbits, f_hz=f_hz, b_tesla=b_tesla
+        )
+        if with_absorption:
+            metb = dict(bun_best["metrics"])
+            metb["P_material_avg"] = te0_absorption_mean(bun_best["st"], bun_best["lu"])
+            bun_best = {**bun_best, "metrics": metb, "J": metb["J"]}
+    else:
+        bun_best, _, _ = eval_and_grad(
+            grade, best["q"], orbits, f_hz, b_tesla, with_absorption=True
+        )
     np.savez_compressed(
         OUT / f"S12_opt_{run_id}_Bp.npz",
         S=bun_best["S"],
@@ -233,7 +262,15 @@ def main():
         help="Optional JSON with best.q or q array (for --start custom)",
     )
     ap.add_argument("--start-label", default=None)
+    ap.add_argument(
+        "--efficient",
+        action="store_true",
+        default=True,
+        help="Use 1-LU / 6+6 efficient adjoint (default)",
+    )
+    ap.add_argument("--no-efficient", action="store_true", help="Use legacy 12+12 path")
     args = ap.parse_args()
+    efficient = not args.no_efficient
     tag_map = {
         "uniform": "uniform",
         "pref_peak": "opt_single_uniform_M_Bp0.0500",
@@ -251,18 +288,14 @@ def main():
         else:
             raise SystemExit("q-json missing q")
         label = args.start_label or "custom"
-        # monkey-patch via run_opt internals: write temporary start through expand
-        from multimode_opt_core import expand_tied
+        from multimode_opt_core import DES, expand_tied
 
         s0 = expand_tied(q0, orbits)
-        # stash as a design file load_s can read
-        tmp = OUT / "_tmp_custom_start.json"
-        dump_json(tmp, {"best": {"s": s0.tolist(), "q": q0.tolist()}})
-        # load_s expects DES path basename without .json — write into DES
-        from multimode_opt_core import DES
-
         des_tmp = DES / "_tmp_custom_start.json"
         dump_json(des_tmp, {"best": {"s": s0.tolist(), "q": q0.tolist()}})
+        # Also place under multimode_optimization so load_start via load_s finds it
+        # if DES layout expects relative design tags from DES root.
+        dump_json(OUT / "_tmp_custom_start.json", {"best": {"s": s0.tolist(), "q": q0.tolist()}})
         run_opt(
             grade=args.grade,
             start_label=label,
@@ -271,6 +304,7 @@ def main():
             b_tesla=args.B,
             with_absorption=not args.no_absorption,
             tag_suffix=args.tag_suffix,
+            efficient=efficient,
         )
         return
     run_opt(
@@ -281,6 +315,7 @@ def main():
         b_tesla=args.B,
         with_absorption=not args.no_absorption,
         tag_suffix=args.tag_suffix,
+        efficient=efficient,
     )
 
 

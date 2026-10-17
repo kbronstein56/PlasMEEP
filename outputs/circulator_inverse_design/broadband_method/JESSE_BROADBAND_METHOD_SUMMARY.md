@@ -3,26 +3,55 @@
 Plain answers to the advisor questions. Details live in the sibling docs in this folder.
 Single-frequency multimode freeze is **untouched**.
 
+## 0. Modal channels on the advisor target band (4–6 GHz)
+
+| mode | cutoff | status in 4–6 GHz |
+|------|--------|-------------------|
+| TE0 | — | propagates |
+| TE1 | ≈ 3.747 GHz | propagates across the **entire** band |
+| TE2 | ≈ 7.49 GHz | cutoff (does not propagate) |
+
+**Therefore the validated 12-channel TE0+TE1 port formulation applies unchanged
+over the whole 4–6 GHz target.** There is **no** modal-channel discontinuity and
+**no** TE1-cutoff derivation required for broadband on this band.
+
+The earlier `NEEDS_CUTOFF_DERIVATION` / TE1-cutoff warning applied only to the
+**3.70–4.00 GHz** single-frequency characterization window (which straddles TE1
+cutoff). Do not carry that warning into 4–6 GHz planning.
+
+Remaining broadband questions are frequency sampling density, robust aggregation
+(τ/α), and compute — not channel count.
+
 ## 1. How many objective frequencies for 4–6 GHz isolation?
 
-**Adaptive — not a single fixed number.**
+**Adaptive — not a single fixed number. Do not pick an arbitrary N.**
 
-- Initial optimization grid: **11** frequencies (4.0, 4.2, …, 6.0 GHz).
-- Dense audit: **41** frequencies (0.05 GHz).
-- Add worst / unresolved audit points to the objective and re-optimize until the
-  dense response no longer hides failures between samples.
-- Final FD validation: ≤50 MHz spacing (25 MHz near sharp features).
+Procedure (once a trustworthy single-frequency design exists):
+
+1. Densely sample 4.00–6.00 GHz at ≤50 MHz.
+2. Measure actual spectral feature widths (isolation / TE1 / IL dips).
+3. Compare visibility on 500 / 250 / 200 / 100 MHz grids.
+4. Choose an **initial** optimization grid from the narrowest relevant features.
+5. Adaptive enrichment: sparse opt → dense audit → add worst between-grid
+   frequencies → re-optimize until the dense audit no longer hides failures.
+
+Placeholder starting guess (until feature-width study): 11 pts @ 200 MHz for
+opt, 41 pts @ 50 MHz for audit — then refine from measured widths.
 
 See `ADAPTIVE_BROADBAND_SAMPLING_REPORT.md` and `BROADBAND_DIFFERENTIABLE_OBJECTIVE.md`.
-
-TE1 is propagating throughout 4–6 GHz (cutoff ~3.747 GHz); TE2 remains cut off
-(~7.49 GHz) → same 12-channel TE0+TE1 DtN definition across the band.
 
 ## 2. Is the broadband objective differentiable?
 
 **Yes.** Per-frequency \(J(f)\) is the validated multimode score. Broadband
-aggregation is a **soft-min (log-sum-exp)** plus a small mean term (\(\tau=0.05\),
-\(\alpha=0.25\), frozen). Gradient:
+aggregation is a **soft-min (log-sum-exp)** plus a mean term. Prototype
+hyperparameters (FD-checked, **not** chosen only because FD passed):
+
+- **τ = 0.05** — how closely soft-min approximates worst-frequency \(J\)
+- **α = 0.25** — mean-performance vs worst-frequency weighting
+
+Fixed-spectra sensitivity (`SOFTMIN_TAU_ALPHA_SENSITIVITY.md`) shows τ≈0.02
+tracks sharp dips more tightly; keep 0.05/0.25 until real SF spectra are used
+to retune. Soft-min weight FD: rel ≈ 5.7×10⁻¹¹ PASS.
 
 \[
 \partial J_{\mathrm{BB}}/\partial s

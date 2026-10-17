@@ -6,6 +6,9 @@ disagreement with FEM). Report agreement, disagreement, and convergence of each 
 
 ## Goal
 
+Independent cross-check of the frequency-domain FEM broadband spectrum — **not**
+assumed ground truth (known Meep↔FEM plasma-interface disagreements).
+
 For each TE0 source horn, recover vs frequency over **4–6 GHz**:
 
 - desired TE0 transmission
@@ -14,6 +17,9 @@ For each TE0 source horn, recover vs frequency over **4–6 GHz**:
 - other TE0 leakage
 - TE1 conversion (all ports)
 - reflection (where DFT/modal extraction is reliable)
+
+Throughout 4–6 GHz both TE0 and TE1 propagate (TE2 cut off), so Meep modal
+extraction should use the same two propagating channels as the FEM 12×12 package.
 
 ## Setup (proposed)
 

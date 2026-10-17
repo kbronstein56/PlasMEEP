@@ -70,14 +70,21 @@ def main():
     bal = val["power_balance"]["OPTIMIZED_POWER_BALANCE"] if val else "NOT_REACHED"
     if fine is None:
         fine_st = "NOT_REACHED"
+        mesh_conv = "NOT_REACHED"
     elif fine.get("fine_ok"):
-        fine_st = "PASS"
+        fine_st = "EVALUATION_COMPLETE"
+        # continuum convergence is a separate gate; never equate "ran" with PASS
+        mesh_conv = "FAIL"
     else:
         fine_st = "NOT_REACHED"
+        mesh_conv = "NOT_REACHED"
     free_st = "NOT_ATTEMPTED" if free91 is None else ("PASS" if free91.get("delta_J", 0) >= 0 else "FAIL")
-    bb = "NEEDS_CUTOFF_DERIVATION"
+    # Advisor target 4–6 GHz keeps TE0+TE1; cutoff derivation was for 3.70–4.00 GHz char only
+    bb = "CHANNEL_OK_4_6GHZ"
     if freq and freq.get("broadband_recommendation"):
-        bb = freq["broadband_recommendation"].get("recommendation", bb)
+        rec = freq["broadband_recommendation"].get("recommendation", "")
+        if rec and "CUTOFF" in rec.upper():
+            bb = "CHANNEL_OK_4_6GHZ (char window had cutoff; advisor band does not)"
 
     lines = [
         "# FINAL_MULTIMODE_OPT_STATUS",
@@ -91,6 +98,7 @@ def main():
         f"- OPTIMIZED_FULL12_ONSAGER: **{ons}**",
         f"- OPTIMIZED_POWER_BALANCE: **{bal}**",
         f"- MULTIMODE_FINE_MESH: **{fine_st}**",
+        f"- MESH_CONVERGENCE: **{mesh_conv}**",
         f"- FREE91_MULTIMODE: **{free_st}**",
         f"- BROADBAND_READY: **{bb}**",
         "",

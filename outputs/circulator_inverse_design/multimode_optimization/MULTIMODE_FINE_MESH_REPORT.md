@@ -29,5 +29,8 @@ Both transfers `fine_ok: true` (C→M ~2.2 h, M→F ~2.4 h).
 - Isolation and RL partially recover M→F while transmission continues to fall.
 - TE1 rises on finer meshes (0.019 → 0.044) but remains far below Pref-peak ~0.32.
 
-**MULTIMODE_FINE_MESH: PASS** (C, M, and F evaluations completed).
-**Mesh-converged FoM: FAIL** (large C→M→F drift).
+**MULTIMODE_FINE_MESH: EVALUATION_COMPLETE** (C, M, and F evaluations completed).
+**MESH_CONVERGENCE: FAIL** (large C→M→F drift; continuum FoMs not achieved).
+
+Do **not** label the fine-mesh result PASS merely because all meshes ran.
+`EVALUATION_COMPLETE` ≠ mesh-converged FoMs.

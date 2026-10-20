@@ -1,0 +1,64 @@
+{
+  "design": "outputs/circulator_inverse_design/multimode_optimization/opt_uniform_C_warm_M.json",
+  "attribution_M_to_F_dJ": {
+    "Mh": -0.005233508131001541,
+    "Ma": -0.025328827890617633,
+    "Mi": -0.018977909619890765,
+    "Mia": -0.05195887117420006,
+    "F": -0.05310729725019392
+  },
+  "frozen_bar_fails": {
+    "M_vs_F": [
+      "J",
+      "isolation_avg_dB",
+      "RL_avg_dB"
+    ],
+    "Mia_vs_F": [],
+    "Ma_vs_F": [],
+    "Mi_vs_F": [
+      "isolation_avg_dB"
+    ],
+    "Mh_vs_F": [
+      "isolation_avg_dB",
+      "RL_avg_dB"
+    ],
+    "F_vs_A": [],
+    "F_vs_Q": [
+      "isolation_avg_dB"
+    ],
+    "F_vs_X2": [],
+    "A_vs_Q": [],
+    "A_vs_X2": [],
+    "Q_vs_X2": []
+  },
+  "continuum_bracket_QX2": {
+    "J": [
+      0.6198802753586338,
+      0.6326443320084262
+    ],
+    "T_des": [
+      0.7725765750236429,
+      0.779754717003414
+    ],
+    "isolation_dB": [
+      16.806093948732055,
+      17.05964766119306
+    ],
+    "RL_dB": [
+      12.428913789300642,
+      12.670703125624419
+    ],
+    "TE1": [
+      0.02022790357445626,
+      0.02079190360897079
+    ]
+  },
+  "recommended": {
+    "J": 0.62626230368353,
+    "J_unc": 0.006382028324896205,
+    "T_des": 0.7761656460135284,
+    "isolation_dB": 16.93287080496256,
+    "RL_dB": 12.54980845746253,
+    "TE1": 0.020509903591713525
+  }
+}

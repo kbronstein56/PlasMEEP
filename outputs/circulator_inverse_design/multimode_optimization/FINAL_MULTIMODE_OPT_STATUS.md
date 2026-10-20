@@ -13,11 +13,11 @@ Campaign finish log: `campaign_finish.log` ended
 | MULTIMODE_C6_OPT | **PASS** | C: J=0.708; M refine recovers to J=0.723 |
 | OPTIMIZED_FULL12_ONSAGER | **PASS** | r_F = 1.98×10⁻¹³ on C |
 | OPTIMIZED_POWER_BALANCE | **PASS** (post-fix) | Fixed `(ε−ε†)/(2i)` → residual 0.0046 on C |
-| MULTIMODE_FINE_MESH | **EVALUATION_COMPLETE** | C/M/F evals + M refine + M→F done |
-| MESH_CONVERGENCE | **FAIL** | M→F of M-opt: ΔJ=-0.053, Δiso=-1.9 dB, ΔRL=-2.7 dB (frozen bars). Better than C→F but not converged |
+| MULTIMODE_FINE_MESH | **EVALUATION_COMPLETE** | C/M/F + M refine + M→F + crossed refinement |
+| MESH_CONVERGENCE | **FAIL** (M→F); continuum bracket **Q↔X2 PASS** | Drift = iface+air (~98% of ΔJ); F not fully converged vs Q; see `MESH_CONVERGENCE_MREFINED_DESIGN.md` |
 | FREE91_MULTIMODE | **FAILED** | IndexError cause recorded; deprioritized |
 | C6_TIED_FD | **PASS** | |
-| BROADBAND_READY | **CHANNEL_OK_4_6GHZ** | Advisor 4–6 GHz: TE0+TE1 only; no TE1-cutoff derivation |
+| BROADBAND_READY | **CHANNEL_OK + MESH_UNDERSTOOD** | 4–6 GHz TE0+TE1; continuum SF estimate J≈0.626±0.007; long BB opt not started |
 
 ## Why this file looked “missing” earlier
 
@@ -79,8 +79,17 @@ C6 opt + Onsager + absorption fix + M refine: **done**. Mesh continuum:
 recorded). Do **not** start long broadband optimization until mesh strategy
 (interface refinement / finer reference) is decided.
 
+## Continuum SF estimate (Q–X2 bracket)
+
+Do **not** quote M-mesh J=0.723. Recommended physics numbers:
+
+- J **0.626 ± 0.007**, T_des **0.776 ± 0.004**, iso **16.9 ± 0.13 dB**, RL **12.55 ± 0.12 dB**, TE1 **0.0205 ± 0.0003**
+
+Full table: `MESH_CONVERGENCE_MREFINED_DESIGN.md`.
+
 ## Recommended next action
 
-Investigate local interface / plasma–quartz refinement or an even finer
-reference mesh — not more optimizer iterations alone. Broadband channel count
-is already OK for 4–6 GHz.
+Broadband: adaptive frequency sampling / soft-min on a continuum-aware mesh
+(F or A), expectations set to continuum FoMs — not M-mesh quotes. Optional
+further mesh: air beyond Q or iface beyond X2 if SuperLU allows. No more
+M-mesh design optimization.

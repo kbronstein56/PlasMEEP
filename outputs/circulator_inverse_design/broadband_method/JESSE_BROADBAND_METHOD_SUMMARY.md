@@ -22,6 +22,20 @@ cutoff). Do not carry that warning into 4–6 GHz planning.
 Remaining broadband questions are frequency sampling density, robust aggregation
 (τ/α), and compute — not channel count.
 
+### Mesh status relevant to broadband (updated)
+
+Single-frequency continuum study on `opt_uniform_C_warm_M`
+(`MESH_CONVERGENCE_MREFINED_DESIGN.md`):
+
+- M→F drift is **cavity air + plasma/quartz interface** (~98% of ΔJ), not horns.
+- F is **not** fully continuum; Q↔X2 agree within frozen bars.
+- Continuum SF estimate: **J ≈ 0.626 ± 0.007**, iso ≈ **16.9 ± 0.13 dB**
+  (not the M-mesh J=0.723).
+- Broadband planning should use continuum-aware expectations and a mesh ≥ F
+  (prefer A for air-sensitive isolation). Soft-min + adaptive sampling + serial
+  frequency evaluation remain the method. **Long broadband optimization not
+  started in this campaign.**
+
 ## 1. How many objective frequencies for 4–6 GHz isolation?
 
 **Adaptive — not a single fixed number. Do not pick an arbitrary N.**

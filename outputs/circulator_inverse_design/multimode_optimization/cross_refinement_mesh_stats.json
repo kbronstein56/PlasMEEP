@@ -1,0 +1,136 @@
+{
+  "new_meshes": [
+    {
+      "grade": "Mh",
+      "nodes": 1920382,
+      "triangles": 3839312,
+      "mesh_s": 2.7410291200503707,
+      "h_iface": 0.008,
+      "h_horn": 0.016,
+      "h_air": 0.04,
+      "h_pml": 0.08,
+      "quartz_thickness_a": 0.050000000000000044,
+      "elements_across_quartz_requested": 6.250000000000005,
+      "max_edge": 0.12045930909139126
+    },
+    {
+      "grade": "Ma",
+      "nodes": 2314732,
+      "triangles": 4628012,
+      "mesh_s": 3.2776989369885996,
+      "h_iface": 0.008,
+      "h_horn": 0.025,
+      "h_air": 0.03,
+      "h_pml": 0.08,
+      "quartz_thickness_a": 0.050000000000000044,
+      "elements_across_quartz_requested": 6.250000000000005,
+      "max_edge": 0.11898676436615292
+    },
+    {
+      "grade": "Mi",
+      "nodes": 3551347,
+      "triangles": 7101242,
+      "mesh_s": 5.607512760907412,
+      "h_iface": 0.005,
+      "h_horn": 0.025,
+      "h_air": 0.04,
+      "h_pml": 0.08,
+      "quartz_thickness_a": 0.050000000000000044,
+      "elements_across_quartz_requested": 10.000000000000009,
+      "max_edge": 0.11850304027981981
+    },
+    {
+      "grade": "Mia",
+      "nodes": 4020097,
+      "triangles": 8038742,
+      "mesh_s": 5.777482343022712,
+      "h_iface": 0.005,
+      "h_horn": 0.025,
+      "h_air": 0.03,
+      "h_pml": 0.08,
+      "quartz_thickness_a": 0.050000000000000044,
+      "elements_across_quartz_requested": 10.000000000000009,
+      "max_edge": 0.11919609474737816
+    }
+  ],
+  "all_grades": {
+    "C": {
+      "h_iface": 0.012,
+      "h_horn": 0.04,
+      "h_air": 0.06,
+      "h_pml": 0.12
+    },
+    "M": {
+      "h_iface": 0.008,
+      "h_horn": 0.025,
+      "h_air": 0.04,
+      "h_pml": 0.08
+    },
+    "F": {
+      "h_iface": 0.005,
+      "h_horn": 0.016,
+      "h_air": 0.03,
+      "h_pml": 0.06
+    },
+    "S": {
+      "h_iface": 0.0035,
+      "h_horn": 0.012,
+      "h_air": 0.03,
+      "h_pml": 0.06
+    },
+    "R": {
+      "h_iface": 0.004,
+      "h_horn": 0.016,
+      "h_air": 0.055,
+      "h_pml": 0.11
+    },
+    "A": {
+      "h_iface": 0.005,
+      "h_horn": 0.016,
+      "h_air": 0.022,
+      "h_pml": 0.06
+    },
+    "Q": {
+      "h_iface": 0.005,
+      "h_horn": 0.016,
+      "h_air": 0.018,
+      "h_pml": 0.06
+    },
+    "X": {
+      "h_iface": 0.004,
+      "h_horn": 0.016,
+      "h_air": 0.022,
+      "h_pml": 0.06
+    },
+    "X2": {
+      "h_iface": 0.0042,
+      "h_horn": 0.016,
+      "h_air": 0.022,
+      "h_pml": 0.06
+    },
+    "Mi": {
+      "h_iface": 0.005,
+      "h_horn": 0.025,
+      "h_air": 0.04,
+      "h_pml": 0.08
+    },
+    "Ma": {
+      "h_iface": 0.008,
+      "h_horn": 0.025,
+      "h_air": 0.03,
+      "h_pml": 0.08
+    },
+    "Mh": {
+      "h_iface": 0.008,
+      "h_horn": 0.016,
+      "h_air": 0.04,
+      "h_pml": 0.08
+    },
+    "Mia": {
+      "h_iface": 0.005,
+      "h_horn": 0.025,
+      "h_air": 0.03,
+      "h_pml": 0.08
+    }
+  }
+}

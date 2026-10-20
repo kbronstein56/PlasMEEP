@@ -44,6 +44,13 @@ GRADES = {
     # X2 is the finest factorable crossed grade under that limit.
     "X": dict(h_iface=0.004, h_horn=0.016, h_air=0.022, h_pml=0.06),
     "X2": dict(h_iface=0.0042, h_horn=0.016, h_air=0.022, h_pml=0.06),
+    # M-centric one-knob refinements for M→F FoM-drift isolation
+    # (fixed design opt_uniform_C_warm_M mesh study). F sizes for the
+    # refined knob; remaining knobs held at M.
+    "Mi": dict(h_iface=0.005, h_horn=0.025, h_air=0.040, h_pml=0.08),  # iface only
+    "Ma": dict(h_iface=0.008, h_horn=0.025, h_air=0.030, h_pml=0.08),  # air only
+    "Mh": dict(h_iface=0.008, h_horn=0.016, h_air=0.040, h_pml=0.08),  # horn only
+    "Mia": dict(h_iface=0.005, h_horn=0.025, h_air=0.030, h_pml=0.08),  # iface+air
 }
 
 

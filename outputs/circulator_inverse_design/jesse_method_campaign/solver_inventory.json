@@ -1,0 +1,64 @@
+{
+  "scipy_sparse_linalg_splu": {
+    "available": true,
+    "backend": "SuperLU (default)"
+  },
+  "packages": {
+    "pypardiso": {
+      "available": false,
+      "error": "No module named 'pypardiso'"
+    },
+    "pardiso": {
+      "available": false,
+      "error": "No module named 'pardiso'"
+    },
+    "sklearn.utils.fixes": {
+      "available": false,
+      "error": "No module named 'sklearn'"
+    },
+    "sksparse": {
+      "available": false,
+      "error": "No module named 'sksparse'"
+    },
+    "sksparse.cholmod": {
+      "available": false,
+      "error": "No module named 'sksparse'"
+    },
+    "petsc4py": {
+      "available": false,
+      "error": "No module named 'petsc4py'"
+    },
+    "mumps": {
+      "available": false,
+      "error": "No module named 'mumps'"
+    },
+    "pymumps": {
+      "available": false,
+      "error": "No module named 'pymumps'"
+    },
+    "jax": {
+      "available": true,
+      "error": null
+    },
+    "autograd": {
+      "available": true,
+      "error": null
+    }
+  },
+  "tiny_complex_bench": {
+    "scipy_superlu": {
+      "factor_solve_s": 0.07845834596082568,
+      "residual": 2.0886723716410615e-13,
+      "available": true
+    },
+    "scipy_spsolve": {
+      "solve_s": 0.0700026509584859,
+      "residual": 2.0886723716410615e-13,
+      "available": true
+    }
+  },
+  "symbolic_factor_reuse": {
+    "scipy_superlu": "SciPy SuperLU factorizes numerically each call; no public API to reuse symbolic analysis across matrices with identical sparsity but different values (nearby frequencies). Would need a solver with separate symbolic/numeric phases (PARDISO, MUMPS, PETSc).",
+    "recommendation": "Do not change production SuperLU until an installed alternative beats FULL91-C LU (~1008 s) with validated residual/gradient."
+  }
+}

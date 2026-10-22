@@ -1,0 +1,14 @@
+{
+  "s0": 0.3,
+  "J": 0.2802523134198207,
+  "grad_adjoint": -0.21906415373295327,
+  "grad_custom_vjp_numpy": -0.21906415373295327,
+  "grad_fd": -0.21906415367811682,
+  "rel_err_adj_vs_fd": 2.5032137856836105e-10,
+  "pass": true,
+  "jax": {
+    "available": true,
+    "grad": -0.2190641462802887
+  },
+  "conclusion": "custom_vjp wrapping a validated adjoint matches FD on this toy problem. FULL91 production should keep the analytic discrete adjoint; JAX would be API sugar unless sparse complex LU moves into a JIT/GPU stack."
+}

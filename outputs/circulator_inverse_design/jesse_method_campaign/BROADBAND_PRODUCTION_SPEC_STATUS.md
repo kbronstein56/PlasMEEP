@@ -1,11 +1,6 @@
-# Broadband production spec — not frozen yet
+# Broadband production spec status
 
-`BROADBAND_PRODUCTION_SPEC_FROZEN.md` will be written **only after**:
+**FROZEN:** see `BROADBAND_PRODUCTION_SPEC_FROZEN.md` (2026-10-22).
 
-- mode A vs B short study results
-- C3 vs C6 short study results
-- frequency sampling grid comparison
-- gradient / soft-min E2E FD
-- literature action items reviewed
-
-Until then: **do not start** the long 4–6 GHz optimization.
+Long 4–6 GHz optimization may begin from that freeze; it was **not** auto-started
+in the Jesse method campaign.

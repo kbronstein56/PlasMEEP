@@ -141,22 +141,32 @@ def compare_grids(coarse, fine):
     d_il = delta(coarse["worst_IL_dB"], fine["worst_IL_dB"])
     d_rl = delta(coarse["worst_RL_dB"], fine["worst_RL_dB"])
     df = abs(coarse["worst_isolation_dB"]["f_GHz"] - fine["worst_isolation_dB"]["f_GHz"])
+    d_il_loc = abs(coarse["worst_IL_dB"]["f_GHz"] - fine["worst_IL_dB"]["f_GHz"])
     return {
         "d_worst_iso_dB": d_iso,
         "d_worst_IL_dB": d_il,
         "d_worst_RL_dB": d_rl,
         "d_worst_iso_location_GHz": df,
+        "d_worst_IL_location_GHz": d_il_loc,
         "pass_iso": d_iso < GRID_BARS["worst_isolation_dB_change"],
         "pass_IL": d_il < GRID_BARS["worst_IL_dB_change"],
         "pass_RL": d_rl < GRID_BARS["worst_RL_dB_change"],
-        "pass_location": df <= 0.1,
+        "pass_iso_location": df <= 0.1,
+        "pass_IL_location": d_il_loc <= 0.1,
+        "pass_location": df <= 0.1,  # backward-compat alias = iso location
         "pass_all": (
             d_iso < GRID_BARS["worst_isolation_dB_change"]
             and d_il < GRID_BARS["worst_IL_dB_change"]
             and d_rl < GRID_BARS["worst_RL_dB_change"]
             and df <= 0.1
+            and d_il_loc <= 0.1
         ),
     }
+
+
+def band_restrict(summary: dict, f_lo: float, f_hi: float) -> dict:
+    rows = [r for r in summary["rows"] if f_lo - 1e-9 <= r["f_GHz"] <= f_hi + 1e-9]
+    return summarize(f"{summary.get('tag','grid')}_{f_lo:.2f}-{f_hi:.2f}", summary["grade"], rows)
 
 
 def main():
@@ -165,7 +175,7 @@ def main():
     ap.add_argument("--design", default="opt_uniform_C_warm_M")
     ap.add_argument(
         "--stage",
-        choices=["200", "100", "50", "compare", "all"],
+        choices=["200", "100", "50", "25", "compare", "all"],
         default="200",
     )
     args = ap.parse_args()
@@ -199,11 +209,37 @@ def main():
             "50MHz",
             resume_path=OUT / "spectral_50MHz.json",
         )
-    if args.stage in ("compare", "all"):
+    if args.stage in ("25", "all"):
+        # Targeted refinement of the known bad band: 5.50–6.00 GHz @ 25 MHz
+        freqs = [round(5.50 + 0.025 * i, 6) for i in range(21)]  # 5.50 .. 6.00
+        # Seed overlapping 50 MHz points to avoid recompute
+        seed = OUT / "spectral_25MHz_5p50_6p00.json"
+        if not seed.exists() and (OUT / "spectral_50MHz.json").exists():
+            prev50 = json.loads((OUT / "spectral_50MHz.json").read_text())
+            want = {round(f, 6) for f in freqs}
+            seed_rows = [r for r in prev50["rows"] if round(r["f_GHz"], 6) in want]
+            if seed_rows:
+                (OUT / "spectral_25MHz_5p50_6p00.json").write_text(
+                    json.dumps(
+                        {"tag": "25MHz_5p50_6p00", "grade": args.grade, "rows": seed_rows, "GRID_BARS": GRID_BARS},
+                        indent=2,
+                    )
+                    + "\n"
+                )
+        scan(
+            args.grade,
+            q,
+            orbits,
+            freqs,
+            "25MHz_5p50_6p00",
+            resume_path=OUT / "spectral_25MHz_5p50_6p00.json",
+        )
+    if args.stage in ("compare", "all", "25"):
         paths = {
             "200": OUT / "spectral_200MHz.json",
             "100": OUT / "spectral_100MHz.json",
             "50": OUT / "spectral_50MHz.json",
+            "25band": OUT / "spectral_25MHz_5p50_6p00.json",
         }
         loaded = {k: json.loads(p.read_text()) for k, p in paths.items() if p.exists()}
         comps = {}
@@ -211,6 +247,19 @@ def main():
             comps["200_vs_100"] = compare_grids(loaded["200"], loaded["100"])
         if "100" in loaded and "50" in loaded:
             comps["100_vs_50"] = compare_grids(loaded["100"], loaded["50"])
+        if "50" in loaded and "25band" in loaded:
+            # Fair: restrict 50 MHz to the same 5.50–6.00 GHz window
+            s50_band = band_restrict(loaded["50"], 5.50, 6.00)
+            # band_restrict writes a side file; keep in-memory for compare
+            comps["50_vs_25_band_5p50_6p00"] = compare_grids(s50_band, loaded["25band"])
+            comps["50_band_5p50_6p00_worst"] = {
+                "worst_isolation_dB": s50_band["worst_isolation_dB"],
+                "worst_IL_dB": s50_band["worst_IL_dB"],
+            }
+            comps["25_band_5p50_6p00_worst"] = {
+                "worst_isolation_dB": loaded["25band"]["worst_isolation_dB"],
+                "worst_IL_dB": loaded["25band"]["worst_IL_dB"],
+            }
         (OUT / "spectral_grid_comparison.json").write_text(json.dumps(comps, indent=2) + "\n")
         print(json.dumps(comps, indent=2))
 

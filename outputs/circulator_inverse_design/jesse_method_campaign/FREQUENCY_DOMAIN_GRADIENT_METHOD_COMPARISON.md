@@ -19,7 +19,10 @@ without a concrete failure.
 
 ## Efficient implementation
 
-### Historical FULL91-C profile (prior campaign, `ADJOINT_EFFICIENCY_BENCHMARK.md`)
+### Historical FULL91-C profile (prior campaign only)
+
+From `ADJOINT_EFFICIENCY_BENCHMARK.md`. **Do not treat “LU ≈84%” as the current
+machine profile** — that was a load/era-specific observation.
 
 | Path | Wall time | Notes |
 |------|----------:|-------|
@@ -27,26 +30,30 @@ without a concrete failure.
 | Efficient TE0 + scalar adjoint | **1195 s** | **1 LU + 6 fwd + 6 adj** |
 | Speedup | **1.17×** | |
 
-| Stage | Time |
-|-------|-----:|
+| Stage | Time (historical) |
+|-------|------------------:|
 | Assemble | 115 s |
-| **LU factorization** | **1008 s (~84%)** |
+| LU factorization | **1008 s (~84% then)** |
 | Six forward RHS | 2 s |
 | Six adjoint RHS | 3 s |
 | dA contractions | 65 s |
 
-### This campaign (FULL91-C, `opt_uniform_C_warm_M`, `forward_mode_bench.json`)
+### Latest benchmark (authoritative for current cost structure)
 
-Machine/load differed; LU was much cheaper here, so **dA contractions** dominate:
+FULL91-C, `opt_uniform_C_warm_M`, `forward_mode_bench.json`:
 
 | Stage | Time |
 |-------|-----:|
-| Assemble | 78 s |
-| LU | 9.0 s |
+| Assembly | **77.8 s** |
+| LU | **9.0 s** |
 | Six forward RHS | 0.6 s |
-| Six adjoint RHS | 1.8 s |
-| dA contractions | 37 s |
-| **Adjoint total** | **126 s** |
+| Six adjoint RHS | **1.8 s** |
+| dA contraction | **36.8 s** |
+| **Total** | **~126.0 s** |
+
+**Current dominant costs:** assembly + derivative (`dA`) construction — **not**
+adjoint RHS solves and **not** LU on this machine. Adjoint RHS remains ≪ 1% of
+wall time.
 
 | Forward-mode (after shared LU) | Value |
 |--------------------------------|------:|

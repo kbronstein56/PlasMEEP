@@ -32,6 +32,13 @@ This freeze does **not** itself launch that optimization.
 | C3 vs C6 | `c3_c6_short_opt.json` → freeze C6 |
 | Literature | `docs/circulator_literature/` |
 
+## Post-freeze 25 MHz audit (2026-10-22)
+
+Targeted 25 MHz scan on 5.50–6.00 GHz vs band-restricted 50 MHz:
+worst iso and worst IL both remain at **5.75 GHz** with **Δ = 0** under frozen
+bars (`50_vs_25_band_5p50_6p00` PASS). **No change** to C6, Objective A, τ, α,
+or the initial 100 MHz objective grid.
+
 ## Explicit non-goals of this freeze
 
 - Does not reopen DtN / gyrotropic absorption validation.

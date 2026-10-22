@@ -140,8 +140,9 @@ def main():
         / f"{args.design}.json"
     )
     if design_json.exists():
-        d = json.loads(design_json.read_text())
-        q = np.asarray(d.get("q_best", d.get("q", d.get("q0"))), float)
+        from design_io import load_design_q
+
+        q = load_design_q(args.design)
     else:
         q, _, _ = load_start(args.design, orbits)
 

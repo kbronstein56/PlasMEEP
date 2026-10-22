@@ -31,9 +31,9 @@ FD_REL_BAR = 1e-3
 
 
 def load_q(design):
-    p = ROOT / "outputs/circulator_inverse_design/multimode_optimization" / f"{design}.json"
-    d = json.loads(p.read_text())
-    return np.asarray(d.get("q_best", d.get("q", d.get("q0"))), float)
+    from design_io import load_design_q
+
+    return load_design_q(design)
 
 
 def main():

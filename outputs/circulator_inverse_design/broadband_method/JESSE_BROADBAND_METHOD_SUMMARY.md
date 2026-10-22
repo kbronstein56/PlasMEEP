@@ -1,5 +1,10 @@
 # JESSE_BROADBAND_METHOD_SUMMARY
 
+**Superseded for the Jesse method campaign by**
+`../jesse_method_campaign/JESSE_BROADBAND_METHOD_SUMMARY.md`
+(literature log, C3, mode A/B, sampling bars, TD plan). This file remains as
+the earlier broadband-method snapshot.
+
 Plain answers to the advisor questions. Details live in the sibling docs in this folder.
 Single-frequency multimode freeze is **untouched**.
 

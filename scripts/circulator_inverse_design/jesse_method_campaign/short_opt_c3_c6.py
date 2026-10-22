@@ -35,9 +35,9 @@ from full91_geometry import bulb_centers_device  # noqa: E402
 
 
 def load_q_c6(design, n):
-    p = ROOT / "outputs/circulator_inverse_design/multimode_optimization" / f"{design}.json"
-    d = json.loads(p.read_text())
-    q = np.asarray(d.get("q_best", d.get("q", d.get("q0"))), float)
+    from design_io import load_design_q
+
+    q = load_design_q(design)
     assert len(q) == n
     return q
 

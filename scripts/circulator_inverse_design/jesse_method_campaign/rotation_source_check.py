@@ -63,9 +63,9 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
 
     orbits6, _, _ = orbits_and_masks()
-    p = ROOT / "outputs/circulator_inverse_design/multimode_optimization" / f"{args.design}.json"
-    d = json.loads(p.read_text())
-    q6 = np.asarray(d.get("q_best", d.get("q", d.get("q0"))), float)
+    from design_io import load_design_q
+
+    q6 = load_design_q(args.design)
 
     bun, _ = eval_q_forward(args.grade, q6, orbits6, f_hz=F_HZ, b_tesla=B_PLUS)
     S = bun["S"]

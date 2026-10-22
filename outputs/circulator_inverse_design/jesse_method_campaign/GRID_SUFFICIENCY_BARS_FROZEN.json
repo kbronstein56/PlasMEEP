@@ -1,0 +1,6 @@
+{
+  "worst_isolation_dB_change": 0.5,
+  "worst_IL_dB_change": 0.2,
+  "worst_RL_dB_change": 0.2,
+  "note": "Refining the audit grid is considered converged for sampling purposes when worst isolation changes by <0.5 dB and worst IL/RL by <0.2 dB, and the frequency location of the worst isolation does not jump by >100 MHz. Justification: experimental VNA uncertainty and continuum SF isolation uncertainty (~0.13 dB) make sub-0.5 dB grid jitter sub-dominant to continuum/mesh error."
+}

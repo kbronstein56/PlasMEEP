@@ -9,37 +9,36 @@
 Fan/Wang’s classic magneto-optic circulator is **naturally C3** because it has
 **three** waveguides/ports — not because threefold is universally “more physical.”
 
-Sixfold is a **strong constraint**: 91 rods → **16** variables (1 center + 15×6).
+| Symmetry | Variables | Status |
+|----------|----------:|--------|
+| C6 | **16** (1+15×6) | Production |
+| C3 | **31** (1+30×3) | Orbits **PASS** (`THREEFOLD_DESIGN_ORBITS.md`) |
 
-Threefold: 91 rods → **~31** variables (1 center + 30×3). Under exact C3, ports
-form two rotational classes `{1,3,5}` and `{2,4,6}`; C6 makes all six equivalent.
+Under exact C3, ports form `{1,3,5}` and `{2,4,6}`; C6 makes all six equivalent.
 
-## Orbit construction
+## Rotation / source reduction (numerical)
 
-Script: `threefold_orbits.py` → `THREEFOLD_DESIGN_ORBITS.md` / `threefold_orbits.json`.
+`rotation_source_check.json` on `opt_uniform_C_warm_M` / FULL91-C:
 
-## Controlled comparison
+| Check | Result |
+|-------|--------|
+| Predict sources 1…5 from source 0 by 60° port permutation | max rel column err **≈5.0%** |
+| Pass bar 1e−6 | **FAIL** |
 
-Same objective (mode-preserving A), mesh, mapped warm start, iteration budget:
+**Interpretation:** the triangular FULL91-C mesh is not exactly C6-symmetric, so
+fields do not rotate to machine precision. **Do not** drop to one representative
+source in production on this mesh. Theoretical RHS savings would be tiny versus
+LU/dA anyway.
 
-| Case | Variables | Artifact |
-|------|----------:|----------|
-| C6 | 16 | `opt_c6_short.json` |
-| C3 | ~31 | `opt_c3_short.json` |
-| free91 | 91 | optional / skip if too expensive |
+C3 still needs **two** inequivalent source classes when/if a mesh is exactly C3.
 
-C6 design mapped into C3 as neutral warm start (`map_c6_q_to_c3`).
+## Controlled short opt
 
-## Source reduction
+Same Objective A, mesh C, mapped warm start, maxiter 5 — running after spectral
+(`c3_c6_short_opt.json`). Neutral map C6→C3: average rods within each C3 orbit.
 
-| Symmetry | Theoretical sources | Verify first |
-|----------|---------------------|--------------|
-| C6 | 1 representative TE0 | `rotation_source_check.json` |
-| C3 | 2 inequivalent classes | same |
+## Recommendation (so far)
 
-**Do not overstate speedup:** LU dominates (~84%); cutting 5 of 6 RHS saves seconds,
-not the factorization.
-
-## Status / results
-
-Fill from `c3_c6_short_opt.json` and rotation check when complete.
+- Answer Jesse: C6 because we imposed 60° on six ports; Fan is C3 because of three ports.
+- Empirically test C3 with short opts before freezing BB symmetry.
+- Keep six sources on FULL91-C despite C6 design tying.

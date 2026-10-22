@@ -17,9 +17,9 @@ appropriate to our DtN product (`A^\top`, SuperLU `trans="T"`), **not** a casual
 replacement by \(A^H\). FD validation of this choice stands; do not reopen
 without a concrete failure.
 
-## Efficient implementation (measured)
+## Efficient implementation
 
-FULL91-C, design `opt_uniform_C` (`ADJOINT_EFFICIENCY_BENCHMARK.md`):
+### Historical FULL91-C profile (prior campaign, `ADJOINT_EFFICIENCY_BENCHMARK.md`)
 
 | Path | Wall time | Notes |
 |------|----------:|-------|
@@ -27,49 +27,60 @@ FULL91-C, design `opt_uniform_C` (`ADJOINT_EFFICIENCY_BENCHMARK.md`):
 | Efficient TE0 + scalar adjoint | **1195 s** | **1 LU + 6 fwd + 6 adj** |
 | Speedup | **1.17×** | |
 
-Efficient breakdown:
-
 | Stage | Time |
 |-------|-----:|
 | Assemble | 115 s |
 | **LU factorization** | **1008 s (~84%)** |
 | Six forward RHS | 2 s |
-| Objective | 2 s |
 | Six adjoint RHS | 3 s |
 | dA contractions | 65 s |
 
-**Quantifying Jesse’s “extra simulation” concern**
+### This campaign (FULL91-C, `opt_uniform_C_warm_M`, `forward_mode_bench.json`)
 
-| Operation | Cost on FULL91-C |
-|-----------|-----------------:|
-| New LU + assembly | ~1120 s |
-| One adjoint RHS after LU | **~0.5 s** (6 RHS ≈ 3 s total) |
+Machine/load differed; LU was much cheaper here, so **dA contractions** dominate:
 
-So the adjoint is **not** “another simulation” in the factorization sense.
-LU dominates; shaving RHS matters far less than solver/factorization improvements.
+| Stage | Time |
+|-------|-----:|
+| Assemble | 78 s |
+| LU | 9.0 s |
+| Six forward RHS | 0.6 s |
+| Six adjoint RHS | 1.8 s |
+| dA contractions | 37 s |
+| **Adjoint total** | **126 s** |
 
-## Forward-mode vs adjoint (this campaign)
+| Forward-mode (after shared LU) | Value |
+|--------------------------------|------:|
+| Sensitivity RHS | **96** (16×6) |
+| Sensitivity wall | 62 s (RHS 24 s + dA 37 s) |
+| Full forward est. | **150 s** |
+| ‖g_fwd−g_adj‖/‖g‖ | **2.0×10⁻¹⁴ PASS** |
 
-Script: `scripts/.../jesse_method_campaign/forward_mode_bench.py`
+**Quantifying Jesse’s “extra simulation” concern (either machine):**
 
-After shared LU:
+| Operation | Cost |
+|-----------|------|
+| New LU + assembly | dominant factorization/assembly |
+| One adjoint RHS after LU | **≪ 1 s** on this machine; ~0.5 s in historical profile |
 
-| Method | RHS (16-param C6) |
-|--------|-------------------|
-| Efficient adjoint | 6 fwd + 6 adj |
-| Forward-mode direct sensitivity | 6 fwd + **16×6 = 96** sensitivity RHS |
+An adjoint RHS is **not** another full simulation.
 
-Expected: adjoint still wins for a **scalar** objective even at 16 parameters,
-because LU is shared and adjoint RHS count is independent of \(N_\mathrm{param}\).
-Forward mode becomes attractive when \(N_\mathrm{param}\ll N_\mathrm{obj}\)
-(many simultaneous objectives) — see Hughes et al., ACS Photonics 2019.
+## Scaling estimate (from this campaign’s profile)
 
-Measured numbers: see `forward_mode_bench.json` (filled when bench completes).
-Scaling estimates reported for 16 / ~31 / 91 variables from the same profile.
+| Case | n_param | Est. adjoint | Est. forward | Prefer |
+|------|--------:|-------------:|-------------:|--------|
+| C6 | 16 | ~48 s* | ~70 s* | **adjoint** (1.45×) |
+| C3 | 31 | ~83 s* | ~126 s* | **adjoint** |
+| free91 | 91 | ~221 s* | ~352 s* | **adjoint** |
+
+\*Post-LU + dA model from `forward_mode_bench.json` (excludes full assemble in the
+scaling helper’s LU-only slice; use full-wall 126 vs 150 for absolute compare).
+
+Hughes et al. (2019): forward mode wins when \(N_\mathrm{param}\ll N_\mathrm{obj}\).
+For our **scalar** FoM, adjoint remains preferred at 16–91 parameters.
 
 ## Sparse direct solver inventory
 
-Script: `solver_inventory.py` → `solver_inventory.json` (2026-10-21).
+`solver_inventory.json` (2026-10-21):
 
 | Solver / package | Available in `plasmeep_mpi`? |
 |------------------|------------------------------|
@@ -77,19 +88,14 @@ Script: `solver_inventory.py` → `solver_inventory.json` (2026-10-21).
 | PARDISO / pypardiso | No |
 | MUMPS / pymumps | No |
 | PETSc / petsc4py | No |
-| sksparse CHOLMOD | No (also not for complex nonsymmetric) |
-| JAX / autograd | Yes (API only; not FULL91 LU) |
+| JAX / autograd | Yes (API only) |
 
-Symbolic-factor reuse across nearby frequencies is **not** exposed by SciPy
-SuperLU; would need PARDISO/MUMPS/PETSc with separate symbolic/numeric phases.
-
-Do **not** switch production without a FULL91-validated bench that beats
-~1008 s LU with matching residual/gradient.
+SciPy SuperLU has **no** public symbolic-factor reuse across nearby frequencies.
+Do not switch production without a FULL91-validated win over SuperLU.
 
 ## Recommendation
 
 1. Keep frequency-domain discrete adjoint (`A^\top`) as production.
 2. Keep efficient 6+6 RHS path.
-3. Invest next efficiency effort in **factorization** (solver choice / reuse),
-   not AD framework migration.
-4. Use forward-mode only if a multi-objective setting makes it win the bench.
+3. Forward-mode agrees to machine precision but is slower for scalar J.
+4. Next efficiency lever: factorization/solver and/or dA contraction cost — not AD frameworks.

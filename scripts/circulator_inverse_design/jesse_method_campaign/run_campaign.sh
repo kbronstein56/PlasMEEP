@@ -34,6 +34,9 @@ run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/rotation_sourc
 run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/spectral_recon.py --grade C --stage 200
 run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/spectral_recon.py --grade C --stage 100
 run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/spectral_recon.py --grade C --stage compare
+# 50 MHz dense audit required because 200→100 failed frozen bars
+run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/spectral_recon.py --grade C --stage 50
+run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/spectral_recon.py --grade C --stage compare
 
 run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/short_opt_mode_ab.py --grade C --maxiter 5 --which both
 run "$PY" scripts/circulator_inverse_design/jesse_method_campaign/short_opt_c3_c6.py --grade C --maxiter 5 --which both

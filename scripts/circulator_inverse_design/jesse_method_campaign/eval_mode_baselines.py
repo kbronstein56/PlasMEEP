@@ -33,16 +33,11 @@ from full91_geometry import bulb_centers_device  # noqa: E402
 
 
 def load_design(name, orbits):
-    opt = ROOT / "outputs/circulator_inverse_design/multimode_optimization"
-    # uniform
     if name == "uniform":
         return np.ones(len(orbits), float), "uniform"
-    p = opt / f"{name}.json"
-    if not p.exists():
-        # try without path tricks
-        raise FileNotFoundError(p)
-    d = json.loads(p.read_text())
-    q = np.asarray(d.get("q_best", d.get("q", d.get("q0"))), float)
+    from design_io import load_design_q
+
+    q = load_design_q(name)
     return q, name
 
 

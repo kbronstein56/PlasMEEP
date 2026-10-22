@@ -1,0 +1,39 @@
+{
+  "design": "opt_uniform_C_warm_M",
+  "grade": "C",
+  "C6_rotation_from_source0": [
+    {
+      "k": 1,
+      "rel_err": 0.04808094439277085
+    },
+    {
+      "k": 2,
+      "rel_err": 0.024524701105227045
+    },
+    {
+      "k": 3,
+      "rel_err": 0.04953466115402097
+    },
+    {
+      "k": 4,
+      "rel_err": 0.050163875859541414
+    },
+    {
+      "k": 5,
+      "rel_err": 0.03886955735644652
+    }
+  ],
+  "C6_max_rel_err": 0.050163875859541414,
+  "C6_pass_1e-6": false,
+  "C3_subset_120deg_from_source0": [
+    {
+      "k": 2,
+      "rel_err": 0.024524701105227045
+    },
+    {
+      "k": 4,
+      "rel_err": 0.050163875859541414
+    }
+  ],
+  "note": "If C6_pass, one representative TE0 source determines all six by rotation for a C6-symmetric design (LU still dominates; RHS savings small). C3-only designs would need two inequivalent source classes {0} and {1}."
+}

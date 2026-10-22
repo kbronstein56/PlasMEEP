@@ -1,0 +1,13 @@
+{
+  "200_vs_100": {
+    "d_worst_iso_dB": 8.895988428750115,
+    "d_worst_IL_dB": 2.687343480710446,
+    "d_worst_RL_dB": 0.05007565507218237,
+    "d_worst_iso_location_GHz": 0.10000000000000053,
+    "pass_iso": false,
+    "pass_IL": false,
+    "pass_RL": true,
+    "pass_location": false,
+    "pass_all": false
+  }
+}

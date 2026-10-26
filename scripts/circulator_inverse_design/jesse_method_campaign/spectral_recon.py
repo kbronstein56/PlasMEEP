@@ -105,12 +105,14 @@ def scan(grade, q, orbits, freqs_ghz, tag, resume_path=None):
 
 def summarize(tag, grade, rows):
     def worst(key, sense="min"):
-        vals = [r[key] for r in rows]
-        if sense == "min":
-            i = int(np.argmin(vals))
-        else:
-            i = int(np.argmax(vals))
-        return {"value": vals[i], "f_GHz": rows[i]["f_GHz"]}
+        # Skip rows missing this key (e.g. partially seeded audits)
+        idxs = [i for i, r in enumerate(rows) if r.get(key) is not None]
+        if not idxs:
+            return {"value": None, "f_GHz": None}
+        vals = [rows[i][key] for i in idxs]
+        j = int(np.argmin(vals) if sense == "min" else np.argmax(vals))
+        i = idxs[j]
+        return {"value": vals[j], "f_GHz": rows[i]["f_GHz"]}
 
     summary = {
         "tag": tag,

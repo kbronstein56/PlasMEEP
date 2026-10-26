@@ -1,0 +1,328 @@
+{
+  "worst_iso_audit": {
+    "f_GHz": 4.1,
+    "value": -18.798610519528207
+  },
+  "worst_iso_obj": {
+    "f_GHz": 4.1,
+    "value": -18.798610519528207
+  },
+  "d_worst_iso_dB": 0.0,
+  "worst_IL_audit": {
+    "f_GHz": 4.1,
+    "value": 39.94474967863321
+  },
+  "worst_IL_obj": {
+    "f_GHz": 4.1,
+    "value": 39.94474967863321
+  },
+  "d_worst_IL_dB": 0.0,
+  "worst_J_audit": {
+    "f_GHz": 5.65,
+    "value": -0.8274935135172851
+  },
+  "worst_J_obj": {
+    "f_GHz": 5.7,
+    "value": -0.6572046777885242
+  },
+  "d_worst_J": 0.17028883572876086,
+  "pass_iso_bar": true,
+  "pass_IL_bar": true,
+  "must_add": [
+    {
+      "f_GHz": 5.65,
+      "reason": "global_worst_J",
+      "isolation_dB": -14.87550713874816,
+      "IL_dB": 20.88161887738128,
+      "J_A": -0.8274935135172851
+    }
+  ],
+  "between_grid_spikes": [
+    {
+      "f_GHz": 4.35,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": 0.3350891074439463,
+      "IL_dB": 11.285577960387114,
+      "J_A": -0.6446476449207724,
+      "neighbor_iso_min": 5.112684087841171,
+      "neighbor_IL_max": 8.812977650326147
+    },
+    {
+      "f_GHz": 4.45,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": -0.7468359596681005,
+      "IL_dB": 23.58345233472357,
+      "J_A": -0.42677665848305607,
+      "neighbor_iso_min": 8.918079617339307,
+      "neighbor_IL_max": 17.842596486890404
+    },
+    {
+      "f_GHz": 4.55,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": -3.7141648842722836,
+      "IL_dB": 14.170611732857607,
+      "J_A": -0.6885971142614946,
+      "neighbor_iso_min": 2.4362427245019416,
+      "neighbor_IL_max": 17.842596486890404
+    },
+    {
+      "f_GHz": 4.65,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors"
+      ],
+      "isolation_dB": 0.09244524976008917,
+      "IL_dB": 16.61110599877841,
+      "J_A": -0.45187595997862245,
+      "neighbor_iso_min": 2.4362427245019416,
+      "neighbor_IL_max": 6.68603515774645
+    },
+    {
+      "f_GHz": 4.75,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors"
+      ],
+      "isolation_dB": -0.892312832474107,
+      "IL_dB": 10.640735275010721,
+      "J_A": -0.46632774924343834,
+      "neighbor_iso_min": 1.5202554584708254,
+      "neighbor_IL_max": 9.559976204792704
+    },
+    {
+      "f_GHz": 4.85,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": -9.689030435586927,
+      "IL_dB": 16.572055444289212,
+      "J_A": -0.7749680804460058,
+      "neighbor_iso_min": -5.192526465797588,
+      "neighbor_IL_max": 18.558432665601327
+    },
+    {
+      "f_GHz": 5.05,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors"
+      ],
+      "isolation_dB": -4.519696805755923,
+      "IL_dB": 18.717041526030272,
+      "J_A": -0.4582959901177938,
+      "neighbor_iso_min": 3.6545521282642803,
+      "neighbor_IL_max": 14.47692527553883
+    },
+    {
+      "f_GHz": 5.15,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors"
+      ],
+      "isolation_dB": -2.100601673228609,
+      "IL_dB": 22.908542340497565,
+      "J_A": -0.6121199530341176,
+      "neighbor_iso_min": 2.238793790995329,
+      "neighbor_IL_max": 14.47692527553883
+    },
+    {
+      "f_GHz": 5.25,
+      "reasons": [
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": 1.1455992281375262,
+      "IL_dB": 9.725597676592855,
+      "J_A": -0.6730903409868709,
+      "neighbor_iso_min": -1.017823145596426,
+      "neighbor_IL_max": 13.632002175355431
+    },
+    {
+      "f_GHz": 5.35,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": -9.962890562489841,
+      "IL_dB": 17.745412636307016,
+      "J_A": -0.7814690090149995,
+      "neighbor_iso_min": -1.017823145596426,
+      "neighbor_IL_max": 13.632002175355431
+    },
+    {
+      "f_GHz": 5.65,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": -14.87550713874816,
+      "IL_dB": 20.88161887738128,
+      "J_A": -0.8274935135172851,
+      "neighbor_iso_min": -8.243726597197774,
+      "neighbor_IL_max": 19.4807954141551
+    },
+    {
+      "f_GHz": 5.85,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "IL_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": -12.114158109068503,
+      "IL_dB": 22.93158788447977,
+      "J_A": -0.5795880067070532,
+      "neighbor_iso_min": -1.3859661355688504,
+      "neighbor_IL_max": 17.973993229917415
+    },
+    {
+      "f_GHz": 5.95,
+      "reasons": [
+        "iso_spike_vs_neighbors",
+        "J_spike_vs_neighbors"
+      ],
+      "isolation_dB": -6.661742680392333,
+      "IL_dB": 12.59951534209212,
+      "J_A": -0.7631122767805544,
+      "neighbor_iso_min": -1.3859661355688504,
+      "neighbor_IL_max": 17.973993229917415
+    }
+  ],
+  "candidate_add": [
+    {
+      "f_GHz": 5.65,
+      "reasons": [
+        "near_worst_J"
+      ],
+      "isolation_dB": -14.87550713874816,
+      "IL_dB": 20.88161887738128,
+      "J_A": -0.8274935135172851,
+      "T_des": 0.010636703270829204
+    },
+    {
+      "f_GHz": 5.35,
+      "reasons": [
+        "near_worst_J"
+      ],
+      "isolation_dB": -9.962890562489841,
+      "IL_dB": 17.745412636307016,
+      "J_A": -0.7814690090149995,
+      "T_des": 0.01794029190838686
+    }
+  ],
+  "frequencies_to_add_GHz": [
+    4.35,
+    4.45,
+    4.55,
+    4.65,
+    4.75,
+    4.85,
+    5.05,
+    5.15,
+    5.25,
+    5.35,
+    5.65,
+    5.85,
+    5.95
+  ],
+  "recommended_new_objective_grid_GHz": [
+    4.0,
+    4.1,
+    4.2,
+    4.3,
+    4.4,
+    4.5,
+    4.55,
+    4.6,
+    4.7,
+    4.8,
+    4.85,
+    4.9,
+    5.0,
+    5.1,
+    5.2,
+    5.3,
+    5.35,
+    5.4,
+    5.5,
+    5.6,
+    5.625,
+    5.65,
+    5.7,
+    5.8,
+    5.85,
+    5.9,
+    5.95,
+    6.0
+  ],
+  "enrichment_needed": true,
+  "GRID_BARS": {
+    "worst_isolation_dB_change": 0.5,
+    "worst_IL_dB_change": 0.2
+  },
+  "audit_25MHz_local": {
+    "n_freq": 24,
+    "worst_J": {
+      "f_GHz": 5.625,
+      "value": -1.1527386847894843
+    },
+    "worst_iso": {
+      "f_GHz": 4.1,
+      "value": -18.798610519528207
+    },
+    "worst_IL": {
+      "f_GHz": 4.1,
+      "value": 39.94474967863321
+    },
+    "note": "Local windows around 4.1 and 5.65 (\u00b10.15 GHz)."
+  },
+  "25MHz_updates_worst_J": true,
+  "worst_J_was_50MHz": {
+    "f_GHz": 5.65,
+    "value": -0.8275
+  },
+  "worst_J_now_25MHz": {
+    "f_GHz": 5.625,
+    "value": -1.1527386847894843
+  },
+  "d_worst_J_50_to_25": 0.32523868478948426,
+  "frequencies_to_add_GHz_full": [
+    4.35,
+    4.45,
+    4.55,
+    4.65,
+    4.75,
+    4.85,
+    5.05,
+    5.15,
+    5.25,
+    5.35,
+    5.625,
+    5.65,
+    5.775,
+    5.85,
+    5.95
+  ],
+  "frequencies_to_add_GHz_priority": [
+    4.55,
+    4.85,
+    5.35,
+    5.625,
+    5.65,
+    5.85,
+    5.95
+  ],
+  "do_not_auto_reopt": true,
+  "justification": "Objective-grid worst iso/IL already at 4.1 GHz (on-grid). Between-grid soft-min failures: 5.625 GHz has J_A=-1.15 (worse than any obj-grid J). Additional 50 MHz midpoints show iso/J spikes vs neighbors. Add priority frequencies before any new L-BFGS run; do not change tau/alpha/C6/A."
+}

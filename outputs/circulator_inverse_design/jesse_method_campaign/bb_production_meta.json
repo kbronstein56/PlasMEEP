@@ -1,0 +1,39 @@
+{
+  "spec": "BROADBAND_PRODUCTION_SPEC_FROZEN.md",
+  "grade": "C",
+  "design_start": "opt_uniform_C",
+  "n_var": 16,
+  "symmetry": "C6",
+  "objective": "A_mode_preserving_via_production_J",
+  "tau": 0.05,
+  "alpha": 0.25,
+  "freqs_GHz": [
+    4.0,
+    4.1,
+    4.2,
+    4.3,
+    4.4,
+    4.5,
+    4.6,
+    4.7,
+    4.8,
+    4.9,
+    5.0,
+    5.1,
+    5.2,
+    5.3,
+    5.4,
+    5.5,
+    5.6,
+    5.7,
+    5.8,
+    5.9,
+    6.0
+  ],
+  "n_freq": 21,
+  "maxiter": 30,
+  "bounds": [
+    0.05,
+    1.8
+  ]
+}

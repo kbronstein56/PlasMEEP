@@ -1,64 +1,50 @@
 # Jesse broadband method summary
 
-All six advisor questions answered with measured numbers.
-**Production BB spec is frozen** (`BROADBAND_PRODUCTION_SPEC_FROZEN.md`).
-25 MHz upper-band audit **PASS** vs 50 MHz (worst iso/IL stay at 5.75 GHz, Δ=0).
+Production stage-1 BB opt **completed** (nit=30, J_BB −0.801 → **−0.529**).
+Dense audit shows **enrichment needed** before any restart.
+Design: `opt_broadband_production_C.json` (`q_best`).
 
-Continuum SF quote (not M-mesh): \(J\approx0.626\pm0.007\), iso \(\approx16.9\pm0.13\) dB.
+Continuum SF quote (not M-mesh): \(J\approx0.626\pm0.007\).
 
 ---
 
 ### 1. How many frequency points?
 
-No universal \(N\). Full-band: 200→100 and 100→50 fail frozen bars. Targeted
-**25 MHz on 5.50–6.00 GHz** vs band-restricted 50 MHz: worst iso/IL both at
-**5.75 GHz** with **Δ = 0** → **PASS**. Production: **100 MHz (21 pts)** initial
-objective + adaptive ≤50/25 MHz enrichment.
+Initial production used **21×100 MHz**. Post-opt 50 MHz: worst iso/IL already
+on-grid @ 4.1. Soft-min fails between grids: worst J moves **5.7 → 5.65 → 5.625**
+(J_A to **−1.15**). Add priority freqs before restart (see § enrichment).
 
 ### 2. How are narrow between-grid failures prevented?
 
-Fixed FoM set per L-BFGS → dense audit → add worst freqs → restart. Soft-min
-alone is insufficient.
+Fixed set per L-BFGS → dense audit → add worst freqs → restart. Stage-1 audit
+identified the list below; **do not auto-start** another 30-iter run.
 
-### 3. How is broadband differentiable?
+### 3–6. Differentiable BB / adjoint / efficiency
 
-\(J_{BB}=\alpha\mathrm{mean}+(1-\alpha)\mathrm{softmin}_\tau\), τ=0.05, α=0.25.
-E2E design FD **PASS** (rel \(3.08\times10^{-4}\)).
+Unchanged: soft-min τ=0.05 α=0.25; FD adjoint; latest cost assembly+dA dominant
+(LU ~9 s historical-84%-LU obsolete).
 
-### 4. JAX/autograd vs current adjoint?
+### 7–9. Mode / experiment / C6
 
-Ceviche = custom VJP = adjoint. Tiny JAX `custom_vjp` PASS. No FULL91 JAX port.
+Frozen: Objective A, C6.
 
-### 5. Is the current method a frequency-domain adjoint?
+### 10. Time-domain
 
-**Yes** — discrete bilinear \(A^\top\).
+Still planned; not blocking enrichment decision.
 
-### 6. What dominates compute time?
+### Stage-1 production result
 
-**Latest** FULL91-C efficient adjoint (~126 s): assembly **77.8 s**, LU **9.0 s**,
-adjoint RHS **1.8 s**, dA **36.8 s**. Dominant costs are **assembly + dA**, not
-adjoint RHS. Older “LU ≈84%” is **historical only**. Forward-mode agrees to
-**2×10⁻¹⁴** but is slower for scalar J.
+| | Value |
+|--|------:|
+| J_BB | −0.801 → **−0.529** |
+| mean / worst J (obj) | −0.442 / −0.657 @ 5.7 |
+| mean T_des / IL / iso / TE1 | 0.094 / 14.3 dB / 1.4 dB / 0.256 |
+| stop | iteration limit (30), 44 h |
 
-### 7. Does mode preservation matter?
+### Enrichment needed?
 
-Short opts: freeze **Objective A** (mode-preserving).
+**YES.** Priority frequencies to add to the objective set:
 
-### 8. Can mode content be measured experimentally?
+**`4.55, 4.85, 5.35, 5.625, 5.65, 5.85, 5.95`** (→ 28 freqs total)
 
-Not with VNA/horn alone. Near-field / dual-probe / measurement-aware receive FoM.
-
-### 9. Why C6 versus C3?
-
-C6 = six-port 60° choice; Fan is C3 for three ports. Freeze **C6**.
-
-### 10. How will time-domain validation be done?
-
-Meep 4–6 GHz pulse after gyrotropic gates; compare to FEM; do not tune FEM to Meep.
-
-### 11. Which papers most affected choices?
-
-Wang & Fan 2005; Hughes 2019; Hammond 2022; Gedeon 2026; Zhao 2025 / Wang PRL 2021;
-Mehrpour Bernety 2022; Li PRApplied 2022.
-
-Log: `docs/circulator_literature/LITERATURE_LOG.md`.
+Full spike list and rationale: `BB_ENRICHMENT_RECOMMENDATION.md`.

@@ -40,15 +40,24 @@ objective-grid frequency** and must be added before any restart.
 5.625, 5.65, 5.775, 5.85, 5.95
 ```
 
-## What NOT to change
+## What NOT to change (symmetry / soft-min)
 
-Frozen production choices remain: C6, Objective A, τ=0.05, α=0.25, mesh C.
-Only the **frequency set** should grow via enrichment restart.
+C6, τ=0.05, α=0.25, mesh C remain.
 
-## Suggested next step (manual approval)
+## SUPERSEDED: “keep Objective A”
 
-1. Restart L-BFGS from `q_best` in `opt_broadband_production_C.json`
-2. Use priority 28-frequency set (fixed for the whole run)
+Post-stage-1 alignment audit (`BB_OBJECTIVE_ALIGNMENT_AUDIT.md`,
+`BB_OBJECTIVE_A_VS_A2.md`) shows Objective A is **misaligned** with engineering
+quality (4.1 GHz IL≈40 dB ranks only ~11th-worst on the objective grid).
+**Do not** restart enrichment under Objective A.
+
+Stage-2 proposal: **Objective A2_hybrid + 28-frequency enrichment** — see
+`BROADBAND_PRODUCTION_SPEC_STAGE2_PROPOSED.md`. Do not auto-launch.
+
+## Suggested next step (manual approval — after A2 FD PASS)
+
+1. Warm-start L-BFGS from `q_best` in `opt_broadband_production_C.json`
+2. Objective **A2_hybrid**; priority **28**-frequency set (fixed for the whole run)
 3. After that run, re-audit at ≤50 MHz; do not auto-chain further opts
 
 Artifacts: `bb_final_audit_50MHz.json`, `bb_final_audit_25MHz_local.json`,

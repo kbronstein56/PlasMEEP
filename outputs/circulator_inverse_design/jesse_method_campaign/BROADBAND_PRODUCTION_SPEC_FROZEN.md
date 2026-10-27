@@ -4,6 +4,10 @@ Frozen **2026-10-22** after Jesse method campaign studies.
 Long 4–6 GHz optimization may start **only after** this file exists.
 This freeze does **not** itself launch that optimization.
 
+**Historical stage-1 freeze — do not overwrite.** Post-stage-1 objective
+realignment lives in `BROADBAND_PRODUCTION_SPEC_STAGE2_FROZEN.md`
+(Objective A2_hybrid + 28-freq enrichment). Stage-2 is also not auto-launched.
+
 ## Frozen choices
 
 | Item | Freeze |

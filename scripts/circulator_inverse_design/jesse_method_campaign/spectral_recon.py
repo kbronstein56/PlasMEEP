@@ -134,8 +134,30 @@ def summarize(tag, grade, rows):
     return summary
 
 
+def ensure_summary_fields(blob: dict, grade: str = "C") -> dict:
+    """Normalize an audit JSON to include worst_* keys expected by compare_grids.
+
+    Checkpoint files written mid-scan may only have ``rows``. Calling summarize()
+    on those rows produces the schema compare_grids requires.
+    """
+    required = ("worst_isolation_dB", "worst_IL_dB", "worst_RL_dB")
+    if all(k in blob and blob[k] is not None for k in required):
+        return blob
+    if "rows" not in blob or not blob["rows"]:
+        raise KeyError(
+            "audit blob missing both worst_* summary fields and rows; "
+            f"keys={sorted(blob.keys())}"
+        )
+    tag = blob.get("tag", "audit")
+    g = blob.get("grade", grade)
+    return summarize(tag, g, sorted(blob["rows"], key=lambda r: r["f_GHz"]))
+
+
 def compare_grids(coarse, fine):
     """Apply frozen bars: does fine change worst metrics vs coarse?"""
+    coarse = ensure_summary_fields(coarse)
+    fine = ensure_summary_fields(fine)
+
     def delta(a, b):
         return abs(a["value"] - b["value"])
 

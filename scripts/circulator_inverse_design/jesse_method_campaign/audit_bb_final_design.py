@@ -27,7 +27,12 @@ sys.path[:0] = [
 
 from eval_forward_only import eval_q_forward  # noqa: E402
 from multimode_opt_core import B_PLUS, orbits_and_masks  # noqa: E402
-from spectral_recon import GRID_BARS, compare_grids, summarize  # noqa: E402
+from spectral_recon import (  # noqa: E402
+    GRID_BARS,
+    compare_grids,
+    ensure_summary_fields,
+    summarize,
+)
 
 F_OBJ = [4.0 + 0.1 * i for i in range(21)]
 
@@ -206,7 +211,7 @@ def main():
         # also compare 50 vs 25 if present
         p25 = OUT / "bb_final_audit_25MHz_local.json"
         if p25.exists():
-            a25 = json.loads(p25.read_text())
+            a25 = ensure_summary_fields(json.loads(p25.read_text()), grade=args.grade)
             # restrict 50 to span of 25
             f_lo = min(r["f_GHz"] for r in a25["rows"])
             f_hi = max(r["f_GHz"] for r in a25["rows"])

@@ -1,0 +1,49 @@
+{
+  "single_frequency": {
+    "f_GHz": 3.85,
+    "orbit": 1,
+    "h": 0.0003,
+    "J_A2": -6.390435511590453,
+    "g_analytic": 4.895701633969373,
+    "g_fd": 4.895787417988906,
+    "rel_err": 1.752231364304639e-05,
+    "pass": true,
+    "A2_FREEZE": {
+      "name": "A2_hybrid",
+      "eps": 1e-06,
+      "formula": "2*log(Tdes+eps)-log(Trev+eps)-W_thr*Tthr-W_leak*Tother-W_refl*R-W_te1*TE1",
+      "W_THR": 1.5,
+      "W_LEAK": 1.0,
+      "W_REFL": 0.25,
+      "W_TE1": 1.0,
+      "note": "No IL/isolation hard thresholds. log(Tdes) forces useful transmission; log(Tdes/Trev) enforces isolation. Pathological Tdes\u2248Trev\u22480 \u2192 J\u2192\u2212\u221e."
+    },
+    "FD_REL_BAR": 0.001
+  },
+  "softmin_3freq": {
+    "freqs_Hz": [
+      4000000000.0,
+      5000000000.0,
+      5625000000.0
+    ],
+    "tau": 0.05,
+    "alpha": 0.25,
+    "J_per_freq": [
+      -4.472240117220818,
+      0.57395871135502,
+      -6.100949846852731
+    ],
+    "J_BB": -5.367783695374372,
+    "weights": [
+      0.08333333333333867,
+      0.08333333333333333,
+      0.833333333333328
+    ],
+    "orbit": 1,
+    "g_analytic": 8.502950139218507,
+    "g_fd": 8.502604184109272,
+    "rel_err": 4.068647981832275e-05,
+    "pass": true
+  },
+  "pass": true
+}

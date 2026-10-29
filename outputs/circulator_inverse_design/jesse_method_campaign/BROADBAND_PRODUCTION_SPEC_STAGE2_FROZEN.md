@@ -1,7 +1,13 @@
 # BROADBAND_PRODUCTION_SPEC_STAGE2_FROZEN
 
 Frozen **2026-10-27** after Objective A2 offline ranking + FD validation.
-This freeze does **not** itself launch stage-2 optimization.
+
+**Version history**
+- 2026-10-27: initial Stage-2 freeze (A2_hybrid, τ=0.05, α=0.25, 28 freqs).
+- 2026-10-28: soft-min scale sensitivity accepted — **τ/α unchanged**
+  (`A2_SOFTMIN_SCALE_SENSITIVITY.md`). Stage-2 optimization **authorized**
+  via `production_broadband_opt_stage2.py` (checkpointed, restartable).
+  Do not reopen τ/α unless Stage-2 shows a concrete optimization pathology.
 
 Stage-1 historical freeze remains authoritative for the completed 21-freq run:
 `BROADBAND_PRODUCTION_SPEC_FROZEN.md` — **do not overwrite**.
@@ -49,7 +55,8 @@ Stage-1 historical freeze remains authoritative for the completed 21-freq run:
 
 ## Explicit non-goals of this freeze
 
-- Does **not** auto-start the 28-frequency optimization.
+- Does not reopen τ/α/objective mid-run without concrete pathology evidence.
+- Does not auto-start Stage-3 or further enrichment during an active L-BFGS run.
 - Does not reopen DtN / gyrotropic absorption validation.
 - Does not claim stage-1 spectra meet engineering IL/isolation targets.
 - Does not authorize quoting M-mesh single-frequency J as continuum physics.

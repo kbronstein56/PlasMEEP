@@ -156,7 +156,60 @@ Classification: `CORE` | `DIRECTLY_USEFUL` | `BACKGROUND` | `NOT_APPLICABLE`
 
 ---
 
+## LIT-010 — Hammond / MIT–Meep multimode converters (minimax broadband)
+
+| Field | Value |
+|-------|--------|
+| Citation | A. M. Hammond et al., topology-optimized SiN TE00→TE01 / TE00→TE02 converters (Meep adjoint; five-frequency C-band minimax). NSF PAR: https://par.nsf.gov/servlets/purl/10503621 |
+| Status | Conference / open report |
+| Method | Density TO + hybrid time–frequency adjoint; **minimax over frequencies** for flat-band |
+| Why it matters | Independent confirmation that broadband photonic TO commonly uses worst-case / minimax aggregation — analogous to our soft-min BB FoM (τ→0 ≈ minimax). |
+| Idea | Keep Stage-2 τ=0.05 as intentional near-minimax; do not soften without pathology. |
+| Class | **DIRECTLY_USEFUL** |
+| Code change? | None (supports existing freeze). |
+
+---
+
+## LIT-011 — Chen & Johnson (2024) inverse-design validation suite
+
+| Field | Value |
+|-------|--------|
+| Citation | M. Chen, S. G. Johnson, “Validation and characterization of algorithms and software for photonics inverse design,” (2024). https://math.mit.edu/~stevenj/papers/ChenCh24.pdf |
+| Status | Paper / open PDF |
+| Method | Shared test problems exercising minimax / worst-case FoMs; independent solver validation of optimized designs |
+| Why it matters | Methodological hygiene: quote continuum / independent checks; do not treat optimizer J as physics. Aligns with PlasMEEP validation ladder. |
+| Class | **DIRECTLY_USEFUL** |
+| Code change? | None. |
+
+---
+
+## LIT-012 — EngOpt 2026 abstracts: stochastic robust TO vs broadband
+
+| Field | Value |
+|-------|--------|
+| Citation | EngOpt 2026 Book of Abstracts — “Tailoring robust photonic components using stochastic topology optimization” (p-mean / Monte Carlo boundary perturbations); “Broadband optimization and robustness to geometric imperfections of nanophotonic designs” (broadband as stochastic-free robustness proxy). https://engopt2026.tecnico.ulisboa.pt/ |
+| Status | Conference abstracts |
+| Why it matters | Literature increasingly treats **broadband optimization as a robustness surrogate**. Our Stage-2 A2+enrichment is frequency-robustness (spectrum holes), not fabrication-stochastic — keep that distinction explicit in talks. |
+| Class | **BACKGROUND** |
+| Code change? | None. |
+
+---
+
+## LIT-013 — SPIE 2023 robust inverse design / shape vs TO
+
+| Field | Value |
+|-------|--------|
+| Citation | “Inverse design of robust photonic components,” Proc. SPIE (2023). https://doi.org/10.1117/12.2650529 |
+| Status | Conference proceedings |
+| Idea | Parameterized shape opt often more fabrication-robust than free TO; fabrication-aware penalties |
+| Why it matters | Our C6 orbit parameterization is already a shape-like reduction (16 vars) — robustness narrative for talks without claiming stochastic TO. |
+| Class | **BACKGROUND** |
+| Code change? | None. |
+
+---
+
 ## Search hygiene
 
 Preferred sources: DOI / publisher / Crossref. Preprints labeled.  
-Next pass triggers: new BB objective freeze; C3 results; TD Meep disagreements; new multimode circulator papers 2025–2026.
+Pass **2026-11-01** (post Stage-2): minimax/broadband robust TO + inverse-design validation suite.  
+Next pass triggers: Stage-2 dense-audit enrichment decision; continuum F/Q/X2; TD Meep disagreements.

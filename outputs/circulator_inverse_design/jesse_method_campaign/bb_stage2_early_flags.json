@@ -1,0 +1,13 @@
+{
+  "n": 5,
+  "complete": true,
+  "T_des_4p1_start": 0.0003359061449791114,
+  "T_des_4p1_iter5": 0.1358007998051362,
+  "IL_4p1_iter5": 8.677757957849488,
+  "iso_4p1_iter5": 7.160274949718674,
+  "A2_4p1_start": -13.880949134659017,
+  "A2_4p1_iter5": -0.8549254829912356,
+  "flags": [],
+  "abort": false,
+  "note": "Flags only \u2014 do not auto-abort; report before changing tau/alpha/objective."
+}

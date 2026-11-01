@@ -1,8 +1,9 @@
 # Jesse broadband method summary
 
-Production stage-1 BB opt **completed** (nit=30, J_BB −0.801 → **−0.529**).
-Dense audit shows **enrichment needed** before any restart.
-Design: `opt_broadband_production_C.json` (`q_best`).
+**Stage-2 COMPLETE** (A2_hybrid + 28-freq enrichment).  
+Stage-1 historical freeze remains `BROADBAND_PRODUCTION_SPEC_FROZEN.md`.  
+Stage-2 freeze: `BROADBAND_PRODUCTION_SPEC_STAGE2_FROZEN.md`.  
+**Do not auto-start Stage-3.**
 
 Continuum SF quote (not M-mesh): \(J\approx0.626\pm0.007\).
 
@@ -10,41 +11,54 @@ Continuum SF quote (not M-mesh): \(J\approx0.626\pm0.007\).
 
 ### 1. How many frequency points?
 
-Initial production used **21×100 MHz**. Post-opt 50 MHz: worst iso/IL already
-on-grid @ 4.1. Soft-min fails between grids: worst J moves **5.7 → 5.65 → 5.625**
-(J_A to **−1.15**). Add priority freqs before restart (see § enrichment).
+Stage-1 trained on **21×100 MHz**. Dense audit found soft-min hole at **5.625 GHz**.  
+Stage-2 used **28** fixed frequencies (21 + enrichment). Post-Stage-2 **50 MHz** audit
+is the next sampling check (in progress / see `bb_stage2_audit_50MHz.json`).
 
 ### 2. How are narrow between-grid failures prevented?
 
-Fixed set per L-BFGS → dense audit → add worst freqs → restart. Stage-1 audit
-identified the list below; **do not auto-start** another 30-iter run.
+Fixed set per L-BFGS → dense audit → add worst freqs → restart.  
+Stage-1 → Stage-2 already applied this once. Further enrichment only after Stage-2 audit.
 
 ### 3–6. Differentiable BB / adjoint / efficiency
 
-Unchanged: soft-min τ=0.05 α=0.25; FD adjoint; latest cost assembly+dA dominant
-(LU ~9 s historical-84%-LU obsolete).
+Soft-min τ=0.05 α=0.25 retained after A2 scale sensitivity
+(`A2_SOFTMIN_SCALE_SENSITIVITY.md`): at Stage-2 start τ∈[0.05,0.50] was a weighting
+no-op; α=0.25 supplies multi-freq floor. FD discrete adjoint; no JAX production.
 
 ### 7–9. Mode / experiment / C6
 
-Frozen: Objective A, C6.
+**Objective A2_hybrid** (mode-preserving TE0; log transmission + log isolation).  
+C6 unchanged. Objective A retained only as Stage-1 historical FoM.
 
 ### 10. Time-domain
 
-Still planned; not blocking enrichment decision.
+Still planned; not blocking post-Stage-2 audit.
 
-### Stage-1 production result
+### Stage-1 production result (historical)
 
 | | Value |
 |--|------:|
+| FoM | Objective A |
 | J_BB | −0.801 → **−0.529** |
-| mean / worst J (obj) | −0.442 / −0.657 @ 5.7 |
-| mean T_des / IL / iso / TE1 | 0.094 / 14.3 dB / 1.4 dB / 0.256 |
-| stop | iteration limit (30), 44 h |
+| mean T_des / IL / iso | 0.094 / 14.3 dB / 1.4 dB |
+| pathology | 4.1 GHz IL≈40 dB under-penalized by A |
 
-### Enrichment needed?
+### Stage-2 production result
 
-**YES.** Priority frequencies to add to the objective set:
+| | Value |
+|--|------:|
+| FoM | **A2_hybrid** |
+| freqs | **28** |
+| J_BB | −11.33 → **−6.229** |
+| 4.1 GHz | T_des 3.4e-4→**0.141**, IL 40→**8.5 dB**, iso −19→**+7.1 dB** |
+| final worst | A2 −7.40 @ **5.65 GHz** (IL≈18.5, iso≈−11.9) |
+| early flags | **none** |
+| wall | ~78 h / 30 L-BFGS iters |
 
-**`4.55, 4.85, 5.35, 5.625, 5.65, 5.85, 5.95`** (→ 28 freqs total)
+Details: `BB_STAGE2_RESULTS.md`, `BB_STAGE1_VS_STAGE2.md`.
 
-Full spike list and rationale: `BB_ENRICHMENT_RECOMMENDATION.md`.
+### Enrichment / Stage-3?
+
+**Pending Stage-2 50/25 MHz audit.** Do not launch another long opt without documenting:
+why needed, exact added frequencies, objective, start design, scientific question.

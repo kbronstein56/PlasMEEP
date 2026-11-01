@@ -428,9 +428,10 @@ def main():
                 FINAL_PATH,
                 {
                     "meta": meta,
-                    "status": "in_progress",
+                    "status": payload.get("status", "in_progress"),
                     "elapsed_s": elapsed(),
                     "accepted_nit": accepted_nit,
+                    "accepted_nit_total": accepted_nit,
                     "q0_stage2_start": q0_start.tolist(),
                     "q_best": best["q"].tolist(),
                     "J_BB_best": best["J_BB"],

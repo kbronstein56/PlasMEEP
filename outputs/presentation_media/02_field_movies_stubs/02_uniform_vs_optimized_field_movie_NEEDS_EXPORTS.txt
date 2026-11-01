@@ -1,0 +1,19 @@
+
+REQUIRED EXPORTS (not present yet — do not invent):
+
+02_uniform_vs_optimized_field_movie
+  - Complex Hz on a common XY grid for:
+      * uniform start design, source P1, selected f (e.g. 4.1 and/or final worst)
+      * Stage-2 best design (q_best from opt_broadband_stage2_A2_C.json), same f/src
+  - Files ideally: Hz_real.npy, Hz_imag.npy, x.npy, y.npy, meta.json
+    meta.json: {f_GHz, B_tesla, source_port, design_tag, units, solver, mesh_grade}
+
+03_circulation_field_movie (B+ sense)
+  - Same complex Hz export for Stage-2 best at a well-behaved frequency
+  - Optional companion: B reversed (B_MINUS) for Onsager/circulation sense check
+
+ANIMATION RULE (when exports arrive):
+  frame(t) = Re[ (Hz_real + 1j*Hz_imag) * exp(-1j * omega * t) ]
+  DO NOT animate |Hz| as oscillating.
+  Label every frame: SIMULATION · Re[Hz e^{-iωt}] · f=… · B=± …
+  Keep port numbering P1…P6 and desired=(j+1)%6 for B_PLUS consistent.

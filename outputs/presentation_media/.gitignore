@@ -1,0 +1,7 @@
+# Heavy / ephemeral media artifacts — commit scripts, docs, posters, small GIFs only
+**/frames/
+_scratch/
+*.mp4
+norm_cache/
+nohup.out
+*.log

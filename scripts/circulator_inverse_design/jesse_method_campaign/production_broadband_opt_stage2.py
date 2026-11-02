@@ -54,6 +54,7 @@ from objective_A2 import (  # noqa: E402
     objective_A2_from_S,
     scalar_adjoint_rhs_A2,
 )
+from a2_efficient_core import eval_bb_A2 as eval_bb_A2_core  # noqa: E402
 
 # Frozen Stage-2 frequency grid (GHz)
 F_OBJ_GHZ = [
@@ -140,42 +141,32 @@ def eval_and_grad_A2(grade, q, orbits, f_hz, b_tesla=B_PLUS, eps=EPS):
     return {"J": J, "S": S, "metrics": met}, g, s
 
 
-def eval_bb_A2(grade, q, orbits, freqs_hz, tau=TAU_FREEZE, alpha=ALPHA_FREEZE):
-    Js, gs, mets = [], [], []
-    for f in freqs_hz:
-        bun, g, _ = eval_and_grad_A2(grade, q, orbits, f_hz=float(f))
-        Js.append(bun["J"])
-        gs.append(g)
-        mets.append(bun["metrics"])
-    Js = np.asarray(Js, float)
-    J_bb, w, J_soft, J_mean, p = softmin_bb(Js, tau=tau, alpha=alpha)
-    g_bb = sum(wi * gi for wi, gi in zip(w, gs))
-    worst_i = int(np.argmin(Js))
-    idx_41 = int(np.argmin(np.abs(np.asarray(freqs_hz) / 1e9 - 4.1)))
-    return {
-        "J_BB": float(J_bb),
-        "J_softmin": float(J_soft),
-        "J_mean": float(J_mean),
-        "J_per_freq": Js.tolist(),
-        "weights": np.asarray(w, float).tolist(),
-        "softmax_p": np.asarray(p, float).tolist(),
-        "freqs_Hz": [float(f) for f in freqs_hz],
-        "freqs_GHz": [float(f) / 1e9 for f in freqs_hz],
-        "metrics_per_freq": mets,
-        "grad_q": np.asarray(g_bb, float),
-        "grad_norm": float(np.linalg.norm(g_bb)),
-        "tau": tau,
-        "alpha": alpha,
-        "worst_J": float(Js[worst_i]),
-        "worst_f_Hz": float(freqs_hz[worst_i]),
-        "worst_f_GHz": float(freqs_hz[worst_i] / 1e9),
-        "worst_metrics": mets[worst_i],
-        "metrics_4p1": mets[idx_41],
-        "J_4p1": float(Js[idx_41]),
-        "max_weight": float(np.max(w)),
-        "N_eff": float(1.0 / np.sum(np.asarray(w, float) ** 2)),
-        "top5_weights": _top_weights(freqs_hz, w, Js, 5),
-    }
+def eval_bb_A2(
+    grade,
+    q,
+    orbits,
+    freqs_hz,
+    tau=TAU_FREEZE,
+    alpha=ALPHA_FREEZE,
+    n_workers: int = 1,
+    omp_threads_per_worker: int = 1,
+):
+    """Broadband A2 eval+grad. n_workers=1 (default) is serial; >1 is process-parallel.
+
+    Parallel path is opt-in only; must match serial J/grad to numerical precision.
+    Does not change A2 mathematics.
+    """
+    return eval_bb_A2_core(
+        grade,
+        q,
+        orbits,
+        freqs_hz,
+        tau=tau,
+        alpha=alpha,
+        n_workers=n_workers,
+        omp_threads_per_worker=omp_threads_per_worker,
+        profile=False,
+    )
 
 
 def _top_weights(freqs_hz, w, Js, k=5):
@@ -311,6 +302,18 @@ def main():
     ap.add_argument("--alpha", type=float, default=ALPHA_FREEZE)
     ap.add_argument("--resume", action="store_true", default=True)
     ap.add_argument("--no-resume", action="store_false", dest="resume")
+    ap.add_argument(
+        "--n-workers",
+        type=int,
+        default=1,
+        help="Process-parallel frequency workers (default 1=serial). Opt-in only.",
+    )
+    ap.add_argument(
+        "--omp-threads-per-worker",
+        type=int,
+        default=1,
+        help="OMP/OPENBLAS/MKL threads inside each worker when n_workers>1.",
+    )
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
 
@@ -380,7 +383,14 @@ def main():
         n_eval += 1
         print(f"EVAL #{n_eval} (accepted_nit={accepted_nit}) ...", flush=True)
         rec = eval_bb_A2(
-            args.grade, q, orbits, freqs, tau=args.tau, alpha=args.alpha
+            args.grade,
+            q,
+            orbits,
+            freqs,
+            tau=args.tau,
+            alpha=args.alpha,
+            n_workers=args.n_workers,
+            omp_threads_per_worker=args.omp_threads_per_worker,
         )
         cache.clear()
         cache[key] = rec
@@ -456,6 +466,12 @@ def main():
         "maxiter": args.maxiter,
         "bounds": [BOUNDS[0], BOUNDS[1]],
         "warm_start": "opt_broadband_production_C.json q_best",
+        "n_workers": int(args.n_workers),
+        "omp_threads_per_worker": int(args.omp_threads_per_worker),
+        "freq_parallel_note": (
+            "n_workers=1 is serial (default). n_workers>1 enables process-parallel "
+            "frequency evals via a2_efficient_core (opt-in; verify serial equivalence)."
+        ),
     }
     _atomic_write(META_PATH, meta)
     q0_start = q0.copy()

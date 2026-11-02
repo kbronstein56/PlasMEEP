@@ -1,0 +1,395 @@
+{
+  "machine": {
+    "nproc": 8,
+    "mem_GiB_total": 251.58342361450195,
+    "nproc_host_note": "Profiler subprocess nproc returned 8; host /proc reports more \u2014 use host count for capacity planning. Process-parallel uses distinct processes."
+  },
+  "design": "opt_broadband_stage2_A2_C.json q_best",
+  "grade": "C",
+  "stage2_historical": {
+    "elapsed_s": 281238.1991,
+    "n_eval": 83,
+    "accepted_nit": 30,
+    "n_freq": 28,
+    "note": "From completed Stage-2 run; ~n_eval BB evals \u00d7 28 serial freqs",
+    "s_per_freq": 121.01471561962136,
+    "hours": 78.12172197222223
+  },
+  "solver": {
+    "path": "scipy.sparse.linalg.splu \u2192 SuperLU",
+    "umfpack": false,
+    "pypardiso": false,
+    "lu_per_frequency": 1,
+    "forward_rhs_per_frequency": 6,
+    "adjoint_rhs_per_frequency": 6,
+    "frequencies_currently": "SERIAL in eval_bb_A2 for-loop"
+  },
+  "thread_env_at_start": {
+    "OMP_NUM_THREADS": "8",
+    "OPENBLAS_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "8"
+  },
+  "single_freq_profile_OMP8": {
+    "f_GHz": 5.65,
+    "wall_s": 151.39483210397884,
+    "timings": {
+      "expand_s": 6.363890133798122e-05,
+      "assemble_build_system": 94.53496568393894,
+      "pack_ports": 0.0316294739022851,
+      "factor_lu": 9.906568624079227,
+      "rss_GiB_after_factor": 2.2510147094726562,
+      "forward_te0_rhs": 0.9166476458776742,
+      "S_and_objective": 0.07401646603830159,
+      "adjoint_te0_rhs": 2.5524667168501765,
+      "dA_contraction": 43.1643537171185,
+      "total": 151.18108842801303,
+      "rss_GiB_start": 0.3324241638183594,
+      "rss_GiB_end": 3.0665359497070312,
+      "n_lu": 1,
+      "n_forward_rhs": 6,
+      "n_adjoint_rhs": 6,
+      "n_dof": 823166,
+      "omp_num_threads": "8",
+      "openblas_num_threads": "8",
+      "mkl_num_threads": "8"
+    },
+    "grad_norm": 81.9814252282547,
+    "J": -7.397052332095767,
+    "cpu_sample_during_second_call": {
+      "sample_wall_s": 2.0161166810430586,
+      "cpu_seconds": 2.02,
+      "cpu_utilization_equiv_cores": 1.0019261380025546
+    },
+    "note": "OMP/OPENBLAS/MKL affect dense BLAS inside SuperLU/SciPy where used; SuperLU factorization itself is largely serial. Measure equiv_cores during the call \u2014 not just env vars."
+  },
+  "thread_sweep_single_freq": [
+    {
+      "omp_threads": 1,
+      "wall_s": 152.8059931290336,
+      "timings": {
+        "expand_s": 6.38389028608799e-05,
+        "assemble_build_system": 94.34771903790534,
+        "pack_ports": 0.03869463689625263,
+        "factor_lu": 10.177786006126553,
+        "rss_GiB_after_factor": 2.311359405517578,
+        "forward_te0_rhs": 0.9518188529182225,
+        "S_and_objective": 0.059018611907958984,
+        "adjoint_te0_rhs": 2.4953940219711512,
+        "dA_contraction": 44.523782200878486,
+        "total": 152.5944578750059,
+        "rss_GiB_start": 0.4000511169433594,
+        "rss_GiB_end": 3.1257781982421875,
+        "n_lu": 1,
+        "n_forward_rhs": 6,
+        "n_adjoint_rhs": 6,
+        "n_dof": 823166,
+        "omp_num_threads": "1",
+        "openblas_num_threads": "1",
+        "mkl_num_threads": "1"
+      },
+      "cpu_sample": {
+        "sample_wall_s": 3.000328922877088,
+        "cpu_seconds": 3.0,
+        "cpu_utilization_equiv_cores": 0.9998903710607926
+      },
+      "rss_GiB": 3.1257781982421875
+    },
+    {
+      "omp_threads": 2,
+      "wall_s": 153.76136552286334,
+      "timings": {
+        "expand_s": 4.6405941247940063e-05,
+        "assemble_build_system": 93.92173631908372,
+        "pack_ports": 0.03064331505447626,
+        "factor_lu": 10.3560797709506,
+        "rss_GiB_after_factor": 2.3248214721679688,
+        "forward_te0_rhs": 1.1125108858104795,
+        "S_and_objective": 0.091436673887074,
+        "adjoint_te0_rhs": 2.7097877408377826,
+        "dA_contraction": 45.33028222806752,
+        "total": 153.55271922494285,
+        "rss_GiB_start": 0.4368095397949219,
+        "rss_GiB_end": 3.1403427124023438,
+        "n_lu": 1,
+        "n_forward_rhs": 6,
+        "n_adjoint_rhs": 6,
+        "n_dof": 823166,
+        "omp_num_threads": "2",
+        "openblas_num_threads": "2",
+        "mkl_num_threads": "2"
+      },
+      "cpu_sample": {
+        "sample_wall_s": 3.000419415999204,
+        "cpu_seconds": 3.0,
+        "cpu_utilization_equiv_cores": 0.999860214209731
+      },
+      "rss_GiB": 3.1403427124023438
+    },
+    {
+      "omp_threads": 4,
+      "wall_s": 154.19777714507654,
+      "timings": {
+        "expand_s": 5.653593689203262e-05,
+        "assemble_build_system": 95.82345040002838,
+        "pack_ports": 0.039143207017332315,
+        "factor_lu": 10.108088098932058,
+        "rss_GiB_after_factor": 2.3267974853515625,
+        "forward_te0_rhs": 0.8620429241564125,
+        "S_and_objective": 0.060751029988750815,
+        "adjoint_te0_rhs": 2.491462972946465,
+        "dA_contraction": 44.602864352054894,
+        "total": 153.9880860520061,
+        "rss_GiB_start": 0.477630615234375,
+        "rss_GiB_end": 3.1421775817871094,
+        "n_lu": 1,
+        "n_forward_rhs": 6,
+        "n_adjoint_rhs": 6,
+        "n_dof": 823166,
+        "omp_num_threads": "4",
+        "openblas_num_threads": "4",
+        "mkl_num_threads": "4"
+      },
+      "cpu_sample": {
+        "sample_wall_s": 3.000523022841662,
+        "cpu_seconds": 2.99,
+        "cpu_utilization_equiv_cores": 0.9964929371441063
+      },
+      "rss_GiB": 3.1421775817871094
+    },
+    {
+      "omp_threads": 8,
+      "wall_s": 153.63581210304983,
+      "timings": {
+        "expand_s": 5.262787453830242e-05,
+        "assemble_build_system": 95.522663887823,
+        "pack_ports": 0.032778234919533134,
+        "factor_lu": 9.90803171088919,
+        "rss_GiB_after_factor": 2.346019744873047,
+        "forward_te0_rhs": 0.9364752019755542,
+        "S_and_objective": 0.058698263950645924,
+        "adjoint_te0_rhs": 2.5969993858598173,
+        "dA_contraction": 44.388172348961234,
+        "total": 153.4440580618102,
+        "rss_GiB_start": 0.5030975341796875,
+        "rss_GiB_end": 3.1613998413085938,
+        "n_lu": 1,
+        "n_forward_rhs": 6,
+        "n_adjoint_rhs": 6,
+        "n_dof": 823166,
+        "omp_num_threads": "8",
+        "openblas_num_threads": "8",
+        "mkl_num_threads": "8"
+      },
+      "cpu_sample": {
+        "sample_wall_s": 3.000418768962845,
+        "cpu_seconds": 3.0,
+        "cpu_utilization_equiv_cores": 0.9998604298282703
+      },
+      "rss_GiB": 3.1613998413085938
+    }
+  ],
+  "parallel_probe": {
+    "freqs_GHz": [
+      4.1,
+      5.0,
+      5.65,
+      5.75
+    ],
+    "rows": [
+      {
+        "n_workers": 1,
+        "omp_per_worker": "parent_threads",
+        "wall_s": 626.5358080391306,
+        "J_BB": -9.359956628790188,
+        "grad_norm": 219.84899140601303,
+        "J_per_freq": [
+          -0.8388010950555528,
+          0.3947472216762926,
+          -7.397052332095767,
+          -10.980767420910764
+        ],
+        "mode": "serial",
+        "rss_parent_GiB": 0.5785369873046875
+      },
+      {
+        "n_workers": 2,
+        "omp_per_worker": 1,
+        "wall_s": 341.2946478438098,
+        "J_BB": -9.359956628790105,
+        "grad_norm": 219.84899140600965,
+        "J_per_freq": [
+          -0.8388010950555547,
+          0.3947472216763605,
+          -7.3970523320955435,
+          -10.980767420910682
+        ],
+        "speedup_vs_serial": 1.8357621837827902,
+        "rel_err_J_BB": 8.919781871104998e-15,
+        "rel_err_grad": 3.2914630710443653e-13,
+        "max_abs_err_J_per_freq": 2.2382096176443156e-13,
+        "pass_equivalence": true,
+        "mode": "process_parallel",
+        "rss_parent_GiB": 0.5478782653808594
+      },
+      {
+        "n_workers": 4,
+        "omp_per_worker": 1,
+        "wall_s": 213.5266659008339,
+        "J_BB": -9.359956628790105,
+        "grad_norm": 219.84899140600965,
+        "J_per_freq": [
+          -0.8388010950555547,
+          0.3947472216763605,
+          -7.3970523320955435,
+          -10.980767420910682
+        ],
+        "speedup_vs_serial": 2.9342274670747988,
+        "rel_err_J_BB": 8.919781871104998e-15,
+        "rel_err_grad": 3.2914630710443653e-13,
+        "max_abs_err_J_per_freq": 2.2382096176443156e-13,
+        "pass_equivalence": true,
+        "mode": "process_parallel",
+        "rss_parent_GiB": 0.547882080078125
+      },
+      {
+        "n_workers": 6,
+        "omp_per_worker": 1,
+        "wall_s": 215.1447227539029,
+        "J_BB": -9.359956628790105,
+        "speedup_vs_serial": 2.9121597779361044,
+        "rel_err_J_BB": 8.919781871104998e-15,
+        "rel_err_grad": 3.2914630710443653e-13,
+        "pass_equivalence": true,
+        "mode": "process_parallel"
+      }
+    ]
+  },
+  "stage3_estimate": {
+    "n_freq": 30,
+    "freqs_GHz": [
+      4.0,
+      4.1,
+      4.2,
+      4.3,
+      4.4,
+      4.5,
+      4.55,
+      4.6,
+      4.7,
+      4.8,
+      4.85,
+      4.9,
+      5.0,
+      5.1,
+      5.2,
+      5.3,
+      5.35,
+      5.4,
+      5.5,
+      5.6,
+      5.625,
+      5.65,
+      5.7,
+      5.75,
+      5.8,
+      5.825,
+      5.85,
+      5.9,
+      5.95,
+      6.0
+    ],
+    "s_per_freq_basis": 121.01471561962136,
+    "s_per_freq_source": "stage2_historical",
+    "assumed_n_evals": 84.0,
+    "evals_per_accepted_from_stage2": 2.7666666666666666,
+    "wall_hours_current_serial": 84.71030093373494,
+    "best_verified_parallel": {
+      "n_workers": 4,
+      "omp_per_worker": 1,
+      "wall_s": 213.5266659008339,
+      "J_BB": -9.359956628790105,
+      "grad_norm": 219.84899140600965,
+      "J_per_freq": [
+        -0.8388010950555547,
+        0.3947472216763605,
+        -7.3970523320955435,
+        -10.980767420910682
+      ],
+      "speedup_vs_serial": 2.9342274670747988,
+      "rel_err_J_BB": 8.919781871104998e-15,
+      "rel_err_grad": 3.2914630710443653e-13,
+      "max_abs_err_J_per_freq": 2.2382096176443156e-13,
+      "pass_equivalence": true,
+      "mode": "process_parallel",
+      "rss_parent_GiB": 0.547882080078125
+    },
+    "wall_hours_with_best_parallel": 28.869711664918967,
+    "speedup_applied": 2.9342274670747988,
+    "note": "Estimate only; line-search eval count varies. Stage-3 NOT launched."
+  },
+  "work_classification": {
+    "frequencies": "independent \u2014 SAFE to process-parallel",
+    "within_frequency_assemble": "serial (mesh/materials)",
+    "within_frequency_SuperLU_factor": "largely serial (SuperLU default)",
+    "within_frequency_forward_6RHS": "serial backsolves after factor; could batch",
+    "within_frequency_adjoint_6RHS": "serial backsolves after factor; could batch",
+    "within_frequency_dA_orbits": "serial over 16 orbits; threaded BLAS may help mats",
+    "OMP_OPENBLAS_MKL": "Affect dense kernels / some sparse internals; do NOT treat as frequency parallelism. High OMP with process workers causes oversubscription."
+  },
+  "recommendation": {
+    "production_default": "serial (n_workers=1) until operator enables parallel",
+    "safe_fast_config": {
+      "n_workers": 4,
+      "omp_threads_per_worker": 1,
+      "parent_OMP": 1,
+      "enabled_via": "--n-workers N on production_broadband_opt_stage2.py"
+    },
+    "do_not": "blindly set OMP=64 or n_workers=64",
+    "stage3_status": "NOT STARTED / AWAITING AUTHORIZATION"
+  },
+  "stage3_refined_estimate": {
+    "n_freq": 30,
+    "n_evals_assumed": 83,
+    "s_per_freq_historical": 121.01471561962136,
+    "wall_hours_serial": 83.7018449702381,
+    "by_n_workers": {
+      "1": {
+        "batches": 30,
+        "projected_speedup": 1.0,
+        "wall_hours": 83.7018449702381,
+        "peak_RAM_GiB_est": 3.1,
+        "active_cores_est": 1
+      },
+      "2": {
+        "batches": 15,
+        "projected_speedup": 1.84,
+        "wall_hours": 45.49013313599896,
+        "peak_RAM_GiB_est": 6.2,
+        "active_cores_est": 2
+      },
+      "4": {
+        "batches": 8,
+        "projected_speedup": 2.93,
+        "wall_hours": 28.567182583699008,
+        "peak_RAM_GiB_est": 12.4,
+        "active_cores_est": 4
+      },
+      "6": {
+        "batches": 5,
+        "projected_speedup": 4.3950000000000005,
+        "wall_hours": 19.044788389132673,
+        "peak_RAM_GiB_est": 18.6,
+        "active_cores_est": 6
+      },
+      "8": {
+        "batches": 4,
+        "projected_speedup": 5.49375,
+        "wall_hours": 15.235830711306136,
+        "peak_RAM_GiB_est": 24.8,
+        "active_cores_est": 8
+      }
+    },
+    "recommended": "n_workers=4 or 6, omp_threads_per_worker=1",
+    "status": "NOT STARTED / AWAITING AUTHORIZATION"
+  }
+}

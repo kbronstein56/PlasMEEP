@@ -1,0 +1,3 @@
+# Keep docs/index; ignore bulky field arrays
+*.npy
+*.npz

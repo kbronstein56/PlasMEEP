@@ -60,5 +60,15 @@ Details: `BB_STAGE2_RESULTS.md`, `BB_STAGE1_VS_STAGE2.md`.
 
 ### Enrichment / Stage-3?
 
-**Pending Stage-2 50/25 MHz audit.** Do not launch another long opt without documenting:
-why needed, exact added frequencies, objective, start design, scientific question.
+**50 + 25 MHz audits COMPLETE — enrichment needed.**  
+Off-grid: worst A2/IL @ **5.75** (A2≈−11.0, IL≈26 dB, iso≈−20 dB); worst iso @
+**5.825** (≈−21.3 dB). On-grid residual: **4.3 GHz** IL≈27.5 dB.
+
+If Stage-3 approved (`BB_STAGE3_PROPOSAL.md`):
+- why: close 5.75/5.825 between-grid hole
+- add: **5.75, 5.825** → 30 freqs
+- objective: A2_hybrid; τ=0.05; α=0.25; C6
+- start: Stage-2 `q_best`
+- question: close hole without undoing 4.1 recovery?
+
+**Do not auto-start Stage-3.**

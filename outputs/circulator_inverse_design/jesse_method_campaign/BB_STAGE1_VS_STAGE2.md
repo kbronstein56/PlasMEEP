@@ -51,19 +51,31 @@ Stage-2 **fixed the Objective-A pathology** at 4.1 GHz that Stage-1 left dead.
 | RL (dB) | 5.48 | (min RL ~0.6 class) |
 | TE1 | 0.248 | — |
 
-## Stage-2 engineering (final rec; full-band dense audit pending)
+## Stage-2 engineering
+
+### On final objective rec
 
 | Location | \(T_\mathrm{des}\) | IL | iso | RL | TE1 | A2 |
 |----------|-------------------:|---:|----:|---:|----:|---:|
 | 4.1 GHz | 0.141 | 8.51 | +7.07 | 4.23 | 0.326 | −0.84 |
 | worst A2 @ 5.65 | 0.018 | 18.50 | −11.89 | 6.79 | 0.132 | −7.40 |
 
-Full mean/worst IL/iso/RL/TE1 over 4–6 GHz for Stage-2: see `bb_stage2_audit_50MHz.json` when complete.
+### Full band 50 MHz audit (Stage-2 design)
+
+| Metric | mean | worst | f (GHz) |
+|--------|-----:|------:|--------:|
+| \(T_\mathrm{des}\) | 0.102 | 0.0018 | 4.3 (on-grid) |
+| IL (dB) | 13.01 | 27.47 | 4.3 (on-grid) |
+| isolation (dB) | 2.58 | **−20.14** | **5.75 (off-grid)** |
+| RL (dB) | 6.47 | — | — |
+| TE1 | 0.286 | — | — |
+| A2 | −2.85 | **−10.98** | **5.75 (off-grid)** |
 
 ---
 
 ## Scientific reading
 
 1. Objective A2 + enrichment **worked as intended**: catastrophic 4.1 GHz transmission failure is gone.
-2. Residual hard point is near the Stage-1 enrichment cluster (**5.65 GHz**): reverse-dominated, IL~18.5 dB, iso~−12 dB.
-3. Further Stage-3 optimization is **not** automatically justified until the 50/25 MHz audits quantify between-grid holes and whether 5.65 is already the continuum-worst on this design.
+2. Soft-min parked on **5.65**, but dense audit found a **worse between-grid hole at 5.75 GHz** (A2 −10.98, iso −20 dB) — same sampling lesson as Stage-1’s 5.625 GHz.
+3. **4.3 GHz** remains a severe on-grid IL failure (27.5 dB).
+4. Stage-3 is scientifically motivated to add **≥5.75 GHz**, but must **not** auto-start; confirm peak with 25 MHz local scan first (`BB_STAGE2_AUDIT_REPORT.md`).

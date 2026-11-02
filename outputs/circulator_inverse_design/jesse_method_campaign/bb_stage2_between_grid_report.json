@@ -1,0 +1,102 @@
+{
+  "J_key": "J_A2",
+  "worst_iso_all": {
+    "f_GHz": 5.75,
+    "value": -20.137707231715137
+  },
+  "worst_iso_obj": {
+    "f_GHz": 5.9,
+    "value": -13.28091697504135
+  },
+  "worst_IL_all": {
+    "f_GHz": 4.3,
+    "value": 27.466903334294617
+  },
+  "worst_IL_obj": {
+    "f_GHz": 4.3,
+    "value": 27.466903334294617
+  },
+  "worst_J_all": {
+    "f_GHz": 5.75,
+    "value": -10.980767420910794
+  },
+  "worst_J_obj": {
+    "f_GHz": 5.65,
+    "value": -7.397052332095531
+  },
+  "pass_iso_bar": false,
+  "pass_IL_bar": true,
+  "must_add": [
+    {
+      "f_GHz": 5.75,
+      "why": "off_grid_worst_J",
+      "J_A2": -10.980767420910794
+    },
+    {
+      "f_GHz": 5.75,
+      "why": "off_grid_worst_iso",
+      "isolation_dB": -20.137707231715137
+    }
+  ],
+  "candidate_add": [
+    {
+      "f_GHz": 5.75,
+      "reasons": [
+        "near_worst_iso",
+        "near_worst_J"
+      ],
+      "J_A2": -10.980767420910794,
+      "IL_dB": 25.96776877794343,
+      "isolation_dB": -20.137707231715137
+    }
+  ],
+  "50_vs_25_local": {
+    "d_worst_iso_dB": 1.1375369665283301,
+    "d_worst_IL_dB": 0.0,
+    "d_worst_RL_dB": 0.0,
+    "d_worst_iso_location_GHz": 0.07500000000000018,
+    "d_worst_IL_location_GHz": 0.0,
+    "pass_iso": false,
+    "pass_IL": true,
+    "pass_RL": true,
+    "pass_iso_location": true,
+    "pass_IL_location": true,
+    "pass_location": true,
+    "pass_all": false
+  },
+  "enrichment_needed": true,
+  "frequencies_to_add_GHz": [
+    5.75
+  ],
+  "recommended_new_objective_grid_GHz": [
+    4.0,
+    4.1,
+    4.2,
+    4.3,
+    4.4,
+    4.5,
+    4.55,
+    4.6,
+    4.7,
+    4.8,
+    4.85,
+    4.9,
+    5.0,
+    5.1,
+    5.2,
+    5.3,
+    5.35,
+    5.4,
+    5.5,
+    5.6,
+    5.625,
+    5.65,
+    5.7,
+    5.75,
+    5.8,
+    5.85,
+    5.9,
+    5.95,
+    6.0
+  ]
+}

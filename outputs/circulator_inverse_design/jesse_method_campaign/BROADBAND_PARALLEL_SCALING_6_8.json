@@ -1,0 +1,136 @@
+{
+  "date": "2026-11-02T17:19:24",
+  "probe_GHz": [
+    4.1,
+    5.0,
+    5.65,
+    5.75
+  ],
+  "grade": "C",
+  "design": "opt_broadband_stage2_A2_C.json q_best",
+  "omp_threads_per_worker": 1,
+  "ran_12_workers": false,
+  "rows": [
+    {
+      "n_workers": 1,
+      "omp_threads_per_worker": 1,
+      "wall_s": 613.0501781848725,
+      "J_BB": -9.359956628790105,
+      "grad_norm": 219.84899140600965,
+      "mode": "serial",
+      "peak_rss_GiB": 4.130748748779297,
+      "equiv_cores_avg": 1.0017940159782313,
+      "cpu_seconds_integrated": 614.1499999999936,
+      "parent_rss_GiB_end": 0.5823974609375,
+      "speedup_vs_serial": 1.0,
+      "rel_err_J_BB": 0.0,
+      "rel_err_grad": 0.0,
+      "pass_equivalence": true,
+      "J_per_freq": [
+        -0.8388010950555547,
+        0.3947472216763605,
+        -7.3970523320955435,
+        -10.980767420910682
+      ]
+    },
+    {
+      "n_workers": 4,
+      "omp_threads_per_worker": 1,
+      "wall_s": 203.6933239060454,
+      "J_BB": -9.359956628790105,
+      "grad_norm": 219.84899140600965,
+      "mode": "process_parallel",
+      "peak_rss_GiB": 16.139846801757812,
+      "equiv_cores_avg": 3.994730825715852,
+      "cpu_seconds_integrated": 813.7000000000032,
+      "parent_rss_GiB_end": 0.5419960021972656,
+      "speedup_vs_serial": 3.009672415516402,
+      "rel_err_J_BB": 0.0,
+      "rel_err_grad": 0.0,
+      "max_abs_err_J_per_freq": 0.0,
+      "pass_equivalence": true
+    },
+    {
+      "n_workers": 6,
+      "omp_threads_per_worker": 1,
+      "wall_s": 205.9921066428069,
+      "J_BB": -9.359956628790105,
+      "grad_norm": 219.84899140600965,
+      "mode": "process_parallel",
+      "peak_rss_GiB": 15.958438873291016,
+      "equiv_cores_avg": 3.9265582219737327,
+      "cpu_seconds_integrated": 808.8400000000034,
+      "parent_rss_GiB_end": 0.4356269836425781,
+      "speedup_vs_serial": 2.976085774237504,
+      "rel_err_J_BB": 0.0,
+      "rel_err_grad": 0.0,
+      "max_abs_err_J_per_freq": 0.0,
+      "pass_equivalence": true
+    },
+    {
+      "n_workers": 8,
+      "omp_threads_per_worker": 1,
+      "wall_s": 204.04156051483005,
+      "J_BB": -9.359956628790105,
+      "grad_norm": 219.84899140600965,
+      "mode": "process_parallel",
+      "peak_rss_GiB": 15.188285827636719,
+      "equiv_cores_avg": 3.9849234535770326,
+      "cpu_seconds_integrated": 813.0900000000037,
+      "parent_rss_GiB_end": 0.4307823181152344,
+      "speedup_vs_serial": 3.0045358241627205,
+      "rel_err_J_BB": 0.0,
+      "rel_err_grad": 0.0,
+      "max_abs_err_J_per_freq": 0.0,
+      "pass_equivalence": true
+    }
+  ],
+  "fastest_measured_safe": {
+    "n_workers": 4,
+    "wall_s": 203.6933239060454,
+    "speedup_vs_serial": 3.009672415516402,
+    "peak_rss_GiB": 16.139846801757812,
+    "equiv_cores_avg": 3.994730825715852,
+    "pass_equivalence": true,
+    "note": "On a 4-frequency probe, n_workers>4 cannot exceed ~4 concurrent solves; fastest measured is typically n_workers=4."
+  },
+  "stage3_estimate": {
+    "n_freq": 30,
+    "n_evals_assumed": 83,
+    "s_per_freq_historical": 121.01471561962136,
+    "wall_hours_serial": 83.7018449702381,
+    "by_n_workers": {
+      "1": {
+        "speedup": 1.0,
+        "wall_hours": 83.7018449702381,
+        "kind": "serial",
+        "peak_RAM_GiB_est": 3.2
+      },
+      "4": {
+        "speedup": 3.009672415516402,
+        "wall_hours": 27.810948639696548,
+        "kind": "measured_on_4freq_probe",
+        "peak_RAM_GiB_est": 12.8
+      },
+      "6": {
+        "speedup": 4.514508623274603,
+        "wall_hours": 18.540632426464366,
+        "kind": "projected_from_4freq_efficiency",
+        "peak_RAM_GiB_est": 19.200000000000003
+      },
+      "8": {
+        "speedup": 5.643135779093253,
+        "wall_hours": 14.832505941171494,
+        "kind": "projected_from_4freq_efficiency",
+        "peak_RAM_GiB_est": 25.6
+      }
+    },
+    "recommended_launch": {
+      "n_workers": 4,
+      "omp_threads_per_worker": 1,
+      "env": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1",
+      "basis": "fastest measured numerically-equivalent config on 4-freq probe"
+    },
+    "status": "NOT STARTED / AWAITING AUTHORIZATION"
+  }
+}

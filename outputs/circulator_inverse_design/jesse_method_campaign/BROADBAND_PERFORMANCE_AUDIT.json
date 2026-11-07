@@ -339,16 +339,18 @@
   "recommendation": {
     "production_default": "serial (n_workers=1)",
     "safe_fast_config": {
-      "n_workers": 4,
+      "n_workers": 12,
       "omp_threads_per_worker": 1,
       "parent_OMP": 1,
-      "measured_speedup": 3.009672415516402,
-      "measured_peak_rss_GiB": 16.139846801757812,
-      "enabled_via": "--n-workers 4 --omp-threads-per-worker 1"
+      "measured_speedup": 5.056881961213746,
+      "measured_peak_rss_GiB": 43.33516311645508,
+      "measured_equiv_cores": 11.59205235686795,
+      "enabled_via": "--n-workers 12 --omp-threads-per-worker 1",
+      "probe": "12-freq Stage-3 subset"
     },
-    "do_not": "blindly set OMP=64 or n_workers=64; do not use 6/8 as default without multi-freq>4 measurement",
+    "do_not": "OMP=64 or n_workers\u224864; do not use 4-freq probe to pick Stage-3 workers",
     "stage3_status": "NOT STARTED / AWAITING AUTHORIZATION",
-    "stage3_recommended_hours": 27.810948639696548
+    "stage3_recommended_hours": 16.55206619656752
   },
   "stage3_refined_estimate": {
     "n_freq": 30,
@@ -527,6 +529,191 @@
         "omp_threads_per_worker": 1,
         "env": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1",
         "basis": "fastest measured numerically-equivalent config on 4-freq probe"
+      },
+      "status": "NOT STARTED / AWAITING AUTHORIZATION"
+    }
+  },
+  "parallel_scaling_stage3_subset": {
+    "date": "2026-11-07T08:35:42",
+    "probe_GHz": [
+      4.1,
+      4.3,
+      4.5,
+      4.7,
+      5.0,
+      5.2,
+      5.4,
+      5.6,
+      5.65,
+      5.75,
+      5.825,
+      6.0
+    ],
+    "n_freq_probe": 12,
+    "stage3_full_n_freq": 30,
+    "grade": "C",
+    "design": "opt_broadband_stage2_A2_C.json q_best",
+    "omp_threads_per_worker": 1,
+    "ran_12_workers": true,
+    "rows": [
+      {
+        "n_workers": 1,
+        "omp_threads_per_worker": 1,
+        "wall_s": 1434.9884725199954,
+        "J_BB": -9.290605416017172,
+        "grad_norm": 252.66721744246775,
+        "mode": "serial",
+        "peak_rss_GiB": 4.187431335449219,
+        "equiv_cores_avg": 0.9983982641226845,
+        "cpu_seconds_integrated": 1432.690000000026,
+        "parent_rss_GiB_end": 0.6231193542480469,
+        "s_per_freq_mean": 119.40577015258896,
+        "speedup_vs_serial": 1.0,
+        "rel_err_J_BB": 0.0,
+        "rel_err_grad": 0.0,
+        "pass_equivalence": true
+      },
+      {
+        "n_workers": 4,
+        "omp_threads_per_worker": 1,
+        "wall_s": 458.11700963100884,
+        "J_BB": -9.290605416017172,
+        "grad_norm": 252.66721744246775,
+        "mode": "process_parallel",
+        "peak_rss_GiB": 16.458518981933594,
+        "equiv_cores_avg": 3.9662137877470927,
+        "cpu_seconds_integrated": 1816.989999999975,
+        "parent_rss_GiB_end": 0.5799598693847656,
+        "s_per_freq_mean": 150.6479670674962,
+        "speedup_vs_serial": 3.132362349251798,
+        "rel_err_J_BB": 0.0,
+        "rel_err_grad": 0.0,
+        "max_abs_err_J_per_freq": 0.0,
+        "pass_equivalence": true
+      },
+      {
+        "n_workers": 6,
+        "omp_threads_per_worker": 1,
+        "wall_s": 376.72579605600913,
+        "J_BB": -9.290605416017172,
+        "grad_norm": 252.66721744246775,
+        "mode": "process_parallel",
+        "peak_rss_GiB": 23.89499282836914,
+        "equiv_cores_avg": 5.945305639932952,
+        "cpu_seconds_integrated": 2239.7500000000223,
+        "parent_rss_GiB_end": 0.570281982421875,
+        "s_per_freq_mean": 185.59453171366235,
+        "speedup_vs_serial": 3.809105953303635,
+        "rel_err_J_BB": 0.0,
+        "rel_err_grad": 0.0,
+        "max_abs_err_J_per_freq": 0.0,
+        "pass_equivalence": true
+      },
+      {
+        "n_workers": 8,
+        "omp_threads_per_worker": 1,
+        "wall_s": 377.25054201399325,
+        "J_BB": -9.290605416017172,
+        "grad_norm": 252.66721744246775,
+        "mode": "process_parallel",
+        "peak_rss_GiB": 30.185203552246094,
+        "equiv_cores_avg": 6.411336050274751,
+        "cpu_seconds_integrated": 2418.6800000000044,
+        "parent_rss_GiB_end": 0.5651092529296875,
+        "s_per_freq_mean": 200.32756596125787,
+        "speedup_vs_serial": 3.803807583308304,
+        "rel_err_J_BB": 0.0,
+        "rel_err_grad": 0.0,
+        "max_abs_err_J_per_freq": 0.0,
+        "pass_equivalence": true
+      },
+      {
+        "n_workers": 12,
+        "omp_threads_per_worker": 1,
+        "wall_s": 283.7694222499849,
+        "J_BB": -9.290605416017172,
+        "grad_norm": 252.66721744246775,
+        "mode": "process_parallel",
+        "peak_rss_GiB": 43.33516311645508,
+        "equiv_cores_avg": 11.59205235686795,
+        "cpu_seconds_integrated": 3289.469999999994,
+        "parent_rss_GiB_end": 0.5409431457519531,
+        "s_per_freq_mean": 272.5550557982521,
+        "speedup_vs_serial": 5.056881961213746,
+        "rel_err_J_BB": 0.0,
+        "rel_err_grad": 0.0,
+        "max_abs_err_J_per_freq": 0.0,
+        "pass_equivalence": true
+      }
+    ],
+    "fastest_measured_safe": {
+      "n_workers": 12,
+      "wall_s": 283.7694222499849,
+      "speedup_vs_serial": 5.056881961213746,
+      "peak_rss_GiB": 43.33516311645508,
+      "equiv_cores_avg": 11.59205235686795,
+      "pass_equivalence": true
+    },
+    "stage3_estimate": {
+      "n_freq": 30,
+      "n_evals_assumed": 83,
+      "s_per_freq_historical": 121.01471561962136,
+      "wall_hours_serial": 83.7018449702381,
+      "by_n_workers": {
+        "1": {
+          "probe_wall_s": 1434.9884725199954,
+          "probe_speedup": 1.0,
+          "probe_peak_rss_GiB": 4.187431335449219,
+          "probe_equiv_cores": 0.9983982641226845,
+          "stage3_wall_hours_from_measured_speedup": 83.7018449702381,
+          "pass_equivalence": true,
+          "kind": "measured_on_12freq_stage3_subset"
+        },
+        "4": {
+          "probe_wall_s": 458.11700963100884,
+          "probe_speedup": 3.132362349251798,
+          "probe_peak_rss_GiB": 16.458518981933594,
+          "probe_equiv_cores": 3.9662137877470927,
+          "stage3_wall_hours_from_measured_speedup": 26.72163550625977,
+          "pass_equivalence": true,
+          "kind": "measured_on_12freq_stage3_subset"
+        },
+        "6": {
+          "probe_wall_s": 376.72579605600913,
+          "probe_speedup": 3.809105953303635,
+          "probe_peak_rss_GiB": 23.89499282836914,
+          "probe_equiv_cores": 5.945305639932952,
+          "stage3_wall_hours_from_measured_speedup": 21.974144588349805,
+          "pass_equivalence": true,
+          "kind": "measured_on_12freq_stage3_subset"
+        },
+        "8": {
+          "probe_wall_s": 377.25054201399325,
+          "probe_speedup": 3.803807583308304,
+          "probe_peak_rss_GiB": 30.185203552246094,
+          "probe_equiv_cores": 6.411336050274751,
+          "stage3_wall_hours_from_measured_speedup": 22.004752642466656,
+          "pass_equivalence": true,
+          "kind": "measured_on_12freq_stage3_subset"
+        },
+        "12": {
+          "probe_wall_s": 283.7694222499849,
+          "probe_speedup": 5.056881961213746,
+          "probe_peak_rss_GiB": 43.33516311645508,
+          "probe_equiv_cores": 11.59205235686795,
+          "stage3_wall_hours_from_measured_speedup": 16.55206619656752,
+          "pass_equivalence": true,
+          "kind": "measured_on_12freq_stage3_subset"
+        }
+      },
+      "recommended_launch": {
+        "n_workers": 12,
+        "omp_threads_per_worker": 1,
+        "env": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1",
+        "cli": "--n-workers 12 --omp-threads-per-worker 1",
+        "basis": "fastest numerically-equivalent config on 12-freq Stage-3 subset",
+        "expected_wall_hours": 16.55206619656752,
+        "expected_peak_RAM_GiB": 43.33516311645508
       },
       "status": "NOT STARTED / AWAITING AUTHORIZATION"
     }

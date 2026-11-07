@@ -109,40 +109,60 @@ Same probe, instrumented peak process-tree RSS + integrated CPU. Companion: `BRO
 | 6 | 206.0 | 2.98× | 3.93 | 15.96 | 0 | 0 | **PASS** |
 | 8 | 204.0 | 3.00× | 3.98 | 15.19 | 0 | 0 | **PASS** |
 
-**12 workers:** skipped — 8 workers did **not** beat 4 (204.0 s vs 203.7 s). Expected: a 4-frequency probe has at most **4** concurrent independent solves, so n_workers∈{6,8} cannot improve wall time here.
+**12 workers:** skipped on the 4-freq probe — 8 did **not** beat 4. That probe **cannot** decide Stage-3 worker count (only 4 concurrent jobs).
+
+### 5c. Stage-3-representative 12-frequency scaling (authoritative for Stage-3)
+
+**Date:** 2026-11-07  
+**Companion:** `BROADBAND_PARALLEL_SCALING_STAGE3_SUBSET.json`  
+**Driver:** `benchmark_parallel_scaling_stage3_subset.py`  
+**Probe (12 GHz ⊆ Stage-3 30-set):**  
+`[4.1, 4.3, 4.5, 4.7, 5.0, 5.2, 5.4, 5.6, 5.65, 5.75, 5.825, 6.0]`  
+Includes required problem freqs **4.1, 4.3, 5.65, 5.75, 5.825**.  
+`OMP=OPENBLAS=MKL=1` per worker. Design: Stage-2 `q_best`, grade C. **No Stage-3 optimization.**
+
+| Workers | Wall (s) | Speedup | ≈cores | Peak RAM (GiB) | ΔJ | Δ‖g‖ | Equivalence |
+|--------:|--------:|--------:|-------:|---------------:|---:|-----:|:-----------:|
+| 1 | 1435.0 | 1.00× | 1.00 | 4.19 | — | — | — |
+| 4 | 458.1 | 3.13× | 3.97 | 16.46 | 0 | 0 | **PASS** |
+| 6 | 376.7 | 3.81× | 5.95 | 23.89 | 0 | 0 | **PASS** |
+| 8 | 377.3 | 3.80× | 6.41 | 30.19 | 0 | 0 | **PASS** |
+| **12** | **283.8** | **5.06×** | **11.59** | **43.34** | **0** | **0** | **PASS** |
 
 Notes:
-- 6 and 8 are **numerically exact** vs serial on this probe (J and ‖g‖ bit-identical in this run) and memory-safe (~16 GiB ≪ 252 GiB).
-- They are **not faster** than 4 workers on this benchmark.
-- Peak RAM for 6/8 stayed ~16 GiB (only 4 workers busy at once on a 4-freq job).
+- With **12** independent frequencies, 6 and 8 workers both need **2 batches**, so their walls match (~377 s); this does **not** mean 8 is useless for the real 30-freq Stage-3 (there 8→4 batches vs 6→5).
+- **12 workers** clearly wins: **5.06×**, ~11.6 effective cores, **≈43 GiB** peak (≪ 252 GiB).
+- All configs numerically equivalent to serial (J and ‖g‖ exact in this run).
 
 Implementation (default **off**):
 
 - Core: `scripts/.../a2_efficient_core.py` → `eval_bb_A2(..., n_workers=1)`
 - Opt runner: `production_broadband_opt_stage2.py --n-workers N --omp-threads-per-worker 1`
-- Scaling driver: `benchmark_parallel_scaling.py`
+- Scaling drivers: `benchmark_parallel_scaling.py`, `benchmark_parallel_scaling_stage3_subset.py`
 
 ---
 
-## 6. Safest fastest **measured** configuration
+## 6. Safest fastest **measured** configuration (Stage-3 planning)
 
-**Winner (measured wall time + numerical equivalence + RAM-safe):**  
-`--n-workers 4 --omp-threads-per-worker 1`  
+**Winner (12-freq Stage-3 subset — authoritative):**  
+`--n-workers 12 --omp-threads-per-worker 1`  
 **Parent env:** `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1`
 
-- Speedup vs serial on the 4-freq probe: **3.01×**
-- Peak RAM: **≈16 GiB**
-- Effective cores: **≈4**
-- Objective / gradient vs serial: **exact match** in the scaling re-measure
+| Metric | Value |
+|--------|------:|
+| Speedup vs serial | **5.06×** |
+| Effective cores | **≈11.6** |
+| Peak RAM | **≈43 GiB** |
+| J / ‖g‖ vs serial | exact match |
 
-6 and 8 workers pass equivalence and are RAM-safe but are **not** faster in measurement on this probe. Do **not** use them as the authorized Stage-3 default without a separate multi-frequency (>4) scaling study.
+The earlier 4-freq “recommend 4 workers” conclusion is **superseded** for Stage-3; that probe was concurrency-limited.
 
 Recommended Stage-3 launch (when authorized — **not now**):
 
 ```bash
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 python -u <stage3_runner>.py \
-  --n-workers 4 --omp-threads-per-worker 1
+  --n-workers 12 --omp-threads-per-worker 1
 ```
 
 Do **not** set OMP=64 or n_workers≈64. Default remains **serial** (`n_workers=1`) until explicitly enabled.
@@ -152,19 +172,19 @@ Do **not** set OMP=64 or n_workers≈64. Default remains **serial** (`n_workers=
 ## 7. Stage-3 runtime estimate (proposal frequency set)
 
 Stage-3 proposal: **30** frequencies (Stage-2 28 + **5.75** + **5.825**).  
-Assume same L-BFGS effort as Stage-2 (**83** BB evals) and historical **121 s/freq**.
+Assume same L-BFGS effort as Stage-2 (**83** BB evals) and historical **121 s/freq** → serial ≈ **83.7 h**.
 
-| Config | Est. wall | Basis | Active cores | Peak RAM |
-|--------|----------:|-------|-------------:|---------:|
+Estimates apply **measured** speedups from the **12-freq Stage-3 subset**:
+
+| Config | Est. wall | Basis | ≈cores (measured) | Peak RAM (measured) |
+|--------|----------:|-------|------------------:|--------------------:|
 | Serial | **≈84 h** | Stage-2 history | ~1 | ~4 GiB |
-| **`--n-workers 4` (recommended)** | **≈28 h** | **measured 3.01×** on 4-freq probe | ~4 | ~16 GiB |
-| `--n-workers 6` | ≈19 h | *projected only* (not faster on 4-freq) | ~6* | ~19 GiB† |
-| `--n-workers 8` | ≈15 h | *projected only* (not faster on 4-freq) | ~8* | ~26 GiB† |
+| `--n-workers 4` | ≈27 h | measured 3.13× | ~4.0 | ~16 GiB |
+| `--n-workers 6` | ≈22 h | measured 3.81× | ~6.0 | ~24 GiB |
+| `--n-workers 8` | ≈22 h | measured 3.80× (≈6 on 12-freq) | ~6.4 | ~30 GiB |
+| **`--n-workers 12` (recommended)** | **≈16.6 h** | **measured 5.06×** | **~11.6** | **~43 GiB** |
 
-\*Core counts for 6/8 assume Stage-3’s 30 frequencies keep that many workers busy; the 4-freq probe only exercised ~4 cores.  
-†Peak RAM for 6/8 on Stage-3 would rise vs the 4-freq probe once all workers are concurrently loaded.
-
-**Authorized recommendation until further measurement:** Stage-3 with **`--n-workers 4`**, estimated **≈28 h** (±20% for line-search variability).
+±20% plausible from line-search eval count. On the full 30-freq Stage-3 set, 8 workers may pull slightly ahead of 6 (4 vs 5 batches); **12 remains the measured fastest safe choice**.
 
 **STAGE-3 IS NOT STARTED / AWAITING AUTHORIZATION.**
 
@@ -194,9 +214,11 @@ When authorized to benchmark (not migrate production):
 | File | Role |
 |------|------|
 | `profile_broadband_performance.py` | Initial audit driver |
-| `benchmark_parallel_scaling.py` | Dedicated 4/6/8(+12) scaling + resource monitor |
+| `benchmark_parallel_scaling.py` | 4-freq 4/6/8 scaling (concurrency-limited) |
+| `benchmark_parallel_scaling_stage3_subset.py` | **Authoritative** 12-freq Stage-3-subset scaling |
 | `a2_efficient_core.py` | Shared timed A2 + optional process-parallel |
 | `production_broadband_opt_stage2.py` | `--n-workers` opt-in (default 1) |
-| `BROADBAND_PERFORMANCE_AUDIT.json` | Initial audit measurements |
-| `BROADBAND_PARALLEL_SCALING_6_8.json` | Measured 6/8 scaling + Stage-3 recommendation |
-| `perf_audit_nohup.out` / `parallel_scaling_6_8_nohup.out` | Run logs (untracked) |
+| `BROADBAND_PERFORMANCE_AUDIT.json` | Aggregated measurements |
+| `BROADBAND_PARALLEL_SCALING_6_8.json` | 4-freq 6/8 results |
+| `BROADBAND_PARALLEL_SCALING_STAGE3_SUBSET.json` | 12-freq scaling + Stage-3 recommendation |
+| `*_nohup.out` | Run logs (untracked) |

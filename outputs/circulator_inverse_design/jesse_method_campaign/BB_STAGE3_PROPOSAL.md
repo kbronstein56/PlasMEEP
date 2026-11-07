@@ -1,6 +1,7 @@
-# Stage-3 proposal (NOT authorized / NOT launched)
+# Stage-3 proposal — **AUTHORIZED / LAUNCHED**
 
-Generated after Stage-2 dense 50 MHz + targeted 25 MHz audits.
+Generated after Stage-2 dense 50 MHz + targeted 25 MHz audits.  
+**Authorization:** 2026-11-07 — launch with `n_workers=12`, `omp_threads_per_worker=1`.
 
 ## Why needed
 
@@ -28,23 +29,34 @@ Same sampling failure mode as Stage-1’s 5.625 GHz discovery.
 | Start design | `opt_broadband_stage2_A2_C.json` `q_best` |
 | Frequencies | Stage-2 28 + **5.75 + 5.825** = **30** |
 | maxiter | 30 L-BFGS |
-| Expected wall | ~80–85 h |
+| Parallelism | `--n-workers 12 --omp-threads-per-worker 1` |
+| Expected wall | ~16–17 h (measured 5.06× vs serial ~84 h) |
+
+### Exact frequency set (GHz)
+
+```
+4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.55, 4.6, 4.7, 4.8, 4.85, 4.9,
+5.0, 5.1, 5.2, 5.3, 5.35, 5.4, 5.5, 5.6, 5.625, 5.65, 5.7,
+5.75, 5.8, 5.825, 5.85, 5.9, 5.95, 6.0
+```
 
 ## Scientific question
 
 Can soft-min A2 on the 30-frequency set close the 5.75/5.825 isolation/A2
 hole without undoing the 4.1 GHz recovery (T_des≈0.14, IL≈8.5 dB, iso≈+7 dB)?
 
-## Explicit non-goals of this proposal
+## Explicit non-goals
 
-- Does **not** authorize auto-start.
 - Does not change A2 / τ / α / C6 mid-run.
+- Does not loosen criteria in response to poor performance.
 - Does not claim Stage-2 continuum physics; F/Q/X2 still required later.
-- Notes residual **on-grid** 4.3 GHz IL≈27.5 dB as a separate pressure target
-  the FoM already sees — enrichment alone will not invent a cure if A2 tradeoffs
-  prefer other frequencies.
+- Notes residual **on-grid** 4.3 GHz IL≈27.5 dB as a separate pressure target.
 
-## Go / no-go
+## Runner / artifacts
 
-Await human approval before launching `production_broadband_opt_stage2.py`
-variant with the 30-freq set (or a dedicated Stage-3 runner).
+- Runner: `production_broadband_opt_stage3.py`
+- Pipeline: `run_stage3_authorized.sh`
+- Checkpoint: `bb_stage3_checkpoint.json`
+- History: `bb_stage3_history.json`
+- Final: `opt_broadband_stage3_A2_C.json`
+- Post-audit: `audit_bb_stage3_design.py` → `bb_stage3_audit_50MHz.json`, `BB_STAGE3_AUDIT_REPORT.json`

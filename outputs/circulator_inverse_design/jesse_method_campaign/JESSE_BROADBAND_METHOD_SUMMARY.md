@@ -71,5 +71,13 @@ Details: `BB_STAGE2_RESULTS.md`, `BB_STAGE1_VS_STAGE2.md`.
 | new 50 MHz worst | A2 **−4.57 @ 4.3 GHz** |
 | wall | ~11.0 h / 30 L-BFGS / `n_workers=12` |
 
-Details: `BB_STAGE3_RESULTS.md`, `BB_STAGE3_AUDIT_REPORT.json`.  
-Residual mild off-node dip near **5.775 GHz** (A2≈−4.73); continuum F/Q/X2 still required later.
+Details: `BB_STAGE3_RESULTS.md`, `BB_STAGE3_AUDIT_REPORT.json`.
+
+### Post-Stage-3 dense audit (COMPLETE)
+
+Full-band **25 MHz** + local **12.5 MHz** refine (`BB_STAGE3_DENSE_AUDIT.md`):
+
+- Exact enrichment nodes **5.75 / 5.825 remain repaired**.
+- **Hidden continuum failures found:** worst at **5.8125 GHz** (A2≈−12.0, iso≈−18.7 dB, IL≈32 dB) between objective nodes 5.800 and 5.825; also **4.775 GHz** (A2≈−8.6, IL≈26 dB).
+- Recommendation: **C** — substantial hidden broadband failure remains.
+- Stage-4: **PROPOSAL ONLY** (`BB_STAGE4_PROPOSAL.md`) — **NOT STARTED**.

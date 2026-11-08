@@ -58,8 +58,19 @@ def _design_q(tag: str) -> tuple[np.ndarray, dict]:
         meta = {
             "design_id": "stage2_A2_C_q_best",
             "source_file": str(p),
-            "J_BB": d.get("J_BB"),
+            "J_BB": d.get("J_BB_best", d.get("J_BB")),
             "worst_f_GHz": d.get("worst_f_GHz"),
+        }
+        return q, meta
+    if tag == "stage3_best":
+        p = OUT / "opt_broadband_stage3_A2_C.json"
+        d = json.loads(p.read_text())
+        q = np.asarray(d["q_best"], float)
+        meta = {
+            "design_id": "stage3_A2_C_q_best",
+            "source_file": str(p),
+            "J_BB": d.get("J_BB_best", d.get("J_BB")),
+            "accepted_nit": d.get("accepted_nit"),
         }
         return q, meta
     raise ValueError(tag)
@@ -126,7 +137,8 @@ def export_one(
     x, y, Re, Im = interpolate_to_grid(points, st["tris"], Hz, nx=nx, ny=ny)
     wall = time.perf_counter() - t0
 
-    stem = f"{design_tag}_P{source_port}_{f_ghz:.3f}GHz_Bplus".replace(".", "p")
+    # Use 4 decimals so 5.8125 does not collide with 5.812 under :.3f rounding
+    stem = f"{design_tag}_P{source_port}_{f_ghz:.4f}GHz_Bplus".replace(".", "p")
     out_dir = FIELD_ROOT / stem
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -219,7 +231,10 @@ def main():
     ap.add_argument(
         "--jobs",
         default="all",
-        help="Comma list or 'all': uniform@4.1, stage2@4.1, stage2@5.65, stage2@5.75",
+        help=(
+            "Comma list or 'all' (legacy Stage-2 set) or 'stage3': "
+            "stage3@4.1/5.75/5.825 + stage2@5.825 for hole-repair movies"
+        ),
     )
     args = ap.parse_args()
     FIELD_ROOT.mkdir(parents=True, exist_ok=True)
@@ -229,32 +244,73 @@ def main():
         "stage2_4p1": ("stage2_best", 4.1),
         "stage2_5p65": ("stage2_best", 5.65),
         "stage2_5p75": ("stage2_best", 5.75),
+        "stage2_5p825": ("stage2_best", 5.825),
+        "stage3_4p1": ("stage3_best", 4.1),
+        "stage3_5p75": ("stage3_best", 5.75),
+        "stage3_5p825": ("stage3_best", 5.825),
+        "stage3_4p3": ("stage3_best", 4.3),
+        "stage3_4p775": ("stage3_best", 4.775),
+        "stage3_5p8125": ("stage3_best", 5.8125),
     }
     if args.jobs.strip() == "all":
-        keys = list(catalog.keys())
+        keys = [
+            "uniform_4p1",
+            "stage2_4p1",
+            "stage2_5p65",
+            "stage2_5p75",
+        ]
+    elif args.jobs.strip() == "stage3":
+        keys = [
+            "stage3_4p1",
+            "stage3_5p75",
+            "stage3_5p825",
+            "stage3_4p3",
+            "stage2_5p825",
+        ]
     else:
         keys = [k.strip() for k in args.jobs.split(",") if k.strip()]
 
-    index = {"exports": [], "field_root": str(FIELD_ROOT)}
+    # Merge into existing INDEX rather than wiping prior exports
+    index_path = FIELD_ROOT / "INDEX.json"
+    if index_path.exists():
+        index = json.loads(index_path.read_text())
+        by_key = {e["key"]: e for e in index.get("exports", []) if "key" in e}
+    else:
+        index = {"exports": [], "field_root": str(FIELD_ROOT)}
+        by_key = {}
     for key in keys:
         if key not in catalog:
             raise SystemExit(f"unknown job {key}; choose from {list(catalog)}")
         tag, f_ghz = catalog[key]
-        out_dir, meta = export_one(
-            args.grade, tag, f_ghz, source_port=1, nx=args.nx, ny=args.ny
-        )
-        index["exports"].append(
-            {
+        # Skip if export directory already present
+        stem = f"{tag}_P1_{f_ghz:.4f}GHz_Bplus".replace(".", "p")
+        if (FIELD_ROOT / stem).exists() and (FIELD_ROOT / stem / "meta.json").exists():
+            print(f"skip existing {stem}", flush=True)
+            meta = json.loads((FIELD_ROOT / stem / "meta.json").read_text())
+            by_key[key] = {
                 "key": key,
-                "path": str(out_dir),
+                "path": str(FIELD_ROOT / stem),
                 "design_tag": tag,
                 "f_GHz": f_ghz,
                 "source_port": 1,
                 "meta": meta,
             }
+            continue
+        out_dir, meta = export_one(
+            args.grade, tag, f_ghz, source_port=1, nx=args.nx, ny=args.ny
         )
-    (FIELD_ROOT / "INDEX.json").write_text(json.dumps(index, indent=2) + "\n")
-    print("wrote", FIELD_ROOT / "INDEX.json", flush=True)
+        by_key[key] = {
+            "key": key,
+            "path": str(out_dir),
+            "design_tag": tag,
+            "f_GHz": f_ghz,
+            "source_port": 1,
+            "meta": meta,
+        }
+    index["exports"] = list(by_key.values())
+    index["field_root"] = str(FIELD_ROOT)
+    index_path.write_text(json.dumps(index, indent=2) + "\n")
+    print("wrote", index_path, flush=True)
 
 
 if __name__ == "__main__":

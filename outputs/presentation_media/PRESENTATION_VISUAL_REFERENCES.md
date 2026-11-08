@@ -15,12 +15,14 @@ This note captures **visual conventions** useful for PlasMEEP talks. It does **n
 - Use a diverging colormap (e.g. RdBu) centered at 0 for instantaneous Re[Hz].
 - Always annotate: frequency, B sign, source port, design tag, solver.
 - Side-by-side **uniform vs optimized** on a **shared color scale**.
+- **Playback (Stage-3):** ~12–15 s @ 30 fps, ~2 visual periods, short holds, looping GIF + PNG poster for every important clip (MP4 alone is not enough).
 
 ## Spectra / optimization
 
 - Frequency on the horizontal axis (GHz); keep 4–6 GHz band limits visible.
 - Mark **objective-grid nodes** vs **audit densification** distinctly (enrichment story).
 - Plot **worst-frequency migration** and **4.1 GHz recovery** as first-class callouts for Stage-2.
+- Stage-3: mark **repaired** 5.75/5.825 nodes and any **new dense-audit holes** (5.8125, 4.775) distinctly.
 - FoM curves: higher J_BB better; label soft-min / A2 explicitly.
 
 ## Validation communication

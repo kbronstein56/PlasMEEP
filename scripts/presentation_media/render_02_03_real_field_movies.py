@@ -20,11 +20,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from media_common import (  # noqa: E402
     C_INK,
     C_MUTED,
+    FIELD_FRAMES_PER_PERIOD,
+    FIELD_GIF_FPS,
+    FIELD_HOLD_FRAMES,
+    FIELD_N_PERIODS,
     FPS,
     OUT_ROOT,
     PROD_CAMPAIGN,
     clear_frames,
     encode_mp4,
+    field_phase_schedule,
     frames_to_gif,
     save_frame,
     stamp_kind,
@@ -32,8 +37,8 @@ from media_common import (  # noqa: E402
 )
 
 FIELD_ROOT = PROD_CAMPAIGN / "presentation_fields"
-N_PERIODS = 2
-FRAMES_PER_PERIOD = 24  # 48 frames @ 2 periods → 1.6 s @ 30 fps
+N_PERIODS = FIELD_N_PERIODS
+FRAMES_PER_PERIOD = FIELD_FRAMES_PER_PERIOD
 
 
 def load_export(stem: str):
@@ -101,11 +106,10 @@ def animate_pair(
     )
     vmax = max(vmax, 1e-30)
     norm = TwoSlopeNorm(vmin=-vmax, vcenter=0.0, vmax=vmax)
-    n_frames = N_PERIODS * FRAMES_PER_PERIOD
+    phases = field_phase_schedule(N_PERIODS, FRAMES_PER_PERIOD, FIELD_HOLD_FRAMES)
     frame_paths = []
-    for i in range(n_frames):
+    for i, phase in enumerate(phases):
         # Same frame index = same fraction of each panel's RF period
-        phase = 2.0 * np.pi * (i / FRAMES_PER_PERIOD)
         Fl = np.real(Hz_l * np.exp(-1j * phase))
         Fr = np.real(Hz_r * np.exp(-1j * phase))
         fig = plt.figure(figsize=(19.2, 10.8), dpi=100)
@@ -142,15 +146,22 @@ def animate_pair(
                 bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="#cbd5e1", alpha=0.9),
             )
         fig.colorbar(im, ax=[ax0, ax1], fraction=0.02, pad=0.02, label="Re[Hz] (rel.)")
-        fig.text(0.5, 0.02, subtitle, ha="center", fontsize=13, color=C_MUTED)
+        fig.text(
+            0.5,
+            0.02,
+            f"{subtitle}  ·  ~{len(phases)/FPS:.1f}s @ {FPS}fps",
+            ha="center",
+            fontsize=13,
+            color=C_MUTED,
+        )
         fp = out_dir / "frames" / f"frame_{i:04d}.png"
         save_frame(fig, fp)
         frame_paths.append(fp)
 
     mp4 = out_dir / f"{stem}.mp4"
     encode_mp4(str(out_dir / "frames" / "frame_*.png"), mp4, fps=FPS)
-    write_poster(frame_paths[0], out_dir / f"{stem}_poster.png")
-    frames_to_gif(frame_paths, out_dir / f"{stem}_preview.gif", fps=12)
+    write_poster(frame_paths[int(FIELD_HOLD_FRAMES)], out_dir / f"{stem}_poster.png")
+    frames_to_gif(frame_paths, out_dir / f"{stem}_preview.gif", fps=FIELD_GIF_FPS)
     (out_dir / f"{stem}_PROVENANCE.txt").write_text(
         json.dumps(
             {
@@ -158,8 +169,10 @@ def animate_pair(
                 "right": meta_r,
                 "animation": "Re[Hz * exp(-1j*omega*t)]",
                 "field_root": str(FIELD_ROOT),
-                "n_frames": n_frames,
+                "n_frames": len(phases),
+                "duration_s": len(phases) / FPS,
                 "periods": N_PERIODS,
+                "hold_frames": FIELD_HOLD_FRAMES,
             },
             indent=2,
         )
@@ -180,10 +193,9 @@ def animate_single(
     vmax = float(np.nanpercentile(np.abs(Hz), 99.5))
     vmax = max(vmax, 1e-30)
     norm = TwoSlopeNorm(vmin=-vmax, vcenter=0.0, vmax=vmax)
-    n_frames = N_PERIODS * FRAMES_PER_PERIOD
+    phases = field_phase_schedule(N_PERIODS, FRAMES_PER_PERIOD, FIELD_HOLD_FRAMES)
     frame_paths = []
-    for i in range(n_frames):
-        phase = 2.0 * np.pi * (i / FRAMES_PER_PERIOD)
+    for i, phase in enumerate(phases):
         F = np.real(Hz * np.exp(-1j * phase))
         fig = plt.figure(figsize=(19.2, 10.8), dpi=100)
         fig.suptitle(title, fontsize=26, fontweight="bold", color=C_INK, y=0.97)
@@ -215,16 +227,32 @@ def animate_single(
             bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="#cbd5e1", alpha=0.9),
         )
         fig.colorbar(im, ax=ax, fraction=0.03, pad=0.02, label="Re[Hz] (rel.)")
-        fig.text(0.5, 0.02, subtitle, ha="center", fontsize=13, color=C_MUTED)
+        fig.text(
+            0.5,
+            0.02,
+            f"{subtitle}  ·  ~{len(phases)/FPS:.1f}s @ {FPS}fps",
+            ha="center",
+            fontsize=13,
+            color=C_MUTED,
+        )
         fp = out_dir / "frames" / f"frame_{i:04d}.png"
         save_frame(fig, fp)
         frame_paths.append(fp)
     mp4 = out_dir / f"{stem}.mp4"
     encode_mp4(str(out_dir / "frames" / "frame_*.png"), mp4, fps=FPS)
-    write_poster(frame_paths[0], out_dir / f"{stem}_poster.png")
-    frames_to_gif(frame_paths, out_dir / f"{stem}_preview.gif", fps=12)
+    write_poster(frame_paths[int(FIELD_HOLD_FRAMES)], out_dir / f"{stem}_poster.png")
+    frames_to_gif(frame_paths, out_dir / f"{stem}_preview.gif", fps=FIELD_GIF_FPS)
     (out_dir / f"{stem}_PROVENANCE.txt").write_text(
-        json.dumps({"meta": meta, "animation": "Re[Hz * exp(-1j*omega*t)]"}, indent=2)
+        json.dumps(
+            {
+                "meta": meta,
+                "animation": "Re[Hz * exp(-1j*omega*t)]",
+                "n_frames": len(phases),
+                "duration_s": len(phases) / FPS,
+                "hold_frames": FIELD_HOLD_FRAMES,
+            },
+            indent=2,
+        )
         + "\n"
     )
     print("wrote", mp4)

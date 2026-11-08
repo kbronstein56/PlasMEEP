@@ -14,6 +14,9 @@ SCRIPTS = [
     "render_06_adaptive_frequency_enrichment.py",
     "render_07_TE0_TE1_modes.py",
     "render_08_validation_ladder.py",
+    "render_stage3_static_figures.py",
+    "render_stage3_spectral_sweep.py",
+    "render_stage3_evolution.py",
 ]
 
 
@@ -38,6 +41,10 @@ def main():
     print("=" * 60, flush=True)
     print("RUN", name, flush=True)
     subprocess.run([py, str(HERE / name)], check=True)
+    # Stage-3 field movies (require Stage-2/3 presentation_fields exports)
+    print("=" * 60, flush=True)
+    print("RUN render_stage3_field_movies.py", flush=True)
+    subprocess.run([py, str(HERE / "render_stage3_field_movies.py")], check=False)
     print("ALL DONE")
 
 

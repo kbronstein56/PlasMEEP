@@ -27,6 +27,14 @@ W, H = 1920, 1080
 FPS = 30
 DPI = 100  # 1920x1080 at figsize=(19.2, 10.8)
 
+# Field-movie defaults (human-readable; not literal GHz wall-clock)
+# Target ~12–15 s @ 30 fps with ~2 visual RF periods + short holds.
+FIELD_N_PERIODS = 2
+FIELD_FRAMES_PER_PERIOD = 180  # 360 motion frames → 12.0 s
+FIELD_HOLD_FRAMES = 15  # 0.5 s hold at start and end → ~13.0 s total
+FIELD_GIF_FPS = 6
+FIELD_GIF_MAX_FRAMES = 72  # ~12 s looping preview at 6 fps
+
 # Presentation palette (light, high-contrast labels)
 C_BG = "#f7f8fb"
 C_INK = "#1a1a1a"
@@ -134,14 +142,18 @@ def encode_mp4(frame_glob: str, mp4_path: Path, fps: int = FPS) -> None:
     subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
-def frames_to_gif(frame_paths: list[Path], gif_path: Path, fps: int = 10) -> None:
-    """Small GIF preview via ffmpeg (palette)."""
+def frames_to_gif(
+    frame_paths: list[Path],
+    gif_path: Path,
+    fps: int = FIELD_GIF_FPS,
+    max_frames: int = FIELD_GIF_MAX_FRAMES,
+) -> None:
+    """Looping GIF preview via ffmpeg (palette). Always writes -loop 0."""
     if not frame_paths:
         return
     gif_path.parent.mkdir(parents=True, exist_ok=True)
-    lst = gif_path.with_suffix(".txt")
-    # subsample for light GIF
-    step = max(1, len(frame_paths) // 40)
+    # Keep GIF slow and inspectable: ~max_frames over the full sequence
+    step = max(1, int(np.ceil(len(frame_paths) / max(1, int(max_frames)))))
     chosen = frame_paths[::step]
     if chosen[-1] != frame_paths[-1]:
         chosen.append(frame_paths[-1])
@@ -189,7 +201,25 @@ def frames_to_gif(frame_paths: list[Path], gif_path: Path, fps: int = 10) -> Non
         stderr=subprocess.DEVNULL,
     )
     shutil.rmtree(tmp, ignore_errors=True)
-    lst.unlink(missing_ok=True)
+
+
+def field_phase_schedule(
+    n_periods: int = FIELD_N_PERIODS,
+    frames_per_period: int = FIELD_FRAMES_PER_PERIOD,
+    hold_frames: int = FIELD_HOLD_FRAMES,
+) -> list[float]:
+    """Return phase angles (radians) including start/end holds for seamless loop.
+
+    Hold frames freeze at phase=0 so start and end match for looping.
+    Motion covers exactly n_periods of 2π.
+    """
+    motion = [
+        2.0 * np.pi * (i / float(frames_per_period))
+        for i in range(int(n_periods) * int(frames_per_period))
+    ]
+    hold = [0.0] * int(hold_frames)
+    # end hold also at 0 (== start) after integer periods
+    return hold + motion + hold
 
 
 def write_poster(frame_path: Path, poster_path: Path) -> None:

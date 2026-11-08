@@ -1,9 +1,9 @@
 # Jesse broadband method summary
 
 **Stage-2 COMPLETE** (A2_hybrid + 28-freq enrichment).  
+**Stage-3 COMPLETE** (A2_hybrid + 30-freq enrichment; holes at 5.75/5.825 repaired).  
 Stage-1 historical freeze remains `BROADBAND_PRODUCTION_SPEC_FROZEN.md`.  
-Stage-2 freeze: `BROADBAND_PRODUCTION_SPEC_STAGE2_FROZEN.md`.  
-**Do not auto-start Stage-3.**
+Stage-2 freeze: `BROADBAND_PRODUCTION_SPEC_STAGE2_FROZEN.md`.
 
 Continuum SF quote (not M-mesh): \(J\approx0.626\pm0.007\).
 
@@ -58,17 +58,18 @@ Still planned; not blocking post-Stage-2 audit.
 
 Details: `BB_STAGE2_RESULTS.md`, `BB_STAGE1_VS_STAGE2.md`.
 
-### Enrichment / Stage-3?
+### Stage-3 production result
 
-**50 + 25 MHz audits COMPLETE — enrichment needed.**  
-Off-grid: worst A2/IL @ **5.75** (A2≈−11.0, IL≈26 dB, iso≈−20 dB); worst iso @
-**5.825** (≈−21.3 dB). On-grid residual: **4.3 GHz** IL≈27.5 dB.
+| | Value |
+|--|------:|
+| FoM | **A2_hybrid** |
+| freqs | **30** (Stage-2 28 + 5.75 + 5.825) |
+| J_BB | −9.02 → **−3.659** |
+| 5.75 | A2 −10.98→**−2.95**, iso −20→**+3.1 dB** |
+| 5.825 | A2 −10.71→**+1.38**, iso −21→**+17.9 dB** |
+| 4.1 GHz | T_des 0.141→**0.289**, IL 8.5→**5.4 dB** (preserved + improved) |
+| new 50 MHz worst | A2 **−4.57 @ 4.3 GHz** |
+| wall | ~11.0 h / 30 L-BFGS / `n_workers=12` |
 
-If Stage-3 approved (`BB_STAGE3_PROPOSAL.md`):
-- why: close 5.75/5.825 between-grid hole
-- add: **5.75, 5.825** → 30 freqs
-- objective: A2_hybrid; τ=0.05; α=0.25; C6
-- start: Stage-2 `q_best`
-- question: close hole without undoing 4.1 recovery?
-
-**Do not auto-start Stage-3.**
+Details: `BB_STAGE3_RESULTS.md`, `BB_STAGE3_AUDIT_REPORT.json`.  
+Residual mild off-node dip near **5.775 GHz** (A2≈−4.73); continuum F/Q/X2 still required later.

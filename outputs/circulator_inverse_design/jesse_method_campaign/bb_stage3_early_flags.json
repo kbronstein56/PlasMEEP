@@ -1,0 +1,13 @@
+{
+  "n": 5,
+  "complete": true,
+  "T_des_4p1_start": 0.1410451359262244,
+  "T_des_4p1_iter5": 0.28917995766990284,
+  "IL_4p1_iter5": 5.388666883732781,
+  "iso_4p1_iter5": 9.951526120680851,
+  "A2_4p1_start": -0.8388010950555547,
+  "A2_4p1_iter5": 0.40696868354493193,
+  "flags": [],
+  "abort": false,
+  "note": "Flags only \u2014 do not auto-abort; do not loosen criteria."
+}

@@ -1,7 +1,8 @@
-# Stage-3 proposal — **AUTHORIZED / LAUNCHED**
+# Stage-3 proposal — **AUTHORIZED / COMPLETE**
 
 Generated after Stage-2 dense 50 MHz + targeted 25 MHz audits.  
-**Authorization:** 2026-11-07 — launch with `n_workers=12`, `omp_threads_per_worker=1`.
+**Authorization:** 2026-11-07 — launch with `n_workers=12`, `omp_threads_per_worker=1`.  
+**Result:** see `BB_STAGE3_RESULTS.md` — \(J_{BB}\) −9.02 → **−3.66** in ~11.0 h; 5.75/5.825 holes repaired; 4.1 improved; new 50 MHz worst A2≈−4.57 @ 4.3 GHz.
 
 ## Why needed
 

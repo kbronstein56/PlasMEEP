@@ -1,0 +1,97 @@
+{
+  "left": {
+    "design_tag": "stage3_best",
+    "design": {
+      "design_id": "stage3_A2_C_q_best",
+      "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage3_A2_C.json",
+      "J_BB": -3.6585350586032654,
+      "accepted_nit": 30
+    },
+    "f_GHz": 5.8125,
+    "f_Hz": 5812500000.0,
+    "omega_rad_s": 36521014597.981346,
+    "source_port": 1,
+    "source_port_label": "P1",
+    "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+    "B_tesla": 0.05,
+    "B_sign": "B_PLUS",
+    "mesh_grade": "C",
+    "n_dof": 823166,
+    "n_tris": 1645362,
+    "grid_nx": 480,
+    "grid_ny": 448,
+    "xy_units": "cm (device domain as in production FEM)",
+    "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+    "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+    "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+    "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+    "metrics_te0": {
+      "T_des_avg": 0.0008159397680360692,
+      "T_rev_avg": 0.04699982757430069,
+      "R_avg": 0.6161019220446161,
+      "TE1_avg": 0.18257851120443083,
+      "IL_avg_dB": 31.957352725194813,
+      "isolation_avg_dB": -18.667372001471772,
+      "RL_avg_dB": 2.105672592171596
+    },
+    "timing_s": {
+      "wall_total": 106.5929399380002,
+      "factor_lu": 7.781119100000069,
+      "forward_6rhs": 0.6094851110010495,
+      "rss_GiB_start": 2.4998092651367188,
+      "rss_GiB_end": 3.957347869873047
+    },
+    "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+  },
+  "right": {
+    "design_tag": "stage4_best",
+    "design": {
+      "design_id": "stage4_A2_C_q_best",
+      "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage4_A2_C.json",
+      "J_BB": -4.131095924793298,
+      "accepted_nit": 30
+    },
+    "f_GHz": 5.8125,
+    "f_Hz": 5812500000.0,
+    "omega_rad_s": 36521014597.981346,
+    "source_port": 1,
+    "source_port_label": "P1",
+    "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+    "B_tesla": 0.05,
+    "B_sign": "B_PLUS",
+    "mesh_grade": "C",
+    "n_dof": 823166,
+    "n_tris": 1645362,
+    "grid_nx": 480,
+    "grid_ny": 448,
+    "xy_units": "cm (device domain as in production FEM)",
+    "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+    "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+    "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+    "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+    "metrics_te0": {
+      "T_des_avg": 0.028239135045320676,
+      "T_rev_avg": 0.05245100522792187,
+      "R_avg": 0.7222361526205865,
+      "TE1_avg": 0.07988876483363642,
+      "IL_avg_dB": 15.556983345802863,
+      "isolation_avg_dB": -2.746719688027314,
+      "RL_avg_dB": 1.4243559984611585
+    },
+    "timing_s": {
+      "wall_total": 110.96431394699903,
+      "factor_lu": 7.522335858999213,
+      "forward_6rhs": 0.6051767370008747,
+      "rss_GiB_start": 2.1367645263671875,
+      "rss_GiB_end": 3.881866455078125
+    },
+    "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+  },
+  "animation": "Re[Hz * exp(-1j*omega*t)]",
+  "n_frames": 390,
+  "duration_s": 13.0,
+  "periods": 2,
+  "hold_frames": 15,
+  "shared_color_scale": true,
+  "field_root": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields"
+}

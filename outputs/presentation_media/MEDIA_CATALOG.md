@@ -35,12 +35,28 @@
 
 Scripts: `render_stage3_field_movies.py`, `render_stage3_static_figures.py`, `render_stage3_spectral_sweep.py`, `render_stage3_evolution.py`.
 
+## Stage-4 package
+
+| ID | Artifact | Kind | Demonstrates |
+|----|----------|------|--------------|
+| 19 | `19_stage3_vs_stage4_broadband_sweep/` + `stage4_figures/19_*.png` | **DATA** | Spectral S3→S4; marks improved notches + new holes |
+| 20 | `20_stage4_notch_5p8125/` MP4+GIF+poster + PNG | **SIMULATION** / **DATA** | 5.8125 before/after (improved, not fully repaired) |
+| 21 | `21_stage4_notch_4p775/` MP4+GIF+poster + PNG | **SIMULATION** / **DATA** | 4.775 before/after (node repaired) |
+| 22 | `22_stage4_new_hole_5p08125/` MP4+GIF+poster + PNG | **SIMULATION** / **DATA** | True dense-audit worst @ **5.08125 GHz** |
+| 23 | `stage4_figures/23_stage4_device_summary.png` | **DATA** | Final Stage-4 device / spectrum summary |
+| 24 | `24_stage4_new_hole_4p725/` + `stage4_figures/24_*.png` | **SIMULATION** / **DATA** | Secondary new hole @ 4.725 GHz |
+
+Scripts: `render_stage4_field_movies.py`, `render_stage4_static_figures.py`, `render_stage4_spectral_sweep.py`.
+
+**Scientific note:** Stage-4 improved 5.8125/4.775 on-grid but dense audit found new off-grid corpses at 5.08125 and 4.725. Do not treat Stage-4 as continuum-complete.
+
 ## Production field exports used
 
 `/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/`
 
 - Stage-2: 4.1, 5.65, 5.75, 5.825 GHz  
-- Stage-3: 4.1, 4.3, 4.775, 5.75, 5.8125, 5.825 GHz  
+- Stage-3: 4.1, 4.3, 4.725, 4.775, 5.08125, 5.75, 5.8125, 5.825 GHz  
+- Stage-4: 4.725, 4.775, 5.08125, 5.8125 GHz  
 
 ## Playback / motion policy (Stage-3 update)
 

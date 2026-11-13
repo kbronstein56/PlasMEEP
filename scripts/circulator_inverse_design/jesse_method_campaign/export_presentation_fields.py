@@ -73,6 +73,17 @@ def _design_q(tag: str) -> tuple[np.ndarray, dict]:
             "accepted_nit": d.get("accepted_nit"),
         }
         return q, meta
+    if tag == "stage4_best":
+        p = OUT / "opt_broadband_stage4_A2_C.json"
+        d = json.loads(p.read_text())
+        q = np.asarray(d["q_best"], float)
+        meta = {
+            "design_id": "stage4_A2_C_q_best",
+            "source_file": str(p),
+            "J_BB": d.get("J_BB_best", d.get("J_BB")),
+            "accepted_nit": d.get("accepted_nit_total", d.get("accepted_nit")),
+        }
+        return q, meta
     raise ValueError(tag)
 
 
@@ -251,6 +262,12 @@ def main():
         "stage3_4p3": ("stage3_best", 4.3),
         "stage3_4p775": ("stage3_best", 4.775),
         "stage3_5p8125": ("stage3_best", 5.8125),
+        "stage4_4p775": ("stage4_best", 4.775),
+        "stage4_5p8125": ("stage4_best", 5.8125),
+        "stage4_5p08125": ("stage4_best", 5.08125),
+        "stage4_4p725": ("stage4_best", 4.725),
+        "stage3_5p08125": ("stage3_best", 5.08125),
+        "stage3_4p725": ("stage3_best", 4.725),
     }
     if args.jobs.strip() == "all":
         keys = [
@@ -266,6 +283,17 @@ def main():
             "stage3_5p825",
             "stage3_4p3",
             "stage2_5p825",
+        ]
+    elif args.jobs.strip() == "stage4":
+        keys = [
+            "stage4_4p775",
+            "stage4_5p8125",
+            "stage4_5p08125",
+            "stage4_4p725",
+            "stage3_5p08125",
+            "stage3_4p725",
+            "stage3_4p775",
+            "stage3_5p8125",
         ]
     else:
         keys = [k.strip() for k in args.jobs.split(",") if k.strip()]

@@ -459,7 +459,7 @@
     },
     {
       "key": "stage3_4p775",
-      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage3_best_P1_4p775GHz_Bplus",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage3_best_P1_4p7750GHz_Bplus",
       "design_tag": "stage3_best",
       "f_GHz": 4.775,
       "source_port": 1,
@@ -490,27 +490,27 @@
         "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
         "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
         "metrics_te0": {
-          "T_des_avg": 0.0026449975722221976,
-          "T_rev_avg": 0.017760379436406258,
-          "R_avg": 0.30009188261901854,
-          "TE1_avg": 0.3497591217627624,
-          "IL_avg_dB": 25.895931312540835,
-          "isolation_avg_dB": -8.350003187698752,
-          "RL_avg_dB": 5.227702644610124
+          "T_des_avg": 0.002644997572222193,
+          "T_rev_avg": 0.017760379436407604,
+          "R_avg": 0.30009188261900854,
+          "TE1_avg": 0.34975912176277163,
+          "IL_avg_dB": 25.895931312541,
+          "isolation_avg_dB": -8.35000318769924,
+          "RL_avg_dB": 5.227702644610269
         },
         "timing_s": {
-          "wall_total": 173.1391252260073,
-          "factor_lu": 9.581593772978522,
-          "forward_6rhs": 0.8373885999899358,
-          "rss_GiB_start": 0.1618194580078125,
-          "rss_GiB_end": 3.6794090270996094
+          "wall_total": 106.55894855400038,
+          "factor_lu": 7.530261551000876,
+          "forward_6rhs": 0.5974728189994494,
+          "rss_GiB_start": 2.4849319458007812,
+          "rss_GiB_end": 3.9498252868652344
         },
         "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
       }
     },
     {
       "key": "stage3_5p8125",
-      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage3_best_P1_5p812GHz_Bplus",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage3_best_P1_5p8125GHz_Bplus",
       "design_tag": "stage3_best",
       "f_GHz": 5.8125,
       "source_port": 1,
@@ -541,20 +541,326 @@
         "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
         "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
         "metrics_te0": {
-          "T_des_avg": 0.0008159397680358799,
-          "T_rev_avg": 0.04699982757430216,
-          "R_avg": 0.6161019220446123,
-          "TE1_avg": 0.18257851120442892,
-          "IL_avg_dB": 31.957352725195644,
-          "isolation_avg_dB": -18.667372001472724,
-          "RL_avg_dB": 2.105672592171622
+          "T_des_avg": 0.0008159397680360692,
+          "T_rev_avg": 0.04699982757430069,
+          "R_avg": 0.6161019220446161,
+          "TE1_avg": 0.18257851120443083,
+          "IL_avg_dB": 31.957352725194813,
+          "isolation_avg_dB": -18.667372001471772,
+          "RL_avg_dB": 2.105672592171596
         },
         "timing_s": {
-          "wall_total": 110.72296233399538,
-          "factor_lu": 8.856362168007763,
-          "forward_6rhs": 0.7172661540098488,
-          "rss_GiB_start": 0.16149520874023438,
-          "rss_GiB_end": 3.680400848388672
+          "wall_total": 106.5929399380002,
+          "factor_lu": 7.781119100000069,
+          "forward_6rhs": 0.6094851110010495,
+          "rss_GiB_start": 2.4998092651367188,
+          "rss_GiB_end": 3.957347869873047
+        },
+        "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+      }
+    },
+    {
+      "key": "stage4_4p775",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage4_best_P1_4p7750GHz_Bplus",
+      "design_tag": "stage4_best",
+      "f_GHz": 4.775,
+      "source_port": 1,
+      "meta": {
+        "design_tag": "stage4_best",
+        "design": {
+          "design_id": "stage4_A2_C_q_best",
+          "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage4_A2_C.json",
+          "J_BB": -4.131095924793298,
+          "accepted_nit": 30
+        },
+        "f_GHz": 4.775,
+        "f_Hz": 4775000000.0,
+        "omega_rad_s": 30002209841.782524,
+        "source_port": 1,
+        "source_port_label": "P1",
+        "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+        "B_tesla": 0.05,
+        "B_sign": "B_PLUS",
+        "mesh_grade": "C",
+        "n_dof": 823166,
+        "n_tris": 1645362,
+        "grid_nx": 480,
+        "grid_ny": 448,
+        "xy_units": "cm (device domain as in production FEM)",
+        "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+        "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+        "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+        "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+        "metrics_te0": {
+          "T_des_avg": 0.024006898962425346,
+          "T_rev_avg": 0.0027811388447124973,
+          "R_avg": 0.5948542779521971,
+          "TE1_avg": 0.3126901238113026,
+          "IL_avg_dB": 16.198151241362588,
+          "isolation_avg_dB": 9.373359813402589,
+          "RL_avg_dB": 2.255960810592511
+        },
+        "timing_s": {
+          "wall_total": 106.42974159300138,
+          "factor_lu": 7.250581145000979,
+          "forward_6rhs": 0.6218751839987817,
+          "rss_GiB_start": 0.16281509399414062,
+          "rss_GiB_end": 3.6841506958007812
+        },
+        "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+      }
+    },
+    {
+      "key": "stage4_5p8125",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage4_best_P1_5p8125GHz_Bplus",
+      "design_tag": "stage4_best",
+      "f_GHz": 5.8125,
+      "source_port": 1,
+      "meta": {
+        "design_tag": "stage4_best",
+        "design": {
+          "design_id": "stage4_A2_C_q_best",
+          "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage4_A2_C.json",
+          "J_BB": -4.131095924793298,
+          "accepted_nit": 30
+        },
+        "f_GHz": 5.8125,
+        "f_Hz": 5812500000.0,
+        "omega_rad_s": 36521014597.981346,
+        "source_port": 1,
+        "source_port_label": "P1",
+        "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+        "B_tesla": 0.05,
+        "B_sign": "B_PLUS",
+        "mesh_grade": "C",
+        "n_dof": 823166,
+        "n_tris": 1645362,
+        "grid_nx": 480,
+        "grid_ny": 448,
+        "xy_units": "cm (device domain as in production FEM)",
+        "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+        "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+        "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+        "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+        "metrics_te0": {
+          "T_des_avg": 0.028239135045320676,
+          "T_rev_avg": 0.05245100522792187,
+          "R_avg": 0.7222361526205865,
+          "TE1_avg": 0.07988876483363642,
+          "IL_avg_dB": 15.556983345802863,
+          "isolation_avg_dB": -2.746719688027314,
+          "RL_avg_dB": 1.4243559984611585
+        },
+        "timing_s": {
+          "wall_total": 110.96431394699903,
+          "factor_lu": 7.522335858999213,
+          "forward_6rhs": 0.6051767370008747,
+          "rss_GiB_start": 2.1367645263671875,
+          "rss_GiB_end": 3.881866455078125
+        },
+        "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+      }
+    },
+    {
+      "key": "stage4_5p08125",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage4_best_P1_5p0812GHz_Bplus",
+      "design_tag": "stage4_best",
+      "f_GHz": 5.08125,
+      "source_port": 1,
+      "meta": {
+        "design_tag": "stage4_best",
+        "design": {
+          "design_id": "stage4_A2_C_q_best",
+          "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage4_A2_C.json",
+          "J_BB": -4.131095924793298,
+          "accepted_nit": 30
+        },
+        "f_GHz": 5.08125,
+        "f_Hz": 5081250000.0,
+        "omega_rad_s": 31926435342.106274,
+        "source_port": 1,
+        "source_port_label": "P1",
+        "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+        "B_tesla": 0.05,
+        "B_sign": "B_PLUS",
+        "mesh_grade": "C",
+        "n_dof": 823166,
+        "n_tris": 1645362,
+        "grid_nx": 480,
+        "grid_ny": 448,
+        "xy_units": "cm (device domain as in production FEM)",
+        "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+        "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+        "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+        "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+        "metrics_te0": {
+          "T_des_avg": 0.011981296492846329,
+          "T_rev_avg": 0.01314555548070827,
+          "R_avg": 0.5469106041509251,
+          "TE1_avg": 0.32490523551783584,
+          "IL_avg_dB": 32.61136231330363,
+          "isolation_avg_dB": -13.58515522715483,
+          "RL_avg_dB": 2.6770708673942187
+        },
+        "timing_s": {
+          "wall_total": 109.08825852600057,
+          "factor_lu": 6.802488449000521,
+          "forward_6rhs": 0.6101471029996901,
+          "rss_GiB_start": 2.4036293029785156,
+          "rss_GiB_end": 3.897083282470703
+        },
+        "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+      }
+    },
+    {
+      "key": "stage4_4p725",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage4_best_P1_4p7250GHz_Bplus",
+      "design_tag": "stage4_best",
+      "f_GHz": 4.725,
+      "source_port": 1,
+      "meta": {
+        "design_tag": "stage4_best",
+        "design": {
+          "design_id": "stage4_A2_C_q_best",
+          "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage4_A2_C.json",
+          "J_BB": -4.131095924793298,
+          "accepted_nit": 30
+        },
+        "f_GHz": 4.725,
+        "f_Hz": 4725000000.0,
+        "omega_rad_s": 29688050576.423546,
+        "source_port": 1,
+        "source_port_label": "P1",
+        "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+        "B_tesla": 0.05,
+        "B_sign": "B_PLUS",
+        "mesh_grade": "C",
+        "n_dof": 823166,
+        "n_tris": 1645362,
+        "grid_nx": 480,
+        "grid_ny": 448,
+        "xy_units": "cm (device domain as in production FEM)",
+        "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+        "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+        "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+        "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+        "metrics_te0": {
+          "T_des_avg": 0.002395876417385589,
+          "T_rev_avg": 0.030586178121681726,
+          "R_avg": 0.41573792975429874,
+          "TE1_avg": 0.40486922403560327,
+          "IL_avg_dB": 26.24342726170917,
+          "isolation_avg_dB": -11.087048122986419,
+          "RL_avg_dB": 3.81448500552661
+        },
+        "timing_s": {
+          "wall_total": 108.48745500000041,
+          "factor_lu": 7.116928159999588,
+          "forward_6rhs": 0.6038067890003731,
+          "rss_GiB_start": 2.431377410888672,
+          "rss_GiB_end": 3.923248291015625
+        },
+        "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+      }
+    },
+    {
+      "key": "stage3_5p08125",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage3_best_P1_5p0812GHz_Bplus",
+      "design_tag": "stage3_best",
+      "f_GHz": 5.08125,
+      "source_port": 1,
+      "meta": {
+        "design_tag": "stage3_best",
+        "design": {
+          "design_id": "stage3_A2_C_q_best",
+          "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage3_A2_C.json",
+          "J_BB": -3.6585350586032654,
+          "accepted_nit": 30
+        },
+        "f_GHz": 5.08125,
+        "f_Hz": 5081250000.0,
+        "omega_rad_s": 31926435342.106274,
+        "source_port": 1,
+        "source_port_label": "P1",
+        "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+        "B_tesla": 0.05,
+        "B_sign": "B_PLUS",
+        "mesh_grade": "C",
+        "n_dof": 823166,
+        "n_tris": 1645362,
+        "grid_nx": 480,
+        "grid_ny": 448,
+        "xy_units": "cm (device domain as in production FEM)",
+        "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+        "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+        "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+        "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+        "metrics_te0": {
+          "T_des_avg": 0.026121864687350616,
+          "T_rev_avg": 0.026541347717025248,
+          "R_avg": 0.4455242062488664,
+          "TE1_avg": 0.35113147216100576,
+          "IL_avg_dB": 15.858124885205626,
+          "isolation_avg_dB": 0.30027022190485536,
+          "RL_avg_dB": 3.653230256938747
+        },
+        "timing_s": {
+          "wall_total": 106.15111463699941,
+          "factor_lu": 7.300701580999885,
+          "forward_6rhs": 0.6089434789992083,
+          "rss_GiB_start": 2.450672149658203,
+          "rss_GiB_end": 3.936687469482422
+        },
+        "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
+      }
+    },
+    {
+      "key": "stage3_4p725",
+      "path": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/presentation_fields/stage3_best_P1_4p7250GHz_Bplus",
+      "design_tag": "stage3_best",
+      "f_GHz": 4.725,
+      "source_port": 1,
+      "meta": {
+        "design_tag": "stage3_best",
+        "design": {
+          "design_id": "stage3_A2_C_q_best",
+          "source_file": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage3_A2_C.json",
+          "J_BB": -3.6585350586032654,
+          "accepted_nit": 30
+        },
+        "f_GHz": 4.725,
+        "f_Hz": 4725000000.0,
+        "omega_rad_s": 29688050576.423546,
+        "source_port": 1,
+        "source_port_label": "P1",
+        "port_indexing": "P1..P6 = indices 0..5; desired for B_PLUS is (j+1)%6",
+        "B_tesla": 0.05,
+        "B_sign": "B_PLUS",
+        "mesh_grade": "C",
+        "n_dof": 823166,
+        "n_tris": 1645362,
+        "grid_nx": 480,
+        "grid_ny": 448,
+        "xy_units": "cm (device domain as in production FEM)",
+        "field_quantity": "Hz (out-of-plane H, complex phasor at nodes \u2192 linear interp to grid)",
+        "normalization": "As returned by production Direct-DtN TE0 drive column; absolute scale is solver-consistent within a movie, not absolute SI calib.",
+        "phase_time_convention": "Phasor convention for animation: frame(t) = Re[Hz * exp(-1j * omega * t)], omega=2*pi*f. DO NOT animate |Hz| as oscillating.",
+        "solver": "scipy.sparse.linalg.splu (SuperLU) via production adjoint_direct_dtn",
+        "metrics_te0": {
+          "T_des_avg": 0.07209254622792645,
+          "T_rev_avg": 0.034477519959804435,
+          "R_avg": 0.439399370490422,
+          "TE1_avg": 0.3916670634374413,
+          "IL_avg_dB": 11.430521705965793,
+          "isolation_avg_dB": 3.210525335561423,
+          "RL_avg_dB": 3.5717018916354033
+        },
+        "timing_s": {
+          "wall_total": 106.86607537199961,
+          "factor_lu": 7.269440498001131,
+          "forward_6rhs": 0.6080631599998014,
+          "rss_GiB_start": 2.467456817626953,
+          "rss_GiB_end": 3.9445877075195312
         },
         "geometry_reference": "Same FULL91 / grade-C mesh and port layout as Stage-2 production (orbits_and_masks / build_system projected)."
       }

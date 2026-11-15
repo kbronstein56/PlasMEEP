@@ -152,13 +152,15 @@ Reproducible helper: `scripts/.../stage5_frequency_set.py` (prints the list; doe
 | warm start | Stage-4 `q_best` |
 | **n_workers** | **12** |
 | omp / OpenBLAS / MKL | **1 / 1 / 1** |
+| kernel | **optimized A2 path** (`fem_assembly_fast`; see `STAGE5_KERNEL_PERFORMANCE_AUDIT.md`) |
 | batches / BB eval | **27** (`ceil(321/12)`) |
-| **≈wall / BB eval** | **~123 min (~2.05 h)** |
+| **≈wall / BB eval** | **~19 min (~0.32 h)** — from measured 48-freq/12w fast wall × 27/4 |
 | **≈peak RAM** | **~45–50 GiB** (scale from 44.7 GiB @48-freq/12w) |
-| **≈total @74 evals** | **~152 h (~6.3 days)** |
+| **≈total @50 / 60 / 74 evals** | **~16 h / ~19 h / ~24 h** |
+| prior (pre-kernel) estimate | ~2.05 h/eval → ~6.3 days @74 (superseded) |
 | checkpoint/resume | required (same pattern as Stages 3–4) |
 
-Optional accelerator (not required): `n_workers=24` → similar total wall (~150 h) at ~90 GiB RAM — **not recommended** as default.
+Optional accelerator (not required): `n_workers=24` — **not recommended** as default (flat wall, 2× RAM).
 
 ### Scientific justification vs Stages 2–4
 

@@ -1,0 +1,72 @@
+{
+  "grade": "C",
+  "q_source": "opt_broadband_stage4_A2_C.json",
+  "omp": "1",
+  "freqs_GHz": [
+    5.08125
+  ],
+  "profiles": [
+    {
+      "f_GHz": 5.08125,
+      "J": -11.039145913596798,
+      "grad_norm": 7174.21913978529,
+      "timings": {
+        "bs_load_mesh": 0.17267642499064095,
+        "bs_material_masks": 1.912748967006337,
+        "bs_rod_masks": 1.1370087139948737,
+        "bs_rho_from_scales": 0.09666658702190034,
+        "bs_exterior_mask": 0.3081507599854376,
+        "bs_assemble_bulk": 4.983525199990254,
+        "bs_build_ports": 21.187112465006066,
+        "bs_assemble_port_operator": 57.62563902200782,
+        "bs_build_system_total": 87.42868386599002,
+        "pack_ports": 0.03316922500380315,
+        "factor_lu": 8.68422071399982,
+        "rss_after_factor": 2.3901939392089844,
+        "forward_solve": 0.8044828049896751,
+        "S_and_objective": 0.5614188899926376,
+        "adjoint_solve": 2.3874963049893267,
+        "dA_assemble_sum": 34.82927534598275,
+        "dA_matvec_sum": 1.7403659209958278,
+        "dA_contraction_total": 36.5698038690025,
+        "dA_assemble_mean": 2.176829709123922,
+        "dA_matvec_mean": 0.10877287006223924,
+        "total": 136.47049661900382,
+        "rss_start": 0.7923469543457031,
+        "rss_end": 3.1589813232421875,
+        "n_dof": 823166,
+        "n_tris": 1645362,
+        "orbit_mask_sizes": [
+          3937,
+          23742,
+          23842,
+          23716,
+          23716,
+          23812,
+          23726,
+          23780,
+          23740,
+          23738,
+          23642,
+          23682,
+          23768,
+          23760,
+          23822,
+          23728
+        ]
+      },
+      "share_pct_of_total": {
+        "assemble_bulk": 3.651723503214897,
+        "build_ports": 15.525049728628094,
+        "assemble_port_op": 42.225712113356025,
+        "load_masks_rho": 2.6579015559133583,
+        "factor_lu": 6.363441864100701,
+        "forward": 0.5894921062943131,
+        "adjoint": 1.7494596738038561,
+        "dA_assemble": 25.521468895374927,
+        "dA_matvec": 1.2752689878857508,
+        "S_obj": 0.4113848076335488
+      }
+    }
+  ]
+}

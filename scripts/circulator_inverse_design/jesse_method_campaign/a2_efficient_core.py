@@ -3,6 +3,9 @@
 
 Used by production Stage-2 opt, performance profiling, and field exports.
 Does not change A2 mathematics.
+
+use_fast_kernel=True (default): cached geometry + orbit-local dA contraction.
+use_fast_kernel=False: original build_system + assemble_dA_rod reference path.
 """
 from __future__ import annotations
 
@@ -20,6 +23,10 @@ from direct_dtn_s import build_Q_columns
 from efficient_adjoint import S_from_U, _pack_C, _solve_multi
 from multimode_opt_core import B_PLUS, expand_tied, orbits_and_masks, te0_metrics_from_S
 from objective_A2 import EPS, objective_A2_from_S, scalar_adjoint_rhs_A2
+
+# Flipped to on after STAGE5_KERNEL_PERFORMANCE_AUDIT equivalence PASS.
+# Override with PLASMEEP_A2_FAST_KERNEL=0 for the reference path.
+_DEFAULT_FAST = os.environ.get("PLASMEEP_A2_FAST_KERNEL", "1") not in ("0", "false", "False")
 
 
 def rss_gib() -> float:
@@ -42,8 +49,11 @@ def eval_and_grad_A2(
     eps=EPS,
     profile: bool = False,
     return_fields: bool = False,
+    use_fast_kernel: bool | None = None,
 ):
     """Single-frequency A2 objective + C6 gradient (1 LU + 6+6 RHS)."""
+    if use_fast_kernel is None:
+        use_fast_kernel = _DEFAULT_FAST
     tim: dict[str, Any] = {}
     rss0 = rss_gib() if profile else None
     t_all = time.perf_counter()
@@ -54,12 +64,21 @@ def eval_and_grad_A2(
         tim["expand_s"] = time.perf_counter() - t0
 
     t0 = time.perf_counter()
-    st = build_system(grade, s, f_hz, b_tesla, "projected")
+    if use_fast_kernel:
+        from fem_assembly_fast import build_system_cached, contract_dA_orbit
+
+        st = build_system_cached(grade, s, f_hz, b_tesla, "projected")
+    else:
+        st = build_system(grade, s, f_hz, b_tesla, "projected")
     if profile:
         tim["assemble_build_system"] = time.perf_counter() - t0
+        tim["kernel"] = "fast" if use_fast_kernel else "reference"
 
     t0 = time.perf_counter()
-    _, _, o_masks = orbits_and_masks(rod_masks=st["rod_masks"])
+    if use_fast_kernel and "_o_masks" in st:
+        o_masks = st["_o_masks"]
+    else:
+        _, _, o_masks = orbits_and_masks(rod_masks=st["rod_masks"])
     points, A = st["points"], st["A"]
     cols = build_Q_columns(points, st["ports"], st["modes"], n_prop=2)
     C, betas = _pack_C(points, cols)
@@ -95,24 +114,41 @@ def eval_and_grad_A2(
 
     t0 = time.perf_counter()
     g = np.zeros(len(orbits), float)
-    for m, o in enumerate(orbits):
-        s_m = float(s[o["rods"][0]])
-        dA = assemble_dA_rod(
-            points,
-            st["tris"],
-            o_masks[m],
-            st["f_ord"],
-            st["fp_ref_ord"],
-            st["gamma"],
-            st["fc"],
-            st["k0"],
-            s=s_m,
-        )
-        acc = 0.0
-        for j_loc in range(6):
-            dAu = dA @ U[:, j_loc]
-            acc += 2.0 * np.real(np.dot(Lam[:, j_loc], dAu))
-        g[m] = float(acc / 6.0)
+    if use_fast_kernel:
+        geo = st["_geom"]
+        for m, o in enumerate(orbits):
+            s_m = float(s[o["rods"][0]])
+            g[m] = contract_dA_orbit(
+                geo,
+                o_masks[m],
+                st["f_ord"],
+                st["fp_ref_ord"],
+                st["gamma"],
+                st["fc"],
+                st["k0"],
+                s_m,
+                U,
+                Lam,
+            )
+    else:
+        for m, o in enumerate(orbits):
+            s_m = float(s[o["rods"][0]])
+            dA = assemble_dA_rod(
+                points,
+                st["tris"],
+                o_masks[m],
+                st["f_ord"],
+                st["fp_ref_ord"],
+                st["gamma"],
+                st["fc"],
+                st["k0"],
+                s=s_m,
+            )
+            acc = 0.0
+            for j_loc in range(6):
+                dAu = dA @ U[:, j_loc]
+                acc += 2.0 * np.real(np.dot(Lam[:, j_loc], dAu))
+            g[m] = float(acc / 6.0)
     if profile:
         tim["dA_contraction"] = time.perf_counter() - t0
         tim["total"] = time.perf_counter() - t_all
@@ -192,13 +228,19 @@ def eval_bb_A2_serial(
     tau=0.05,
     alpha=0.25,
     profile: bool = False,
+    use_fast_kernel: bool | None = None,
 ):
     """Serial frequency loop (production default)."""
     t0 = time.perf_counter()
     Js, gs, mets, per = [], [], [], []
     for f in freqs_hz:
         bun, g, _ = eval_and_grad_A2(
-            grade, q, orbits, f_hz=float(f), profile=profile
+            grade,
+            q,
+            orbits,
+            f_hz=float(f),
+            profile=profile,
+            use_fast_kernel=use_fast_kernel,
         )
         Js.append(bun["J"])
         gs.append(g)
@@ -235,11 +277,20 @@ def _ensure_sys_path():
             sys.path.insert(0, p)
 
 
-def _init_parallel_worker(omp_threads: int):
+def _init_parallel_worker(omp_threads: int, grade: str = "C", use_fast_kernel: bool | None = None):
     """Runs in each spawned worker before tasks; env must be set before BLAS use."""
     for k in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
         os.environ[k] = str(int(omp_threads))
     _ensure_sys_path()
+    # Pre-build frequency-independent mesh/port caches so the first task is warm.
+    fast = _DEFAULT_FAST if use_fast_kernel is None else bool(use_fast_kernel)
+    if fast:
+        try:
+            from fem_assembly_fast import get_device_static
+
+            get_device_static(str(grade), measure="projected")
+        except Exception:
+            pass
 
 
 def _worker_payload(payload: dict):
@@ -256,6 +307,7 @@ def _worker_payload(payload: dict):
         orbits,
         f_hz=float(payload["f_Hz"]),
         profile=bool(payload.get("profile", False)),
+        use_fast_kernel=payload.get("use_fast_kernel", None),
     )
     return {
         "f_Hz": float(payload["f_Hz"]),
@@ -276,6 +328,7 @@ def eval_bb_A2_process_parallel(
     n_workers: int = 2,
     omp_threads_per_worker: int = 1,
     profile: bool = False,
+    use_fast_kernel: bool | None = None,
 ):
     """Process-parallel over frequencies. Default-off production option.
 
@@ -289,7 +342,14 @@ def eval_bb_A2_process_parallel(
     n_workers = max(1, int(n_workers))
     if n_workers == 1:
         return eval_bb_A2_serial(
-            grade, q, orbits, freqs_hz, tau=tau, alpha=alpha, profile=profile
+            grade,
+            q,
+            orbits,
+            freqs_hz,
+            tau=tau,
+            alpha=alpha,
+            profile=profile,
+            use_fast_kernel=use_fast_kernel,
         )
 
     t0 = time.perf_counter()
@@ -300,6 +360,7 @@ def eval_bb_A2_process_parallel(
             "f_Hz": float(f),
             "omp_threads": int(omp_threads_per_worker),
             "profile": profile,
+            "use_fast_kernel": use_fast_kernel,
         }
         for f in freqs_hz
     ]
@@ -316,7 +377,7 @@ def eval_bb_A2_process_parallel(
             max_workers=n_workers,
             mp_context=ctx,
             initializer=_init_parallel_worker,
-            initargs=(int(omp_threads_per_worker),),
+            initargs=(int(omp_threads_per_worker), str(grade), use_fast_kernel),
         ) as ex:
             futs = {ex.submit(_worker_payload, p): p["f_Hz"] for p in payloads}
             for fut in as_completed(futs):
@@ -357,11 +418,19 @@ def eval_bb_A2(
     n_workers: int = 1,
     omp_threads_per_worker: int = 1,
     profile: bool = False,
+    use_fast_kernel: bool | None = None,
 ):
     """Production entry: serial unless n_workers>1."""
     if int(n_workers) <= 1:
         return eval_bb_A2_serial(
-            grade, q, orbits, freqs_hz, tau=tau, alpha=alpha, profile=profile
+            grade,
+            q,
+            orbits,
+            freqs_hz,
+            tau=tau,
+            alpha=alpha,
+            profile=profile,
+            use_fast_kernel=use_fast_kernel,
         )
     return eval_bb_A2_process_parallel(
         grade,
@@ -373,4 +442,5 @@ def eval_bb_A2(
         n_workers=n_workers,
         omp_threads_per_worker=omp_threads_per_worker,
         profile=profile,
+        use_fast_kernel=use_fast_kernel,
     )

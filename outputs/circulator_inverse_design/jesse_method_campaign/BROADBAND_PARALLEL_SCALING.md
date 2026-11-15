@@ -28,13 +28,25 @@
 | 32 | 1063.1 | 1.03× | 111.7 | 26.6 | yes |
 | 48 | 1083.9 | 1.01× | 163.5 | 47.3 | yes |
 
-**Do not assume 48 workers will turn a 321-frequency Stage-5 eval into a ~15-minute job.**  
-Expect ≈ `ceil(n_freq/12) × ~274 s` wall per BB eval at 12 workers.
+**Do not assume 48 workers will turn a 321-frequency Stage-5 eval into a ~15-minute job.**
+
+### Kernel update (2026-11-15)
+
+After the Stage-5 kernel performance audit (`STAGE5_KERNEL_PERFORMANCE_AUDIT.md`):
+
+| Path | 48-freq / 12w wall | Implied Stage-5 (321 freq) / eval |
+|------|-------------------:|----------------------------------:|
+| Reference A2 kernel | 1220 s | ~2.3 h |
+| **Optimized A2 kernel** | **172 s** | **~0.32 h** |
+
+Expect ≈ `ceil(n_freq/12) / ceil(48/12) × measured_48_wall` at 12 workers.
+With the optimized kernel that is ≈ **19 min per 321-freq BB eval**.
 
 ## Production default
 
 ```bash
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+# optional: PLASMEEP_A2_FAST_KERNEL=0  # force reference kernel
 python -u ... --n-workers 12 --omp-threads-per-worker 1
 ```
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Deterministic Stage-5 frequency set generator (NO optimization).
+"""Deterministic Stage-5 frequency set generator.
 
-Recommended rule from BB_STAGE5_SAMPLING_STRATEGY.md:
+Authorized rule from BB_STAGE5_SAMPLING_STRATEGY.md:
   uniform 6.25 MHz grid on [4.0, 6.0] GHz inclusive → n_freq = 321.
 
-Stage-5 remains NOT STARTED / AWAITING AUTHORIZATION.
+Do not modify this rule during Stage-5 optimization.
 """
 from __future__ import annotations
 
@@ -23,18 +23,9 @@ def main():
     print(f"max_gap_MHz = {max(gaps)*1000:.6f}")
     assert len(freqs) == 321
     assert abs(max(gaps) - 0.00625) < 1e-12
-    print("STAGE-5 STATUS: NOT STARTED / AWAITING AUTHORIZATION")
-    # Print compact list for copy into a future authorized runner
-    print("freqs_GHz = [")
-    row = []
-    for f in freqs:
-        row.append(f"{f:g}")
-        if len(row) == 8:
-            print("    " + ", ".join(row) + ",")
-            row = []
-    if row:
-        print("    " + ", ".join(row))
-    print("]")
+    assert freqs[0] == 4.0 and freqs[-1] == 6.0
+    assert len(set(freqs)) == 321
+    print("STAGE-5 FREQUENCY SET: AUTHORIZED (do not alter during opt)")
 
 
 if __name__ == "__main__":

@@ -84,6 +84,18 @@ def _design_q(tag: str) -> tuple[np.ndarray, dict]:
             "accepted_nit": d.get("accepted_nit_total", d.get("accepted_nit")),
         }
         return q, meta
+    if tag == "stage5_best":
+        p = OUT / "opt_broadband_stage5_A2_C.json"
+        d = json.loads(p.read_text())
+        q = np.asarray(d["q_best"], float)
+        meta = {
+            "design_id": "stage5_A2_C_q_best",
+            "source_file": str(p),
+            "J_BB": d.get("J_BB_best", d.get("J_BB")),
+            "accepted_nit": d.get("accepted_nit_total", d.get("accepted_nit")),
+            "n_eval": d.get("n_eval"),
+        }
+        return q, meta
     raise ValueError(tag)
 
 
@@ -266,8 +278,16 @@ def main():
         "stage4_5p8125": ("stage4_best", 5.8125),
         "stage4_5p08125": ("stage4_best", 5.08125),
         "stage4_4p725": ("stage4_best", 4.725),
+        "stage4_4p73125": ("stage4_best", 4.73125),
         "stage3_5p08125": ("stage3_best", 5.08125),
         "stage3_4p725": ("stage3_best", 4.725),
+        "stage5_5p08125": ("stage5_best", 5.08125),
+        "stage5_4p73125": ("stage5_best", 4.73125),
+        "stage5_4p734375": ("stage5_best", 4.734375),
+        "stage5_5p8125": ("stage5_best", 5.8125),
+        "stage5_5p1375": ("stage5_best", 5.1375),
+        "stage4_4p734375": ("stage4_best", 4.734375),
+        "stage4_5p1375": ("stage4_best", 5.1375),
     }
     if args.jobs.strip() == "all":
         keys = [
@@ -294,6 +314,21 @@ def main():
             "stage3_4p725",
             "stage3_4p775",
             "stage3_5p8125",
+        ]
+    elif args.jobs.strip() == "stage5":
+        keys = [
+            "stage5_5p08125",
+            "stage5_4p73125",
+            "stage5_4p734375",
+            "stage5_5p8125",
+            "stage5_5p1375",
+            "stage4_4p73125",
+            "stage4_4p734375",
+            "stage4_5p08125",
+            "stage4_5p8125",
+            "stage4_5p1375",
+            "stage3_5p8125",
+            "stage3_5p08125",
         ]
     else:
         keys = [k.strip() for k in args.jobs.split(",") if k.strip()]

@@ -1,0 +1,22 @@
+{
+  "n": 5,
+  "complete": true,
+  "T_des_4p1_start": 0.255060813565084,
+  "T_des_4p1_iter5": 0.2595687320720112,
+  "IL_4p1_iter5": 5.858129100744686,
+  "iso_4p1_iter5": 9.093659405178531,
+  "A2_4p1_start": 0.0322725348076438,
+  "A2_4p1_iter5": 0.09578183386390175,
+  "flags": [
+    {
+      "code": "watch_5p08125_still_poor",
+      "detail": "5.08125 GHz A2 -6.44\u2192-6.53; iso -2.6\u2192-2.9 dB"
+    },
+    {
+      "code": "watch_5p8125_still_poor",
+      "detail": "5.8125 GHz A2 -5.16\u2192-5.20; iso -4.6\u2192-4.7 dB"
+    }
+  ],
+  "abort": false,
+  "note": "Flags only \u2014 do not auto-abort; do not loosen criteria."
+}

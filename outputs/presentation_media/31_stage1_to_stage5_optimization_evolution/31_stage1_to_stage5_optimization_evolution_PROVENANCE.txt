@@ -1,0 +1,3 @@
+timeline_points=125
+stages=['S2', 'S3', 'S4', 'S5']
+animation=device q + J_BB curves from real histories

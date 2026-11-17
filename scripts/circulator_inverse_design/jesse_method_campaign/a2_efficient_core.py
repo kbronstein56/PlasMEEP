@@ -229,8 +229,11 @@ def eval_bb_A2_serial(
     alpha=0.25,
     profile: bool = False,
     use_fast_kernel: bool | None = None,
+    b_tesla: float | None = None,
 ):
     """Serial frequency loop (production default)."""
+    if b_tesla is None:
+        b_tesla = float(B_PLUS)
     t0 = time.perf_counter()
     Js, gs, mets, per = [], [], [], []
     for f in freqs_hz:
@@ -239,6 +242,7 @@ def eval_bb_A2_serial(
             q,
             orbits,
             f_hz=float(f),
+            b_tesla=float(b_tesla),
             profile=profile,
             use_fast_kernel=use_fast_kernel,
         )
@@ -298,14 +302,33 @@ def _worker_payload(payload: dict):
     _ensure_sys_path()
     for k in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
         os.environ[k] = str(payload.get("omp_threads", 1))
+    from multimode_opt_core import B_PLUS as _B_PLUS
     from multimode_opt_core import orbits_and_masks as _orb
 
-    orbits, _, _ = _orb()
+    if payload.get("orbits") is not None:
+        raw = payload["orbits"]
+        orbits = []
+        for o in raw:
+            if isinstance(o, dict):
+                rods = list(o["rods"])
+                orbits.append(
+                    {
+                        "rods": rods,
+                        "size": int(o.get("size", len(rods))),
+                        **{k: v for k, v in o.items() if k not in ("rods", "size")},
+                    }
+                )
+            else:
+                rods = list(o)
+                orbits.append({"rods": rods, "size": len(rods)})
+    else:
+        orbits, _, _ = _orb()
     bun, g, _ = eval_and_grad_A2(
         payload["grade"],
         np.asarray(payload["q"], float),
         orbits,
         f_hz=float(payload["f_Hz"]),
+        b_tesla=float(payload.get("b_tesla", _B_PLUS)),
         profile=bool(payload.get("profile", False)),
         use_fast_kernel=payload.get("use_fast_kernel", None),
     )
@@ -329,16 +352,21 @@ def eval_bb_A2_process_parallel(
     omp_threads_per_worker: int = 1,
     profile: bool = False,
     use_fast_kernel: bool | None = None,
+    b_tesla: float | None = None,
 ):
     """Process-parallel over frequencies. Default-off production option.
 
     Each frequency remains scientifically independent (own assemble + LU + 6+6).
     Numerical result must match serial to floating-point aggregation order.
+    Optional b_tesla / non-C6 orbits are for feasibility probes only; production
+    Stage-5 path leaves both at defaults (B_PLUS, C6 orbits_and_masks).
     """
     # spawn so each worker gets a clean BLAS/OpenMP init after OMP=1 is set
     import multiprocessing as mp
     from concurrent.futures import ProcessPoolExecutor, as_completed
 
+    if b_tesla is None:
+        b_tesla = float(B_PLUS)
     n_workers = max(1, int(n_workers))
     if n_workers == 1:
         return eval_bb_A2_serial(
@@ -350,9 +378,20 @@ def eval_bb_A2_process_parallel(
             alpha=alpha,
             profile=profile,
             use_fast_kernel=use_fast_kernel,
+            b_tesla=b_tesla,
         )
 
     t0 = time.perf_counter()
+    # Only ship explicit orbits when non-default (e.g. C3). Production C6 workers
+    # rebuild via orbits_and_masks() to avoid fragile orbit-dict serialization.
+    orbits_c6, _, _ = orbits_and_masks()
+    use_custom_orbits = len(orbits) != len(orbits_c6)
+    orbits_payload = None
+    if use_custom_orbits:
+        orbits_payload = []
+        for o in orbits:
+            rods = list(o["rods"] if isinstance(o, dict) else o)
+            orbits_payload.append({"rods": rods, "size": len(rods)})
     payloads = [
         {
             "grade": grade,
@@ -361,6 +400,8 @@ def eval_bb_A2_process_parallel(
             "omp_threads": int(omp_threads_per_worker),
             "profile": profile,
             "use_fast_kernel": use_fast_kernel,
+            "b_tesla": float(b_tesla),
+            "orbits": orbits_payload,
         }
         for f in freqs_hz
     ]
@@ -419,6 +460,7 @@ def eval_bb_A2(
     omp_threads_per_worker: int = 1,
     profile: bool = False,
     use_fast_kernel: bool | None = None,
+    b_tesla: float | None = None,
 ):
     """Production entry: serial unless n_workers>1."""
     if int(n_workers) <= 1:
@@ -431,6 +473,7 @@ def eval_bb_A2(
             alpha=alpha,
             profile=profile,
             use_fast_kernel=use_fast_kernel,
+            b_tesla=b_tesla,
         )
     return eval_bb_A2_process_parallel(
         grade,
@@ -442,5 +485,6 @@ def eval_bb_A2(
         n_workers=n_workers,
         omp_threads_per_worker=omp_threads_per_worker,
         profile=profile,
+        b_tesla=b_tesla,
         use_fast_kernel=use_fast_kernel,
     )

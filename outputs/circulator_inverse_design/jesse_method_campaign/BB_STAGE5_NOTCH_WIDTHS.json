@@ -1,0 +1,3134 @@
+{
+  "design": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/opt_broadband_stage5_A2_C.json",
+  "J_BB_best": -6.055964715927996,
+  "stage6_status": "NOT STARTED / AWAITING AUTHORIZATION",
+  "note": "Forward-only notch-width characterization on FINAL Stage-5 q_best. No optimization. Measured FEM samples are authoritative.",
+  "centers_GHz": {
+    "4p734": 4.734375,
+    "4p228": 4.228125,
+    "5p084": 5.084375,
+    "5p572": 5.571875
+  },
+  "pass_1p5625_window_half_GHz": 0.04,
+  "regions": {
+    "4p734": {
+      "pass_1p5625MHz": {
+        "label": "4p734_1p5625MHz",
+        "spacing_GHz": 0.0015625,
+        "spacing_MHz": 1.5625,
+        "n_freq": 53,
+        "notch_center_GHz": 4.734375,
+        "notch_A2": -8.741126661955489,
+        "notch_IL_dB": 25.03769778103104,
+        "notch_isolation_dB": -11.034857234764802,
+        "notch_T_des": 0.0033214485541978346,
+        "worst_competing": {
+          "source_port": 1,
+          "desired_port": 2,
+          "competing_port": 6,
+          "T_des": 0.0017356772691689466,
+          "T_rev": 0.039092981498205656,
+          "isolation_dB": -13.52629818082171,
+          "IL_dB": 27.60531024118579
+        },
+        "width_half_depth_GHz": 0.020312999999999803,
+        "width_half_depth_MHz": 20.312999999999803,
+        "half_depth_span_GHz": [
+          4.73125,
+          4.751563
+        ],
+        "deep_core_A2_lt_m7_span_GHz": [
+          4.732812,
+          4.7375
+        ],
+        "deep_core_width_MHz": 4.687999999999803,
+        "deep_core_n_samples": 4,
+        "bad_core_A2_lt_m5_span_GHz": [
+          4.73125,
+          4.75
+        ],
+        "bad_core_width_MHz": 18.749999999999822,
+        "bad_core_n_samples": 13,
+        "recovery_span_GHz": [
+          4.729687,
+          4.760937
+        ],
+        "recovery_width_MHz": 31.25,
+        "left_shoulder": {
+          "f_GHz": 4.723438,
+          "J_A2": 2.416861878425482,
+          "isolation_dB": 22.171768845052004
+        },
+        "right_shoulder": {
+          "f_GHz": 4.775,
+          "J_A2": -2.4463789485483547,
+          "isolation_dB": 8.352187378382567
+        },
+        "recovery_rate_left": {
+          "df_GHz": 0.006249999999999645,
+          "dA2": 7.008446441512415,
+          "dA2_per_MHz": 1.1213514306420502,
+          "end_f_GHz": 4.728125,
+          "end_A2": -1.7326802204430738
+        },
+        "recovery_rate_right": {
+          "df_GHz": 0.028125000000000178,
+          "dA2": 5.789057545963871,
+          "dA2_per_MHz": 0.20583315718982523,
+          "end_f_GHz": 4.7625,
+          "end_A2": -2.9520691159916175
+        },
+        "n_local_minima": 3,
+        "n_important_local_minima_A2_le_m5": 2,
+        "local_minima": [
+          {
+            "f_GHz": 4.703125,
+            "J_A2": -2.605862546246068,
+            "IL_dB": 9.883085961142333,
+            "isolation_dB": 0.9373796678095063
+          },
+          {
+            "f_GHz": 4.734375,
+            "J_A2": -8.741126661955489,
+            "IL_dB": 25.03769778103104,
+            "isolation_dB": -11.034857234764802
+          },
+          {
+            "f_GHz": 4.742188,
+            "J_A2": -7.27770923852347,
+            "IL_dB": 22.54652752048132,
+            "isolation_dB": -7.1724873068953725
+          }
+        ],
+        "important_local_minima": [
+          {
+            "f_GHz": 4.734375,
+            "J_A2": -8.741126661955489,
+            "IL_dB": 25.03769778103104,
+            "isolation_dB": -11.034857234764802
+          },
+          {
+            "f_GHz": 4.742188,
+            "J_A2": -7.27770923852347,
+            "IL_dB": 22.54652752048132,
+            "isolation_dB": -7.1724873068953725
+          }
+        ],
+        "single_sample_floor": false,
+        "needs_0p78125_refine": false,
+        "feature_smooth_deterministic_note": "Measured FEM samples only; no Lorentzian assumed. Widths are contiguous-sample spans at the stated A2 thresholds."
+      },
+      "pass_0p78125MHz": null
+    },
+    "4p228": {
+      "pass_1p5625MHz": {
+        "label": "4p228_1p5625MHz",
+        "spacing_GHz": 0.0015625,
+        "spacing_MHz": 1.5625,
+        "n_freq": 53,
+        "notch_center_GHz": 4.189063,
+        "notch_A2": -9.220893716802745,
+        "notch_IL_dB": 25.31149252759668,
+        "notch_isolation_dB": -11.944976379559483,
+        "notch_T_des": 0.004749936270944533,
+        "worst_competing": {
+          "source_port": 5,
+          "desired_port": 6,
+          "competing_port": 4,
+          "T_des": 0.0012876324874160072,
+          "T_rev": 0.25876450926631533,
+          "isolation_dB": -23.031127850576098,
+          "IL_dB": 28.902080744471938
+        },
+        "width_half_depth_GHz": 0.042188000000000336,
+        "width_half_depth_MHz": 42.188000000000336,
+        "half_depth_span_GHz": [
+          4.1875,
+          4.229688
+        ],
+        "deep_core_A2_lt_m7_span_GHz": [
+          4.1875,
+          4.189063
+        ],
+        "deep_core_width_MHz": 1.562999999999981,
+        "deep_core_n_samples": 2,
+        "bad_core_A2_lt_m5_span_GHz": [
+          4.1875,
+          4.190625
+        ],
+        "bad_core_width_MHz": 3.1249999999998224,
+        "bad_core_n_samples": 3,
+        "recovery_span_GHz": [
+          4.1875,
+          4.210938
+        ],
+        "recovery_width_MHz": 23.437999999999626,
+        "left_shoulder": {
+          "f_GHz": 4.1875,
+          "J_A2": -7.21927737249172,
+          "isolation_dB": -6.499042784388995
+        },
+        "right_shoulder": {
+          "f_GHz": 4.214063,
+          "J_A2": -0.2944827591250598,
+          "isolation_dB": 11.553254060260606
+        },
+        "recovery_rate_left": {
+          "df_GHz": 0.001562999999999981,
+          "dA2": 2.0016163443110253,
+          "dA2_per_MHz": 1.280624660467722,
+          "end_f_GHz": 4.1875,
+          "end_A2": -7.21927737249172
+        },
+        "recovery_rate_right": {
+          "df_GHz": 0.023437000000000374,
+          "dA2": 7.594227502250077,
+          "dA2_per_MHz": 0.32402728601143305,
+          "end_f_GHz": 4.2125,
+          "end_A2": -1.626666214552668
+        },
+        "n_local_minima": 3,
+        "n_important_local_minima_A2_le_m5": 2,
+        "local_minima": [
+          {
+            "f_GHz": 4.189063,
+            "J_A2": -9.220893716802745,
+            "IL_dB": 25.31149252759668,
+            "isolation_dB": -11.944976379559483
+          },
+          {
+            "f_GHz": 4.20625,
+            "J_A2": -4.957504628986687,
+            "IL_dB": 16.361411005880417,
+            "isolation_dB": -2.9502888627308166
+          },
+          {
+            "f_GHz": 4.228125,
+            "J_A2": -8.279338389700237,
+            "IL_dB": 22.371566604330056,
+            "isolation_dB": -11.29281947259014
+          }
+        ],
+        "important_local_minima": [
+          {
+            "f_GHz": 4.189063,
+            "J_A2": -9.220893716802745,
+            "IL_dB": 25.31149252759668,
+            "isolation_dB": -11.944976379559483
+          },
+          {
+            "f_GHz": 4.228125,
+            "J_A2": -8.279338389700237,
+            "IL_dB": 22.371566604330056,
+            "isolation_dB": -11.29281947259014
+          }
+        ],
+        "single_sample_floor": true,
+        "needs_0p78125_refine": true,
+        "feature_smooth_deterministic_note": "Measured FEM samples only; no Lorentzian assumed. Widths are contiguous-sample spans at the stated A2 thresholds."
+      },
+      "pass_0p78125MHz": {
+        "label": "4p228_0p78125MHz",
+        "spacing_GHz": 0.00078125,
+        "spacing_MHz": 0.78125,
+        "n_freq": 21,
+        "notch_center_GHz": 4.189063,
+        "notch_A2": -9.220893716802745,
+        "notch_IL_dB": 25.31149252759668,
+        "notch_isolation_dB": -11.944976379559483,
+        "notch_T_des": 0.004749936270944533,
+        "worst_competing": {
+          "source_port": 5,
+          "desired_port": 6,
+          "competing_port": 4,
+          "T_des": 0.0012876324874160072,
+          "T_rev": 0.25876450926631533,
+          "isolation_dB": -23.031127850576098,
+          "IL_dB": 28.902080744471938
+        },
+        "width_half_depth_GHz": 0.003125999999999962,
+        "width_half_depth_MHz": 3.125999999999962,
+        "half_depth_span_GHz": [
+          4.1875,
+          4.190626
+        ],
+        "deep_core_A2_lt_m7_span_GHz": [
+          4.1875,
+          4.189844
+        ],
+        "deep_core_width_MHz": 2.3439999999999017,
+        "deep_core_n_samples": 4,
+        "bad_core_A2_lt_m5_span_GHz": [
+          4.186719,
+          4.191407
+        ],
+        "bad_core_width_MHz": 4.687999999999803,
+        "bad_core_n_samples": 7,
+        "recovery_span_GHz": [
+          4.185157,
+          4.196875
+        ],
+        "recovery_width_MHz": 11.718000000000117,
+        "left_shoulder": {
+          "f_GHz": 4.18125,
+          "J_A2": -2.5071486911337737,
+          "isolation_dB": 5.71442116640283
+        },
+        "right_shoulder": {
+          "f_GHz": 4.196094,
+          "J_A2": -3.7302011680886467,
+          "isolation_dB": -2.4209666285263487
+        },
+        "recovery_rate_left": {
+          "df_GHz": 0.0046879999999998034,
+          "dA2": 6.519088110928708,
+          "dA2_per_MHz": 1.3905904673483322,
+          "end_f_GHz": 4.184375,
+          "end_A2": -2.701805605874038
+        },
+        "recovery_rate_right": {
+          "df_GHz": 0.007812000000000374,
+          "dA2": 5.485102342019379,
+          "dA2_per_MHz": 0.7021380366127902,
+          "end_f_GHz": 4.196875,
+          "end_A2": -3.735791374783366
+        },
+        "n_local_minima": 2,
+        "n_important_local_minima_A2_le_m5": 1,
+        "local_minima": [
+          {
+            "f_GHz": 4.183594,
+            "J_A2": -2.8123888589401176,
+            "IL_dB": 14.230638079874872,
+            "isolation_dB": 5.094949429750096
+          },
+          {
+            "f_GHz": 4.189063,
+            "J_A2": -9.220893716802745,
+            "IL_dB": 25.31149252759668,
+            "isolation_dB": -11.944976379559483
+          }
+        ],
+        "important_local_minima": [
+          {
+            "f_GHz": 4.189063,
+            "J_A2": -9.220893716802745,
+            "IL_dB": 25.31149252759668,
+            "isolation_dB": -11.944976379559483
+          }
+        ],
+        "single_sample_floor": false,
+        "needs_0p78125_refine": false,
+        "feature_smooth_deterministic_note": "Measured FEM samples only; no Lorentzian assumed. Widths are contiguous-sample spans at the stated A2 thresholds."
+      }
+    },
+    "5p084": {
+      "pass_1p5625MHz": {
+        "label": "5p084_1p5625MHz",
+        "spacing_GHz": 0.0015625,
+        "spacing_MHz": 1.5625,
+        "n_freq": 53,
+        "notch_center_GHz": 5.084375,
+        "notch_A2": -8.238013915977556,
+        "notch_IL_dB": 26.55434629811073,
+        "notch_isolation_dB": -7.162634406808553,
+        "notch_T_des": 0.012041385234273368,
+        "worst_competing": {
+          "source_port": 4,
+          "desired_port": 5,
+          "competing_port": 3,
+          "T_des": 0.0002040915226585478,
+          "T_rev": 0.008336826755027223,
+          "isolation_dB": -16.11175810835769,
+          "IL_dB": 36.90175034181898
+        },
+        "width_half_depth_GHz": 0.04999999999999982,
+        "width_half_depth_MHz": 49.99999999999982,
+        "half_depth_span_GHz": [
+          5.075,
+          5.125
+        ],
+        "deep_core_A2_lt_m7_span_GHz": [
+          5.084375,
+          5.085938
+        ],
+        "deep_core_width_MHz": 1.562999999999981,
+        "deep_core_n_samples": 2,
+        "bad_core_A2_lt_m5_span_GHz": [
+          5.075,
+          5.098437
+        ],
+        "bad_core_width_MHz": 23.436999999999486,
+        "bad_core_n_samples": 16,
+        "recovery_span_GHz": [
+          5.05,
+          5.101562
+        ],
+        "recovery_width_MHz": 51.56200000000055,
+        "left_shoulder": {
+          "f_GHz": 5.04375,
+          "J_A2": -1.2224077383857404,
+          "isolation_dB": 6.127383892974652
+        },
+        "right_shoulder": {
+          "f_GHz": 5.10625,
+          "J_A2": -2.4437491510521263,
+          "isolation_dB": 6.226386793121384
+        },
+        "recovery_rate_left": {
+          "df_GHz": 0.02812499999999929,
+          "dA2": 5.390740424147948,
+          "dA2_per_MHz": 0.19167077063637633,
+          "end_f_GHz": 5.05625,
+          "end_A2": -2.847273491829607
+        },
+        "recovery_rate_right": {
+          "df_GHz": 0.01875000000000071,
+          "dA2": 5.292553521089742,
+          "dA2_per_MHz": 0.28226952112477555,
+          "end_f_GHz": 5.103125,
+          "end_A2": -2.9454603948878137
+        },
+        "n_local_minima": 2,
+        "n_important_local_minima_A2_le_m5": 2,
+        "local_minima": [
+          {
+            "f_GHz": 5.084375,
+            "J_A2": -8.238013915977556,
+            "IL_dB": 26.55434629811073,
+            "isolation_dB": -7.162634406808553
+          },
+          {
+            "f_GHz": 5.092187,
+            "J_A2": -7.92874568784388,
+            "IL_dB": 28.495611594842003,
+            "isolation_dB": -3.8932999269518356
+          }
+        ],
+        "important_local_minima": [
+          {
+            "f_GHz": 5.084375,
+            "J_A2": -8.238013915977556,
+            "IL_dB": 26.55434629811073,
+            "isolation_dB": -7.162634406808553
+          },
+          {
+            "f_GHz": 5.092187,
+            "J_A2": -7.92874568784388,
+            "IL_dB": 28.495611594842003,
+            "isolation_dB": -3.8932999269518356
+          }
+        ],
+        "single_sample_floor": false,
+        "needs_0p78125_refine": false,
+        "feature_smooth_deterministic_note": "Measured FEM samples only; no Lorentzian assumed. Widths are contiguous-sample spans at the stated A2 thresholds."
+      },
+      "pass_0p78125MHz": null
+    },
+    "5p572": {
+      "pass_1p5625MHz": {
+        "label": "5p572_1p5625MHz",
+        "spacing_GHz": 0.0015625,
+        "spacing_MHz": 1.5625,
+        "n_freq": 53,
+        "notch_center_GHz": 5.576563,
+        "notch_A2": -11.912409082933317,
+        "notch_IL_dB": 29.85985756965512,
+        "notch_isolation_dB": -19.33470021254705,
+        "notch_T_des": 0.0014308326644712694,
+        "worst_competing": {
+          "source_port": 3,
+          "desired_port": 4,
+          "competing_port": 2,
+          "T_des": 0.0004909307856433843,
+          "T_rev": 0.08652355388843087,
+          "isolation_dB": -22.461140824384124,
+          "IL_dB": 33.08979732993172
+        },
+        "width_half_depth_GHz": 0.02968700000000002,
+        "width_half_depth_MHz": 29.68700000000002,
+        "half_depth_span_GHz": [
+          5.557813,
+          5.5875
+        ],
+        "deep_core_A2_lt_m7_span_GHz": [
+          5.575,
+          5.578125
+        ],
+        "deep_core_width_MHz": 3.1249999999998224,
+        "deep_core_n_samples": 3,
+        "bad_core_A2_lt_m5_span_GHz": [
+          5.575,
+          5.578125
+        ],
+        "bad_core_width_MHz": 3.1249999999998224,
+        "bad_core_n_samples": 3,
+        "recovery_span_GHz": [
+          5.55,
+          5.6
+        ],
+        "recovery_width_MHz": 49.99999999999982,
+        "left_shoulder": {
+          "f_GHz": 5.546875,
+          "J_A2": -1.0002427649180816,
+          "isolation_dB": 10.393598419637364
+        },
+        "right_shoulder": {
+          "f_GHz": 5.6125,
+          "J_A2": -0.5136934316586207,
+          "isolation_dB": 10.560089969436108
+        },
+        "recovery_rate_left": {
+          "df_GHz": 0.025000000000000355,
+          "dA2": 9.408677928391828,
+          "dA2_per_MHz": 0.37634711713566776,
+          "end_f_GHz": 5.551563,
+          "end_A2": -2.5037311545414886
+        },
+        "recovery_rate_right": {
+          "df_GHz": 0.020311999999999664,
+          "dA2": 8.97382207567035,
+          "dA2_per_MHz": 0.4417990387785791,
+          "end_f_GHz": 5.596875,
+          "end_A2": -2.9385870072629676
+        },
+        "n_local_minima": 7,
+        "n_important_local_minima_A2_le_m5": 4,
+        "local_minima": [
+          {
+            "f_GHz": 5.539062,
+            "J_A2": -3.738914621650802,
+            "IL_dB": 15.065827256192179,
+            "isolation_dB": 1.9552857748143968
+          },
+          {
+            "f_GHz": 5.545313,
+            "J_A2": -2.900138712553685,
+            "IL_dB": 14.456370012532481,
+            "isolation_dB": 4.865831126007841
+          },
+          {
+            "f_GHz": 5.560938,
+            "J_A2": -8.116910058995346,
+            "IL_dB": 21.15575681192386,
+            "isolation_dB": -10.947195006837404
+          },
+          {
+            "f_GHz": 5.571875,
+            "J_A2": -8.046028206386692,
+            "IL_dB": 21.87508290635027,
+            "isolation_dB": -10.477411935524486
+          },
+          {
+            "f_GHz": 5.576563,
+            "J_A2": -11.912409082933317,
+            "IL_dB": 29.85985756965512,
+            "isolation_dB": -19.33470021254705
+          },
+          {
+            "f_GHz": 5.5875,
+            "J_A2": -6.536177274626197,
+            "IL_dB": 19.586059330955376,
+            "isolation_dB": -6.022046740444595
+          },
+          {
+            "f_GHz": 5.609375,
+            "J_A2": -1.485674212460437,
+            "IL_dB": 10.806599966281782,
+            "isolation_dB": 6.749823000185735
+          }
+        ],
+        "important_local_minima": [
+          {
+            "f_GHz": 5.560938,
+            "J_A2": -8.116910058995346,
+            "IL_dB": 21.15575681192386,
+            "isolation_dB": -10.947195006837404
+          },
+          {
+            "f_GHz": 5.571875,
+            "J_A2": -8.046028206386692,
+            "IL_dB": 21.87508290635027,
+            "isolation_dB": -10.477411935524486
+          },
+          {
+            "f_GHz": 5.576563,
+            "J_A2": -11.912409082933317,
+            "IL_dB": 29.85985756965512,
+            "isolation_dB": -19.33470021254705
+          },
+          {
+            "f_GHz": 5.5875,
+            "J_A2": -6.536177274626197,
+            "IL_dB": 19.586059330955376,
+            "isolation_dB": -6.022046740444595
+          }
+        ],
+        "single_sample_floor": true,
+        "needs_0p78125_refine": true,
+        "feature_smooth_deterministic_note": "Measured FEM samples only; no Lorentzian assumed. Widths are contiguous-sample spans at the stated A2 thresholds."
+      },
+      "pass_0p78125MHz": {
+        "label": "5p572_0p78125MHz",
+        "spacing_GHz": 0.00078125,
+        "spacing_MHz": 0.78125,
+        "n_freq": 21,
+        "notch_center_GHz": 5.576563,
+        "notch_A2": -11.912409082933317,
+        "notch_IL_dB": 29.85985756965512,
+        "notch_isolation_dB": -19.33470021254705,
+        "notch_T_des": 0.0014308326644712694,
+        "worst_competing": {
+          "source_port": 3,
+          "desired_port": 4,
+          "competing_port": 2,
+          "T_des": 0.0004909307856433843,
+          "T_rev": 0.08652355388843087,
+          "isolation_dB": -22.461140824384124,
+          "IL_dB": 33.08979732993172
+        },
+        "width_half_depth_GHz": 0.006249999999999645,
+        "width_half_depth_MHz": 6.249999999999645,
+        "half_depth_span_GHz": [
+          5.571094,
+          5.577344
+        ],
+        "deep_core_A2_lt_m7_span_GHz": [
+          5.575,
+          5.578126
+        ],
+        "deep_core_width_MHz": 3.125999999999962,
+        "deep_core_n_samples": 5,
+        "bad_core_A2_lt_m5_span_GHz": [
+          5.575,
+          5.578907
+        ],
+        "bad_core_width_MHz": 3.906999999999883,
+        "bad_core_n_samples": 6,
+        "recovery_span_GHz": [
+          5.568751,
+          5.584376
+        ],
+        "recovery_width_MHz": 15.625,
+        "left_shoulder": {
+          "f_GHz": 5.574219,
+          "J_A2": -3.4506980139079015,
+          "isolation_dB": 2.9287396948923283
+        },
+        "right_shoulder": {
+          "f_GHz": 5.580469,
+          "J_A2": -4.0664597787615735,
+          "isolation_dB": 0.3914304898501668
+        },
+        "recovery_rate_left": {
+          "df_GHz": 0.007812000000000374,
+          "dA2": 4.917781487513682,
+          "dA2_per_MHz": 0.6295163194461656,
+          "end_f_GHz": 5.568751,
+          "end_A2": -6.994627595419636
+        },
+        "recovery_rate_right": {
+          "df_GHz": 0.007812999999999626,
+          "dA2": 5.939850058206521,
+          "dA2_per_MHz": 0.7602521513127871,
+          "end_f_GHz": 5.584376,
+          "end_A2": -5.972559024726796
+        },
+        "n_local_minima": 2,
+        "n_important_local_minima_A2_le_m5": 2,
+        "local_minima": [
+          {
+            "f_GHz": 5.571875,
+            "J_A2": -8.046028206386692,
+            "IL_dB": 21.87508290635027,
+            "isolation_dB": -10.477411935524486
+          },
+          {
+            "f_GHz": 5.576563,
+            "J_A2": -11.912409082933317,
+            "IL_dB": 29.85985756965512,
+            "isolation_dB": -19.33470021254705
+          }
+        ],
+        "important_local_minima": [
+          {
+            "f_GHz": 5.571875,
+            "J_A2": -8.046028206386692,
+            "IL_dB": 21.87508290635027,
+            "isolation_dB": -10.477411935524486
+          },
+          {
+            "f_GHz": 5.576563,
+            "J_A2": -11.912409082933317,
+            "IL_dB": 29.85985756965512,
+            "isolation_dB": -19.33470021254705
+          }
+        ],
+        "single_sample_floor": true,
+        "needs_0p78125_refine": true,
+        "feature_smooth_deterministic_note": "Measured FEM samples only; no Lorentzian assumed. Widths are contiguous-sample spans at the stated A2 thresholds."
+      }
+    }
+  },
+  "compact_width_table": [
+    {
+      "region": "4p734",
+      "authoritative_spacing_MHz": 1.5625,
+      "min_f_GHz": 4.734375,
+      "min_A2": -8.741126661955489,
+      "IL_dB": 25.03769778103104,
+      "isolation_dB": -11.034857234764802,
+      "T_des": 0.0033214485541978346,
+      "A2_lt_m5_width_MHz": 18.749999999999822,
+      "A2_lt_m5_n_samples": 13,
+      "A2_lt_m7_width_MHz": 4.687999999999803,
+      "A2_lt_m7_n_samples": 4,
+      "half_depth_width_MHz": 20.312999999999803,
+      "n_important_minima": 2,
+      "single_sample_floor_at_1p5625": false,
+      "ultra_refined": false
+    },
+    {
+      "region": "4p228",
+      "authoritative_spacing_MHz": 0.78125,
+      "min_f_GHz": 4.189063,
+      "min_A2": -9.220893716802745,
+      "IL_dB": 25.31149252759668,
+      "isolation_dB": -11.944976379559483,
+      "T_des": 0.004749936270944533,
+      "A2_lt_m5_width_MHz": 4.687999999999803,
+      "A2_lt_m5_n_samples": 7,
+      "A2_lt_m7_width_MHz": 2.3439999999999017,
+      "A2_lt_m7_n_samples": 4,
+      "half_depth_width_MHz": 3.125999999999962,
+      "n_important_minima": 1,
+      "single_sample_floor_at_1p5625": true,
+      "ultra_refined": true
+    },
+    {
+      "region": "5p084",
+      "authoritative_spacing_MHz": 1.5625,
+      "min_f_GHz": 5.084375,
+      "min_A2": -8.238013915977556,
+      "IL_dB": 26.55434629811073,
+      "isolation_dB": -7.162634406808553,
+      "T_des": 0.012041385234273368,
+      "A2_lt_m5_width_MHz": 23.436999999999486,
+      "A2_lt_m5_n_samples": 16,
+      "A2_lt_m7_width_MHz": 1.562999999999981,
+      "A2_lt_m7_n_samples": 2,
+      "half_depth_width_MHz": 49.99999999999982,
+      "n_important_minima": 2,
+      "single_sample_floor_at_1p5625": false,
+      "ultra_refined": false
+    },
+    {
+      "region": "5p572",
+      "authoritative_spacing_MHz": 0.78125,
+      "min_f_GHz": 5.576563,
+      "min_A2": -11.912409082933317,
+      "IL_dB": 29.85985756965512,
+      "isolation_dB": -19.33470021254705,
+      "T_des": 0.0014308326644712694,
+      "A2_lt_m5_width_MHz": 3.906999999999883,
+      "A2_lt_m5_n_samples": 6,
+      "A2_lt_m7_width_MHz": 3.125999999999962,
+      "A2_lt_m7_n_samples": 5,
+      "half_depth_width_MHz": 6.249999999999645,
+      "n_important_minima": 2,
+      "single_sample_floor_at_1p5625": true,
+      "ultra_refined": true
+    }
+  ],
+  "stages_3_to_5_width_comparison": [
+    {
+      "stage": 3,
+      "feature": "5.8125",
+      "min_A2": -12.021075522328687,
+      "deep_core_A2_lt_m7_MHz": 6.25,
+      "bad_core_A2_lt_m5_MHz": 12.5,
+      "note": "Stage-3 deep-core hint from 6.25 MHz localization"
+    },
+    {
+      "stage": 4,
+      "feature": "5.08125",
+      "min_A2": -11.039145913596798,
+      "deep_core_A2_lt_m7_MHz": 9.375000000000355,
+      "bad_core_A2_lt_m5_MHz": 21.874999999999645,
+      "note": "Stage-4 3.125 MHz localization where available"
+    },
+    {
+      "stage": 4,
+      "feature": "~4.73125",
+      "min_A2": -10.150327175731098,
+      "deep_core_A2_lt_m7_MHz": 12.500000000000178,
+      "bad_core_A2_lt_m5_MHz": 18.75000000000071,
+      "note": "Stage-4 6.25 MHz localization"
+    },
+    {
+      "stage": 5,
+      "feature": "4p734@4.734375",
+      "min_A2": -8.741126661955489,
+      "deep_core_A2_lt_m7_MHz": 4.687999999999803,
+      "bad_core_A2_lt_m5_MHz": 18.749999999999822,
+      "note": "Stage-5 q_best; spacing=1.5625 MHz"
+    },
+    {
+      "stage": 5,
+      "feature": "4p228@4.189063",
+      "min_A2": -9.220893716802745,
+      "deep_core_A2_lt_m7_MHz": 2.3439999999999017,
+      "bad_core_A2_lt_m5_MHz": 4.687999999999803,
+      "note": "Stage-5 q_best; spacing=0.78125 MHz"
+    },
+    {
+      "stage": 5,
+      "feature": "5p084@5.084375",
+      "min_A2": -8.238013915977556,
+      "deep_core_A2_lt_m7_MHz": 1.562999999999981,
+      "bad_core_A2_lt_m5_MHz": 23.436999999999486,
+      "note": "Stage-5 q_best; spacing=1.5625 MHz"
+    },
+    {
+      "stage": 5,
+      "feature": "5p572@5.576563",
+      "min_A2": -11.912409082933317,
+      "deep_core_A2_lt_m7_MHz": 3.125999999999962,
+      "bad_core_A2_lt_m5_MHz": 3.906999999999883,
+      "note": "Stage-5 q_best; spacing=0.78125 MHz"
+    }
+  ],
+  "narrowest_reliably_resolved_important_notch": {
+    "quantity": "narrowest_reliably_resolved_important_notch_width_MHz",
+    "value_MHz": 1.562999999999981,
+    "definition": "Minimum contiguous A2<-7 sample-span width among Stage-5 important notches with >=2 samples below -7 (measured FEM).",
+    "feature": {
+      "region": "5p084",
+      "authoritative_spacing_MHz": 1.5625,
+      "min_f_GHz": 5.084375,
+      "min_A2": -8.238013915977556,
+      "IL_dB": 26.55434629811073,
+      "isolation_dB": -7.162634406808553,
+      "T_des": 0.012041385234273368,
+      "A2_lt_m5_width_MHz": 23.436999999999486,
+      "A2_lt_m5_n_samples": 16,
+      "A2_lt_m7_width_MHz": 1.562999999999981,
+      "A2_lt_m7_n_samples": 2,
+      "half_depth_width_MHz": 49.99999999999982,
+      "n_important_minima": 2,
+      "single_sample_floor_at_1p5625": false,
+      "ultra_refined": false
+    }
+  },
+  "prior_stage4_narrowest_MHz": 6.25,
+  "region_tables": {
+    "4p734": {
+      "pass_1p5625MHz_table": [
+        {
+          "f_GHz": 4.69375,
+          "J_A2": -2.669905512597493,
+          "T_des": 0.13574216062911565,
+          "IL_dB": 8.737040835747207,
+          "isolation_dB": -0.2837012200093382,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.695312,
+          "J_A2": -2.6231486321829913,
+          "T_des": 0.13383659109181487,
+          "IL_dB": 8.790253360207645,
+          "isolation_dB": -0.06565548331093839,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.696875,
+          "J_A2": -2.5972735824101556,
+          "T_des": 0.12919970644230974,
+          "IL_dB": 8.935437792984622,
+          "isolation_dB": 0.15232895191801996,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.698437,
+          "J_A2": -2.590188016282953,
+          "T_des": 0.1227838896830744,
+          "IL_dB": 9.149117343309301,
+          "isolation_dB": 0.3588543725190638,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.7,
+          "J_A2": -2.5955896681702213,
+          "T_des": 0.11569608540141986,
+          "IL_dB": 9.400520356184073,
+          "isolation_dB": 0.5525975550789332,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.701562,
+          "J_A2": -2.604433143209412,
+          "T_des": 0.10893636872748323,
+          "IL_dB": 9.656225664211604,
+          "isolation_dB": 0.7401998139890219,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.703125,
+          "J_A2": -2.605862546246068,
+          "T_des": 0.10327156807325553,
+          "IL_dB": 9.883085961142333,
+          "isolation_dB": 0.9373796678095063,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.704688,
+          "J_A2": -2.589668403399254,
+          "T_des": 0.09913774007862662,
+          "IL_dB": 10.056491792343467,
+          "isolation_dB": 1.1617328599689014,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.70625,
+          "J_A2": -2.5483503260540368,
+          "T_des": 0.0968035372580624,
+          "IL_dB": 10.156602370891102,
+          "isolation_dB": 1.4289305942327255,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.707813,
+          "J_A2": -2.4738854081811184,
+          "T_des": 0.09639977537142684,
+          "IL_dB": 10.17221587751883,
+          "isolation_dB": 1.7592747557697361,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.709375,
+          "J_A2": -2.362554116494079,
+          "T_des": 0.09800193859809063,
+          "IL_dB": 10.098650746361008,
+          "isolation_dB": 2.165222649066633,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.710938,
+          "J_A2": -2.210297197701798,
+          "T_des": 0.10173046507039894,
+          "IL_dB": 9.934932023215296,
+          "isolation_dB": 2.664002670873053,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.7125,
+          "J_A2": -2.01378259794437,
+          "T_des": 0.10773498923079666,
+          "IL_dB": 9.684632509799803,
+          "isolation_dB": 3.2749556478523516,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.714062,
+          "J_A2": -1.7679041824805939,
+          "T_des": 0.11622631011179431,
+          "IL_dB": 9.35414168749132,
+          "isolation_dB": 4.029556362100244,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.715625,
+          "J_A2": -1.4644143130216818,
+          "T_des": 0.12735862420582506,
+          "IL_dB": 8.956051117345801,
+          "isolation_dB": 4.981744149237937,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.717187,
+          "J_A2": -1.0900298661710586,
+          "T_des": 0.14080690977559787,
+          "IL_dB": 8.519362387917063,
+          "isolation_dB": 6.228037445692462,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.71875,
+          "J_A2": -0.6182447343325681,
+          "T_des": 0.15474200416147868,
+          "IL_dB": 8.108878475665138,
+          "isolation_dB": 7.963945428114765,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.720313,
+          "J_A2": 0.014264984382357229,
+          "T_des": 0.16370847204698283,
+          "IL_dB": 7.86375895431318,
+          "isolation_dB": 10.618477705116582,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 4.721875,
+          "J_A2": 1.0119776533449243,
+          "T_des": 0.15915406454836986,
+          "IL_dB": 7.985721835332405,
+          "isolation_dB": 15.272131284639984,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.723438,
+          "J_A2": 2.416861878425482,
+          "T_des": 0.1380689482244279,
+          "IL_dB": 8.602648881480242,
+          "isolation_dB": 22.171768845052004,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.725,
+          "J_A2": 0.4955247833844492,
+          "T_des": 0.11217216906026255,
+          "IL_dB": 9.50540203294335,
+          "isolation_dB": 14.795961559148475,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.726562,
+          "J_A2": -0.8031315680074682,
+          "T_des": 0.08907856089805571,
+          "IL_dB": 10.505892194174708,
+          "isolation_dB": 10.11724776892927,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.728125,
+          "J_A2": -1.7326802204430738,
+          "T_des": 0.06181900875884383,
+          "IL_dB": 12.09133314220481,
+          "isolation_dB": 7.551476801284873,
+          "worst_competing_port": 5,
+          "worst_source_port": 6
+        },
+        {
+          "f_GHz": 4.729687,
+          "J_A2": -3.3036458622846046,
+          "T_des": 0.031032828938931525,
+          "IL_dB": 15.084332289725898,
+          "isolation_dB": 3.488010079180436,
+          "worst_competing_port": 5,
+          "worst_source_port": 6
+        },
+        {
+          "f_GHz": 4.73125,
+          "J_A2": -5.875178288777867,
+          "T_des": 0.010700252974150651,
+          "IL_dB": 19.713786305470794,
+          "isolation_dB": -3.380994885953891,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.732812,
+          "J_A2": -8.22655549701514,
+          "T_des": 0.00392040694741446,
+          "IL_dB": 24.172828820642366,
+          "isolation_dB": -9.436535023355916,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.734375,
+          "J_A2": -8.741126661955489,
+          "T_des": 0.0033214485541978346,
+          "IL_dB": 25.03769778103104,
+          "isolation_dB": -11.034857234764802,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.735938,
+          "J_A2": -8.161618017506626,
+          "T_des": 0.004297876569490095,
+          "IL_dB": 23.80417227454127,
+          "isolation_dB": -9.923657479276267,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.7375,
+          "J_A2": -7.323404670677109,
+          "T_des": 0.00597416829210326,
+          "IL_dB": 22.28363529327011,
+          "isolation_dB": -7.930832135631827,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.739063,
+          "J_A2": -6.868834449676311,
+          "T_des": 0.006871048467349261,
+          "IL_dB": 21.660409900790118,
+          "isolation_dB": -6.560696886105764,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.740625,
+          "J_A2": -7.05946035820162,
+          "T_des": 0.006163292787547869,
+          "IL_dB": 22.14455659663132,
+          "isolation_dB": -6.772913277481988,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.742188,
+          "J_A2": -7.27770923852347,
+          "T_des": 0.00563626350752279,
+          "IL_dB": 22.54652752048132,
+          "isolation_dB": -7.1724873068953725,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.74375,
+          "J_A2": -7.217730170636468,
+          "T_des": 0.005967743104296805,
+          "IL_dB": 22.298827239679486,
+          "isolation_dB": -7.003444747221413,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.745312,
+          "J_A2": -6.872295522383339,
+          "T_des": 0.007274937241657039,
+          "IL_dB": 21.42519778869813,
+          "isolation_dB": -6.19911864593352,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.746875,
+          "J_A2": -6.359590089242822,
+          "T_des": 0.00949112029246814,
+          "IL_dB": 20.253412771518658,
+          "isolation_dB": -4.9486280746823015,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.748437,
+          "J_A2": -5.796824062346782,
+          "T_des": 0.012210908454014421,
+          "IL_dB": 19.146687644253216,
+          "isolation_dB": -3.431622604772874,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.75,
+          "J_A2": -5.2535721370631245,
+          "T_des": 0.014659938584808801,
+          "IL_dB": 18.346400392145103,
+          "isolation_dB": -1.7598475423998277,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.751563,
+          "J_A2": -4.75503910188682,
+          "T_des": 0.01623977665866712,
+          "IL_dB": 17.899699924933344,
+          "isolation_dB": -0.016973732875237877,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.753125,
+          "J_A2": -4.304759595909455,
+          "T_des": 0.016979859048466984,
+          "IL_dB": 17.705866797094366,
+          "isolation_dB": 1.707364365850651,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.754688,
+          "J_A2": -3.9062571326740803,
+          "T_des": 0.01724819361576318,
+          "IL_dB": 17.63792329843084,
+          "isolation_dB": 3.309233039275652,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.75625,
+          "J_A2": -3.5716641143556136,
+          "T_des": 0.017354749191961876,
+          "IL_dB": 17.611184041580483,
+          "isolation_dB": 4.674969840046072,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.757812,
+          "J_A2": -3.313182471230856,
+          "T_des": 0.017456083145468055,
+          "IL_dB": 17.58567086169599,
+          "isolation_dB": 5.7202835055245425,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.759375,
+          "J_A2": -3.133172693063852,
+          "T_des": 0.017609234251225788,
+          "IL_dB": 17.547391600485614,
+          "isolation_dB": 6.422104409530387,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.760937,
+          "J_A2": -3.019359405173253,
+          "T_des": 0.01783263307822387,
+          "IL_dB": 17.492160817348868,
+          "isolation_dB": 6.828265980485766,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.7625,
+          "J_A2": -2.9520691159916175,
+          "T_des": 0.01810652813569649,
+          "IL_dB": 17.42553085625421,
+          "isolation_dB": 7.027282920983276,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.764062,
+          "J_A2": -2.9104012963271657,
+          "T_des": 0.01842362887520432,
+          "IL_dB": 17.34972367070316,
+          "isolation_dB": 7.11040529836269,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.765625,
+          "J_A2": -2.8779855118446105,
+          "T_des": 0.018774382255766695,
+          "IL_dB": 17.267470474712734,
+          "isolation_dB": 7.149793983054064,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.767188,
+          "J_A2": -2.8438957855437885,
+          "T_des": 0.019149130621073655,
+          "IL_dB": 17.181330108182998,
+          "isolation_dB": 7.194250517373266,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.76875,
+          "J_A2": -2.8007519768253366,
+          "T_des": 0.019544509213375093,
+          "IL_dB": 17.092310138456927,
+          "isolation_dB": 7.275944379380188,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.770313,
+          "J_A2": -2.7434026669162024,
+          "T_des": 0.01996102116220344,
+          "IL_dB": 17.00050536517462,
+          "isolation_dB": 7.416682340833954,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.771875,
+          "J_A2": -2.667887991321098,
+          "T_des": 0.020402359261630778,
+          "IL_dB": 16.90533637880397,
+          "isolation_dB": 7.632710034586491,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.773438,
+          "J_A2": -2.5702641160638735,
+          "T_des": 0.020877702045540427,
+          "IL_dB": 16.805147589275297,
+          "isolation_dB": 7.939286405055985,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.775,
+          "J_A2": -2.4463789485483547,
+          "T_des": 0.021400209621460133,
+          "IL_dB": 16.697651072095994,
+          "isolation_dB": 8.352187378382567,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        }
+      ],
+      "pass_0p78125MHz_table": null
+    },
+    "4p228": {
+      "pass_1p5625MHz_table": [
+        {
+          "f_GHz": 4.1875,
+          "J_A2": -7.21927737249172,
+          "T_des": 0.009890038265703447,
+          "IL_dB": 21.97039209516856,
+          "isolation_dB": -6.499042784388995,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.189063,
+          "J_A2": -9.220893716802745,
+          "T_des": 0.004749936270944533,
+          "IL_dB": 25.31149252759668,
+          "isolation_dB": -11.944976379559483,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.190625,
+          "J_A2": -6.868076835176926,
+          "T_des": 0.016902112267776083,
+          "IL_dB": 19.116306265293858,
+          "isolation_dB": -8.04062553088379,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.192188,
+          "J_A2": -4.982842745770495,
+          "T_des": 0.04886834227234086,
+          "IL_dB": 14.29295038451385,
+          "isolation_dB": -4.9045916978279855,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.19375,
+          "J_A2": -4.122427968186006,
+          "T_des": 0.07992700623949056,
+          "IL_dB": 12.26258554482611,
+          "isolation_dB": -3.4790935996239187,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.195312,
+          "J_A2": -3.778137534685417,
+          "T_des": 0.08980106002165349,
+          "IL_dB": 11.752075438541182,
+          "isolation_dB": -2.663402792123898,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.196875,
+          "J_A2": -3.735791374783366,
+          "T_des": 0.0819709388440357,
+          "IL_dB": 11.995367339398049,
+          "isolation_dB": -2.274561015256216,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.198438,
+          "J_A2": -3.842977475422695,
+          "T_des": 0.06885118055751706,
+          "IL_dB": 12.514161486219031,
+          "isolation_dB": -2.19738975220112,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.2,
+          "J_A2": -4.019522243996569,
+          "T_des": 0.05644070918851302,
+          "IL_dB": 13.13245809878321,
+          "isolation_dB": -2.30074131573477,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.201563,
+          "J_A2": -4.2426188676978205,
+          "T_des": 0.04580921540250179,
+          "IL_dB": 13.834473594903471,
+          "isolation_dB": -2.513383904498186,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.203125,
+          "J_A2": -4.512753225761344,
+          "T_des": 0.036620350968028834,
+          "IL_dB": 14.663116210840387,
+          "isolation_dB": -2.7992608357577047,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.204688,
+          "J_A2": -4.8075716926529415,
+          "T_des": 0.028974345043939222,
+          "IL_dB": 15.617757433539298,
+          "isolation_dB": -3.0715378213800073,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.20625,
+          "J_A2": -4.957504628986687,
+          "T_des": 0.024222347188966552,
+          "IL_dB": 16.361411005880417,
+          "isolation_dB": -2.9502888627308166,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.207813,
+          "J_A2": -4.679079158058252,
+          "T_des": 0.024408114047549903,
+          "IL_dB": 16.21499104055025,
+          "isolation_dB": -1.8986642085782524,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.209375,
+          "J_A2": -4.075749350812994,
+          "T_des": 0.029909880446762835,
+          "IL_dB": 15.281042256189822,
+          "isolation_dB": -0.24591294828675314,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.210938,
+          "J_A2": -3.258243583177906,
+          "T_des": 0.04101596091315087,
+          "IL_dB": 13.907185078745917,
+          "isolation_dB": 1.8936645775838497,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.2125,
+          "J_A2": -1.626666214552668,
+          "T_des": 0.06821483037212338,
+          "IL_dB": 11.705832119395778,
+          "isolation_dB": 6.713775908779776,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.214063,
+          "J_A2": -0.2944827591250598,
+          "T_des": 0.08961420699754065,
+          "IL_dB": 10.652611625670316,
+          "isolation_dB": 11.553254060260606,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.215625,
+          "J_A2": -2.4877841871208126,
+          "T_des": 0.059523769946091036,
+          "IL_dB": 12.54316521607693,
+          "isolation_dB": 4.091219199453472,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.217188,
+          "J_A2": -3.138480495707204,
+          "T_des": 0.04749071629508059,
+          "IL_dB": 13.544047023371803,
+          "isolation_dB": 2.3248048330649147,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.21875,
+          "J_A2": -3.459111454940453,
+          "T_des": 0.04167481733478109,
+          "IL_dB": 14.117043232692483,
+          "isolation_dB": 1.53037571284655,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.220313,
+          "J_A2": -3.700862267122496,
+          "T_des": 0.03801626977503721,
+          "IL_dB": 14.511198436278598,
+          "isolation_dB": 0.8703177446260812,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.221875,
+          "J_A2": -3.911294557386432,
+          "T_des": 0.03583708641417316,
+          "IL_dB": 14.750028514095787,
+          "isolation_dB": 0.1525820177405236,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.223438,
+          "J_A2": -4.1695236174754156,
+          "T_des": 0.03399458439414982,
+          "IL_dB": 14.9594382430855,
+          "isolation_dB": -0.8378542886451902,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.225,
+          "J_A2": -4.810263971173804,
+          "T_des": 0.028436154726334498,
+          "IL_dB": 15.758198093626872,
+          "isolation_dB": -2.8992992488340046,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.226562,
+          "J_A2": -6.581219608105836,
+          "T_des": 0.015179769973388317,
+          "IL_dB": 18.844539603189798,
+          "isolation_dB": -7.491125021185362,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.228125,
+          "J_A2": -8.279338389700237,
+          "T_des": 0.00897002008284964,
+          "IL_dB": 22.371566604330056,
+          "isolation_dB": -11.29281947259014,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.229688,
+          "J_A2": -6.695733430626362,
+          "T_des": 0.013266135158464441,
+          "IL_dB": 19.401072330294674,
+          "isolation_dB": -7.4202776549780305,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.23125,
+          "J_A2": -5.869593360836447,
+          "T_des": 0.016510427001484747,
+          "IL_dB": 18.166088054706332,
+          "isolation_dB": -5.111248371026469,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.232813,
+          "J_A2": -5.501817905602575,
+          "T_des": 0.017349657619847705,
+          "IL_dB": 17.848758507602014,
+          "isolation_dB": -3.8526044084466426,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.234375,
+          "J_A2": -5.342863898305022,
+          "T_des": 0.016944251361793932,
+          "IL_dB": 17.89447535487656,
+          "isolation_dB": -3.119974228494486,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.235938,
+          "J_A2": -5.2868199518280266,
+          "T_des": 0.016058759973977047,
+          "IL_dB": 18.087734433792008,
+          "isolation_dB": -2.676348923302401,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.2375,
+          "J_A2": -5.285451356872698,
+          "T_des": 0.015050721559958685,
+          "IL_dB": 18.338962674632793,
+          "isolation_dB": -2.406668046771085,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.239063,
+          "J_A2": -5.314721026567269,
+          "T_des": 0.01406918837413477,
+          "IL_dB": 18.60827855596168,
+          "isolation_dB": -2.2489173263561457,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.240625,
+          "J_A2": -5.361080957576735,
+          "T_des": 0.013170545518914263,
+          "IL_dB": 18.87618482340772,
+          "isolation_dB": -2.1649587984572394,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.242188,
+          "J_A2": -5.417738424188194,
+          "T_des": 0.012363964308325537,
+          "IL_dB": 19.13614264941965,
+          "isolation_dB": -2.1327664910410196,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.24375,
+          "J_A2": -5.480079720847748,
+          "T_des": 0.011651692010240628,
+          "IL_dB": 19.382806602613005,
+          "isolation_dB": -2.1379425644380743,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.245313,
+          "J_A2": -5.545534139600401,
+          "T_des": 0.011025005515103452,
+          "IL_dB": 19.614766559016754,
+          "isolation_dB": -2.1708475210884255,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.246875,
+          "J_A2": -5.612343127963997,
+          "T_des": 0.010475585080072332,
+          "IL_dB": 19.831036957009562,
+          "isolation_dB": -2.224918546474822,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.248438,
+          "J_A2": -5.679422558897347,
+          "T_des": 0.009994396241040185,
+          "IL_dB": 20.03152001501074,
+          "isolation_dB": -2.295543084644818,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.25,
+          "J_A2": -5.7458289278632515,
+          "T_des": 0.009575008500136142,
+          "IL_dB": 20.21562478690734,
+          "isolation_dB": -2.3792384659234074,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.251563,
+          "J_A2": -5.811154000811444,
+          "T_des": 0.009209866175257172,
+          "IL_dB": 20.38379483951404,
+          "isolation_dB": -2.473734172186416,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.253125,
+          "J_A2": -5.874700684584695,
+          "T_des": 0.008894787000178858,
+          "IL_dB": 20.53545931466319,
+          "isolation_dB": -2.5765912214051614,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.254688,
+          "J_A2": -5.935995543741517,
+          "T_des": 0.008625447471116493,
+          "IL_dB": 20.670436132297553,
+          "isolation_dB": -2.6859010486699275,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.25625,
+          "J_A2": -5.994694192009425,
+          "T_des": 0.00839850758469311,
+          "IL_dB": 20.78847543160222,
+          "isolation_dB": -2.800388099722044,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.257812,
+          "J_A2": -6.0501339478236,
+          "T_des": 0.008212005417184575,
+          "IL_dB": 20.888803888516282,
+          "isolation_dB": -2.9179613521027647,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.259375,
+          "J_A2": -6.102191129733542,
+          "T_des": 0.008062297066516433,
+          "IL_dB": 20.97192300381795,
+          "isolation_dB": -3.037382106277107,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.260938,
+          "J_A2": -6.150078307263606,
+          "T_des": 0.007949306374200816,
+          "IL_dB": 21.036643639610627,
+          "isolation_dB": -3.1566251455268777,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 4.2625,
+          "J_A2": -6.193543674739078,
+          "T_des": 0.007871132429049002,
+          "IL_dB": 21.082952286523856,
+          "isolation_dB": -3.2745083960230326,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.264063,
+          "J_A2": -6.23207615344371,
+          "T_des": 0.007827249408888818,
+          "IL_dB": 21.110386939282794,
+          "isolation_dB": -3.389253236276074,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.265625,
+          "J_A2": -6.265246842941868,
+          "T_des": 0.007817140724774284,
+          "IL_dB": 21.118690658083228,
+          "isolation_dB": -3.499271368258961,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.267188,
+          "J_A2": -6.293015420995967,
+          "T_des": 0.00783976235532773,
+          "IL_dB": 21.108232898318338,
+          "isolation_dB": -3.6039570282905866,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 4.26875,
+          "J_A2": -6.315058037246189,
+          "T_des": 0.007895057561438384,
+          "IL_dB": 21.07901869203344,
+          "isolation_dB": -3.7019177153560983,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        }
+      ],
+      "pass_0p78125MHz_table": [
+        {
+          "f_GHz": 4.18125,
+          "J_A2": -2.5071486911337737,
+          "T_des": 0.044619806251909915,
+          "IL_dB": 13.55358208353922,
+          "isolation_dB": 5.71442116640283,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.182032,
+          "J_A2": -2.653682012180306,
+          "T_des": 0.04471092547967027,
+          "IL_dB": 13.594026174435859,
+          "isolation_dB": 5.141507974728829,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.182813,
+          "J_A2": -2.7656488106209505,
+          "T_des": 0.043393499676433904,
+          "IL_dB": 13.805692273182872,
+          "isolation_dB": 4.876999094803767,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.183594,
+          "J_A2": -2.8123888589401176,
+          "T_des": 0.04041317541662741,
+          "IL_dB": 14.230638079874872,
+          "isolation_dB": 5.094949429750096,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.184375,
+          "J_A2": -2.701805605874038,
+          "T_des": 0.035754123605645304,
+          "IL_dB": 14.918121420567536,
+          "isolation_dB": 6.253443352499059,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.185157,
+          "J_A2": -3.330990620856825,
+          "T_des": 0.02969090751168932,
+          "IL_dB": 15.93336666482373,
+          "isolation_dB": 4.501464322011579,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.185938,
+          "J_A2": -4.542566888006223,
+          "T_des": 0.022814447893443345,
+          "IL_dB": 17.362492060872942,
+          "isolation_dB": 0.6168821999864867,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.186719,
+          "J_A2": -5.77491665120542,
+          "T_des": 0.015908449492002256,
+          "IL_dB": 19.33510620576404,
+          "isolation_dB": -2.8118208766139183,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.1875,
+          "J_A2": -7.21927737249172,
+          "T_des": 0.009890038265703447,
+          "IL_dB": 21.97039209516856,
+          "isolation_dB": -6.499042784388995,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 4.188282,
+          "J_A2": -8.602962916539267,
+          "T_des": 0.005777072710718765,
+          "IL_dB": 24.49987058304035,
+          "isolation_dB": -10.02786088737612,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 4.189063,
+          "J_A2": -9.220893716802745,
+          "T_des": 0.004749936270944533,
+          "IL_dB": 25.31149252759668,
+          "isolation_dB": -11.944976379559483,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.189844,
+          "J_A2": -8.735464286469151,
+          "T_des": 0.008096712344464465,
+          "IL_dB": 23.696990572298848,
+          "isolation_dB": -11.502802296575714,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.190626,
+          "J_A2": -6.866270281714687,
+          "T_des": 0.01691707545673973,
+          "IL_dB": 19.111760712753526,
+          "isolation_dB": -8.037430129370728,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.191407,
+          "J_A2": -5.734709897788414,
+          "T_des": 0.031182872914802696,
+          "IL_dB": 16.223475752832325,
+          "isolation_dB": -6.109715638318843,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.192188,
+          "J_A2": -4.982842745770495,
+          "T_des": 0.04886834227234086,
+          "IL_dB": 14.29295038451385,
+          "isolation_dB": -4.9045916978279855,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.192969,
+          "J_A2": -4.469222393232333,
+          "T_des": 0.06629172102096144,
+          "IL_dB": 13.028606271886893,
+          "isolation_dB": -4.083841334829893,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.193751,
+          "J_A2": -4.122071045800397,
+          "T_des": 0.07994099132220094,
+          "IL_dB": 12.261868086673209,
+          "isolation_dB": -3.4784173198470376,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.194532,
+          "J_A2": -3.900879608882585,
+          "T_des": 0.0878084752770325,
+          "IL_dB": 11.870638980329446,
+          "isolation_dB": -3.0129029814465853,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.195313,
+          "J_A2": -3.7780330749071815,
+          "T_des": 0.089800318422037,
+          "IL_dB": 11.752058736186102,
+          "isolation_dB": -2.663025520538616,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.196094,
+          "J_A2": -3.7302011680886467,
+          "T_des": 0.08724110933900413,
+          "IL_dB": 11.817511909912904,
+          "isolation_dB": -2.4209666285263487,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 4.196875,
+          "J_A2": -3.735791374783366,
+          "T_des": 0.0819709388440357,
+          "IL_dB": 11.995367339398049,
+          "isolation_dB": -2.274561015256216,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        }
+      ]
+    },
+    "5p084": {
+      "pass_1p5625MHz_table": [
+        {
+          "f_GHz": 5.04375,
+          "J_A2": -1.2224077383857404,
+          "T_des": 0.12226504428835498,
+          "IL_dB": 9.433915332371043,
+          "isolation_dB": 6.127383892974652,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.045312,
+          "J_A2": -1.5625350823612407,
+          "T_des": 0.0999643303176494,
+          "IL_dB": 10.209097850126492,
+          "isolation_dB": 5.428877455446222,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.046875,
+          "J_A2": -1.5714574993097932,
+          "T_des": 0.09603453739447586,
+          "IL_dB": 10.37447265033123,
+          "isolation_dB": 5.565326890361291,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.048437,
+          "J_A2": -1.8396416222656724,
+          "T_des": 0.08088310709930623,
+          "IL_dB": 11.055287435954098,
+          "isolation_dB": 5.084282797110518,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.05,
+          "J_A2": -2.05766645940794,
+          "T_des": 0.06993586751652306,
+          "IL_dB": 11.642129493167545,
+          "isolation_dB": 4.726444241349491,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.051562,
+          "J_A2": -2.2636932682664503,
+          "T_des": 0.06095616354442276,
+          "IL_dB": 12.206094296979296,
+          "isolation_dB": 4.397143247325816,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.053125,
+          "J_A2": -2.4630510775709467,
+          "T_des": 0.05345197543379073,
+          "IL_dB": 12.755379758922983,
+          "isolation_dB": 4.081803285752294,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.054688,
+          "J_A2": -2.6573386094803197,
+          "T_des": 0.04713898489430309,
+          "IL_dB": 13.292026152574307,
+          "isolation_dB": 3.7758395742936095,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.05625,
+          "J_A2": -2.847273491829607,
+          "T_des": 0.04180178075569497,
+          "IL_dB": 13.817402475597303,
+          "isolation_dB": 3.477725930530568,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.057812,
+          "J_A2": -3.0335189888917546,
+          "T_des": 0.037263149365243366,
+          "IL_dB": 14.333591480779853,
+          "isolation_dB": 3.186784882682309,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.059375,
+          "J_A2": -3.216661423836246,
+          "T_des": 0.03338228443325126,
+          "IL_dB": 14.842786207848775,
+          "isolation_dB": 2.902701343103091,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.060937,
+          "J_A2": -3.3969807035507085,
+          "T_des": 0.030052777146239534,
+          "IL_dB": 15.346323171048587,
+          "isolation_dB": 2.6255713133782606,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.0625,
+          "J_A2": -3.575320198013134,
+          "T_des": 0.027180753666645935,
+          "IL_dB": 15.846913465881043,
+          "isolation_dB": 2.354389575429685,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.064062,
+          "J_A2": -3.7521883320172833,
+          "T_des": 0.024697854500369234,
+          "IL_dB": 16.34603534403262,
+          "isolation_dB": 2.088353172706307,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.065625,
+          "J_A2": -3.9286913326329755,
+          "T_des": 0.022542797020741374,
+          "IL_dB": 16.846507595876783,
+          "isolation_dB": 1.8254148476596361,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.067187,
+          "J_A2": -4.10564586255957,
+          "T_des": 0.02067144165100611,
+          "IL_dB": 17.349962167970606,
+          "isolation_dB": 1.5636071699448981,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.06875,
+          "J_A2": -4.284520613963555,
+          "T_des": 0.01904338903874765,
+          "IL_dB": 17.859482177783306,
+          "isolation_dB": 1.299616220702512,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.070312,
+          "J_A2": -4.4665887167854015,
+          "T_des": 0.01762995433687822,
+          "IL_dB": 18.37712761810656,
+          "isolation_dB": 1.0299788025483496,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.071875,
+          "J_A2": -4.6539536514184086,
+          "T_des": 0.016404458087010403,
+          "IL_dB": 18.90672747501768,
+          "isolation_dB": 0.7494415151060428,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.073437,
+          "J_A2": -4.848801011982342,
+          "T_des": 0.015348662647018793,
+          "IL_dB": 19.45148495703506,
+          "isolation_dB": 0.45180484914077884,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.075,
+          "J_A2": -5.054715815573862,
+          "T_des": 0.014445993843451773,
+          "IL_dB": 20.017175660658776,
+          "isolation_dB": 0.12743046677279515,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.076562,
+          "J_A2": -5.276381958364137,
+          "T_des": 0.013687079998221682,
+          "IL_dB": 20.610222622045207,
+          "isolation_dB": -0.23737952314480748,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.078125,
+          "J_A2": -5.522266846134041,
+          "T_des": 0.013066178197998254,
+          "IL_dB": 21.242606159400648,
+          "isolation_dB": -0.6670703471767429,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.079687,
+          "J_A2": -5.807794383909662,
+          "T_des": 0.012588215693679702,
+          "IL_dB": 21.93424637890651,
+          "isolation_dB": -1.2082016759868308,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.08125,
+          "J_A2": -6.171267173302198,
+          "T_des": 0.012273916023052037,
+          "IL_dB": 22.736031699205924,
+          "isolation_dB": -1.975588233804941,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.082812,
+          "J_A2": -6.741374360653169,
+          "T_des": 0.012176303525794368,
+          "IL_dB": 23.833223537082905,
+          "isolation_dB": -3.3442920277488493,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.084375,
+          "J_A2": -8.238013915977556,
+          "T_des": 0.012041385234273368,
+          "IL_dB": 26.55434629811073,
+          "isolation_dB": -7.162634406808553,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.085938,
+          "J_A2": -7.677614525322279,
+          "T_des": 0.008828365650948548,
+          "IL_dB": 26.485148039949546,
+          "isolation_dB": -4.986511676028129,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.0875,
+          "J_A2": -6.927579821766021,
+          "T_des": 0.009437597928086395,
+          "IL_dB": 25.85320908791823,
+          "isolation_dB": -2.252809121576058,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.089062,
+          "J_A2": -7.2742846076817465,
+          "T_des": 0.009934408535163025,
+          "IL_dB": 26.779465612424048,
+          "isolation_dB": -2.7895966178055738,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.090625,
+          "J_A2": -7.721616808547792,
+          "T_des": 0.010310320408973263,
+          "IL_dB": 27.887360183167033,
+          "isolation_dB": -3.608768591329459,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.092187,
+          "J_A2": -7.92874568784388,
+          "T_des": 0.010734454444295665,
+          "IL_dB": 28.495611594842003,
+          "isolation_dB": -3.8932999269518356,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.09375,
+          "J_A2": -7.4268747612773955,
+          "T_des": 0.011294187627516238,
+          "IL_dB": 27.572591394104908,
+          "isolation_dB": -2.6014343422625714,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.095312,
+          "J_A2": -6.667064501699774,
+          "T_des": 0.01206534308310131,
+          "IL_dB": 26.112436718417246,
+          "isolation_dB": -0.7320619062115105,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.096875,
+          "J_A2": -5.859810461635651,
+          "T_des": 0.013147092749634373,
+          "IL_dB": 24.56341681984721,
+          "isolation_dB": 1.2515646502383089,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.098437,
+          "J_A2": -5.047585026474771,
+          "T_des": 0.014686885351617213,
+          "IL_dB": 22.992316117309915,
+          "isolation_dB": 3.2368914091040684,
+          "worst_competing_port": 5,
+          "worst_source_port": 6
+        },
+        {
+          "f_GHz": 5.1,
+          "J_A2": -4.259061868697504,
+          "T_des": 0.016931749883000485,
+          "IL_dB": 21.403581013434874,
+          "isolation_dB": 5.107168922539884,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.101562,
+          "J_A2": -3.536251071405758,
+          "T_des": 0.020302500537133384,
+          "IL_dB": 19.772654059659065,
+          "isolation_dB": 6.659331635217035,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.103125,
+          "J_A2": -2.9454603948878137,
+          "T_des": 0.025557446994168148,
+          "IL_dB": 18.05651360954184,
+          "isolation_dB": 7.568614821863346,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.104687,
+          "J_A2": -2.5782017692325443,
+          "T_des": 0.03398016146402046,
+          "IL_dB": 16.227161383552346,
+          "isolation_dB": 7.418944466714083,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.10625,
+          "J_A2": -2.4437491510521263,
+          "T_des": 0.04717061961067179,
+          "IL_dB": 14.332154030839805,
+          "isolation_dB": 6.226386793121384,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.107812,
+          "J_A2": -2.471832928619038,
+          "T_des": 0.06332881627066858,
+          "IL_dB": 12.702615934399565,
+          "isolation_dB": 4.600737816165146,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 5.109375,
+          "J_A2": -2.720480078441277,
+          "T_des": 0.06827667602661676,
+          "IL_dB": 12.139693759598842,
+          "isolation_dB": 2.9680735821157587,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 5.110937,
+          "J_A2": -3.25361146618909,
+          "T_des": 0.05277608254382917,
+          "IL_dB": 13.1239558278273,
+          "isolation_dB": 1.4876230917891642,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.1125,
+          "J_A2": -3.9314579080149286,
+          "T_des": 0.034378471263793974,
+          "IL_dB": 14.937143266926464,
+          "isolation_dB": 0.21171480447042235,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.114062,
+          "J_A2": -4.582780352769055,
+          "T_des": 0.022596497184184345,
+          "IL_dB": 16.78629334355919,
+          "isolation_dB": -0.8457579142834911,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.115625,
+          "J_A2": -5.142602680167315,
+          "T_des": 0.015987839838732493,
+          "IL_dB": 18.3919705481388,
+          "isolation_dB": -1.7044233098292028,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.117188,
+          "J_A2": -5.6086813197410486,
+          "T_des": 0.012268558174190222,
+          "IL_dB": 19.72948840748371,
+          "isolation_dB": -2.401011633003494,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.11875,
+          "J_A2": -5.997881367494748,
+          "T_des": 0.010108119172878327,
+          "IL_dB": 20.844445201129158,
+          "isolation_dB": -2.9745726903513856,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.120312,
+          "J_A2": -6.327400638064872,
+          "T_des": 0.00881887496077946,
+          "IL_dB": 21.78696900853268,
+          "isolation_dB": -3.4551485572766665,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.121875,
+          "J_A2": -6.609120546896254,
+          "T_des": 0.00804371873699899,
+          "IL_dB": 22.593502500736417,
+          "isolation_dB": -3.860556517928434,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.123437,
+          "J_A2": -6.849689150954981,
+          "T_des": 0.007589933223290495,
+          "IL_dB": 23.286117007280154,
+          "isolation_dB": -4.198945025526008,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.125,
+          "J_A2": -7.053449508035475,
+          "T_des": 0.0073471577325663175,
+          "IL_dB": 23.880069097119776,
+          "isolation_dB": -4.474563446557781,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        }
+      ],
+      "pass_0p78125MHz_table": null
+    },
+    "5p572": {
+      "pass_1p5625MHz_table": [
+        {
+          "f_GHz": 5.53125,
+          "J_A2": -1.0245360127166798,
+          "T_des": 0.12443570704999503,
+          "IL_dB": 9.069570258107612,
+          "isolation_dB": 7.743546744022928,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.532813,
+          "J_A2": -1.077968940106184,
+          "T_des": 0.1171292019548194,
+          "IL_dB": 9.33414066552843,
+          "isolation_dB": 7.756125632401673,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.534375,
+          "J_A2": -1.1091512254106397,
+          "T_des": 0.10791230316224892,
+          "IL_dB": 9.691594410257776,
+          "isolation_dB": 7.969529613268677,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.535938,
+          "J_A2": -1.1171230110015322,
+          "T_des": 0.09519099362890436,
+          "IL_dB": 10.23790207037561,
+          "isolation_dB": 8.487588911136665,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.5375,
+          "J_A2": -1.2140743836539827,
+          "T_des": 0.07342552557307634,
+          "IL_dB": 11.367845970168164,
+          "isolation_dB": 9.226372807681818,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.539062,
+          "J_A2": -3.738914621650802,
+          "T_des": 0.0314025961216989,
+          "IL_dB": 15.065827256192179,
+          "isolation_dB": 1.9552857748143968,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.540625,
+          "J_A2": -2.958749043626528,
+          "T_des": 0.07748937002324766,
+          "IL_dB": 11.133852160532726,
+          "isolation_dB": 1.115092805268661,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.542188,
+          "J_A2": -2.349923245780302,
+          "T_des": 0.0876413200231561,
+          "IL_dB": 10.600406160018322,
+          "isolation_dB": 3.2611506130589576,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.54375,
+          "J_A2": -2.4491919358844165,
+          "T_des": 0.06884519109446403,
+          "IL_dB": 11.654338617438084,
+          "isolation_dB": 3.943152732866545,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.545313,
+          "J_A2": -2.900138712553685,
+          "T_des": 0.036265178639562204,
+          "IL_dB": 14.456370012532481,
+          "isolation_dB": 4.865831126007841,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.546875,
+          "J_A2": -1.0002427649180816,
+          "T_des": 0.0680969583767384,
+          "IL_dB": 11.685769551814701,
+          "isolation_dB": 10.393598419637364,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.548438,
+          "J_A2": -1.4569485316875408,
+          "T_des": 0.12514863452596933,
+          "IL_dB": 9.04058945575359,
+          "isolation_dB": 5.685932464283932,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.55,
+          "J_A2": -1.9316505710064884,
+          "T_des": 0.1138866743471056,
+          "IL_dB": 9.451850616485592,
+          "isolation_dB": 4.0517453892248865,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.551563,
+          "J_A2": -2.5037311545414886,
+          "T_des": 0.09557820512169447,
+          "IL_dB": 10.214579554559387,
+          "isolation_dB": 2.3797232353471824,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.553125,
+          "J_A2": -3.2315843993918523,
+          "T_des": 0.07503674768732034,
+          "IL_dB": 11.267724765580061,
+          "isolation_dB": 0.33950341599759754,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.554688,
+          "J_A2": -4.176810790875289,
+          "T_des": 0.05264648389582657,
+          "IL_dB": 12.81225112119003,
+          "isolation_dB": -2.1470313130354715,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.55625,
+          "J_A2": -5.383069990090632,
+          "T_des": 0.03149873267471901,
+          "IL_dB": 15.061015197673123,
+          "isolation_dB": -5.080331567682801,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.557813,
+          "J_A2": -6.793914322038641,
+          "T_des": 0.016369459857119354,
+          "IL_dB": 17.977486399444512,
+          "isolation_dB": -8.277589940456682,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.559375,
+          "J_A2": -7.971770782315773,
+          "T_des": 0.00942931048051067,
+          "IL_dB": 20.61182912800464,
+          "isolation_dB": -10.793825894512509,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.560938,
+          "J_A2": -8.116910058995346,
+          "T_des": 0.00856307577100607,
+          "IL_dB": 21.15575681192386,
+          "isolation_dB": -10.947195006837404,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.5625,
+          "J_A2": -7.552395304657483,
+          "T_des": 0.010288849207199509,
+          "IL_dB": 20.224114075887538,
+          "isolation_dB": -9.506513968217462,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.564063,
+          "J_A2": -7.037332458265495,
+          "T_des": 0.012163110748705339,
+          "IL_dB": 19.39809279661167,
+          "isolation_dB": -8.176923474923615,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.565625,
+          "J_A2": -6.76176728097525,
+          "T_des": 0.013051199356124442,
+          "IL_dB": 19.04366427484528,
+          "isolation_dB": -7.413628631566879,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.567188,
+          "J_A2": -6.742445180064487,
+          "T_des": 0.01262674565634198,
+          "IL_dB": 19.166533392085793,
+          "isolation_dB": -7.282914392689606,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.56875,
+          "J_A2": -6.994371423661389,
+          "T_des": 0.010957619455157134,
+          "IL_dB": 19.77933166116838,
+          "isolation_dB": -7.837857682820967,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.570312,
+          "J_A2": -7.55593161299615,
+          "T_des": 0.008381506461799583,
+          "IL_dB": 20.95405303504953,
+          "isolation_dB": -9.176518249261289,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.571875,
+          "J_A2": -8.046028206386692,
+          "T_des": 0.00669469198423385,
+          "IL_dB": 21.87508290635027,
+          "isolation_dB": -10.477411935524486,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.573438,
+          "J_A2": -4.122461969417619,
+          "T_des": 0.03178457027135475,
+          "IL_dB": 14.993919801876217,
+          "isolation_dB": -0.5572626776612329,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.575,
+          "J_A2": -7.460234729846193,
+          "T_des": 0.007393411178388133,
+          "IL_dB": 21.457556694834256,
+          "isolation_dB": -8.60770772673758,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.576563,
+          "J_A2": -11.912409082933317,
+          "T_des": 0.0014308326644712694,
+          "IL_dB": 29.85985756965512,
+          "isolation_dB": -19.33470021254705,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.578125,
+          "J_A2": -7.598475182182903,
+          "T_des": 0.010057937322610276,
+          "IL_dB": 20.15992108224749,
+          "isolation_dB": -10.125112752854434,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.579688,
+          "J_A2": -4.591228794441164,
+          "T_des": 0.032046547289059306,
+          "IL_dB": 15.009502986419712,
+          "isolation_dB": -1.93476873558763,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.58125,
+          "J_A2": -4.137398893474931,
+          "T_des": 0.026813959221460515,
+          "IL_dB": 15.758588986602938,
+          "isolation_dB": 0.7486420546183211,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.582813,
+          "J_A2": -5.083996752550654,
+          "T_des": 0.017970326924894656,
+          "IL_dB": 17.503236534343543,
+          "isolation_dB": -1.6947710724935803,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.584375,
+          "J_A2": -5.972094981173232,
+          "T_des": 0.013073875136430194,
+          "IL_dB": 18.933660463301752,
+          "isolation_dB": -4.164008874400694,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.585938,
+          "J_A2": -6.488917476180167,
+          "T_des": 0.011157599279019985,
+          "IL_dB": 19.70961074932998,
+          "isolation_dB": -5.661571303809766,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.5875,
+          "J_A2": -6.536177274626197,
+          "T_des": 0.011694009566077657,
+          "IL_dB": 19.586059330955376,
+          "isolation_dB": -6.022046740444595,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.589063,
+          "J_A2": -6.152619355191329,
+          "T_des": 0.014657839251119941,
+          "IL_dB": 18.624819420704878,
+          "isolation_dB": -5.361994030417854,
+          "worst_competing_port": 6,
+          "worst_source_port": 1
+        },
+        {
+          "f_GHz": 5.590625,
+          "J_A2": -5.512054661666436,
+          "T_des": 0.020126713067180318,
+          "IL_dB": 17.202644028611683,
+          "isolation_dB": -4.062361349361008,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.592188,
+          "J_A2": -4.79450235780615,
+          "T_des": 0.02794441216291664,
+          "IL_dB": 15.714249492796185,
+          "isolation_dB": -2.503755215044821,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.59375,
+          "J_A2": -4.105920541730901,
+          "T_des": 0.037529786189330824,
+          "IL_dB": 14.382584389984503,
+          "isolation_dB": -0.9088316270988828,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.595313,
+          "J_A2": -3.4860314617927775,
+          "T_des": 0.048076532986225974,
+          "IL_dB": 13.27255786532524,
+          "isolation_dB": 0.6296717129703143,
+          "worst_competing_port": 3,
+          "worst_source_port": 4
+        },
+        {
+          "f_GHz": 5.596875,
+          "J_A2": -2.9385870072629676,
+          "T_des": 0.05888822116895264,
+          "IL_dB": 12.368243050034067,
+          "isolation_dB": 2.083688492497125,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.598438,
+          "J_A2": -2.458724094366684,
+          "T_des": 0.0695662642348578,
+          "IL_dB": 11.63418010720939,
+          "isolation_dB": 3.4371527335697016,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.6,
+          "J_A2": -2.0339348201328393,
+          "T_des": 0.07953161867464276,
+          "IL_dB": 11.042806340288502,
+          "isolation_dB": 4.71280468579895,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.601562,
+          "J_A2": -1.6551433191379104,
+          "T_des": 0.08856515590997825,
+          "IL_dB": 10.568608705024754,
+          "isolation_dB": 5.909144880546435,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.603125,
+          "J_A2": -1.3276051339478088,
+          "T_des": 0.09610805966518494,
+          "IL_dB": 10.208179799390921,
+          "isolation_dB": 6.990504756089659,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.604688,
+          "J_A2": -1.080658422749139,
+          "T_des": 0.10130301907532328,
+          "IL_dB": 9.975095144725275,
+          "isolation_dB": 7.835504350796252,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.60625,
+          "J_A2": -0.9809672913110395,
+          "T_des": 0.10268918472397957,
+          "IL_dB": 9.91262541149129,
+          "isolation_dB": 8.192979329961586,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.607813,
+          "J_A2": -1.1267401561784987,
+          "T_des": 0.09742888054633438,
+          "IL_dB": 10.138927563361145,
+          "isolation_dB": 7.745975112892879,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.609375,
+          "J_A2": -1.485674212460437,
+          "T_des": 0.08356640557873853,
+          "IL_dB": 10.806599966281782,
+          "isolation_dB": 6.749823000185735,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.610938,
+          "J_A2": -1.3433201008853668,
+          "T_des": 0.07716206728741522,
+          "IL_dB": 11.164638230773122,
+          "isolation_dB": 7.535845676228021,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.6125,
+          "J_A2": -0.5136934316586207,
+          "T_des": 0.08555169783768295,
+          "IL_dB": 10.736526644359072,
+          "isolation_dB": 10.560089969436108,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        }
+      ],
+      "pass_0p78125MHz_table": [
+        {
+          "f_GHz": 5.568751,
+          "J_A2": -6.994627595419636,
+          "T_des": 0.010956204771921147,
+          "IL_dB": 19.779895536541975,
+          "isolation_dB": -7.838453147463393,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.569532,
+          "J_A2": -7.23508650817552,
+          "T_des": 0.009742814357104857,
+          "IL_dB": 20.293937760638304,
+          "isolation_dB": -8.405416425629712,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.570313,
+          "J_A2": -7.556388578815796,
+          "T_des": 0.008379731793380517,
+          "IL_dB": 20.954980046509583,
+          "isolation_dB": -9.177625836899173,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.571094,
+          "J_A2": -7.919970600943564,
+          "T_des": 0.007088384850617711,
+          "IL_dB": 21.68003045341878,
+          "isolation_dB": -10.073124661784666,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.571875,
+          "J_A2": -8.046028206386692,
+          "T_des": 0.00669469198423385,
+          "IL_dB": 21.87508290635027,
+          "isolation_dB": -10.477411935524486,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.572657,
+          "J_A2": -6.886526154791799,
+          "T_des": 0.011555741954332227,
+          "IL_dB": 19.408485430944783,
+          "isolation_dB": -7.990612594022075,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.573438,
+          "J_A2": -4.122461969417619,
+          "T_des": 0.03178457027135475,
+          "IL_dB": 14.993919801876217,
+          "isolation_dB": -0.5572626776612329,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.574219,
+          "J_A2": -3.4506980139079015,
+          "T_des": 0.025335973599514797,
+          "IL_dB": 15.975662934325262,
+          "isolation_dB": 2.9287396948923283,
+          "worst_competing_port": 5,
+          "worst_source_port": 6
+        },
+        {
+          "f_GHz": 5.575,
+          "J_A2": -7.460234729846193,
+          "T_des": 0.007393411178388133,
+          "IL_dB": 21.457556694834256,
+          "isolation_dB": -8.60770772673758,
+          "worst_competing_port": null,
+          "worst_source_port": null
+        },
+        {
+          "f_GHz": 5.575782,
+          "J_A2": -9.745112239005968,
+          "T_des": 0.0031866019859015057,
+          "IL_dB": 25.513447973260767,
+          "isolation_dB": -14.314387567158903,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.576563,
+          "J_A2": -11.912409082933317,
+          "T_des": 0.0014308326644712694,
+          "IL_dB": 29.85985756965512,
+          "isolation_dB": -19.33470021254705,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.577344,
+          "J_A2": -10.184459227171107,
+          "T_des": 0.002935067320476978,
+          "IL_dB": 25.854903012407025,
+          "isolation_dB": -15.771961305175552,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.578126,
+          "J_A2": -7.59564053715629,
+          "T_des": 0.010071533509612323,
+          "IL_dB": 20.15387046485261,
+          "isolation_dB": -10.118667486758776,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.578907,
+          "J_A2": -5.7505580488862345,
+          "T_des": 0.022862446757027616,
+          "IL_dB": 16.509421428820453,
+          "isolation_dB": -5.585659299538372,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.579688,
+          "J_A2": -4.591228794441164,
+          "T_des": 0.032046547289059306,
+          "IL_dB": 15.009502986419712,
+          "isolation_dB": -1.93476873558763,
+          "worst_competing_port": 1,
+          "worst_source_port": 2
+        },
+        {
+          "f_GHz": 5.580469,
+          "J_A2": -4.0664597787615735,
+          "T_des": 0.03161982364818599,
+          "IL_dB": 15.050891477773474,
+          "isolation_dB": 0.3914304898501668,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.581251,
+          "J_A2": -4.137790787738876,
+          "T_des": 0.026807262605257315,
+          "IL_dB": 15.75966770474514,
+          "isolation_dB": 0.7479588480066847,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.582032,
+          "J_A2": -4.567696528816949,
+          "T_des": 0.02188702549494806,
+          "IL_dB": 16.639323993582256,
+          "isolation_dB": -0.28294006173894454,
+          "worst_competing_port": 4,
+          "worst_source_port": 5
+        },
+        {
+          "f_GHz": 5.582813,
+          "J_A2": -5.083996752550654,
+          "T_des": 0.017970326924894656,
+          "IL_dB": 17.503236534343543,
+          "isolation_dB": -1.6947710724935803,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.583594,
+          "J_A2": -5.565430835906934,
+          "T_des": 0.015086617821068635,
+          "IL_dB": 18.281285102857122,
+          "isolation_dB": -3.0319562268371474,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        },
+        {
+          "f_GHz": 5.584376,
+          "J_A2": -5.972559024726796,
+          "T_des": 0.013071791098424395,
+          "IL_dB": 18.9343993426603,
+          "isolation_dB": -4.165306098107767,
+          "worst_competing_port": 2,
+          "worst_source_port": 3
+        }
+      ]
+    }
+  }
+}

@@ -75,10 +75,23 @@ def eval_and_grad_A2(
         tim["kernel"] = "fast" if use_fast_kernel else "reference"
 
     t0 = time.perf_counter()
-    if use_fast_kernel and "_o_masks" in st:
-        o_masks = st["_o_masks"]
+    # Orbit masks must match the design parameterization. Cached fast-kernel
+    # masks are always C6; rebuild when orbits are non-C6 (e.g. C3 feasibility).
+    orbits_c6, _, o_masks_c6 = orbits_and_masks(rod_masks=st["rod_masks"])
+    if len(orbits) == len(orbits_c6):
+        if use_fast_kernel and "_o_masks" in st:
+            o_masks = st["_o_masks"]
+        else:
+            o_masks = o_masks_c6
     else:
-        _, _, o_masks = orbits_and_masks(rod_masks=st["rod_masks"])
+        rod_masks = st["rod_masks"]
+        o_masks = []
+        for o in orbits:
+            rods = o["rods"] if isinstance(o, dict) else o
+            m = np.zeros(len(rod_masks[0]), dtype=bool)
+            for i in rods:
+                m |= rod_masks[int(i)]
+            o_masks.append(m)
     points, A = st["points"], st["A"]
     cols = build_Q_columns(points, st["ports"], st["modes"], n_prop=2)
     C, betas = _pack_C(points, cols)

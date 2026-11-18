@@ -1,0 +1,26 @@
+{
+  "opt": "outputs/circulator_inverse_design/jesse_method_campaign/feasibility/B_4p75_5p25_C6_B0.0500_stage5_opt.json",
+  "J_BB_best": -2.583950911466344,
+  "band": [
+    4.75,
+    5.25
+  ],
+  "df_MHz": 3.125,
+  "refine_MHz": 1.5625,
+  "b_tesla": 0.05,
+  "symmetry": "C6",
+  "n_var": 16,
+  "n_freq": 161,
+  "worst_A2": {
+    "f_GHz": 4.909375,
+    "J_A2": -4.963883465732926,
+    "IL_dB": 15.19520180366024,
+    "isolation_dB": -3.024075111325997,
+    "T_des": 0.03029204951319693
+  },
+  "worst_IL_dB": 20.693118887131927,
+  "worst_isolation_dB": -3.024075111325997,
+  "n_A2_le_m5": 0,
+  "n_A2_le_m7": 0,
+  "stage6_status": "NOT STARTED / AWAITING AUTHORIZATION"
+}

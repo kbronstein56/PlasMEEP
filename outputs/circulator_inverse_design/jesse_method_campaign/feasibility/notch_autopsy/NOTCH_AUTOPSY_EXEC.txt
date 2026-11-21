@@ -1,0 +1,9 @@
+NOTCH AUTOPSY — KEY CONCLUSIONS (forward-only; Stage-6 NOT STARTED)
+
+C notch 4.609375 @B=0.10: A2=-5.33  des0=0.038 wrong0=0.330 Rtot=0.352 TE1=0.263 Pout=0.973  => D_mixed (reflection ≈ wrong TE0)
+B floor 4.909375 @B=0.05:  A2=-4.96  des0=0.030 wrong0=0.349 Rtot=0.228 TE1=0.471 Pout=0.872  => D_mixed (TE1-heavy + wrong TE0)
+A soft  5.090625 @B=0.05:  A2=-0.64  (not A2<=-5)
+A-uniform @5.164062 (outside Band A): A2=-6.28 wrong0=0.505 => Band A partly avoids by band placement
+C same-q B=0.05 swap @4.609: A2=-1.98 (shallower; less reverse) vs B=0.10 A2=-5.33
+Dithers ±1/±2 MHz: smooth (physical resonances)
+Next smallest physical test: feed/TE1 cutoff or mode-filter geometry (+ track wrong-port); NOT Stage-6

@@ -1,0 +1,37 @@
+{
+  "design": "C_B010_Bs5",
+  "b_tesla": 0.1,
+  "vmax_absHz": 0.3304123878479004,
+  "frames": [
+    {
+      "tag": "notch",
+      "f_GHz": 4.609375,
+      "source_port": 4,
+      "metrics": {
+        "IL_avg_dB": 14.15952730066614,
+        "isolation_avg_dB": -6.6394101101354615,
+        "T_des_avg": 0.03844929326256641,
+        "T_rev_avg": 0.17701402555207166,
+        "R_avg": 0.34181007515287315,
+        "TE1_avg": 0.2627743287693945,
+        "J_A2": -5.333066007721929
+      }
+    },
+    {
+      "tag": "good",
+      "f_GHz": 4.7875,
+      "source_port": 5,
+      "metrics": {
+        "IL_avg_dB": 6.341169185813584,
+        "isolation_avg_dB": 25.55453131029934,
+        "T_des_avg": 0.2322694807385857,
+        "T_rev_avg": 0.0006662641283294266,
+        "R_avg": 0.04279678503732698,
+        "TE1_avg": 0.25444221435856446,
+        "J_A2": 3.6914096439158293
+      }
+    }
+  ],
+  "png": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/feasibility/notch_autopsy/C_B010_Bs5_field_notch_vs_good.png",
+  "note": "Identical magma scale; source = worst-IL TE0 drive for that frequency."
+}

@@ -1,0 +1,107 @@
+{
+  "A_uniform": {
+    "notches": [
+      {
+        "f_GHz": 5.090625,
+        "role": "soft_min",
+        "audit_A2": -0.6416125370090353,
+        "dither": true
+      }
+    ],
+    "controls": [
+      {
+        "f_GHz": 4.971875,
+        "role": "best_in_band",
+        "audit_A2": 3.790595829405174
+      },
+      {
+        "f_GHz": 5.0,
+        "role": "band_center",
+        "audit_A2": null
+      },
+      {
+        "f_GHz": 5.05625,
+        "role": "near_soft_side",
+        "audit_A2": null
+      }
+    ]
+  },
+  "B_stage5": {
+    "notches": [
+      {
+        "f_GHz": 4.909375,
+        "role": "A2_local_min",
+        "audit_A2": -4.963883465732926,
+        "dither": true
+      },
+      {
+        "f_GHz": 5.164062,
+        "role": "A2_local_min",
+        "audit_A2": -4.915208922420773,
+        "dither": true
+      },
+      {
+        "f_GHz": 4.978125,
+        "role": "high_R_local_min",
+        "audit_A2": -3.624756244955995,
+        "dither": false
+      }
+    ],
+    "controls": [
+      {
+        "f_GHz": 4.967187,
+        "role": "best_in_band",
+        "audit_A2": 6.585767358001969
+      },
+      {
+        "f_GHz": 4.784375,
+        "role": "left_of_notch",
+        "audit_A2": 2.4643342531188077
+      },
+      {
+        "f_GHz": 4.967187,
+        "role": "right_of_notch",
+        "audit_A2": 6.585767358001969
+      }
+    ]
+  },
+  "C_B010_Bs5": {
+    "notches": [
+      {
+        "f_GHz": 4.609375,
+        "role": "A2_le_m5_notch",
+        "audit_A2": -5.333066007721929,
+        "dither": true
+      },
+      {
+        "f_GHz": 4.70625,
+        "role": "A2_secondary_min",
+        "audit_A2": -4.79319086619423,
+        "dither": false
+      },
+      {
+        "f_GHz": 4.996875,
+        "role": "high_R_local_min",
+        "audit_A2": -4.140996826272587,
+        "dither": false
+      }
+    ],
+    "controls": [
+      {
+        "f_GHz": 4.7875,
+        "role": "best_in_band",
+        "audit_A2": 3.6914096439158293
+      },
+      {
+        "f_GHz": 4.565625,
+        "role": "left_of_notch",
+        "audit_A2": -3.2185864921003167
+      },
+      {
+        "f_GHz": 4.684375,
+        "role": "right_of_notch",
+        "audit_A2": -0.4697311085372293
+      }
+    ]
+  }
+}

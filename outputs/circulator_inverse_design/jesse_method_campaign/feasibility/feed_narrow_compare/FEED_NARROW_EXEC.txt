@@ -1,0 +1,11 @@
+FEED NARROW COMPARE — KEY RESULTS (forward-only; Stage-6 NOT STARTED; no opt)
+
+Feeds: W=40.00 mm (fc_TE1=3.747 GHz) vs W=23.06 mm (fc_TE1=6.500 GHz)
+
+B@4.909: A2 -4.964→-0.602 | TE1 0.471→0.004 | des 0.030→0.160 | wrong 0.349→0.450 | R 0.228→0.049  => WEAKENED
+B@5.164: A2 -4.915→-5.586 | TE1 0.332→0.004 | wrong 0.245→0.474 | R 0.258→0.139  => TE1→wrong TE0
+C@4.609: A2 -5.333→-6.520 | TE1 0.263→0.004 | R 0.352→0.600 | local-min shift -34 MHz  => TE1→reflection
+C@4.706: A2 -4.793→-3.866 | R~0.81 persists (reflection family)
+C@4.997: A2 -4.141→-8.124 | reflection family / worsens
+
+Verdict: TE1 is a real bottleneck only for Band-B soft floor. Narrowed-feed Band-B reopt conditionally justified; Stage-6 NOT justified.

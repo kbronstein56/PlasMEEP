@@ -1,0 +1,31 @@
+{
+  "f_GHz": 4.609375,
+  "vmax": 0.3405270576477051,
+  "png": "/home/daq_user/PlasMEEP/outputs/circulator_inverse_design/jesse_method_campaign/feasibility/feed_narrow_compare/C_B010_field_4p609_orig_vs_narrow.png",
+  "frames": [
+    {
+      "feed": "original",
+      "source": 4,
+      "J_A2": -5.333066007721929,
+      "met": {
+        "T_des": 0.03844929326256641,
+        "T_rev": 0.17701402555207166,
+        "R": 0.34181007515287315,
+        "TE1": 0.2627743287693945
+      },
+      "TE1_propagating": true
+    },
+    {
+      "feed": "narrowed",
+      "source": 4,
+      "J_A2": -6.520469321523851,
+      "met": {
+        "T_des": 0.020270691014572174,
+        "T_rev": 0.19736557035727553,
+        "R": 0.5967436013695545,
+        "TE1": 0.0038262295239142267
+      },
+      "TE1_propagating": false
+    }
+  ]
+}

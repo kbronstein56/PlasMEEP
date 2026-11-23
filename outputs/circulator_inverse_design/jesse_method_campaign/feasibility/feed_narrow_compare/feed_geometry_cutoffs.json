@@ -1,0 +1,173 @@
+{
+  "stage6_status": "NOT STARTED / AWAITING AUTHORIZATION",
+  "original_feed": {
+    "W_lu": 2.0,
+    "W_m": 0.04,
+    "W_mm": 40.0,
+    "a_m": 0.02,
+    "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+    "modes": [
+      {
+        "m": 0,
+        "label": "TE0",
+        "f_cut_Hz": 0.0,
+        "f_cut_GHz": 0.0,
+        "kc_lu": 0.0
+      },
+      {
+        "m": 1,
+        "label": "TE1",
+        "f_cut_Hz": 3747405725.0,
+        "f_cut_GHz": 3.747405725,
+        "kc_lu": 1.5707963267948966
+      },
+      {
+        "m": 2,
+        "label": "TE2",
+        "f_cut_Hz": 7494811450.0,
+        "f_cut_GHz": 7.49481145,
+        "kc_lu": 3.141592653589793
+      },
+      {
+        "m": 3,
+        "label": "TE3",
+        "f_cut_Hz": 11242217175.0,
+        "f_cut_GHz": 11.242217175,
+        "kc_lu": 4.71238898038469
+      }
+    ],
+    "TE1_cutoff_GHz": 3.747405725
+  },
+  "narrowed_feed": {
+    "W_lu": 1.1530479153846154,
+    "W_m": 0.02306095830769231,
+    "W_mm": 23.06095830769231,
+    "a_m": 0.02,
+    "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+    "modes": [
+      {
+        "m": 0,
+        "label": "TE0",
+        "f_cut_Hz": 0.0,
+        "f_cut_GHz": 0.0,
+        "kc_lu": 0.0
+      },
+      {
+        "m": 1,
+        "label": "TE1",
+        "f_cut_Hz": 6500000000.0,
+        "f_cut_GHz": 6.5,
+        "kc_lu": 2.7245985285371863
+      },
+      {
+        "m": 2,
+        "label": "TE2",
+        "f_cut_Hz": 13000000000.0,
+        "f_cut_GHz": 13.0,
+        "kc_lu": 5.449197057074373
+      },
+      {
+        "m": 3,
+        "label": "TE3",
+        "f_cut_Hz": 19500000000.0,
+        "f_cut_GHz": 19.5,
+        "kc_lu": 8.17379558561156
+      }
+    ],
+    "TE1_cutoff_GHz": 6.5
+  },
+  "target": {
+    "TE1_cutoff_target_GHz": 6.5,
+    "rationale": "Place TE1 cutoff at 6.5 GHz so TE1 is evanescent over Band B (\u22645.25 GHz) and Band C (\u22645.5 GHz) with margin."
+  },
+  "solver_check_at_5GHz": {
+    "original_TE1_propagating": true,
+    "narrowed_TE1_propagating": false,
+    "original": {
+      "f_Hz": 5000000000.0,
+      "W": 2.0,
+      "k0": 2.095845021951682,
+      "modes": [
+        {
+          "m": 0,
+          "propagating": true,
+          "beta": [
+            2.095845021951682,
+            0.0
+          ],
+          "f_cut_GHz": null
+        },
+        {
+          "m": 1,
+          "propagating": true,
+          "beta": [
+            1.3875032453177567,
+            0.0
+          ],
+          "f_cut_GHz": 3.7474057249999997
+        },
+        {
+          "m": 2,
+          "propagating": false,
+          "beta": [
+            0.0,
+            2.3403072544112047
+          ],
+          "f_cut_GHz": 7.494811449999999
+        },
+        {
+          "m": 3,
+          "propagating": false,
+          "beta": [
+            0.0,
+            4.220668613669097
+          ],
+          "f_cut_GHz": 11.242217174999999
+        }
+      ]
+    },
+    "narrowed": {
+      "f_Hz": 5000000000.0,
+      "W": 1.1530479153846154,
+      "k0": 2.095845021951682,
+      "modes": [
+        {
+          "m": 0,
+          "propagating": true,
+          "beta": [
+            2.095845021951682,
+            0.0
+          ],
+          "f_cut_GHz": null
+        },
+        {
+          "m": 1,
+          "propagating": false,
+          "beta": [
+            0.0,
+            1.7409396272321893
+          ],
+          "f_cut_GHz": 6.5
+        },
+        {
+          "m": 2,
+          "propagating": false,
+          "beta": [
+            0.0,
+            5.0300280526840355
+          ],
+          "f_cut_GHz": 13.0
+        },
+        {
+          "m": 3,
+          "propagating": false,
+          "beta": [
+            0.0,
+            7.900529597395567
+          ],
+          "f_cut_GHz": 19.5
+        }
+      ]
+    }
+  }
+}

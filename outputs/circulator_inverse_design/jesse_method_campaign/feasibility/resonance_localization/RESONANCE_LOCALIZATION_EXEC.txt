@@ -1,0 +1,6 @@
+Band-B ~5.16 GHz resonance localization (Stage-5 q, B=0.05, 40 mm feed).
+Q1: array_core_cavity_plasma_hybrid
+Q4: not_with_delta_q_0p15
+Q5: targeted_density_reopt_plausible
+Q6: orbit04_minus
+Stage-6 NOT STARTED. No optimization.

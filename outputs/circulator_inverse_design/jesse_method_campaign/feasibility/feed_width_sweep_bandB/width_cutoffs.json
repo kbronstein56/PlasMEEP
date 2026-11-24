@@ -1,0 +1,331 @@
+[
+  {
+    "W_mm": 40.0,
+    "W_lu": 2.0,
+    "TE1_cutoff_GHz": 3.747405725,
+    "TE2_cutoff_GHz": 7.49481145,
+    "TE1_open_in_BandB": true,
+    "TE1_open_at_BandB_lower": true,
+    "note": "original production; TE1 open throughout Band B",
+    "cutoffs": {
+      "W_lu": 2.0,
+      "W_m": 0.04,
+      "W_mm": 40.0,
+      "a_m": 0.02,
+      "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+      "modes": [
+        {
+          "m": 0,
+          "label": "TE0",
+          "f_cut_Hz": 0.0,
+          "f_cut_GHz": 0.0,
+          "kc_lu": 0.0
+        },
+        {
+          "m": 1,
+          "label": "TE1",
+          "f_cut_Hz": 3747405725.0,
+          "f_cut_GHz": 3.747405725,
+          "kc_lu": 1.5707963267948966
+        },
+        {
+          "m": 2,
+          "label": "TE2",
+          "f_cut_Hz": 7494811450.0,
+          "f_cut_GHz": 7.49481145,
+          "kc_lu": 3.141592653589793
+        },
+        {
+          "m": 3,
+          "label": "TE3",
+          "f_cut_Hz": 11242217175.0,
+          "f_cut_GHz": 11.242217175,
+          "kc_lu": 4.71238898038469
+        }
+      ],
+      "TE1_cutoff_GHz": 3.747405725
+    }
+  },
+  {
+    "W_mm": 35.0,
+    "W_lu": 1.7500000000000002,
+    "TE1_cutoff_GHz": 4.282749399999999,
+    "TE2_cutoff_GHz": 8.565498799999999,
+    "TE1_open_in_BandB": true,
+    "TE1_open_at_BandB_lower": true,
+    "note": "TE1 open throughout Band B",
+    "cutoffs": {
+      "W_lu": 1.7500000000000002,
+      "W_m": 0.035,
+      "W_mm": 35.0,
+      "a_m": 0.02,
+      "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+      "modes": [
+        {
+          "m": 0,
+          "label": "TE0",
+          "f_cut_Hz": 0.0,
+          "f_cut_GHz": 0.0,
+          "kc_lu": 0.0
+        },
+        {
+          "m": 1,
+          "label": "TE1",
+          "f_cut_Hz": 4282749399.9999995,
+          "f_cut_GHz": 4.282749399999999,
+          "kc_lu": 1.7951958020513101
+        },
+        {
+          "m": 2,
+          "label": "TE2",
+          "f_cut_Hz": 8565498799.999999,
+          "f_cut_GHz": 8.565498799999999,
+          "kc_lu": 3.5903916041026203
+        },
+        {
+          "m": 3,
+          "label": "TE3",
+          "f_cut_Hz": 12848248199.999998,
+          "f_cut_GHz": 12.848248199999999,
+          "kc_lu": 5.38558740615393
+        }
+      ],
+      "TE1_cutoff_GHz": 4.282749399999999
+    }
+  },
+  {
+    "W_mm": 30.0,
+    "W_lu": 1.5,
+    "TE1_cutoff_GHz": 4.996540966666667,
+    "TE2_cutoff_GHz": 9.993081933333334,
+    "TE1_open_in_BandB": true,
+    "TE1_open_at_BandB_lower": false,
+    "note": "TE1 cutoff inside Band B",
+    "cutoffs": {
+      "W_lu": 1.5,
+      "W_m": 0.03,
+      "W_mm": 30.0,
+      "a_m": 0.02,
+      "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+      "modes": [
+        {
+          "m": 0,
+          "label": "TE0",
+          "f_cut_Hz": 0.0,
+          "f_cut_GHz": 0.0,
+          "kc_lu": 0.0
+        },
+        {
+          "m": 1,
+          "label": "TE1",
+          "f_cut_Hz": 4996540966.666667,
+          "f_cut_GHz": 4.996540966666667,
+          "kc_lu": 2.0943951023931953
+        },
+        {
+          "m": 2,
+          "label": "TE2",
+          "f_cut_Hz": 9993081933.333334,
+          "f_cut_GHz": 9.993081933333334,
+          "kc_lu": 4.1887902047863905
+        },
+        {
+          "m": 3,
+          "label": "TE3",
+          "f_cut_Hz": 14989622900.0,
+          "f_cut_GHz": 14.9896229,
+          "kc_lu": 6.283185307179586
+        }
+      ],
+      "TE1_cutoff_GHz": 4.996540966666667
+    }
+  },
+  {
+    "W_mm": 28.0,
+    "W_lu": 1.4,
+    "TE1_cutoff_GHz": 5.353436750000001,
+    "TE2_cutoff_GHz": 10.706873500000002,
+    "TE1_open_in_BandB": false,
+    "TE1_open_at_BandB_lower": false,
+    "note": "TE1 modestly above Band-B upper edge",
+    "cutoffs": {
+      "W_lu": 1.4,
+      "W_m": 0.027999999999999997,
+      "W_mm": 27.999999999999996,
+      "a_m": 0.02,
+      "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+      "modes": [
+        {
+          "m": 0,
+          "label": "TE0",
+          "f_cut_Hz": 0.0,
+          "f_cut_GHz": 0.0,
+          "kc_lu": 0.0
+        },
+        {
+          "m": 1,
+          "label": "TE1",
+          "f_cut_Hz": 5353436750.000001,
+          "f_cut_GHz": 5.353436750000001,
+          "kc_lu": 2.243994752564138
+        },
+        {
+          "m": 2,
+          "label": "TE2",
+          "f_cut_Hz": 10706873500.000002,
+          "f_cut_GHz": 10.706873500000002,
+          "kc_lu": 4.487989505128276
+        },
+        {
+          "m": 3,
+          "label": "TE3",
+          "f_cut_Hz": 16060310250.000002,
+          "f_cut_GHz": 16.06031025,
+          "kc_lu": 6.731984257692414
+        }
+      ],
+      "TE1_cutoff_GHz": 5.353436750000001
+    }
+  },
+  {
+    "W_mm": 26.5,
+    "W_lu": 1.325,
+    "TE1_cutoff_GHz": 5.656461471698114,
+    "TE2_cutoff_GHz": 11.312922943396227,
+    "TE1_open_in_BandB": false,
+    "TE1_open_at_BandB_lower": false,
+    "note": "extra TE1 cutoff margin over Band B",
+    "cutoffs": {
+      "W_lu": 1.325,
+      "W_m": 0.0265,
+      "W_mm": 26.5,
+      "a_m": 0.02,
+      "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+      "modes": [
+        {
+          "m": 0,
+          "label": "TE0",
+          "f_cut_Hz": 0.0,
+          "f_cut_GHz": 0.0,
+          "kc_lu": 0.0
+        },
+        {
+          "m": 1,
+          "label": "TE1",
+          "f_cut_Hz": 5656461471.698113,
+          "f_cut_GHz": 5.656461471698114,
+          "kc_lu": 2.3710133234639947
+        },
+        {
+          "m": 2,
+          "label": "TE2",
+          "f_cut_Hz": 11312922943.396227,
+          "f_cut_GHz": 11.312922943396227,
+          "kc_lu": 4.7420266469279895
+        },
+        {
+          "m": 3,
+          "label": "TE3",
+          "f_cut_Hz": 16969384415.09434,
+          "f_cut_GHz": 16.96938441509434,
+          "kc_lu": 7.113039970391984
+        }
+      ],
+      "TE1_cutoff_GHz": 5.656461471698114
+    }
+  },
+  {
+    "W_mm": 25.0,
+    "W_lu": 1.25,
+    "TE1_cutoff_GHz": 5.99584916,
+    "TE2_cutoff_GHz": 11.99169832,
+    "TE1_open_in_BandB": false,
+    "TE1_open_at_BandB_lower": false,
+    "note": "extra TE1 cutoff margin over Band B",
+    "cutoffs": {
+      "W_lu": 1.25,
+      "W_m": 0.025,
+      "W_mm": 25.0,
+      "a_m": 0.02,
+      "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+      "modes": [
+        {
+          "m": 0,
+          "label": "TE0",
+          "f_cut_Hz": 0.0,
+          "f_cut_GHz": 0.0,
+          "kc_lu": 0.0
+        },
+        {
+          "m": 1,
+          "label": "TE1",
+          "f_cut_Hz": 5995849160.0,
+          "f_cut_GHz": 5.99584916,
+          "kc_lu": 2.5132741228718345
+        },
+        {
+          "m": 2,
+          "label": "TE2",
+          "f_cut_Hz": 11991698320.0,
+          "f_cut_GHz": 11.99169832,
+          "kc_lu": 5.026548245743669
+        },
+        {
+          "m": 3,
+          "label": "TE3",
+          "f_cut_Hz": 17987547480.0,
+          "f_cut_GHz": 17.98754748,
+          "kc_lu": 7.5398223686155035
+        }
+      ],
+      "TE1_cutoff_GHz": 5.99584916
+    }
+  },
+  {
+    "W_mm": 23.06,
+    "W_lu": 1.153,
+    "TE1_cutoff_GHz": 6.500270121422377,
+    "TE2_cutoff_GHz": 13.000540242844753,
+    "TE1_open_in_BandB": false,
+    "TE1_open_at_BandB_lower": false,
+    "note": "prior aggressive 6.5 GHz cutoff; extra TE1 cutoff margin over Band B",
+    "cutoffs": {
+      "W_lu": 1.153,
+      "W_m": 0.02306,
+      "W_mm": 23.060000000000002,
+      "a_m": 0.02,
+      "formula": "f_c,m = m * c / (2 W_m), W_m = W_lu * a; TE0 cutoff-free",
+      "modes": [
+        {
+          "m": 0,
+          "label": "TE0",
+          "f_cut_Hz": 0.0,
+          "f_cut_GHz": 0.0,
+          "kc_lu": 0.0
+        },
+        {
+          "m": 1,
+          "label": "TE1",
+          "f_cut_Hz": 6500270121.422377,
+          "f_cut_GHz": 6.500270121422377,
+          "kc_lu": 2.724711755064868
+        },
+        {
+          "m": 2,
+          "label": "TE2",
+          "f_cut_Hz": 13000540242.844753,
+          "f_cut_GHz": 13.000540242844753,
+          "kc_lu": 5.449423510129736
+        },
+        {
+          "m": 3,
+          "label": "TE3",
+          "f_cut_Hz": 19500810364.267128,
+          "f_cut_GHz": 19.500810364267128,
+          "kc_lu": 8.174135265194604
+        }
+      ],
+      "TE1_cutoff_GHz": 6.500270121422377
+    }
+  }
+]

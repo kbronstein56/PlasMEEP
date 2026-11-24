@@ -1,0 +1,779 @@
+{
+  "summary": [
+    {
+      "W_mm": 40.0,
+      "W_lu": 2.0,
+      "TE1_cutoff_GHz": 3.747405725,
+      "TE2_cutoff_GHz": 7.49481145,
+      "n_band": 59,
+      "n_audit": 75,
+      "worst_A2_BandB": -4.963883465732926,
+      "worst_f_GHz_BandB": 4.909375,
+      "worst_point": {
+        "f_GHz": 4.909375,
+        "J_A2": -4.963883465732926,
+        "TE0_des": 0.03029204951319693,
+        "TE0_wrong": 0.34856821111238706,
+        "R_tot": 0.2278621215212024,
+        "TE1_total": 0.4714814798540532,
+        "P_out": 0.8716550589616849,
+        "classification": "dominated_by_TE1"
+      },
+      "best_A2_BandB": 5.492600318898291,
+      "best_f_GHz_BandB": 5.0375,
+      "mean_A2_BandB": -0.6955210788432579,
+      "mean_TE1_BandB": 0.3783893960169502,
+      "mean_TE0_des_BandB": 0.14525209403450273,
+      "mean_TE0_wrong_BandB": 0.10557439262346087,
+      "mean_R_BandB": 0.4716469463340276,
+      "families": {
+        "near_4p91": {
+          "f_GHz": 4.909375,
+          "J_A2": -4.963883465732926,
+          "TE0_des": 0.03029204951319693,
+          "TE0_wrong": 0.34856821111238706,
+          "R_tot": 0.2278621215212024,
+          "TE1_total": 0.4714814798540532,
+          "P_out": 0.8716550589616849,
+          "classification": "dominated_by_TE1"
+        },
+        "near_5p16": {
+          "f_GHz": 5.164062,
+          "J_A2": -4.915208922420773,
+          "TE0_des": 0.030314387661951547,
+          "TE0_wrong": 0.24501142531919906,
+          "R_tot": 0.2577325988689813,
+          "TE1_total": 0.3316814245419368,
+          "P_out": 0.7599589424265486,
+          "classification": "dominated_by_TE1"
+        }
+      }
+    },
+    {
+      "W_mm": 35.0,
+      "W_lu": 1.7500000000000002,
+      "TE1_cutoff_GHz": 4.282749399999999,
+      "TE2_cutoff_GHz": 8.565498799999999,
+      "n_band": 59,
+      "n_audit": 75,
+      "worst_A2_BandB": -6.7298348462400135,
+      "worst_f_GHz_BandB": 5.15,
+      "worst_point": {
+        "f_GHz": 5.15,
+        "J_A2": -6.7298348462400135,
+        "TE0_des": 0.028080706729804703,
+        "TE0_wrong": 0.07983780518359154,
+        "R_tot": 0.516822066601843,
+        "TE1_total": 0.4475249459620898,
+        "P_out": 0.8902795925417089,
+        "classification": "dominated_by_reflection"
+      },
+      "best_A2_BandB": 4.757349720546368,
+      "best_f_GHz_BandB": 5.0375,
+      "mean_A2_BandB": -0.5291183022275355,
+      "mean_TE1_BandB": 0.45655572659356164,
+      "mean_TE0_des_BandB": 0.17153826548157458,
+      "mean_TE0_wrong_BandB": 0.11616491041893634,
+      "mean_R_BandB": 0.5377160232327991,
+      "families": {
+        "near_4p91": {
+          "f_GHz": 4.909375,
+          "J_A2": -2.6784637346131603,
+          "TE0_des": 0.07293992335223652,
+          "TE0_wrong": 0.3972508357464166,
+          "R_tot": 0.2121845416964785,
+          "TE1_total": 0.5270478911530786,
+          "P_out": 1.024616235940392,
+          "classification": "dominated_by_TE1"
+        },
+        "near_5p16": {
+          "f_GHz": 5.15,
+          "J_A2": -6.7298348462400135,
+          "TE0_des": 0.028080706729804703,
+          "TE0_wrong": 0.07983780518359154,
+          "R_tot": 0.516822066601843,
+          "TE1_total": 0.4475249459620898,
+          "P_out": 0.8902795925417089,
+          "classification": "dominated_by_reflection"
+        }
+      }
+    },
+    {
+      "W_mm": 30.0,
+      "W_lu": 1.5,
+      "TE1_cutoff_GHz": 4.996540966666667,
+      "TE2_cutoff_GHz": 9.993081933333334,
+      "n_band": 59,
+      "n_audit": 75,
+      "worst_A2_BandB": -5.968676891451707,
+      "worst_f_GHz_BandB": 4.975,
+      "worst_point": {
+        "f_GHz": 4.975,
+        "J_A2": -5.968676891451707,
+        "TE0_des": 0.006315512167156812,
+        "TE0_wrong": 0.03852854364962299,
+        "R_tot": 1.1051589840548504,
+        "TE1_total": 0.2410685803573252,
+        "P_out": 1.3443365423956206,
+        "classification": "dominated_by_reflection"
+      },
+      "best_A2_BandB": 6.607356035563879,
+      "best_f_GHz_BandB": 4.9375,
+      "mean_A2_BandB": 0.17003045792104676,
+      "mean_TE1_BandB": 0.1149284384737633,
+      "mean_TE0_des_BandB": 0.3337456114794795,
+      "mean_TE0_wrong_BandB": 0.30108908011486496,
+      "mean_R_BandB": 0.512004798755456,
+      "families": {
+        "near_4p91": {
+          "f_GHz": 4.975,
+          "J_A2": -5.968676891451707,
+          "TE0_des": 0.006315512167156812,
+          "TE0_wrong": 0.03852854364962299,
+          "R_tot": 1.1051589840548504,
+          "TE1_total": 0.2410685803573252,
+          "P_out": 1.3443365423956206,
+          "classification": "dominated_by_reflection"
+        },
+        "near_5p16": {
+          "f_GHz": 5.1625,
+          "J_A2": -5.200218437040937,
+          "TE0_des": 0.11469992593423227,
+          "TE0_wrong": 1.0361668406534863,
+          "R_tot": 0.19340152098704802,
+          "TE1_total": 0.2263950196142389,
+          "P_out": 1.5262684603531522,
+          "classification": "dominated_by_wrong_TE0"
+        }
+      }
+    },
+    {
+      "W_mm": 28.0,
+      "W_lu": 1.4,
+      "TE1_cutoff_GHz": 5.353436750000001,
+      "TE2_cutoff_GHz": 10.706873500000002,
+      "n_band": 59,
+      "n_audit": 75,
+      "worst_A2_BandB": -6.1776078035641975,
+      "worst_f_GHz_BandB": 5.164062,
+      "worst_point": {
+        "f_GHz": 5.164062,
+        "J_A2": -6.1776078035641975,
+        "TE0_des": 0.03461513880834699,
+        "TE0_wrong": 0.5134069358042349,
+        "R_tot": 0.10016253447670334,
+        "TE1_total": 0.021696683739560074,
+        "P_out": 0.6612414640168868,
+        "classification": "dominated_by_wrong_TE0"
+      },
+      "best_A2_BandB": 5.086231813627214,
+      "best_f_GHz_BandB": 4.875,
+      "mean_A2_BandB": 0.0910018080001021,
+      "mean_TE1_BandB": 0.014900393357499415,
+      "mean_TE0_des_BandB": 0.26314993675270576,
+      "mean_TE0_wrong_BandB": 0.20170582687653993,
+      "mean_R_BandB": 0.3608798983014002,
+      "families": {
+        "near_4p91": {
+          "f_GHz": 4.975,
+          "J_A2": -1.908608615237332,
+          "TE0_des": 0.04503279878560688,
+          "TE0_wrong": 0.025712038620541673,
+          "R_tot": 0.7832750551685398,
+          "TE1_total": 0.01418606128555735,
+          "P_out": 0.8588396798119436,
+          "classification": "dominated_by_reflection"
+        },
+        "near_5p16": {
+          "f_GHz": 5.164062,
+          "J_A2": -6.1776078035641975,
+          "TE0_des": 0.03461513880834699,
+          "TE0_wrong": 0.5134069358042349,
+          "R_tot": 0.10016253447670334,
+          "TE1_total": 0.021696683739560074,
+          "P_out": 0.6612414640168868,
+          "classification": "dominated_by_wrong_TE0"
+        }
+      }
+    },
+    {
+      "W_mm": 26.5,
+      "W_lu": 1.325,
+      "TE1_cutoff_GHz": 5.656461471698114,
+      "TE2_cutoff_GHz": 11.312922943396227,
+      "n_band": 59,
+      "n_audit": 75,
+      "worst_A2_BandB": -5.951915187363834,
+      "worst_f_GHz_BandB": 5.164062,
+      "worst_point": {
+        "f_GHz": 5.164062,
+        "J_A2": -5.951915187363834,
+        "TE0_des": 0.03578205737465818,
+        "TE0_wrong": 0.5001104152764955,
+        "R_tot": 0.11761890549909998,
+        "TE1_total": 0.012167832247624365,
+        "P_out": 0.6581664141419001,
+        "classification": "dominated_by_wrong_TE0"
+      },
+      "best_A2_BandB": 5.665877252047724,
+      "best_f_GHz_BandB": 4.875,
+      "mean_A2_BandB": -0.004491042621930791,
+      "mean_TE1_BandB": 0.011943697317938148,
+      "mean_TE0_des_BandB": 0.24787203953648415,
+      "mean_TE0_wrong_BandB": 0.19866376899272883,
+      "mean_R_BandB": 0.38098990950569234,
+      "families": {
+        "near_4p91": {
+          "f_GHz": 4.975,
+          "J_A2": -1.8505985981819355,
+          "TE0_des": 0.04698976056483659,
+          "TE0_wrong": 0.03012984644547206,
+          "R_tot": 0.793047839488192,
+          "TE1_total": 0.01505350101650587,
+          "P_out": 0.8708519847490623,
+          "classification": "dominated_by_reflection"
+        },
+        "near_5p16": {
+          "f_GHz": 5.164062,
+          "J_A2": -5.951915187363834,
+          "TE0_des": 0.03578205737465818,
+          "TE0_wrong": 0.5001104152764955,
+          "R_tot": 0.11761890549909998,
+          "TE1_total": 0.012167832247624365,
+          "P_out": 0.6581664141419001,
+          "classification": "dominated_by_wrong_TE0"
+        }
+      }
+    },
+    {
+      "W_mm": 25.0,
+      "W_lu": 1.25,
+      "TE1_cutoff_GHz": 5.99584916,
+      "TE2_cutoff_GHz": 11.99169832,
+      "n_band": 59,
+      "n_audit": 75,
+      "worst_A2_BandB": -5.779485351965828,
+      "worst_f_GHz_BandB": 5.164062,
+      "worst_point": {
+        "f_GHz": 5.164062,
+        "J_A2": -5.779485351965828,
+        "TE0_des": 0.036750560431740104,
+        "TE0_wrong": 0.4867678464177566,
+        "R_tot": 0.12574156779555715,
+        "TE1_total": 0.005124942974262744,
+        "P_out": 0.6505771071423744,
+        "classification": "dominated_by_wrong_TE0"
+      },
+      "best_A2_BandB": 5.98269010724821,
+      "best_f_GHz_BandB": 4.875,
+      "mean_A2_BandB": -0.04382050328559242,
+      "mean_TE1_BandB": 0.00486519112325741,
+      "mean_TE0_des_BandB": 0.23780005468072127,
+      "mean_TE0_wrong_BandB": 0.1955883940121837,
+      "mean_R_BandB": 0.38404970969753316,
+      "families": {
+        "near_4p91": {
+          "f_GHz": 4.975,
+          "J_A2": -1.826356288778804,
+          "TE0_des": 0.046387097271048276,
+          "TE0_wrong": 0.030160197540393424,
+          "R_tot": 0.773037334614509,
+          "TE1_total": 0.003969094215584609,
+          "P_out": 0.8498749439748624,
+          "classification": "dominated_by_reflection"
+        },
+        "near_5p16": {
+          "f_GHz": 5.164062,
+          "J_A2": -5.779485351965828,
+          "TE0_des": 0.036750560431740104,
+          "TE0_wrong": 0.4867678464177566,
+          "R_tot": 0.12574156779555715,
+          "TE1_total": 0.005124942974262744,
+          "P_out": 0.6505771071423744,
+          "classification": "dominated_by_wrong_TE0"
+        }
+      }
+    },
+    {
+      "W_mm": 23.06,
+      "W_lu": 1.153,
+      "TE1_cutoff_GHz": 6.500270121422377,
+      "TE2_cutoff_GHz": 13.000540242844753,
+      "n_band": 59,
+      "n_audit": 75,
+      "worst_A2_BandB": -5.582388683826981,
+      "worst_f_GHz_BandB": 5.164062,
+      "worst_point": {
+        "f_GHz": 5.164062,
+        "J_A2": -5.582388683826981,
+        "TE0_des": 0.03949188621287302,
+        "TE0_wrong": 0.4741669051266476,
+        "R_tot": 0.13850794890587212,
+        "TE1_total": 0.004151326305297321,
+        "P_out": 0.6533371738256154,
+        "classification": "dominated_by_wrong_TE0"
+      },
+      "best_A2_BandB": 6.444344197474439,
+      "best_f_GHz_BandB": 4.875,
+      "mean_A2_BandB": -0.11061971166439263,
+      "mean_TE1_BandB": 0.003925963252459635,
+      "mean_TE0_des_BandB": 0.22371868356991817,
+      "mean_TE0_wrong_BandB": 0.1954211261974532,
+      "mean_R_BandB": 0.39913338289739364,
+      "families": {
+        "near_4p91": {
+          "f_GHz": 4.975,
+          "J_A2": -2.1511231967422417,
+          "TE0_des": 0.03733716630272354,
+          "TE0_wrong": 0.024632597427482188,
+          "R_tot": 0.7985564003627111,
+          "TE1_total": 0.0033910951004714027,
+          "P_out": 0.860608322315654,
+          "classification": "dominated_by_reflection"
+        },
+        "near_5p16": {
+          "f_GHz": 5.164062,
+          "J_A2": -5.582388683826981,
+          "TE0_des": 0.03949188621287302,
+          "TE0_wrong": 0.4741669051266476,
+          "R_tot": 0.13850794890587212,
+          "TE1_total": 0.004151326305297321,
+          "P_out": 0.6533371738256154,
+          "classification": "dominated_by_wrong_TE0"
+        }
+      }
+    }
+  ],
+  "tracks": {
+    "near_4p91": [
+      {
+        "W_mm": 40.0,
+        "found": true,
+        "f_GHz": 4.909375,
+        "J_A2": -4.963883465732926,
+        "TE0_des": 0.03029204951319693,
+        "TE0_wrong": 0.34856821111238706,
+        "R_tot": 0.2278621215212024,
+        "TE1_total": 0.4714814798540532,
+        "P_out": 0.8716550589616849,
+        "classification": "dominated_by_TE1",
+        "delta_f_from_seed_MHz": -0.6250000000003197
+      },
+      {
+        "W_mm": 35.0,
+        "found": true,
+        "f_GHz": 4.825,
+        "J_A2": -5.132906668062135,
+        "TE0_des": 0.0038690280250890546,
+        "TE0_wrong": 0.003070692478218849,
+        "R_tot": 1.2159620869053753,
+        "TE1_total": 0.6771029446699941,
+        "P_out": 1.2361748833938553,
+        "classification": "dominated_by_reflection",
+        "delta_f_from_seed_MHz": -84.99999999999997
+      },
+      {
+        "W_mm": 30.0,
+        "found": true,
+        "f_GHz": 4.7625,
+        "J_A2": -2.0055453261592593,
+        "TE0_des": 0.07319801036586022,
+        "TE0_wrong": 0.20025749935891596,
+        "R_tot": 0.651570447096401,
+        "TE1_total": 0.006532338940525306,
+        "P_out": 0.9308394580821235,
+        "classification": "dominated_by_reflection",
+        "delta_f_from_seed_MHz": -147.49999999999997
+      },
+      {
+        "W_mm": 28.0,
+        "found": true,
+        "f_GHz": 4.7625,
+        "J_A2": -1.7026807476721915,
+        "TE0_des": 0.07427865920155148,
+        "TE0_wrong": 0.19353843370949583,
+        "R_tot": 0.6536930926161736,
+        "TE1_total": 0.0019062827366299975,
+        "P_out": 0.9230703098977394,
+        "classification": "dominated_by_reflection",
+        "delta_f_from_seed_MHz": -147.49999999999997
+      },
+      {
+        "W_mm": 26.5,
+        "found": true,
+        "f_GHz": 4.7625,
+        "J_A2": -1.5837803475061094,
+        "TE0_des": 0.07403556291720334,
+        "TE0_wrong": 0.19197413528716997,
+        "R_tot": 0.6565285745529513,
+        "TE1_total": 0.0023997744538648835,
+        "P_out": 0.9243245264304892,
+        "classification": "dominated_by_reflection",
+        "delta_f_from_seed_MHz": -147.49999999999997
+      },
+      {
+        "W_mm": 25.0,
+        "found": true,
+        "f_GHz": 4.7625,
+        "J_A2": -1.572427820663176,
+        "TE0_des": 0.07202296001138007,
+        "TE0_wrong": 0.1875262956359356,
+        "R_tot": 0.6618187750039729,
+        "TE1_total": 0.0007359865422151244,
+        "P_out": 0.921941061017227,
+        "classification": "dominated_by_reflection",
+        "delta_f_from_seed_MHz": -147.49999999999997
+      },
+      {
+        "W_mm": 23.06,
+        "found": true,
+        "f_GHz": 4.7625,
+        "J_A2": -1.5416205808046357,
+        "TE0_des": 0.0708025938133116,
+        "TE0_wrong": 0.18250474124215388,
+        "R_tot": 0.6695106835990153,
+        "TE1_total": 0.0006795581377349483,
+        "P_out": 0.9233250877434911,
+        "classification": "dominated_by_reflection",
+        "delta_f_from_seed_MHz": -147.49999999999997
+      }
+    ],
+    "near_5p16": [
+      {
+        "W_mm": 40.0,
+        "found": true,
+        "f_GHz": 5.164062,
+        "J_A2": -4.915208922420773,
+        "TE0_des": 0.030314387661951547,
+        "TE0_wrong": 0.24501142531919906,
+        "R_tot": 0.2577325988689813,
+        "TE1_total": 0.3316814245419368,
+        "P_out": 0.7599589424265486,
+        "classification": "dominated_by_TE1",
+        "delta_f_from_seed_MHz": 4.062000000000232
+      },
+      {
+        "W_mm": 35.0,
+        "found": true,
+        "f_GHz": 5.15,
+        "J_A2": -6.7298348462400135,
+        "TE0_des": 0.028080706729804703,
+        "TE0_wrong": 0.07983780518359154,
+        "R_tot": 0.516822066601843,
+        "TE1_total": 0.4475249459620898,
+        "P_out": 0.8902795925417089,
+        "classification": "dominated_by_reflection",
+        "delta_f_from_seed_MHz": -9.999999999999787
+      },
+      {
+        "W_mm": 30.0,
+        "found": true,
+        "f_GHz": 5.1625,
+        "J_A2": -5.200218437040937,
+        "TE0_des": 0.11469992593423227,
+        "TE0_wrong": 1.0361668406534863,
+        "R_tot": 0.19340152098704802,
+        "TE1_total": 0.2263950196142389,
+        "P_out": 1.5262684603531522,
+        "classification": "dominated_by_wrong_TE0",
+        "delta_f_from_seed_MHz": 2.4999999999995026
+      },
+      {
+        "W_mm": 28.0,
+        "found": true,
+        "f_GHz": 5.164062,
+        "J_A2": -6.1776078035641975,
+        "TE0_des": 0.03461513880834699,
+        "TE0_wrong": 0.5134069358042349,
+        "R_tot": 0.10016253447670334,
+        "TE1_total": 0.021696683739560074,
+        "P_out": 0.6612414640168868,
+        "classification": "dominated_by_wrong_TE0",
+        "delta_f_from_seed_MHz": 4.062000000000232
+      },
+      {
+        "W_mm": 26.5,
+        "found": true,
+        "f_GHz": 5.164062,
+        "J_A2": -5.951915187363834,
+        "TE0_des": 0.03578205737465818,
+        "TE0_wrong": 0.5001104152764955,
+        "R_tot": 0.11761890549909998,
+        "TE1_total": 0.012167832247624365,
+        "P_out": 0.6581664141419001,
+        "classification": "dominated_by_wrong_TE0",
+        "delta_f_from_seed_MHz": 4.062000000000232
+      },
+      {
+        "W_mm": 25.0,
+        "found": true,
+        "f_GHz": 5.164062,
+        "J_A2": -5.779485351965828,
+        "TE0_des": 0.036750560431740104,
+        "TE0_wrong": 0.4867678464177566,
+        "R_tot": 0.12574156779555715,
+        "TE1_total": 0.005124942974262744,
+        "P_out": 0.6505771071423744,
+        "classification": "dominated_by_wrong_TE0",
+        "delta_f_from_seed_MHz": 4.062000000000232
+      },
+      {
+        "W_mm": 23.06,
+        "found": true,
+        "f_GHz": 5.164062,
+        "J_A2": -5.582388683826981,
+        "TE0_des": 0.03949188621287302,
+        "TE0_wrong": 0.4741669051266476,
+        "R_tot": 0.13850794890587212,
+        "TE1_total": 0.004151326305297321,
+        "P_out": 0.6533371738256154,
+        "classification": "dominated_by_wrong_TE0",
+        "delta_f_from_seed_MHz": 4.062000000000232
+      }
+    ]
+  },
+  "science": {
+    "Q1_intermediate_TE1_suppress_without_23mm_penalty": {
+      "answer": "no \u2014 TE1 can be suppressed, but not without a worse Band-B worst-case (wrong-TE0 / reflection penalties at ~5.16 GHz)",
+      "candidates": [
+        {
+          "W_mm": 28.0,
+          "TE1_cutoff_GHz": 5.353436750000001,
+          "mean_TE1": 0.014900393357499415,
+          "mean_wrong": 0.20170582687653993,
+          "mean_R": 0.3608798983014002,
+          "worst_A2": -6.1776078035641975,
+          "te1_suppressed_vs_40mm": true,
+          "less_wrong_than_23mm": false,
+          "less_R_than_23mm": true,
+          "worst_A2_competitive_with_40mm": false,
+          "better_worst_than_23mm": false,
+          "promising": false
+        },
+        {
+          "W_mm": 26.5,
+          "TE1_cutoff_GHz": 5.656461471698114,
+          "mean_TE1": 0.011943697317938148,
+          "mean_wrong": 0.19866376899272883,
+          "mean_R": 0.38098990950569234,
+          "worst_A2": -5.951915187363834,
+          "te1_suppressed_vs_40mm": true,
+          "less_wrong_than_23mm": false,
+          "less_R_than_23mm": true,
+          "worst_A2_competitive_with_40mm": false,
+          "better_worst_than_23mm": false,
+          "promising": false
+        },
+        {
+          "W_mm": 25.0,
+          "TE1_cutoff_GHz": 5.99584916,
+          "mean_TE1": 0.00486519112325741,
+          "mean_wrong": 0.1955883940121837,
+          "mean_R": 0.38404970969753316,
+          "worst_A2": -5.779485351965828,
+          "te1_suppressed_vs_40mm": true,
+          "less_wrong_than_23mm": false,
+          "less_R_than_23mm": true,
+          "worst_A2_competitive_with_40mm": false,
+          "better_worst_than_23mm": false,
+          "promising": false
+        }
+      ],
+      "promising": []
+    },
+    "Q2_resonances_move_smoothly_with_W": {
+      "answer": "partial \u2014 ~5.16 GHz family is nearly pinned in frequency while deepening/reclassifying; ~4.91 GHz family softens and redshifts (tracker may latch onto a shallower neighbor once the TE1 notch collapses)",
+      "family_4p91": {
+        "f_at_40mm": 4.909375,
+        "f_at_narrowest": 4.7625,
+        "delta_f_MHz": -146.87499999999966,
+        "A2_at_40mm": -4.963883465732926,
+        "A2_at_narrowest": -1.5416205808046357,
+        "smooth": false,
+        "path": [
+          {
+            "W_mm": 40.0,
+            "f_GHz": 4.909375,
+            "J_A2": -4.963883465732926,
+            "class": "dominated_by_TE1"
+          },
+          {
+            "W_mm": 35.0,
+            "f_GHz": 4.825,
+            "J_A2": -5.132906668062135,
+            "class": "dominated_by_reflection"
+          },
+          {
+            "W_mm": 30.0,
+            "f_GHz": 4.7625,
+            "J_A2": -2.0055453261592593,
+            "class": "dominated_by_reflection"
+          },
+          {
+            "W_mm": 28.0,
+            "f_GHz": 4.7625,
+            "J_A2": -1.7026807476721915,
+            "class": "dominated_by_reflection"
+          },
+          {
+            "W_mm": 26.5,
+            "f_GHz": 4.7625,
+            "J_A2": -1.5837803475061094,
+            "class": "dominated_by_reflection"
+          },
+          {
+            "W_mm": 25.0,
+            "f_GHz": 4.7625,
+            "J_A2": -1.572427820663176,
+            "class": "dominated_by_reflection"
+          },
+          {
+            "W_mm": 23.06,
+            "f_GHz": 4.7625,
+            "J_A2": -1.5416205808046357,
+            "class": "dominated_by_reflection"
+          }
+        ]
+      },
+      "family_5p16": {
+        "f_at_40mm": 5.164062,
+        "f_at_narrowest": 5.164062,
+        "delta_f_MHz": 0.0,
+        "A2_at_40mm": -4.915208922420773,
+        "A2_at_narrowest": -5.582388683826981,
+        "smooth": true,
+        "path": [
+          {
+            "W_mm": 40.0,
+            "f_GHz": 5.164062,
+            "J_A2": -4.915208922420773,
+            "class": "dominated_by_TE1"
+          },
+          {
+            "W_mm": 35.0,
+            "f_GHz": 5.15,
+            "J_A2": -6.7298348462400135,
+            "class": "dominated_by_reflection"
+          },
+          {
+            "W_mm": 30.0,
+            "f_GHz": 5.1625,
+            "J_A2": -5.200218437040937,
+            "class": "dominated_by_wrong_TE0"
+          },
+          {
+            "W_mm": 28.0,
+            "f_GHz": 5.164062,
+            "J_A2": -6.1776078035641975,
+            "class": "dominated_by_wrong_TE0"
+          },
+          {
+            "W_mm": 26.5,
+            "f_GHz": 5.164062,
+            "J_A2": -5.951915187363834,
+            "class": "dominated_by_wrong_TE0"
+          },
+          {
+            "W_mm": 25.0,
+            "f_GHz": 5.164062,
+            "J_A2": -5.779485351965828,
+            "class": "dominated_by_wrong_TE0"
+          },
+          {
+            "W_mm": 23.06,
+            "f_GHz": 5.164062,
+            "J_A2": -5.582388683826981,
+            "class": "dominated_by_wrong_TE0"
+          }
+        ]
+      },
+      "interpretation": "Feeds participate in the resonant eigenstructure: scattering classification of both families evolves continuously with W (TE1 \u2192 reflection or wrong-TE0). Frequency motion is strong for the ~4.91 family and weak for ~5.16."
+    },
+    "Q3_can_W_move_bad_resonance_out_of_BandB": {
+      "any_worst_outside_band": false,
+      "family_4p91_exits_or_softens": true,
+      "family_5p16_exits_or_softens": false,
+      "notes": [
+        "near_4p91 at W=30.00: f=4.7625, A2=-2.01, softened",
+        "near_4p91 at W=28.00: f=4.7625, A2=-1.70, softened",
+        "near_4p91 at W=26.50: f=4.7625, A2=-1.58, softened",
+        "near_4p91 at W=25.00: f=4.7625, A2=-1.57, softened",
+        "near_4p91 at W=23.06: f=4.7625, A2=-1.54, softened"
+      ]
+    },
+    "Q4_clear_candidate_for_worst_case_BandB_A2": {
+      "best_W_mm": 40.0,
+      "best_worst_A2": -4.963883465732926,
+      "best_worst_f_GHz": 4.909375,
+      "orig_40mm_worst_A2": -4.963883465732926,
+      "orig_40mm_worst_f_GHz": 4.909375,
+      "narrow_23mm_worst_A2": -5.582388683826981,
+      "delta_vs_40mm": 0.0,
+      "improves_entire_BandB_worst_not_just_4p91": false
+    },
+    "Q5_justify_BandB_reopt_on_narrowed_feed": {
+      "recommended": false,
+      "reasons": [
+        "No narrowed/intermediate width improves worst Band-B A2 over the original 40 mm feed."
+      ],
+      "candidate_W_mm": null,
+      "stage6_status": "NOT STARTED",
+      "do_not_auto_launch": true
+    },
+    "width_ranking_by_worst_BandB_A2": [
+      {
+        "W_mm": 40.0,
+        "worst_A2": -4.963883465732926,
+        "worst_f": 4.909375,
+        "mean_A2": -0.6955210788432579,
+        "mean_TE1": 0.3783893960169502
+      },
+      {
+        "W_mm": 23.06,
+        "worst_A2": -5.582388683826981,
+        "worst_f": 5.164062,
+        "mean_A2": -0.11061971166439263,
+        "mean_TE1": 0.003925963252459635
+      },
+      {
+        "W_mm": 25.0,
+        "worst_A2": -5.779485351965828,
+        "worst_f": 5.164062,
+        "mean_A2": -0.04382050328559242,
+        "mean_TE1": 0.00486519112325741
+      },
+      {
+        "W_mm": 26.5,
+        "worst_A2": -5.951915187363834,
+        "worst_f": 5.164062,
+        "mean_A2": -0.004491042621930791,
+        "mean_TE1": 0.011943697317938148
+      },
+      {
+        "W_mm": 30.0,
+        "worst_A2": -5.968676891451707,
+        "worst_f": 4.975,
+        "mean_A2": 0.17003045792104676,
+        "mean_TE1": 0.1149284384737633
+      },
+      {
+        "W_mm": 28.0,
+        "worst_A2": -6.1776078035641975,
+        "worst_f": 5.164062,
+        "mean_A2": 0.0910018080001021,
+        "mean_TE1": 0.014900393357499415
+      },
+      {
+        "W_mm": 35.0,
+        "worst_A2": -6.7298348462400135,
+        "worst_f": 5.15,
+        "mean_A2": -0.5291183022275355,
+        "mean_TE1": 0.45655572659356164
+      }
+    ]
+  },
+  "elapsed_s": 4425.294797182083,
+  "n_jobs": 525,
+  "stage6_status": "NOT STARTED",
+  "reopt_launched": false
+}

@@ -1,0 +1,7 @@
+Band-B fixed-q feed-width sweep (Stage-5 q, B=0.05 T). No q opt. Stage-6 NOT STARTED.
+
+Widths (mm): 40.00, 35.00, 30.00, 28.00, 26.50, 25.00, 23.06
+Best worst-case Band-B A2: W=40.00 mm (−4.96 @ 4.909 GHz)
+All narrower W worse on worst-case (35 mm worst: −6.73 @ 5.15 GHz)
+TE1 suppressed for W≤28 mm, but ~5.16 GHz becomes wrong-TE0-dominated and deeper
+Reopt on narrowed feed: NOT recommended from this evidence

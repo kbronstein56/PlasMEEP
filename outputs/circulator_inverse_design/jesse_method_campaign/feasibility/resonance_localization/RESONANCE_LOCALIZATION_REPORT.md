@@ -77,12 +77,14 @@ Perturbation amplitude: Δq = ±0.15 (clipped to [0.05,1.8]).
 **array_core_cavity_plasma_hybrid**
 
 ### Q2 — Strongest frequency control?
-- Best ring: `ring_outer_plus` Δf=+43.44 MHz
-- Best orbit: `orbit09_minus` Δf=+43.44 MHz (r=3.6055512754639896)
+- **Practical (low collateral):** middle-ring orbits, especially `orbit04_minus` (Δf≈−32 MHz, sentinel min ΔA2≈−1.9) and `orbit06_minus` (similar).
+- **Raw largest |Δf| among mild-sentinel orbits:** `orbit09_minus` (Δf≈+43 MHz).
+- **Ring-level ±0.15:** outer/middle rings can shift ~30–40 MHz but with severe Band-B sentinel damage — too coarse vs single-orbit knobs.
 
 ### Q3 — Strongest depth control?
-- Best ring: `ring_outer_minus` ΔA2=+2.371
-- Best orbit: `orbit08_plus` ΔA2=+1.709
+- **Best mild-collateral orbit:** `orbit08_plus` (ΔA2≈+1.71 at fixed f; sentinel min ≈−3.0) and `orbit04_minus` (ΔA2≈+1.46 with simultaneous redshift).
+- **`orbit05_minus`:** shallows at fixed f (ΔA2≈+1.38) with the gentlest sentinels (min ≈−0.6) but little frequency motion.
+- Ring-level depth gains (`ring_outer_minus`, `ring_middle_plus`) exist but wreck sentinels.
 
 ### Q4 — Can a small perturbation move it outside Band B?
 **not_with_delta_q_0p15**

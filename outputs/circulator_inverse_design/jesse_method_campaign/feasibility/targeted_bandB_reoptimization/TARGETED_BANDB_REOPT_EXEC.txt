@@ -1,0 +1,7 @@
+Targeted Band-B middle-ring reopt. Stage-6 NOT STARTED.
+orig dense worst=-4.964 @4.909
+q4-0.15 dense worst=-8.616 @4.909
+targeted protective worst=-4.879 @5.200 (ALIASED)
+targeted dense worst=-8.889 @5.198
+RESULT: REJECT — no improvement of dense Band-B floor.
+Next: do not expand to 16-var/Stage-6; either one denser-protected single-orbit probe or accept -4.96 as current C6/40mm/B=0.05 Band-B limit.

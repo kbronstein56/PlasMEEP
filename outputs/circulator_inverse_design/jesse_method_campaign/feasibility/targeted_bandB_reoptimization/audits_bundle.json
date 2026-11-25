@@ -1,0 +1,17 @@
+{
+  "elapsed_s": 6683.746185541153,
+  "designs": {
+    "orig_stage5": {
+      "n": 321,
+      "path": "audit_orig_stage5_1.5625MHz.json"
+    },
+    "q4_minus": {
+      "n": 321,
+      "path": "audit_q4_minus_1.5625MHz.json"
+    },
+    "targeted_opt": {
+      "n": 321,
+      "path": "audit_targeted_opt_1.5625MHz.json"
+    }
+  }
+}

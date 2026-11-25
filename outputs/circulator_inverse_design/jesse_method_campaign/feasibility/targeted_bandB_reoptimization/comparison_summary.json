@@ -1,0 +1,282 @@
+{
+  "summaries": {
+    "orig_stage5": {
+      "design": "orig_stage5",
+      "n": 321,
+      "worst_A2": -4.963883465732926,
+      "worst_f_GHz": 4.909375,
+      "mean_A2": -0.2880124920046227,
+      "n_A2_le_m5": 0,
+      "n_A2_le_m7": 0,
+      "min_T_des": 0.008642249301054965,
+      "mean_T_des": 0.1421065778822782,
+      "mean_T_rev": 0.023145872317600083,
+      "mean_wrong_TE0_proxy": 0.023145872317600083,
+      "mean_R": 0.28374025904491373,
+      "mean_TE1": 0.3843590352303461,
+      "mean_P_out": NaN,
+      "min_P_out": NaN,
+      "q": [
+        0.9551750841621015,
+        1.5518432372247006,
+        0.996210641407196,
+        0.8016060930018608,
+        1.2911180862217204,
+        1.6385098627755397,
+        1.257052510491006,
+        1.291822405531695,
+        1.2177388791237114,
+        1.2841836723469595,
+        0.9927974803659341,
+        0.28289516312267343,
+        0.6260857199036751,
+        1.061016852203769,
+        0.7483443237200158,
+        1.1585807486907718
+      ],
+      "delta_q_vs_stage5": null,
+      "worst_row": {
+        "f_GHz": 4.909375,
+        "J_A2": -4.963883465732926,
+        "J_A": -0.8599026866455346,
+        "J_B": -0.5703613424083395,
+        "T_des": 0.03029204951319693,
+        "T_rev": 0.06070251493794898,
+        "IL_dB": 15.19520180366024,
+        "IL_worst_dB": 15.638944957378131,
+        "isolation_dB": -3.024075111325997,
+        "isolation_min_dB": -3.682627328595644,
+        "RL_dB": 16.741438653730448,
+        "R": 0.02131331848204769,
+        "TE1": 0.47148147985405325,
+        "worst_competing": {
+          "source_port": 2,
+          "desired_port": 3,
+          "competing_port": 1,
+          "T_des": 0.02729640820849627,
+          "T_rev": 0.06373356870857126,
+          "isolation_dB": -3.682627328595644,
+          "IL_dB": 15.638944957378131
+        }
+      }
+    },
+    "q4_minus": {
+      "design": "q4_minus",
+      "n": 321,
+      "worst_A2": -8.616230650764596,
+      "worst_f_GHz": 4.909375,
+      "mean_A2": -0.021739021644114082,
+      "n_A2_le_m5": 3,
+      "n_A2_le_m7": 2,
+      "min_T_des": 0.004469113249009625,
+      "mean_T_des": 0.14694285786577638,
+      "mean_T_rev": 0.014101719460795734,
+      "mean_wrong_TE0_proxy": 0.014101719460795734,
+      "mean_R": 0.29052109064831255,
+      "mean_TE1": 0.3781886031439815,
+      "mean_P_out": NaN,
+      "min_P_out": NaN,
+      "q": [
+        0.9551750841621015,
+        1.5518432372247006,
+        0.996210641407196,
+        0.8016060930018608,
+        1.1411180862217205,
+        1.6385098627755397,
+        1.257052510491006,
+        1.291822405531695,
+        1.2177388791237114,
+        1.2841836723469595,
+        0.9927974803659341,
+        0.28289516312267343,
+        0.6260857199036751,
+        1.061016852203769,
+        0.7483443237200158,
+        1.1585807486907718
+      ],
+      "delta_q_vs_stage5": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.1499999999999999,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "worst_row": {
+        "f_GHz": 4.909375,
+        "J_A2": -8.616230650764596,
+        "J_A": -0.8506708248845172,
+        "J_B": -0.5977019778276583,
+        "T_des": 0.004469113249009625,
+        "T_rev": 0.051228621389572855,
+        "IL_dB": 23.530907973871237,
+        "IL_worst_dB": 24.6272689642096,
+        "isolation_dB": -10.62193652348948,
+        "isolation_min_dB": -11.403326650260793,
+        "RL_dB": 10.676896789195167,
+        "R": 0.08570110665144333,
+        "TE1": 0.4164293135037669,
+        "worst_competing": {
+          "source_port": 3,
+          "desired_port": 4,
+          "competing_port": 2,
+          "T_des": 0.0034456654133039424,
+          "T_rev": 0.047599870217519914,
+          "isolation_dB": -11.403326650260793,
+          "IL_dB": 24.6272689642096
+        },
+        "design": "q4_minus"
+      }
+    },
+    "targeted_opt": {
+      "design": "targeted_opt",
+      "n": 321,
+      "worst_A2": -8.888546622145707,
+      "worst_f_GHz": 5.198437,
+      "mean_A2": 0.3407851560920648,
+      "n_A2_le_m5": 14,
+      "n_A2_le_m7": 4,
+      "min_T_des": 0.0019033370730682023,
+      "mean_T_des": 0.13882859795373995,
+      "mean_T_rev": 0.017676425430494285,
+      "mean_wrong_TE0_proxy": 0.017676425430494285,
+      "mean_R": 0.3193492159082295,
+      "mean_TE1": 0.36170631537887177,
+      "mean_P_out": NaN,
+      "min_P_out": NaN,
+      "q": [
+        0.9551750841621015,
+        1.5518432372247006,
+        0.996210641407196,
+        0.5642744300797269,
+        0.9077245419338498,
+        1.3931675492203999,
+        1.0114594681121354,
+        1.291822405531695,
+        1.412657978400557,
+        1.2841836723469595,
+        0.9927974803659341,
+        0.28289516312267343,
+        0.6260857199036751,
+        1.061016852203769,
+        0.7483443237200158,
+        1.1585807486907718
+      ],
+      "delta_q_vs_stage5": [
+        0.0,
+        0.0,
+        0.0,
+        -0.23733166292213392,
+        -0.38339354428787065,
+        -0.2453423135551398,
+        -0.24559304237887059,
+        0.0,
+        0.1949190992768457,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "worst_row": {
+        "f_GHz": 5.198437,
+        "J_A2": -8.888546622145707,
+        "J_A": -0.523900070296451,
+        "J_B": -0.2631590793826219,
+        "T_des": 0.0045910157401790625,
+        "T_rev": 0.0217544142129452,
+        "IL_dB": 26.592323556681407,
+        "IL_worst_dB": 31.773904579009624,
+        "isolation_dB": -9.910209996909446,
+        "isolation_min_dB": -14.252262636829938,
+        "RL_dB": 4.632616867047875,
+        "R": 0.3454309602342705,
+        "TE1": 0.3947328875958167,
+        "worst_competing": {
+          "source_port": 6,
+          "desired_port": 1,
+          "competing_port": 5,
+          "T_des": 0.0006646753028207322,
+          "T_rev": 0.01769439857664413,
+          "isolation_dB": -14.252262636829938,
+          "IL_dB": 31.773904579009624
+        },
+        "design": "targeted_opt"
+      },
+      "accepted_vs_baseline": false
+    }
+  },
+  "science": {
+    "Q1": {
+      "question": "Did targeted reopt improve worst-case Band-B A2?",
+      "answer": "no",
+      "notes": [
+        "orig worst=-4.964 @4.9094",
+        "q4\u22120.15 worst=-8.616 @4.9094",
+        "targeted worst=-8.889 @5.1984",
+        "\u0394 vs orig = -3.925",
+        "Protective-grid worst looked improved (\u22124.879 @ 5.200) but dense 1.5625 MHz reveals a razor notch A2=\u22128.889 at 5.198437 GHz \u2014 undersampling/aliasing of the surrogate grid."
+      ]
+    },
+    "Q2": {
+      "question": "Suppress original resonance or merely shift it?",
+      "answer": "shifted_and_or_reshaped",
+      "notes": [
+        "new worst frequency 5.198437 GHz (orig 4.909375)"
+      ]
+    },
+    "Q3": {
+      "question": "Did another resonance become the new limiting feature?",
+      "answer": "yes",
+      "notes": [
+        "worst moved by 289.1 MHz"
+      ]
+    },
+    "Q4": {
+      "question": "Can 0.5 GHz band become substantially more robust than \u22124.96?",
+      "answer": "no \u2014 protective improvement was aliasing; dense floor worsened",
+      "notes": [
+        "achieved dense floor -8.889",
+        "Mean dense A2 rose (orig \u22120.29 \u2192 targeted +0.34) while worst floor collapsed via narrow notches."
+      ]
+    },
+    "Q5": {
+      "question": "Density-controllable vs geometry needed?",
+      "answer": "density_can_reshape_spectrum_but_worst_case_not_reliably_improved_by_this_protocol",
+      "notes": [
+        "q[4]\u22120.15 alone deepens the 4.909 soft floor (dense \u22128.62).",
+        "Local middle-ring reopt can raise mean A2 and move energy around, but creates new sub-MHz-scale notches missed by sparse protective grids.",
+        "Does not yet justify geometry redesign by itself; does justify denser worst-case protection if another density attempt is made."
+      ]
+    },
+    "Q6": {
+      "question": "Smallest justified next experiment?",
+      "answer": "Do not expand to 16-var or Stage-6. Smallest next experiment: one forward-only single-orbit probe (e.g. orbit08_plus or orbit05_minus from localization) with a dense local audit around both 4.91 and any new soft floors \u2014 OR stop density tweaks and treat the \u22124.96 Band-B floor as the current validated limit for C6/40 mm/B=0.05.",
+      "notes": [
+        "Do not start Stage-6 or 1\u20132 GHz optimization from this result."
+      ]
+    }
+  },
+  "elapsed_opt_s": 4460.265726566315,
+  "elapsed_audit_s": 6683.746185541153,
+  "stage6_status": "NOT STARTED",
+  "aliasing": {
+    "protective_worst_A2": -4.879,
+    "protective_worst_f_GHz": 5.2,
+    "dense_near_same_family_A2": -8.889,
+    "dense_near_same_family_f_GHz": 5.198437,
+    "note": "Same design; 1.563 MHz offset from protective sample exposes deep notch."
+  }
+}
